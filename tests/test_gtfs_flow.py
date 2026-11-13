@@ -148,3 +148,6 @@ def test_logo_url(tmp_path, monkeypatch) -> None:
     monkeypatch.setattr(integration, "CARD_PATH", card)
     assert integration._logo_url("gtfs:reseau-test") == "/public_transport_static/logos/gtfs-reseau-test.svg"
     assert integration._logo_url("star") is None
+    # A PNG when there is no SVG.
+    (tmp_path / "frontend" / "logos" / "tcl.png").write_bytes(b"\x89PNG")
+    assert integration._logo_url("tcl") == "/public_transport_static/logos/tcl.png"

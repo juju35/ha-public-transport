@@ -36,5 +36,5 @@ ATTR_CONFIG_ENTRY_ID: Final = "config_entry_id"
 
 FRONTEND_URL: Final = "/public_transport_static"
 CARD_FILENAME: Final = "public-transport-card.js"
-# Network logos served with the card: frontend/logos/<provider key>.svg (":" of generic networks as "-").
+# Network logos served with the card: frontend/logos/<provider key>.svg or .png (":" of generic networks as "-").
 LOGOS_DIR: Final = "logos"

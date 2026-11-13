@@ -223,10 +223,11 @@ def _release(hass: HomeAssistant, entry: PublicTransportConfigEntry) -> None:
 
 
 def _logo_url(key: str) -> str | None:
-    """The URL of the network's logo when the integration ships one (frontend/logos/<key>.svg)."""
-    name = f"{key.replace(':', '-')}.svg"
-    if (CARD_PATH.parent / LOGOS_DIR / name).is_file():
-        return f"{FRONTEND_URL}/{LOGOS_DIR}/{name}"
+    """The URL of the network's logo when the integration ships one (frontend/logos/<key>.svg, else .png)."""
+    for extension in ("svg", "png"):
+        name = f"{key.replace(':', '-')}.{extension}"
+        if (CARD_PATH.parent / LOGOS_DIR / name).is_file():
+            return f"{FRONTEND_URL}/{LOGOS_DIR}/{name}"
     return None
 
 

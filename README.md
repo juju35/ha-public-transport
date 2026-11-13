@@ -286,7 +286,7 @@ The catalogue is the [transport.data.gouv.fr API](https://transport.data.gouv.fr
 
 ### Network logos
 
-The card shows the network's logo in its header when the integration ships `frontend/logos/<network>.svg` (`star`, `idfm`, `tcl`, `cts`; a GTFS-RT network as `gtfs-<dataset>.svg`) and every stop of the card belongs to that network; otherwise it keeps its icon. Shipped: STAR, CTS and TCL (Wikimedia Commons), Île-de-France Mobilités ([Simple Icons](https://simpleicons.org), CC0). The logos remain the trademarks of their networks.
+The card shows the network's logo in its header when the integration ships `frontend/logos/<network>.svg` (or `.png`) (`star`, `idfm`, `tcl`, `cts`; a GTFS-RT network as `gtfs-<dataset>.svg`) and every stop of the card belongs to that network; otherwise it keeps its icon. Shipped: STAR, CTS and TCL (Wikimedia Commons), Île-de-France Mobilités ([Simple Icons](https://simpleicons.org), CC0), Tisséo (Wikimedia Commons, PNG). The logos remain the trademarks of their networks.
 
 ### Adding a network
 
