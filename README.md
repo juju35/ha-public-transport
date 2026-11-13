@@ -286,7 +286,7 @@ The catalogue is the [transport.data.gouv.fr API](https://transport.data.gouv.fr
 
 ### Network logos
 
-The card shows the network's logo in its header when the integration ships `frontend/logos/<network>.svg` (`star`, `idfm`, `tcl`, `cts`; a GTFS-RT network as `gtfs-<dataset>.svg`) and every stop of the card belongs to that network; otherwise it keeps its icon. The logos come from Wikimedia Commons and remain the trademarks of their networks.
+The card shows the network's logo in its header when the integration ships `frontend/logos/<network>.svg` (`star`, `idfm`, `tcl`, `cts`; a GTFS-RT network as `gtfs-<dataset>.svg`) and every stop of the card belongs to that network; otherwise it keeps its icon. Shipped: STAR, CTS and TCL (Wikimedia Commons), Île-de-France Mobilités ([Simple Icons](https://simpleicons.org), CC0). The logos remain the trademarks of their networks.
 
 ### Adding a network
 
@@ -355,7 +355,7 @@ Contributions for additional languages are welcome!
 
 ## Credits
 
-Departures, lines and alerts: [STAR open data](https://data.explore.star.fr) (Rennes Métropole / Keolis Rennes), under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/); [Île-de-France Mobilités](https://prim.iledefrance-mobilites.fr) (PRIM and open data); [data.grandlyon.com](https://data.grandlyon.com) (SYTRAL Mobilités / TCL); [CTS](https://www.cts-strasbourg.eu/fr/portail-open-data/); the networks of [transport.data.gouv.fr](https://transport.data.gouv.fr), each under its own licence. Network logos: [Wikimedia Commons](https://commons.wikimedia.org), trademarks of their owners.
+Departures, lines and alerts: [STAR open data](https://data.explore.star.fr) (Rennes Métropole / Keolis Rennes), under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/); [Île-de-France Mobilités](https://prim.iledefrance-mobilites.fr) (PRIM and open data); [data.grandlyon.com](https://data.grandlyon.com) (SYTRAL Mobilités / TCL); [CTS](https://www.cts-strasbourg.eu/fr/portail-open-data/); the networks of [transport.data.gouv.fr](https://transport.data.gouv.fr), each under its own licence. Network logos: [Wikimedia Commons](https://commons.wikimedia.org) and [Simple Icons](https://simpleicons.org), trademarks of their owners.
 
 ## License
 
