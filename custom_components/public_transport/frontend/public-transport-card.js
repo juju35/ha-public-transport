@@ -1148,11 +1148,14 @@ class TransportCard extends HTMLElement {
     var header = this._root.querySelector('.header');
     var c = this._config;
     var compact = this._compact();
-    var key = [c.show_refresh, compact, transportLang(this._hass, c), stops.length > 0].join('|');
+    var logo = this._logo(stops);
+    var key = [c.show_refresh, compact, transportLang(this._hass, c), stops.length > 0, logo].join('|');
     if (this._headerKey !== key || !header.querySelector('.name')) {
       this._headerKey = key;
       header.innerHTML =
-        `<div class="badge" style="--c:${TRANSPORT_ACCENT}">${transportIcon('header')}</div>` +
+        (logo
+          ? `<div class="badge logo"><img src="${transportEsc(logo)}" alt=""></div>`
+          : `<div class="badge" style="--c:${TRANSPORT_ACCENT}">${transportIcon('header')}</div>`) +
         '<div class="titles"><div class="name"></div><div class="sub" hidden></div></div>' +
         '<span class="chip" hidden><span class="dot"></span><span class="t"></span></span>' +
         (c.show_refresh && stops.length && !compact
@@ -1177,6 +1180,12 @@ class TransportCard extends HTMLElement {
     }
     var refresh = header.querySelector('.refresh');
     if (refresh) refresh.classList.toggle('spinning', !!this._refreshing);
+  }
+
+  // The network's logo (served by the integration) when every stop of the card belongs to the same network.
+  _logo(stops) {
+    var logos = stops.map((s) => s.st?.attributes?.logo || '');
+    return logos.length && logos.every((l) => l && l === logos[0]) ? logos[0] : '';
   }
 
   _subtitle(stops, t) {
@@ -1402,6 +1411,10 @@ class TransportCard extends HTMLElement {
   .badge { width: 40px; height: 40px; border-radius: 50%; flex: none; display: grid; place-items: center;
            background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--c); }
   .badge .icon { width: 24px; height: 24px; }
+  /* Brand logos keep their colors on a light plate, readable in dark themes too. */
+  .badge.logo { width: auto; min-width: 40px; max-width: 96px; padding: 0 8px; box-sizing: border-box; border-radius: 10px;
+                background: #fff; box-shadow: inset 0 0 0 1px var(--divider-color, rgba(0, 0, 0, .12)); }
+  .badge.logo img { max-width: 80px; max-height: 32px; object-fit: contain; display: block; }
   .titles { flex: 1 1 0; min-width: 5ch; }
   :host([hide-title]) .titles > .name { display: none; }
   .name { font-size: 16px; font-weight: 500; line-height: 1.25; color: var(--primary-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

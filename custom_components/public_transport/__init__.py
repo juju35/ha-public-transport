@@ -22,6 +22,7 @@ from .const import (
     ATTR_CONFIG_ENTRY_ID,
     CARD_FILENAME,
     CONF_MODE,
+    CONF_NETWORK,
     CONF_PROVIDER,
     CONF_SCAN_INTERVAL,
     CONF_STOP_CITY,
@@ -30,6 +31,7 @@ from .const import (
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     FRONTEND_URL,
+    LOGOS_DIR,
     SERVICE_REFRESH,
 )
 from .coordinator import NetworkCoordinator, PublicTransportConfigEntry
@@ -53,17 +55,36 @@ def entry_stop(entry: PublicTransportConfigEntry) -> Stop:
     )
 
 
+def network_key(data: dict[str, Any]) -> str:
+    """The network of an entry's data: the provider, plus the dataset for a generic provider (one coordinator each)."""
+    network = data.get(CONF_NETWORK)
+    return (
+        f"{data[CONF_PROVIDER]}:{network['id']}"
+        if isinstance(network, dict) and network.get("id")
+        else (data[CONF_PROVIDER])
+    )
+
+
+def provider_options(hass: HomeAssistant, network: dict[str, Any] | None) -> dict[str, Any]:
+    """What a provider needs from Home Assistant: its network, a cache folder and the executor."""
+    return {
+        "network": network,
+        "cache_dir": Path(hass.config.path(".storage", DOMAIN)),
+        "executor": hass.async_add_executor_job,
+    }
+
+
 def entry_api_key(entry: PublicTransportConfigEntry) -> str | None:
     return entry.options.get(CONF_API_KEY, entry.data.get(CONF_API_KEY)) or None
 
 
 def _network_api_key(hass: HomeAssistant, entry: PublicTransportConfigEntry) -> str | None:
     """The key of this stop, else the key of another stop of the same network: one key serves the network."""
-    provider_id = entry.data[CONF_PROVIDER]
+    key = network_key(entry.data)
     others = [
         e
         for e in hass.config_entries.async_entries(DOMAIN)
-        if e.entry_id != entry.entry_id and e.data.get(CONF_PROVIDER) == provider_id
+        if e.entry_id != entry.entry_id and e.data.get(CONF_PROVIDER) and network_key(e.data) == key
     ]
     return next((key for key in map(entry_api_key, [entry, *others]) if key), None)
 
@@ -147,15 +168,21 @@ def _lovelace_resources(lovelace: Any) -> tuple[Any, str]:
 
 async def async_setup_entry(hass: HomeAssistant, entry: PublicTransportConfigEntry) -> bool:
     coordinators: dict[str, NetworkCoordinator] = hass.data.setdefault(DOMAIN, {})
-    provider_id = entry.data[CONF_PROVIDER]
+    key = network_key(entry.data)
     api_key = _network_api_key(hass, entry)
-    coordinator = coordinators.get(provider_id)
+    coordinator = coordinators.get(key)
     if coordinator is None:
         try:
-            provider = create_provider(provider_id, async_get_clientsession(hass), api_key)
+            provider = create_provider(
+                entry.data[CONF_PROVIDER],
+                async_get_clientsession(hass),
+                api_key,
+                **provider_options(hass, entry.data.get(CONF_NETWORK)),
+            )
         except ProviderError as err:
             raise ConfigEntryNotReady(str(err)) from err
-        coordinator = coordinators[provider_id] = NetworkCoordinator(hass, provider)
+        coordinator = coordinators[key] = NetworkCoordinator(hass, provider)
+        coordinator.logo = await hass.async_add_executor_job(_logo_url, provider.key)
     else:
         # A key changed or removed in the options of one stop applies to the whole network.
         coordinator.provider.api_key = api_key
@@ -188,11 +215,20 @@ async def async_unload_entry(hass: HomeAssistant, entry: PublicTransportConfigEn
 def _release(hass: HomeAssistant, entry: PublicTransportConfigEntry) -> None:
     """Take the entry's stop out of its network coordinator, and drop the coordinator once no stop is left."""
     coordinators: dict[str, NetworkCoordinator] = hass.data.get(DOMAIN, {})
-    provider_id = entry.data[CONF_PROVIDER]
-    coordinator = coordinators.get(provider_id)
+    key = network_key(entry.data)
+    coordinator = coordinators.get(key)
     if coordinator is not None and coordinator.remove_stop(entry.entry_id):
-        coordinators.pop(provider_id)
+        coordinators.pop(key)
         hass.async_create_task(coordinator.async_shutdown(), f"{DOMAIN}_shutdown")
+
+
+def _logo_url(key: str) -> str | None:
+    """The URL of the network's logo when the integration ships one (frontend/logos/<key>.svg, else .png)."""
+    for extension in ("svg", "png"):
+        name = f"{key.replace(':', '-')}.{extension}"
+        if (CARD_PATH.parent / LOGOS_DIR / name).is_file():
+            return f"{FRONTEND_URL}/{LOGOS_DIR}/{name}"
+    return None
 
 
 async def _async_reload(hass: HomeAssistant, entry: PublicTransportConfigEntry) -> None:

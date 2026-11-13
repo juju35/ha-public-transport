@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Netz wählen",
-        "description": "Wählen Sie das Verkehrsnetz Ihrer Haltestelle. Seine Open-Data-API funktioniert ohne Schlüssel; ein Schlüssel erhöht nur das Tageskontingent.",
+        "description": "Wählen Sie das Verkehrsnetz Ihrer Haltestelle. STAR funktioniert ohne Schlüssel. Île-de-France Mobilités (PRIM-Schlüssel), TCL (Konto bei data.grandlyon.com, eingegeben als login:password) und CTS (Open-Data-Token) benötigen einen kostenlosen Schlüssel. GTFS-RT deckt alle anderen Netze ab, die Echtzeitdaten auf transport.data.gouv.fr veröffentlichen.",
         "data": {
           "provider": "Netz",
           "api_key": "API-Schlüssel (optional)"
         },
         "data_description": {
-          "api_key": "Leer lassen, um die Open-Data-API ohne Schlüssel zu nutzen."
+          "api_key": "Erforderlich für Île-de-France Mobilités, TCL und CTS; optional für STAR, wo er nur das Tageskontingent erhöht."
+        }
+      },
+      "network_search": {
+        "title": "Netz suchen",
+        "description": "Geben Sie eine Stadt oder einen Netznamen ein. Nur Netze von transport.data.gouv.fr mit Echtzeitdaten (GTFS-RT) werden angezeigt.",
+        "data": {
+          "query": "Stadt oder Netz"
+        }
+      },
+      "network": {
+        "title": "Netz wählen",
+        "description": "Netze zu „{query}“. Der Fahrplan des Netzes wird einmal täglich heruntergeladen und in Home Assistant gespeichert.",
+        "data": {
+          "network": "Netz"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Fahrplan von {network} wird heruntergeladen und gelesen. Bei einem großen Netz kann das eine Minute dauern."
+    },
     "error": {
       "invalid_auth": "Der API-Schlüssel wurde abgelehnt.",
       "cannot_connect": "Die Open Data des Netzes sind nicht erreichbar. Versuchen Sie es später erneut.",
       "no_stop_found": "Keine Haltestelle passt zu diesem Namen.",
-      "no_line_selected": "Wählen Sie mindestens eine Linie."
+      "no_line_selected": "Wählen Sie mindestens eine Linie.",
+      "api_key_required": "Dieses Netz benötigt einen API-Schlüssel.",
+      "no_network_found": "Kein Netz mit Echtzeitdaten passt zu diesem Namen."
     },
     "abort": {
       "already_configured": "Diese Haltestelle wird bereits verfolgt.",
-      "no_line": "Das Netz nennt keine Linie für diese Haltestelle."
+      "no_line": "Das Netz nennt keine Linie für diese Haltestelle.",
+      "cannot_connect": "Die Daten des Netzes sind nicht erreichbar. Versuchen Sie es später erneut."
     }
   },
   "options": {

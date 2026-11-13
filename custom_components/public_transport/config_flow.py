@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from typing import Any
 
 import voluptuous as vol
@@ -22,11 +23,12 @@ from homeassistant.helpers.selector import (
     TextSelectorType,
 )
 
-from . import entry_stop
+from . import entry_stop, provider_options
 from .const import (
     CONF_LINES,
     CONF_MAX_DEPARTURES,
     CONF_MODE,
+    CONF_NETWORK,
     CONF_PROVIDER,
     CONF_QUERY,
     CONF_SCAN_INTERVAL,
@@ -40,7 +42,18 @@ from .const import (
     MAX_SCAN_INTERVAL,
     MIN_SCAN_INTERVAL,
 )
-from .providers import PROVIDERS, Line, Provider, ProviderAuthError, ProviderError, Stop, create_provider
+from .providers import (
+    PROVIDERS,
+    GtfsNetwork,
+    Line,
+    Provider,
+    ProviderAuthError,
+    ProviderError,
+    Stop,
+    create_provider,
+    fetch_catalog,
+    search_networks,
+)
 
 CONF_LINE_NAMES = "line_names"
 PASSWORD = TextSelector(TextSelectorConfig(type=TextSelectorType.PASSWORD))
@@ -72,31 +85,112 @@ class PublicTransportConfigFlow(ConfigFlow, domain=DOMAIN):
         self._hints: dict[str, tuple[list[str], list[str]]] = {}
         self._stop: Stop | None = None
         self._lines: list[Line] = []
+        self._catalog: list[GtfsNetwork] | None = None
+        self._networks: dict[str, GtfsNetwork] = {}
+        self._network: GtfsNetwork | None = None
+        self._network_query = ""
+        self._download: asyncio.Task[None] | None = None
+        self._provider_instance: Provider | None = None
 
     def _provider(self) -> Provider:
-        return create_provider(self._provider_id, async_get_clientsession(self.hass), self._api_key)
+        """One provider for the whole flow: a generic one keeps the timetable it read for the next steps."""
+        if self._provider_instance is None:
+            network = self._network.as_dict() if self._network else None
+            self._provider_instance = create_provider(
+                self._provider_id,
+                async_get_clientsession(self.hass),
+                self._api_key,
+                **provider_options(self.hass, network),
+            )
+        return self._provider_instance
 
     async def async_step_user(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         if user_input is not None:
             self._provider_id = user_input[CONF_PROVIDER]
             self._api_key = (user_input.get(CONF_API_KEY) or "").strip() or None
+            self._provider_instance = None
+            cls = PROVIDERS[self._provider_id]
+            if cls.api_key_mode == "required" and not self._api_key:
+                return self._user_form({CONF_API_KEY: "api_key_required"})
+            if cls.needs_network:
+                return await self.async_step_network_search()
             return await self.async_step_search()
         return self._user_form({})
 
     def _user_form(self, errors: dict[str, str]) -> ConfigFlowResult:
         options = [
             SelectOptionDict(value=cls.id, label=f"{cls.name} — {cls.area}")
-            for cls in sorted(PROVIDERS.values(), key=lambda c: c.name)
+            for cls in sorted(PROVIDERS.values(), key=lambda c: (c.needs_network, c.name.lower()))
         ]
         schema = vol.Schema(
             {
-                vol.Required(CONF_PROVIDER, default=self._provider_id or options[0]["value"]): SelectSelector(
+                vol.Required(CONF_PROVIDER, default=self._provider_id or "star"): SelectSelector(
                     SelectSelectorConfig(options=options, mode=SelectSelectorMode.LIST)
                 ),
                 vol.Optional(CONF_API_KEY): PASSWORD,
             }
         )
         return self.async_show_form(step_id="user", data_schema=schema, errors=errors)
+
+    async def async_step_network_search(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
+        """A generic provider: find the network in the national catalogue."""
+        errors: dict[str, str] = {}
+        if user_input is not None:
+            self._network_query = user_input[CONF_QUERY].strip()
+            try:
+                if self._catalog is None:
+                    self._catalog = await fetch_catalog(async_get_clientsession(self.hass))
+            except ProviderError:
+                errors["base"] = "cannot_connect"
+            else:
+                found = search_networks(self._catalog, self._network_query)
+                if not found:
+                    errors[CONF_QUERY] = "no_network_found"
+                else:
+                    self._networks = {n.id: n for n in found}
+                    return await self.async_step_network()
+        schema = vol.Schema({vol.Required(CONF_QUERY, default=self._network_query): TextSelector()})
+        return self.async_show_form(step_id="network_search", data_schema=schema, errors=errors)
+
+    async def async_step_network(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
+        if user_input is not None:
+            self._network = self._networks[user_input[CONF_NETWORK]]
+            self._provider_instance = None
+            self._download = None
+            return await self.async_step_download()
+        options = [SelectOptionDict(value=n.id, label=n.label) for n in self._networks.values()]
+        schema = vol.Schema(
+            {
+                vol.Required(CONF_NETWORK): SelectSelector(
+                    SelectSelectorConfig(options=options, mode=SelectSelectorMode.DROPDOWN)
+                )
+            }
+        )
+        return self.async_show_form(
+            step_id="network", data_schema=schema, description_placeholders={"query": self._network_query}
+        )
+
+    async def async_step_download(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
+        """The network's timetable is downloaded and read once (it can take a minute for a big network)."""
+        if self._download is None:
+            provider = self._provider()
+            self._download = self.hass.async_create_task(provider.prepare(), f"{DOMAIN}_timetable")
+        if not self._download.done():
+            return self.async_show_progress(
+                step_id="download",
+                progress_action="download",
+                progress_task=self._download,
+                description_placeholders={"network": self._provider().network_name},
+            )
+        try:
+            self._download.result()
+        except ProviderError:
+            self._download = None
+            return self.async_show_progress_done(next_step_id="download_failed")
+        return self.async_show_progress_done(next_step_id="search")
+
+    async def async_step_download_failed(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
+        return self.async_abort(reason="cannot_connect")
 
     async def async_step_search(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         errors: dict[str, str] = {}
@@ -124,14 +218,14 @@ class PublicTransportConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="search",
             data_schema=schema,
             errors=errors,
-            description_placeholders={"network": PROVIDERS[self._provider_id].name},
+            description_placeholders={"network": self._provider().network_name},
         )
 
     async def async_step_stop(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         errors: dict[str, str] = {}
         if user_input is not None:
             stop = self._stops[user_input[CONF_STOP]]
-            await self.async_set_unique_id(f"{self._provider_id}_{stop.key}")
+            await self.async_set_unique_id(f"{self._provider().key}_{stop.key}")
             self._abort_if_unique_id_configured()
             try:
                 self._lines = await self._provider().lines_at_stop(stop)
@@ -174,8 +268,10 @@ class PublicTransportConfigFlow(ConfigFlow, domain=DOMAIN):
                 }
                 if self._api_key:
                     data[CONF_API_KEY] = self._api_key
+                if self._network:
+                    data[CONF_NETWORK] = self._network.as_dict()
                 return self.async_create_entry(
-                    title=f"{PROVIDERS[self._provider_id].name} {stop.name}",
+                    title=f"{self._provider().network_name} {stop.name}",
                     data=data,
                     options={CONF_LINES: selected},
                 )

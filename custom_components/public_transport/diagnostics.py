@@ -22,6 +22,7 @@ async def async_get_config_entry_diagnostics(hass: HomeAssistant, entry: PublicT
         "entry": async_redact_data({"data": dict(entry.data), "options": dict(entry.options)}, TO_REDACT),
         "network": {
             "provider": coordinator.provider.id,
+            "network_key": coordinator.provider.key,
             "api_key_set": coordinator.provider.api_key is not None,
             "update_interval": str(coordinator.update_interval),
             "last_update_success": coordinator.last_update_success,

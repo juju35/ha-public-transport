@@ -12,7 +12,7 @@
   <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/custom_components/public_transport/brand/icon.png" alt="Public Transport" width="96">
 </p>
 
-Home Assistant integration for the **next departures at your public transport stops**: lines, direction, minutes left, real time or timetable, and traffic alerts — with its Lovelace cards included. The first network is **[STAR](https://www.star.fr)** (bus and metro of Rennes Métropole), through its [open data portal](https://data.explore.star.fr); networks are separate *providers*, so others can be added.
+Home Assistant integration for the **next departures at your public transport stops**: lines, direction, minutes left, real time or timetable, and traffic alerts — with its Lovelace cards included. Networks: **[STAR](https://www.star.fr)** (Rennes), **Île-de-France Mobilités** (Paris region), **TCL** (Lyon), **CTS** (Strasbourg), and **every network publishing GTFS-RT** on the French national access point [transport.data.gouv.fr](https://transport.data.gouv.fr) (Toulouse, Montpellier, Bordeaux, Nantes, Lille, Brest… and hundreds of smaller networks).
 
 [![Open your Home Assistant instance and open a repository inside the Marketplace.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=juju35&repository=ha-public-transport&category=integration)
 
@@ -27,6 +27,8 @@ Home Assistant integration for the **next departures at your public transport st
 - **Line** sensor per followed line: its next departure, destination, real time or not, delay
 - **Traffic alert** binary sensor per stop, on while an alert concerns one of its lines
 - **Real time or timetable**, for each departure: real-time times come with their delay to the timetable; timetable-only times are marked like the `*` of the stop displays
+- **Hundreds of networks**: a generic GTFS / GTFS-RT provider searches the national catalogue by city or network name, downloads the timetable once a day and corrects it with the real-time feed
+- **Network logo** in the card header, when the integration ships one
 - **One request per network**: every stop of a network is updated at once, so following more stops costs no more of the open data quota
 - `public_transport.refresh` action to update now
 - `custom:public-transport-card` card, **shipped with the integration** and loaded automatically: line badges in the official colors, countdown that ticks by itself, real-time indicator, collapsible traffic alerts, and an **animated scene** of the next departure (the bus or the train drives in when it is close)
@@ -39,8 +41,12 @@ Home Assistant integration for the **next departures at your public transport st
 | Network | Area | Modes | Real time | Alerts | Data |
 |---|---|---|---|---|---|
 | [STAR](https://www.star.fr) | Rennes Métropole (France) | Bus, metro (lines a and b) | Yes, with the timetable delay (bus) | Yes, with their level (information, disruption, major disruption) | [data.explore.star.fr](https://data.explore.star.fr) (ODbL), no key needed |
+| [Île-de-France Mobilités](https://www.iledefrance-mobilites.fr) | Île-de-France | Metro, RER, Transilien, tram, bus | Yes, with the timetable delay | Yes (general messages of the lines followed) | [PRIM](https://prim.iledefrance-mobilites.fr) (SIRI Lite) + IDFM open data, **free PRIM key required** |
+| [TCL](https://www.tcl.fr) | Lyon | Metro, funicular, tram, bus | Yes (estimated or timetable) | Yes | [data.grandlyon.com](https://data.grandlyon.com), **free account required** (key typed as `login:password`) |
+| [CTS](https://www.cts-strasbourg.eu) | Strasbourg | Tram, bus | Yes (real time or timetable) | Yes | [api.cts-strasbourg.eu](https://www.cts-strasbourg.eu/fr/portail-open-data/) (SIRI 2.0), **free token required** |
+| **GTFS-RT** | Any network of [transport.data.gouv.fr](https://transport.data.gouv.fr) with a GTFS-RT feed | All (from the GTFS route types) | Yes: trip updates (delays, cancelled trips, skipped stops, extra trips) | When the network publishes service alerts | GTFS + GTFS-RT of the national access point (licences vary by network, mostly ODbL or Licence Ouverte) |
 
-More networks can be added as providers: see [Adding a network](#adding-a-network).
+Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (Naolib), Lille (Ilévia), Brest (Bibus), Rouen (Astuce), Le Havre, Angers, and many smaller networks — any dataset of the catalogue with both a GTFS file and a GTFS-RT feed. More networks can be added as providers: see [Adding a network](#adding-a-network).
 
 ## Prerequisites
 
@@ -80,7 +86,8 @@ Copy `custom_components/public_transport/` to `/config/custom_components/public_
 
 **Settings → Devices & services → Add integration → Public Transport**, then:
 
-1. **Network**: STAR — Rennes Métropole. The API key is optional (see below).
+1. **Network**: STAR, Île-de-France Mobilités, TCL, CTS, or **GTFS-RT** for any other network. STAR works without a key; IDFM (PRIM key), TCL (`login:password` of a data.grandlyon.com account) and CTS (open data token) need their free key.
+   - **GTFS-RT**: type a city or a network name (`Toulouse`, `Tisséo`…), choose the network in the list, and wait while its timetable is downloaded and read (up to a minute for a big network).
 2. **Stop**: type part of its name (`Républ`, `Gares`…).
 3. **Choose the stop**: stops of the same name are the platforms of each direction; the bus lines serving each one and the destinations of its next departures (→) are listed after its name, so you can tell them apart (a metro station has one platform per direction).
 4. **Lines**: all the lines serving the stop are selected; keep the ones you take.
@@ -94,7 +101,7 @@ Options (**Configure** button):
 | Lines | the lines chosen | Lines followed at this stop; each one has its own sensor |
 | Update interval | 60 s | 30 s to 10 min. All the stops of a network are updated in one request, at the shortest interval of its stops |
 | Departures kept | 6 | Coming departures in the stop sensor's attributes, which the card shows |
-| API key | none | Only raises the daily quota of the open data API (STAR: free account on data.explore.star.fr) |
+| API key | none | Required by IDFM, TCL and CTS; for STAR, it only raises the daily quota of the open data API (free account on data.explore.star.fr) |
 
 ### Entities
 
@@ -260,6 +267,27 @@ The card reads the stop sensors and counts the minutes down every 15 seconds by 
 
 The portal's API works without a key; a key (free account) only raises the daily quota.
 
+### GTFS-RT networks
+
+The catalogue is the [transport.data.gouv.fr API](https://transport.data.gouv.fr/api/datasets): a network is offered when its dataset has a GTFS file and a GTFS-RT feed with trip updates.
+
+- The GTFS zip is downloaded into `.storage/public_transport/` and refreshed once a day (conditional request); it is read in the background, keeping the stops, routes, trips, calendars and only the timetable of the followed stops.
+- Departures are the timetable of the next 3 hours, corrected by the GTFS-RT trip updates: times or delays (propagated to the following stops), cancelled trips and skipped stops removed, extra trips added. When the real-time feed fails, the timetable is still shown, marked as such.
+- Alerts come from the service alerts feed, when there is one; an alert on a stop concerns the lines serving it.
+- The GTFS-RT protocol buffers are read by a small built-in decoder: no extra dependency.
+
+### Île-de-France Mobilités, TCL and CTS
+
+| Network | Departures | Stops and lines | Alerts |
+|---|---|---|---|
+| IDFM | PRIM `stop-monitoring` (one request per stop; 1,000,000 a day) | `arrets-lignes`, `referentiel-des-lignes` (official colors) | PRIM `general-message`, for the lines seen at the followed stops |
+| TCL | `tcl_sytral.tclpassagearret` (one request per stop) | `tcl_sytral.tclarret` (lines from `desserte`) | `tcl_sytral.tclalertetrafic_2` |
+| CTS | SIRI `stop-monitoring` (one request per stop) | `stoppoints-discovery`, `lines-discovery` (official colors) | SIRI `general-message` |
+
+### Network logos
+
+The card shows the network's logo in its header when the integration ships `frontend/logos/<network>.svg` (or `.png`) (`star`, `idfm`, `tcl`, `cts`; a GTFS-RT network as `gtfs-<dataset>.svg`) and every stop of the card belongs to that network; otherwise it keeps its icon. Shipped: STAR, CTS and TCL (Wikimedia Commons), Île-de-France Mobilités ([Simple Icons](https://simpleicons.org), CC0), Tisséo (Wikimedia Commons, PNG). The logos remain the trademarks of their networks.
+
 ### Adding a network
 
 A network is a class of `custom_components/public_transport/providers/` deriving from `Provider` (`providers/base.py`) and registered in `providers/__init__.py`. It implements:
@@ -272,7 +300,7 @@ A network is a class of `custom_components/public_transport/providers/` deriving
 | `departures(stops)` | Coming departures of several stops, in as few requests as the API allows |
 | `alerts()` | Current traffic alerts (optional) |
 
-The config flow, sensors and cards then work unchanged. Contributions for other networks (or a generic GTFS / GTFS-RT provider) are welcome.
+The config flow, sensors and cards then work unchanged. A provider that serves many networks sets `needs_network` (the config flow asks which one, see `providers/gtfs.py`); one whose API needs a key sets `api_key_mode = "required"`. Contributions for other networks are welcome.
 
 ## Development
 
@@ -327,7 +355,7 @@ Contributions for additional languages are welcome!
 
 ## Credits
 
-Departures, lines and alerts: [STAR open data](https://data.explore.star.fr) (Rennes Métropole / Keolis Rennes), under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/).
+Departures, lines and alerts: [STAR open data](https://data.explore.star.fr) (Rennes Métropole / Keolis Rennes), under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/); [Île-de-France Mobilités](https://prim.iledefrance-mobilites.fr) (PRIM and open data); [data.grandlyon.com](https://data.grandlyon.com) (SYTRAL Mobilités / TCL); [CTS](https://www.cts-strasbourg.eu/fr/portail-open-data/); the networks of [transport.data.gouv.fr](https://transport.data.gouv.fr), each under its own licence. Network logos: [Wikimedia Commons](https://commons.wikimedia.org) and [Simple Icons](https://simpleicons.org), trademarks of their owners.
 
 ## License
 

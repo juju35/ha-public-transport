@@ -24,11 +24,11 @@ class PublicTransportEntity(CoordinatorEntity[NetworkCoordinator]):
         self.stop = stop
         self._attr_translation_key = key
         self._attr_unique_id = f"{entry.entry_id}_{key}"
-        self._attr_attribution = f"Data: {provider.name} open data"
+        self._attr_attribution = f"Data: {provider.network_name} open data"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, entry.entry_id)},
-            name=f"{provider.name} {stop.name}",
-            manufacturer=provider.name,
+            name=f"{provider.network_name} {stop.name}",
+            manufacturer=provider.network_name,
             model=stop.mode.capitalize(),
             entry_type=DeviceEntryType.SERVICE,
             configuration_url=provider.url,

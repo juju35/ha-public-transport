@@ -31,7 +31,7 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
             hass,
             _LOGGER,
             config_entry=None,
-            name=f"{DOMAIN}_{provider.id}",
+            name=f"{DOMAIN}_{provider.key}",
             update_interval=timedelta(seconds=DEFAULT_SCAN_INTERVAL),
         )
         self.provider = provider
@@ -43,6 +43,8 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
         self._alerts_updated: datetime | None = None
         # Set while the network fails and the last departures are kept (sensor attributes `stale` / `last_error`).
         self.last_error: ProviderError | None = None
+        # URL of the network's logo served with the card, when the integration ships one.
+        self.logo: str | None = None
 
     def add_stop(self, entry_id: str, stop: Stop, interval: int) -> None:
         self.stops[entry_id] = stop
@@ -70,7 +72,7 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
             if self.data is None:
                 raise UpdateFailed(str(err)) from err
             # A quota or a timeout only delays the next update: keep the last departures meanwhile.
-            _LOGGER.warning("%s update failed, keeping the last departures: %s", self.provider.name, err)
+            _LOGGER.warning("%s update failed, keeping the last departures: %s", self.provider.network_name, err)
             self.last_error = err
             return self._fresh(self.data)
         self.last_error = None
@@ -86,13 +88,13 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
             except ProviderError as err:
                 if not self.lines:
                     raise
-                _LOGGER.debug("Could not refresh the %s lines: %s", self.provider.name, err)
+                _LOGGER.debug("Could not refresh the %s lines: %s", self.provider.network_name, err)
         if self._alerts_updated is None or now - self._alerts_updated >= ALERTS_REFRESH:
             try:
                 self.alerts = await self.provider.alerts()
                 self._alerts_updated = now
             except ProviderError as err:
-                _LOGGER.debug("Could not refresh the %s alerts: %s", self.provider.name, err)
+                _LOGGER.debug("Could not refresh the %s alerts: %s", self.provider.network_name, err)
 
     @staticmethod
     def _fresh(departures: dict[str, list[Departure]]) -> dict[str, list[Departure]]:

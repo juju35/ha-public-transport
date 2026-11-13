@@ -52,7 +52,8 @@ class StopSensor(PublicTransportEntity, SensorEntity):
         return {
             "config_entry_id": self.entry.entry_id,
             "provider": coordinator.provider.id,
-            "network": coordinator.provider.name,
+            "network": coordinator.provider.network_name,
+            "logo": coordinator.logo,
             "stop_id": self.stop.id,
             "stop_name": self.stop.name,
             "stop_city": self.stop.city,
@@ -93,7 +94,7 @@ class LineSensor(PublicTransportEntity, SensorEntity):
         first = departures[0] if departures else None
         return {
             "config_entry_id": self.entry.entry_id,
-            "network": self.coordinator.provider.name,
+            "network": self.coordinator.provider.network_name,
             "stop_name": self.stop.name,
             "mode": self.stop.mode,
             "line_id": self.line_id,

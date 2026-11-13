@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Choisir un réseau",
-        "description": "Choisissez le réseau de transport de votre arrêt. Son API open data fonctionne sans clé ; une clé ne fait qu'augmenter le quota quotidien.",
+        "description": "Choisissez le réseau de votre arrêt. STAR fonctionne sans clé. Île-de-France Mobilités (clé PRIM), TCL (compte data.grandlyon.com, saisi sous la forme login:password) et CTS (jeton open data) demandent une clé gratuite. GTFS-RT couvre tous les autres réseaux qui publient leur temps réel sur transport.data.gouv.fr.",
         "data": {
           "provider": "Réseau",
           "api_key": "Clé d'API (facultative)"
         },
         "data_description": {
-          "api_key": "Laissez vide pour utiliser l'API open data sans clé."
+          "api_key": "Obligatoire pour Île-de-France Mobilités, TCL et CTS ; facultative pour STAR, où elle relève seulement le quota quotidien."
+        }
+      },
+      "network_search": {
+        "title": "Trouver votre réseau",
+        "description": "Tapez une ville ou un nom de réseau. Seuls les réseaux de transport.data.gouv.fr qui publient du temps réel (GTFS-RT) sont proposés.",
+        "data": {
+          "query": "Ville ou réseau"
+        }
+      },
+      "network": {
+        "title": "Choisir le réseau",
+        "description": "Réseaux correspondant à « {query} ». Les horaires du réseau sont téléchargés une fois par jour et gardés dans Home Assistant.",
+        "data": {
+          "network": "Réseau"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Téléchargement et lecture des horaires de {network}. Cela peut prendre une minute pour un grand réseau."
+    },
     "error": {
       "invalid_auth": "La clé d'API a été refusée.",
       "cannot_connect": "L'open data du réseau est injoignable. Réessayez plus tard.",
       "no_stop_found": "Aucun arrêt ne correspond à ce nom.",
-      "no_line_selected": "Choisissez au moins une ligne."
+      "no_line_selected": "Choisissez au moins une ligne.",
+      "api_key_required": "Ce réseau demande une clé d'API.",
+      "no_network_found": "Aucun réseau avec du temps réel ne correspond à ce nom."
     },
     "abort": {
       "already_configured": "Cet arrêt est déjà suivi.",
-      "no_line": "Le réseau n'indique aucune ligne pour cet arrêt."
+      "no_line": "Le réseau n'indique aucune ligne pour cet arrêt.",
+      "cannot_connect": "Les données du réseau sont injoignables. Réessayez plus tard."
     }
   },
   "options": {

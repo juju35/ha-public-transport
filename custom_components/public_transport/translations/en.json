@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Choose a network",
-        "description": "Pick the transit network of your stop. Its open data API works without a key; a key only raises the daily quota.",
+        "description": "Pick the transit network of your stop. STAR works without a key. Île-de-France Mobilités (PRIM key), TCL (data.grandlyon.com account, typed as login:password) and CTS (open data token) need a free key. GTFS-RT covers every other network publishing real-time data on transport.data.gouv.fr.",
         "data": {
           "provider": "Network",
           "api_key": "API key (optional)"
         },
         "data_description": {
-          "api_key": "Leave empty to use the open data API without a key."
+          "api_key": "Needed by Île-de-France Mobilités, TCL and CTS; optional for STAR, where it only raises the daily quota."
+        }
+      },
+      "network_search": {
+        "title": "Find your network",
+        "description": "Type a city or a network name. Only the networks of transport.data.gouv.fr that publish real-time data (GTFS-RT) are listed.",
+        "data": {
+          "query": "City or network"
+        }
+      },
+      "network": {
+        "title": "Choose the network",
+        "description": "Networks matching “{query}”. The timetable of the network is downloaded once a day and kept in Home Assistant.",
+        "data": {
+          "network": "Network"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Downloading and reading the {network} timetable. This can take a minute for a big network."
+    },
     "error": {
       "invalid_auth": "The API key was refused.",
       "cannot_connect": "The network's open data cannot be reached. Try again later.",
       "no_stop_found": "No stop matches this name.",
-      "no_line_selected": "Choose at least one line."
+      "no_line_selected": "Choose at least one line.",
+      "api_key_required": "This network needs an API key.",
+      "no_network_found": "No network with real-time data matches this name."
     },
     "abort": {
       "already_configured": "This stop is already followed.",
-      "no_line": "The network lists no line for this stop."
+      "no_line": "The network lists no line for this stop.",
+      "cannot_connect": "The network's data cannot be reached. Try again later."
     }
   },
   "options": {

@@ -285,3 +285,11 @@ test('both cards and the editor are registered for the card picker', () => {
   assert.ok(defined['public-transport-card-editor']);
   assert.deepEqual(JSON.parse(JSON.stringify(context.window.customCards.map((c) => c.type))), ['public-transport-card', 'public-transport-mini-card']);
 });
+
+test('the network logo replaces the header icon when every stop shares it', () => {
+  const logo = '/public_transport_static/logos/star.svg';
+  const one = makeCard(TransportCard, {}, { 'sensor.a': stopState({}, { logo }), 'sensor.b': stopState({}, { logo }) });
+  assert.equal(one._logo(one._stops()), logo);
+  const mixed = makeCard(TransportCard, {}, { 'sensor.a': stopState({}, { logo }), 'sensor.b': stopState() });
+  assert.equal(mixed._logo(mixed._stops()), '');
+});

@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Vælg et netværk",
-        "description": "Vælg trafiknetværket for dit stoppested. Dets open data-API virker uden nøgle; en nøgle hæver kun den daglige kvote.",
+        "description": "Vælg trafiknettet for dit stoppested. STAR virker uden nøgle. Île-de-France Mobilités (PRIM-nøgle), TCL (konto hos data.grandlyon.com, skrevet som login:password) og CTS (open data-token) kræver en gratis nøgle. GTFS-RT dækker alle andre net, der udgiver realtidsdata på transport.data.gouv.fr.",
         "data": {
           "provider": "Netværk",
           "api_key": "API-nøgle (valgfri)"
         },
         "data_description": {
-          "api_key": "Lad stå tom for at bruge open data-API'et uden nøgle."
+          "api_key": "Påkrævet for Île-de-France Mobilités, TCL og CTS; valgfri for STAR, hvor den kun hæver den daglige kvote."
+        }
+      },
+      "network_search": {
+        "title": "Find dit net",
+        "description": "Skriv en by eller et netnavn. Kun net fra transport.data.gouv.fr med realtidsdata (GTFS-RT) vises.",
+        "data": {
+          "query": "By eller net"
+        }
+      },
+      "network": {
+        "title": "Vælg net",
+        "description": "Net, der matcher “{query}”. Nettets køreplan hentes én gang om dagen og gemmes i Home Assistant.",
+        "data": {
+          "network": "Net"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Henter og læser køreplanen for {network}. For et stort net kan det tage et minut."
+    },
     "error": {
       "invalid_auth": "API-nøglen blev afvist.",
       "cannot_connect": "Netværkets open data kan ikke nås. Prøv igen senere.",
       "no_stop_found": "Intet stoppested matcher dette navn.",
-      "no_line_selected": "Vælg mindst én linje."
+      "no_line_selected": "Vælg mindst én linje.",
+      "api_key_required": "Dette net kræver en API-nøgle.",
+      "no_network_found": "Intet net med realtidsdata matcher dette navn."
     },
     "abort": {
       "already_configured": "Dette stoppested følges allerede.",
-      "no_line": "Netværket angiver ingen linje for dette stoppested."
+      "no_line": "Netværket angiver ingen linje for dette stoppested.",
+      "cannot_connect": "Nettets data kan ikke nås. Prøv igen senere."
     }
   },
   "options": {

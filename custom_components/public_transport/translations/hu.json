@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Válasszon hálózatot",
-        "description": "Válassza ki megállója közlekedési hálózatát. A nyílt adatos API kulcs nélkül is működik; a kulcs csak a napi kvótát növeli.",
+        "description": "Válassza ki a megállója közlekedési hálózatát. A STAR kulcs nélkül működik. Az Île-de-France Mobilités (PRIM-kulcs), a TCL (data.grandlyon.com-fiók, login:password formában megadva) és a CTS (open data token) ingyenes kulcsot igényel. A GTFS-RT minden más hálózatot lefed, amely valós idejű adatokat tesz közzé a transport.data.gouv.fr oldalon.",
         "data": {
           "provider": "Hálózat",
           "api_key": "API-kulcs (nem kötelező)"
         },
         "data_description": {
-          "api_key": "Hagyja üresen a nyílt adatos API kulcs nélküli használatához."
+          "api_key": "Kötelező az Île-de-France Mobilités, a TCL és a CTS esetén; a STAR-nál nem kötelező, ott csak a napi kvótát emeli."
+        }
+      },
+      "network_search": {
+        "title": "Hálózat keresése",
+        "description": "Írjon be egy várost vagy hálózatnevet. Csak a transport.data.gouv.fr valós idejű adatokat (GTFS-RT) közzétevő hálózatai jelennek meg.",
+        "data": {
+          "query": "Város vagy hálózat"
+        }
+      },
+      "network": {
+        "title": "Hálózat kiválasztása",
+        "description": "A(z) „{query}” keresésnek megfelelő hálózatok. A hálózat menetrendje naponta egyszer letöltődik, és a Home Assistant tárolja.",
+        "data": {
+          "network": "Hálózat"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "{network} menetrendjének letöltése és beolvasása. Nagy hálózatnál ez egy percig is tarthat."
+    },
     "error": {
       "invalid_auth": "Az API-kulcsot elutasították.",
       "cannot_connect": "A hálózat nyílt adatai nem érhetők el. Próbálja újra később.",
       "no_stop_found": "Egy megálló sem felel meg ennek a névnek.",
-      "no_line_selected": "Válasszon legalább egy vonalat."
+      "no_line_selected": "Válasszon legalább egy vonalat.",
+      "api_key_required": "Ehhez a hálózathoz API-kulcs szükséges.",
+      "no_network_found": "Egyetlen valós idejű adatokkal rendelkező hálózat sem felel meg ennek a névnek."
     },
     "abort": {
       "already_configured": "Ezt a megállót már követi.",
-      "no_line": "A hálózat nem ad meg vonalat ehhez a megállóhoz."
+      "no_line": "A hálózat nem ad meg vonalat ehhez a megállóhoz.",
+      "cannot_connect": "A hálózat adatai nem érhetők el. Próbálja újra később."
     }
   },
   "options": {

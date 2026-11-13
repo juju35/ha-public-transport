@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Elegir una red",
-        "description": "Elija la red de transporte de su parada. Su API de datos abiertos funciona sin clave; una clave solo aumenta la cuota diaria.",
+        "description": "Elija la red de transporte de su parada. STAR funciona sin clave. Île-de-France Mobilités (clave PRIM), TCL (cuenta de data.grandlyon.com, escrita como login:password) y CTS (token de datos abiertos) necesitan una clave gratuita. GTFS-RT cubre todas las demás redes que publican datos en tiempo real en transport.data.gouv.fr.",
         "data": {
           "provider": "Red",
           "api_key": "Clave de API (opcional)"
         },
         "data_description": {
-          "api_key": "Déjelo vacío para usar la API de datos abiertos sin clave."
+          "api_key": "Obligatoria para Île-de-France Mobilités, TCL y CTS; opcional para STAR, donde solo aumenta la cuota diaria."
+        }
+      },
+      "network_search": {
+        "title": "Buscar su red",
+        "description": "Escriba una ciudad o el nombre de una red. Solo se muestran las redes de transport.data.gouv.fr que publican tiempo real (GTFS-RT).",
+        "data": {
+          "query": "Ciudad o red"
+        }
+      },
+      "network": {
+        "title": "Elegir la red",
+        "description": "Redes que coinciden con «{query}». Los horarios de la red se descargan una vez al día y se guardan en Home Assistant.",
+        "data": {
+          "network": "Red"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Descargando y leyendo los horarios de {network}. Puede tardar un minuto en una red grande."
+    },
     "error": {
       "invalid_auth": "La clave de API fue rechazada.",
       "cannot_connect": "Los datos abiertos de la red no responden. Inténtelo más tarde.",
       "no_stop_found": "Ninguna parada coincide con este nombre.",
-      "no_line_selected": "Elija al menos una línea."
+      "no_line_selected": "Elija al menos una línea.",
+      "api_key_required": "Esta red necesita una clave de API.",
+      "no_network_found": "Ninguna red con tiempo real coincide con este nombre."
     },
     "abort": {
       "already_configured": "Esta parada ya se sigue.",
-      "no_line": "La red no indica ninguna línea para esta parada."
+      "no_line": "La red no indica ninguna línea para esta parada.",
+      "cannot_connect": "No se puede acceder a los datos de la red. Inténtelo más tarde."
     }
   },
   "options": {
