@@ -50,6 +50,21 @@ def _fold(text: str) -> str:
     return unicodedata.normalize("NFD", text).encode("ascii", "ignore").decode().lower()
 
 
+# The legal form of an intercommunality, left out to name its city: "CA de Béziers-Méditerranée" -> "Béziers-Méditerranée"
+_FORM = re.compile(
+    r"^(?:CA|CU|CC|CA[A-Z]+|Communauté (?:d'agglomération|urbaine|de communes)|Agglomération)\s+"
+    r"(?:(?:de la|de l'|du|des|de|d')\s*)?",
+    re.IGNORECASE,
+)
+
+
+def _city(area: str) -> str:
+    """An area named as people say it: without the legal form, quotes or a parenthesised long name."""
+    name = _FORM.sub("", area.strip())
+    name = re.sub(r"\s*\([^)]*\)\s*$", "", name).replace("''", "").replace('"', "").strip(" '")
+    return name[:1].upper() + name[1:] if name else area
+
+
 def _cell(text: str) -> str:
     return re.sub(r"\s+", " ", text).replace("|", "\\|").strip()
 
@@ -61,7 +76,13 @@ def table(datasets: list) -> str:
     rows = []
     for n in networks:
         dataset = by_id.get(n.id, {})
-        areas = [str(a.get("nom")) for a in dataset.get("covered_area") or [] if isinstance(a, dict) and a.get("nom")]
+        areas = list(
+            dict.fromkeys(
+                _city(str(a.get("nom")))
+                for a in dataset.get("covered_area") or []
+                if isinstance(a, dict) and a.get("nom")
+            )
+        )
         area = ", ".join(areas[:4]) + (f" (+{len(areas) - 4})" if len(areas) > 4 else "")
         page = f"https://transport.data.gouv.fr/datasets/{n.id}"
         rows.append(
@@ -75,7 +96,7 @@ def table(datasets: list) -> str:
         f"{len(rows)} networks, from the [transport.data.gouv.fr](https://transport.data.gouv.fr) catalogue "
         "(refreshed every week; the setup form always reads the current catalogue).",
         "",
-        "| Area | Network | Alerts |",
+        "| City / area | Network | Alerts |",
         "|---|---|---|",
         *(row for _, row in rows),
     ]

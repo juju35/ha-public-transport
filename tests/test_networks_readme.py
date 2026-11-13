@@ -34,3 +34,15 @@ def test_written_between_the_readme_markers() -> None:
     assert script.END in readme
     new = script.write(f"before\n{script.START}\nold\n{script.END}\nafter", "LIST")
     assert new == f"before\n{script.START}\nLIST\n{script.END}\nafter"
+
+
+def test_cities_named_without_the_legal_form() -> None:
+    """An intercommunality reads as its city."""
+    city = _script()._city
+    assert city("CA de Béziers-Méditerranée") == "Béziers-Méditerranée"
+    assert city("CA d'Epinal") == "Epinal"
+    assert city("CA Amiens Métropole") == "Amiens Métropole"
+    assert city("CA de l'Auxerrois") == "Auxerrois"
+    assert city("CA CIVIS (Communauté Intercommunale des Villes Solidaires)") == "CIVIS"
+    assert city("CA de Blois ''Agglopolys''") == "Blois Agglopolys"
+    assert city("Bordeaux Métropole") == "Bordeaux Métropole"
