@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Vyberte sieť",
-        "description": "Vyberte dopravnú sieť svojej zastávky. Jej API otvorených dát funguje bez kľúča; kľúč len zvyšuje dennú kvótu.",
+        "description": "Vyberte dopravnú sieť svojej zastávky. STAR funguje bez kľúča. Île-de-France Mobilités (kľúč PRIM), TCL (účet data.grandlyon.com, zadaný ako login:password) a CTS (token open data) vyžadujú bezplatný kľúč. GTFS-RT pokrýva všetky ostatné siete, ktoré zverejňujú údaje v reálnom čase na transport.data.gouv.fr.",
         "data": {
           "provider": "Sieť",
           "api_key": "API kľúč (voliteľný)"
         },
         "data_description": {
-          "api_key": "Nechajte prázdne na použitie API otvorených dát bez kľúča."
+          "api_key": "Povinný pre Île-de-France Mobilités, TCL a CTS; voliteľný pre STAR, kde len zvyšuje dennú kvótu."
+        }
+      },
+      "network_search": {
+        "title": "Nájdite svoju sieť",
+        "description": "Napíšte mesto alebo názov siete. Zobrazujú sa len siete z transport.data.gouv.fr s údajmi v reálnom čase (GTFS-RT).",
+        "data": {
+          "query": "Mesto alebo sieť"
+        }
+      },
+      "network": {
+        "title": "Vyberte sieť",
+        "description": "Siete zodpovedajúce „{query}“. Cestovný poriadok siete sa sťahuje raz denne a uchováva v Home Assistant.",
+        "data": {
+          "network": "Sieť"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Sťahovanie a čítanie cestovného poriadku {network}. Pri veľkej sieti to môže trvať minútu."
+    },
     "error": {
       "invalid_auth": "API kľúč bol odmietnutý.",
       "cannot_connect": "Otvorené dáta siete nie sú dostupné. Skúste to neskôr.",
       "no_stop_found": "Tomuto názvu nezodpovedá žiadna zastávka.",
-      "no_line_selected": "Vyberte aspoň jednu linku."
+      "no_line_selected": "Vyberte aspoň jednu linku.",
+      "api_key_required": "Táto sieť vyžaduje kľúč API.",
+      "no_network_found": "Žiadna sieť s údajmi v reálnom čase nezodpovedá tomuto názvu."
     },
     "abort": {
       "already_configured": "Táto zastávka sa už sleduje.",
-      "no_line": "Sieť pre túto zastávku neuvádza žiadnu linku."
+      "no_line": "Sieť pre túto zastávku neuvádza žiadnu linku.",
+      "cannot_connect": "Údaje siete nie sú dostupné. Skúste to neskôr."
     }
   },
   "options": {

@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Izberite omrežje",
-        "description": "Izberite prometno omrežje svojega postajališča. Njegov API odprtih podatkov deluje brez ključa; ključ le poveča dnevno kvoto.",
+        "description": "Izberite prometno omrežje svojega postajališča. STAR deluje brez ključa. Île-de-France Mobilités (ključ PRIM), TCL (račun data.grandlyon.com, vpisan kot login:password) in CTS (žeton odprtih podatkov) zahtevajo brezplačen ključ. GTFS-RT pokriva vsa druga omrežja, ki objavljajo podatke v realnem času na transport.data.gouv.fr.",
         "data": {
           "provider": "Omrežje",
           "api_key": "API ključ (neobvezno)"
         },
         "data_description": {
-          "api_key": "Pustite prazno za uporabo API-ja odprtih podatkov brez ključa."
+          "api_key": "Obvezen za Île-de-France Mobilités, TCL in CTS; neobvezen za STAR, kjer le poveča dnevno kvoto."
+        }
+      },
+      "network_search": {
+        "title": "Poiščite svoje omrežje",
+        "description": "Vpišite mesto ali ime omrežja. Prikazana so le omrežja s transport.data.gouv.fr, ki objavljajo podatke v realnem času (GTFS-RT).",
+        "data": {
+          "query": "Mesto ali omrežje"
+        }
+      },
+      "network": {
+        "title": "Izberite omrežje",
+        "description": "Omrežja, ki ustrezajo »{query}«. Vozni red omrežja se prenese enkrat na dan in shrani v Home Assistant.",
+        "data": {
+          "network": "Omrežje"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Prenos in branje voznega reda {network}. Pri velikem omrežju lahko traja minuto."
+    },
     "error": {
       "invalid_auth": "API ključ je bil zavrnjen.",
       "cannot_connect": "Odprti podatki omrežja niso dosegljivi. Poskusite pozneje.",
       "no_stop_found": "Nobeno postajališče se ne ujema s tem imenom.",
-      "no_line_selected": "Izberite vsaj eno linijo."
+      "no_line_selected": "Izberite vsaj eno linijo.",
+      "api_key_required": "To omrežje zahteva ključ API.",
+      "no_network_found": "Nobeno omrežje s podatki v realnem času ne ustreza temu imenu."
     },
     "abort": {
       "already_configured": "To postajališče se že spremlja.",
-      "no_line": "Omrežje za to postajališče ne navaja nobene linije."
+      "no_line": "Omrežje za to postajališče ne navaja nobene linije.",
+      "cannot_connect": "Podatki omrežja niso dosegljivi. Poskusite znova pozneje."
     }
   },
   "options": {

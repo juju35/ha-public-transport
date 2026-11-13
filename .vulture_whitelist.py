@@ -29,3 +29,4 @@ _._attr_unique_id  # unused attribute (custom_components/public_transport/sensor
 _._attr_translation_placeholders  # unused attribute (custom_components/public_transport/sensor.py:82)
 _.native_value  # unused property (custom_components/public_transport/sensor.py:84)
 _.extra_state_attributes  # unused property (custom_components/public_transport/sensor.py:89)
+_.async_step_download_failed  # unused method (custom_components/public_transport/config_flow.py:192)

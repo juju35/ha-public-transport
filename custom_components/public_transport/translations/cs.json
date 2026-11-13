@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Vyberte síť",
-        "description": "Vyberte dopravní síť své zastávky. Její API otevřených dat funguje bez klíče; klíč jen zvyšuje denní kvótu.",
+        "description": "Vyberte dopravní síť své zastávky. STAR funguje bez klíče. Île-de-France Mobilités (klíč PRIM), TCL (účet data.grandlyon.com, zadaný jako login:password) a CTS (token open data) vyžadují bezplatný klíč. GTFS-RT pokrývá všechny ostatní sítě, které zveřejňují data v reálném čase na transport.data.gouv.fr.",
         "data": {
           "provider": "Síť",
           "api_key": "API klíč (volitelný)"
         },
         "data_description": {
-          "api_key": "Ponechte prázdné pro použití API otevřených dat bez klíče."
+          "api_key": "Povinný pro Île-de-France Mobilités, TCL a CTS; volitelný pro STAR, kde jen zvyšuje denní kvótu."
+        }
+      },
+      "network_search": {
+        "title": "Najděte svou síť",
+        "description": "Napište město nebo název sítě. Zobrazují se jen sítě z transport.data.gouv.fr s daty v reálném čase (GTFS-RT).",
+        "data": {
+          "query": "Město nebo síť"
+        }
+      },
+      "network": {
+        "title": "Vyberte síť",
+        "description": "Sítě odpovídající „{query}“. Jízdní řád sítě se stahuje jednou denně a uchovává v Home Assistant.",
+        "data": {
+          "network": "Síť"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Stahování a čtení jízdního řádu {network}. U velké sítě to může trvat minutu."
+    },
     "error": {
       "invalid_auth": "API klíč byl odmítnut.",
       "cannot_connect": "Otevřená data sítě nejsou dostupná. Zkuste to později.",
       "no_stop_found": "Tomuto názvu neodpovídá žádná zastávka.",
-      "no_line_selected": "Vyberte alespoň jednu linku."
+      "no_line_selected": "Vyberte alespoň jednu linku.",
+      "api_key_required": "Tato síť vyžaduje klíč API.",
+      "no_network_found": "Žádná síť s daty v reálném čase neodpovídá tomuto názvu."
     },
     "abort": {
       "already_configured": "Tato zastávka je již sledována.",
-      "no_line": "Síť pro tuto zastávku neuvádí žádnou linku."
+      "no_line": "Síť pro tuto zastávku neuvádí žádnou linku.",
+      "cannot_connect": "Data sítě nejsou dostupná. Zkuste to později."
     }
   },
   "options": {

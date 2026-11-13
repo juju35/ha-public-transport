@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Alegeți o rețea",
-        "description": "Alegeți rețeaua de transport a stației dvs. API-ul de date deschise funcționează fără cheie; o cheie doar mărește cota zilnică.",
+        "description": "Alegeți rețeaua de transport a stației dvs. STAR funcționează fără cheie. Île-de-France Mobilités (cheie PRIM), TCL (cont data.grandlyon.com, introdus ca login:password) și CTS (token open data) necesită o cheie gratuită. GTFS-RT acoperă toate celelalte rețele care publică date în timp real pe transport.data.gouv.fr.",
         "data": {
           "provider": "Rețea",
           "api_key": "Cheie API (opțională)"
         },
         "data_description": {
-          "api_key": "Lăsați gol pentru a folosi API-ul de date deschise fără cheie."
+          "api_key": "Obligatorie pentru Île-de-France Mobilités, TCL și CTS; opțională pentru STAR, unde doar mărește cota zilnică."
+        }
+      },
+      "network_search": {
+        "title": "Găsiți rețeaua",
+        "description": "Tastați un oraș sau numele unei rețele. Sunt listate doar rețelele de pe transport.data.gouv.fr care publică date în timp real (GTFS-RT).",
+        "data": {
+          "query": "Oraș sau rețea"
+        }
+      },
+      "network": {
+        "title": "Alegeți rețeaua",
+        "description": "Rețele care corespund cu „{query}”. Orarul rețelei este descărcat o dată pe zi și păstrat în Home Assistant.",
+        "data": {
+          "network": "Rețea"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Se descarcă și se citește orarul {network}. Pentru o rețea mare poate dura un minut."
+    },
     "error": {
       "invalid_auth": "Cheia API a fost refuzată.",
       "cannot_connect": "Datele deschise ale rețelei nu sunt accesibile. Încercați mai târziu.",
       "no_stop_found": "Nicio stație nu corespunde acestui nume.",
-      "no_line_selected": "Alegeți cel puțin o linie."
+      "no_line_selected": "Alegeți cel puțin o linie.",
+      "api_key_required": "Această rețea necesită o cheie API.",
+      "no_network_found": "Nicio rețea cu date în timp real nu corespunde acestui nume."
     },
     "abort": {
       "already_configured": "Această stație este deja urmărită.",
-      "no_line": "Rețeaua nu indică nicio linie pentru această stație."
+      "no_line": "Rețeaua nu indică nicio linie pentru această stație.",
+      "cannot_connect": "Datele rețelei nu pot fi accesate. Încercați mai târziu."
     }
   },
   "options": {

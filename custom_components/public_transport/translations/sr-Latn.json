@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Izaberite mrežu",
-        "description": "Izaberite prevozničku mrežu svoje stanice. Njen API otvorenih podataka radi bez ključa; ključ samo povećava dnevnu kvotu.",
+        "description": "Izaberite saobraćajnu mrežu svoje stanice. STAR radi bez ključa. Île-de-France Mobilités (ključ PRIM), TCL (nalog data.grandlyon.com, unet kao login:password) i CTS (token otvorenih podataka) traže besplatan ključ. GTFS-RT pokriva sve ostale mreže koje objavljuju podatke u realnom vremenu na transport.data.gouv.fr.",
         "data": {
           "provider": "Mreža",
           "api_key": "API ključ (opciono)"
         },
         "data_description": {
-          "api_key": "Ostavite prazno da biste koristili API otvorenih podataka bez ključa."
+          "api_key": "Obavezan za Île-de-France Mobilités, TCL i CTS; neobavezan za STAR, gde samo povećava dnevnu kvotu."
+        }
+      },
+      "network_search": {
+        "title": "Pronađite svoju mrežu",
+        "description": "Unesite grad ili naziv mreže. Prikazuju se samo mreže sa transport.data.gouv.fr koje objavljuju podatke u realnom vremenu (GTFS-RT).",
+        "data": {
+          "query": "Grad ili mreža"
+        }
+      },
+      "network": {
+        "title": "Izaberite mrežu",
+        "description": "Mreže koje odgovaraju „{query}“. Red vožnje mreže se preuzima jednom dnevno i čuva u Home Assistant.",
+        "data": {
+          "network": "Mreža"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Preuzimanje i čitanje reda vožnje {network}. Za veliku mrežu to može trajati minut."
+    },
     "error": {
       "invalid_auth": "API ključ je odbijen.",
       "cannot_connect": "Otvoreni podaci mreže nisu dostupni. Pokušajte kasnije.",
       "no_stop_found": "Nijedna stanica ne odgovara ovom nazivu.",
-      "no_line_selected": "Izaberite bar jednu liniju."
+      "no_line_selected": "Izaberite bar jednu liniju.",
+      "api_key_required": "Ova mreža traži API ključ.",
+      "no_network_found": "Nijedna mreža sa podacima u realnom vremenu ne odgovara ovom nazivu."
     },
     "abort": {
       "already_configured": "Ova stanica se već prati.",
-      "no_line": "Mreža ne navodi nijednu liniju za ovu stanicu."
+      "no_line": "Mreža ne navodi nijednu liniju za ovu stanicu.",
+      "cannot_connect": "Podaci mreže nisu dostupni. Pokušajte ponovo kasnije."
     }
   },
   "options": {

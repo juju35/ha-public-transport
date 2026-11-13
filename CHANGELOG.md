@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+### Features
+- **GTFS-RT networks**: every network of transport.data.gouv.fr with a GTFS timetable and a GTFS-RT feed (Toulouse, Montpellier, Bordeaux, Nantes, Lille, Brest… and hundreds of smaller ones). The network is searched by city or name in the national catalogue; its timetable is downloaded once a day, read in the background and corrected by the trip updates (delays, cancelled trips, skipped stops, extra trips); service alerts when published. Built-in GTFS-RT reader, no new dependency.
+- **Île-de-France Mobilités** (PRIM key): metro, RER, Transilien, tram and bus, with official line colors and the general messages of the lines followed.
+- **TCL** (Lyon, data.grandlyon.com account) and **CTS** (Strasbourg, open data token).
+- Network logo in the card header (`logo` attribute of the stop sensor), when the integration ships one.
+- The config flow asks for the key of the networks that need one.
+
+### Fixes
+- `biome.json` schema aligned with the Biome version of the pre-commit hook.
+
 ## 1.0.0 - 2026-11-13
 
 ### Features

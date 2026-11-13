@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Izvēlieties tīklu",
-        "description": "Izvēlieties savas pieturas transporta tīklu. Tā atvērto datu API darbojas bez atslēgas; atslēga tikai palielina dienas kvotu.",
+        "description": "Izvēlieties savas pieturas transporta tīklu. STAR darbojas bez atslēgas. Île-de-France Mobilités (PRIM atslēga), TCL (data.grandlyon.com konts, ievadīts kā login:password) un CTS (atvērto datu marķieris) prasa bezmaksas atslēgu. GTFS-RT aptver visus citus tīklus, kas publicē reāllaika datus vietnē transport.data.gouv.fr.",
         "data": {
           "provider": "Tīkls",
           "api_key": "API atslēga (neobligāta)"
         },
         "data_description": {
-          "api_key": "Atstājiet tukšu, lai izmantotu atvērto datu API bez atslēgas."
+          "api_key": "Obligāta Île-de-France Mobilités, TCL un CTS; neobligāta STAR, kur tā tikai palielina dienas kvotu."
+        }
+      },
+      "network_search": {
+        "title": "Atrodiet savu tīklu",
+        "description": "Ievadiet pilsētu vai tīkla nosaukumu. Tiek rādīti tikai transport.data.gouv.fr tīkli ar reāllaika datiem (GTFS-RT).",
+        "data": {
+          "query": "Pilsēta vai tīkls"
+        }
+      },
+      "network": {
+        "title": "Izvēlieties tīklu",
+        "description": "Tīkli, kas atbilst “{query}”. Tīkla saraksts tiek lejupielādēts reizi dienā un glabāts Home Assistant.",
+        "data": {
+          "network": "Tīkls"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Lejupielādē un nolasa {network} sarakstu. Lielam tīklam tas var aizņemt minūti."
+    },
     "error": {
       "invalid_auth": "API atslēga tika noraidīta.",
       "cannot_connect": "Tīkla atvērtie dati nav sasniedzami. Mēģiniet vēlāk.",
       "no_stop_found": "Neviena pietura neatbilst šim nosaukumam.",
-      "no_line_selected": "Izvēlieties vismaz vienu maršrutu."
+      "no_line_selected": "Izvēlieties vismaz vienu maršrutu.",
+      "api_key_required": "Šim tīklam nepieciešama API atslēga.",
+      "no_network_found": "Neviens tīkls ar reāllaika datiem neatbilst šim nosaukumam."
     },
     "abort": {
       "already_configured": "Šai pieturai jau seko.",
-      "no_line": "Tīkls šai pieturai nenorāda nevienu maršrutu."
+      "no_line": "Tīkls šai pieturai nenorāda nevienu maršrutu.",
+      "cannot_connect": "Tīkla dati nav pieejami. Mēģiniet vēlāk."
     }
   },
   "options": {

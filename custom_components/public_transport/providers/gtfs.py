@@ -19,7 +19,6 @@ import json
 import logging
 import re
 import time
-import unicodedata
 import zipfile
 from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, field
@@ -30,7 +29,7 @@ from typing import Any
 import aiohttp
 from homeassistant.util import dt as dt_util
 
-from .base import Alert, Departure, Line, Provider, ProviderError, ProviderRateLimitError, Stop
+from .base import Alert, Departure, Line, Provider, ProviderError, ProviderRateLimitError, Stop, by_level, fold
 from .gtfs_rt import STOP_NO_DATA, STOP_SKIPPED, TRIP_CANCELED, DecodeError, Feed, TripUpdate, parse_feed
 
 _LOGGER = logging.getLogger(__name__)
@@ -49,11 +48,6 @@ HEX = re.compile(r"^#?([0-9a-fA-F]{6})$")
 ROUTE_MODES = {0: "tram", 1: "metro", 2: "train", 3: "bus", 4: "ferry", 5: "tram", 6: "cable", 7: "funicular"}
 EXTENDED_MODES = ((100, 200, "train"), (200, 300, "bus"), (400, 500, "metro"), (700, 800, "bus"), (900, 1000, "tram"))
 MODE_ORDER = ("metro", "tram", "train", "bus", "cable", "funicular", "ferry")
-
-
-def _fold(text: str) -> str:
-    """Lowercase without accents, for the searches."""
-    return "".join(c for c in unicodedata.normalize("NFKD", text.casefold()) if not unicodedata.combining(c))
 
 
 def _mode(route_type: str | None) -> str:
@@ -287,7 +281,7 @@ class GtfsNetwork:
 
     @property
     def label(self) -> str:
-        return f"{self.name} — {self.area}" if self.area and _fold(self.area) not in _fold(self.name) else self.name
+        return f"{self.name} — {self.area}" if self.area and fold(self.area) not in fold(self.name) else self.name
 
 
 def catalog_networks(datasets: Iterable[Any]) -> list[GtfsNetwork]:
@@ -318,7 +312,7 @@ def catalog_networks(datasets: Iterable[Any]) -> list[GtfsNetwork]:
                 alerts_urls=tuple(dict.fromkeys(str(r["url"]) for r in alerts)),
             )
         )
-    return sorted(networks, key=lambda n: _fold(n.name))
+    return sorted(networks, key=lambda n: fold(n.name))
 
 
 def _has(resource: dict[str, Any], feature: str) -> bool:
@@ -327,8 +321,8 @@ def _has(resource: dict[str, Any], feature: str) -> bool:
 
 def search_networks(networks: Iterable[GtfsNetwork], query: str) -> list[GtfsNetwork]:
     """Networks whose name, area or id contain every word of the query (case and accents ignored)."""
-    words = _fold(query).split()
-    return [n for n in networks if all(w in _fold(f"{n.name} {n.area} {n.id}") for w in words)]
+    words = fold(query).split()
+    return [n for n in networks if all(w in fold(f"{n.name} {n.area} {n.id}") for w in words)]
 
 
 async def fetch_catalog(session: aiohttp.ClientSession) -> list[GtfsNetwork]:
@@ -478,23 +472,26 @@ class GtfsProvider(Provider):
         return updates
 
     # ── Provider API ────────────────────────────────────────────────────────────────────────────────────────────
+    async def prepare(self) -> None:
+        await self._load_static()
+
     async def search_stops(self, query: str) -> list[Stop]:
         static = await self._load_static()
-        words = _fold(query).split()
+        words = fold(query).split()
         if not words:
             return []
         found = [
             Stop(id=stop_id, name=name, mode=static.mode_of(stop_id), latitude=lat, longitude=lon)
             for stop_id, (name, lat, lon, _) in static.stops.items()
-            if all(w in _fold(name) for w in words) and stop_id in static.stop_routes
+            if all(w in fold(name) for w in words) and stop_id in static.stop_routes
         ]
         return sorted(found, key=lambda s: (MODE_ORDER.index(s.mode), s.name.lower(), s.id))[:60]
 
     async def served_lines(self, stops: list[Stop]) -> dict[str, list[str]]:
         static = self._static or await self._load_static()
+        names = {route_id: line.short_name for route_id, line in static.lines.items()}
         return {
-            stop.key: sorted({static.lines[r].short_name for r in static.stop_routes.get(stop.id, ()) if r in static.lines})
-            for stop in stops
+            stop.key: sorted({names[r] for r in static.stop_routes.get(stop.id, ()) if r in names}) for stop in stops
         }
 
     async def destinations(self, stops: list[Stop]) -> dict[str, list[str]]:
@@ -557,7 +554,7 @@ class GtfsProvider(Provider):
                     end=dt_util.utc_from_timestamp(end) if end else None,
                     url=item.url,
                 )
-        return sorted(alerts.values(), key=lambda a: -a.level)
+        return by_level(alerts.values())
 
 
 def _scheduled(

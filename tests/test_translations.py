@@ -11,7 +11,10 @@ PLACEHOLDER = re.compile(r"\{\w+\}")
 CYRILLIC = re.compile(r"[Ѐ-ӿ]")
 LATIN = re.compile(r"[A-Za-z]")
 # Proper names, brands, codes and units that stay in Latin letters in the Cyrillic text.
-LATIN_IN_CYRILLIC = re.compile(r"Home Assistant|Public Transport|API|\{\w+\}")
+LATIN_IN_CYRILLIC = re.compile(
+    r"Home Assistant|Public Transport|API|STAR|TCL|CTS|GTFS-RT|PRIM|Île-de-France Mobilités|login:password"
+    r"|transport\.data\.gouv\.fr|data\.grandlyon\.com|\{\w+\}"
+)
 
 
 def _load(lang: str) -> dict:

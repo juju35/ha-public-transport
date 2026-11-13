@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Wybierz sieć",
-        "description": "Wybierz sieć komunikacyjną swojego przystanku. Jej API otwartych danych działa bez klucza; klucz tylko zwiększa dzienny limit.",
+        "description": "Wybierz sieć transportu swojego przystanku. STAR działa bez klucza. Île-de-France Mobilités (klucz PRIM), TCL (konto data.grandlyon.com, wpisane jako login:password) i CTS (token open data) wymagają darmowego klucza. GTFS-RT obejmuje wszystkie inne sieci publikujące dane w czasie rzeczywistym na transport.data.gouv.fr.",
         "data": {
           "provider": "Sieć",
           "api_key": "Klucz API (opcjonalny)"
         },
         "data_description": {
-          "api_key": "Pozostaw puste, aby używać API otwartych danych bez klucza."
+          "api_key": "Wymagany dla Île-de-France Mobilités, TCL i CTS; opcjonalny dla STAR, gdzie tylko zwiększa dzienny limit."
+        }
+      },
+      "network_search": {
+        "title": "Znajdź swoją sieć",
+        "description": "Wpisz miasto lub nazwę sieci. Wyświetlane są tylko sieci z transport.data.gouv.fr publikujące dane w czasie rzeczywistym (GTFS-RT).",
+        "data": {
+          "query": "Miasto lub sieć"
+        }
+      },
+      "network": {
+        "title": "Wybierz sieć",
+        "description": "Sieci pasujące do „{query}”. Rozkład jazdy sieci jest pobierany raz dziennie i przechowywany w Home Assistant.",
+        "data": {
+          "network": "Sieć"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Pobieranie i odczyt rozkładu jazdy {network}. W dużej sieci może to potrwać minutę."
+    },
     "error": {
       "invalid_auth": "Klucz API został odrzucony.",
       "cannot_connect": "Otwarte dane sieci są niedostępne. Spróbuj później.",
       "no_stop_found": "Żaden przystanek nie pasuje do tej nazwy.",
-      "no_line_selected": "Wybierz co najmniej jedną linię."
+      "no_line_selected": "Wybierz co najmniej jedną linię.",
+      "api_key_required": "Ta sieć wymaga klucza API.",
+      "no_network_found": "Żadna sieć z danymi w czasie rzeczywistym nie pasuje do tej nazwy."
     },
     "abort": {
       "already_configured": "Ten przystanek jest już śledzony.",
-      "no_line": "Sieć nie podaje żadnej linii dla tego przystanku."
+      "no_line": "Sieć nie podaje żadnej linii dla tego przystanku.",
+      "cannot_connect": "Dane sieci są niedostępne. Spróbuj ponownie później."
     }
   },
   "options": {

@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Kies een netwerk",
-        "description": "Kies het vervoersnetwerk van je halte. De open-data-API werkt zonder sleutel; een sleutel verhoogt alleen het dagquotum.",
+        "description": "Kies het vervoersnet van je halte. STAR werkt zonder sleutel. Île-de-France Mobilités (PRIM-sleutel), TCL (account bij data.grandlyon.com, ingevoerd als login:password) en CTS (open-data-token) hebben een gratis sleutel nodig. GTFS-RT dekt alle andere netten die realtime gegevens publiceren op transport.data.gouv.fr.",
         "data": {
           "provider": "Netwerk",
           "api_key": "API-sleutel (optioneel)"
         },
         "data_description": {
-          "api_key": "Laat leeg om de open-data-API zonder sleutel te gebruiken."
+          "api_key": "Verplicht voor Île-de-France Mobilités, TCL en CTS; optioneel voor STAR, waar hij alleen het dagquotum verhoogt."
+        }
+      },
+      "network_search": {
+        "title": "Je net zoeken",
+        "description": "Typ een stad of de naam van een net. Alleen netten van transport.data.gouv.fr met realtime gegevens (GTFS-RT) worden getoond.",
+        "data": {
+          "query": "Stad of net"
+        }
+      },
+      "network": {
+        "title": "Net kiezen",
+        "description": "Netten die overeenkomen met „{query}”. De dienstregeling van het net wordt één keer per dag gedownload en in Home Assistant bewaard.",
+        "data": {
+          "network": "Net"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Dienstregeling van {network} wordt gedownload en gelezen. Bij een groot net kan dat een minuut duren."
+    },
     "error": {
       "invalid_auth": "De API-sleutel is geweigerd.",
       "cannot_connect": "De open data van het netwerk zijn niet bereikbaar. Probeer het later opnieuw.",
       "no_stop_found": "Geen halte komt overeen met deze naam.",
-      "no_line_selected": "Kies ten minste één lijn."
+      "no_line_selected": "Kies ten minste één lijn.",
+      "api_key_required": "Dit net heeft een API-sleutel nodig.",
+      "no_network_found": "Geen net met realtime gegevens komt overeen met deze naam."
     },
     "abort": {
       "already_configured": "Deze halte wordt al gevolgd.",
-      "no_line": "Het netwerk vermeldt geen lijn voor deze halte."
+      "no_line": "Het netwerk vermeldt geen lijn voor deze halte.",
+      "cannot_connect": "De gegevens van het net zijn niet bereikbaar. Probeer het later opnieuw."
     }
   },
   "options": {

@@ -3,13 +3,27 @@
     "step": {
       "user": {
         "title": "Välj ett nätverk",
-        "description": "Välj trafiknätverket för din hållplats. Dess API för öppna data fungerar utan nyckel; en nyckel höjer bara den dagliga kvoten.",
+        "description": "Välj trafiknätet för din hållplats. STAR fungerar utan nyckel. Île-de-France Mobilités (PRIM-nyckel), TCL (konto på data.grandlyon.com, angivet som login:password) och CTS (open data-token) kräver en gratis nyckel. GTFS-RT täcker alla andra nät som publicerar realtidsdata på transport.data.gouv.fr.",
         "data": {
           "provider": "Nätverk",
           "api_key": "API-nyckel (valfri)"
         },
         "data_description": {
-          "api_key": "Lämna tomt för att använda API:et för öppna data utan nyckel."
+          "api_key": "Krävs för Île-de-France Mobilités, TCL och CTS; valfri för STAR, där den bara höjer dagskvoten."
+        }
+      },
+      "network_search": {
+        "title": "Hitta ditt nät",
+        "description": "Skriv en stad eller ett nätnamn. Endast nät från transport.data.gouv.fr med realtidsdata (GTFS-RT) visas.",
+        "data": {
+          "query": "Stad eller nät"
+        }
+      },
+      "network": {
+        "title": "Välj nät",
+        "description": "Nät som matchar ”{query}”. Nätets tidtabell hämtas en gång om dagen och sparas i Home Assistant.",
+        "data": {
+          "network": "Nät"
         }
       },
       "search": {
@@ -34,15 +48,21 @@
         }
       }
     },
+    "progress": {
+      "download": "Hämtar och läser tidtabellen för {network}. För ett stort nät kan det ta en minut."
+    },
     "error": {
       "invalid_auth": "API-nyckeln nekades.",
       "cannot_connect": "Nätverkets öppna data kan inte nås. Försök igen senare.",
       "no_stop_found": "Ingen hållplats matchar detta namn.",
-      "no_line_selected": "Välj minst en linje."
+      "no_line_selected": "Välj minst en linje.",
+      "api_key_required": "Det här nätet kräver en API-nyckel.",
+      "no_network_found": "Inget nät med realtidsdata matchar det här namnet."
     },
     "abort": {
       "already_configured": "Den här hållplatsen följs redan.",
-      "no_line": "Nätverket anger ingen linje för den här hållplatsen."
+      "no_line": "Nätverket anger ingen linje för den här hållplatsen.",
+      "cannot_connect": "Nätets data kan inte nås. Försök igen senare."
     }
   },
   "options": {
