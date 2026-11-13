@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vælg et netværk",
+        "description": "Vælg trafiknetværket for dit stoppested. Dets open data-API virker uden nøgle; en nøgle hæver kun den daglige kvote.",
+        "data": {
+          "provider": "Netværk",
+          "api_key": "API-nøgle (valgfri)"
+        },
+        "data_description": {
+          "api_key": "Lad stå tom for at bruge open data-API'et uden nøgle."
+        }
+      },
+      "search": {
+        "title": "Find dit stoppested",
+        "description": "Skriv en del af navnet på et {network}-stoppested.",
+        "data": {
+          "query": "Stoppestedets navn"
+        }
+      },
+      "stop": {
+        "title": "Vælg stoppestedet",
+        "description": "Stoppesteder med samme navn er perronerne for hver retning: linjerne, der betjener dem, og destinationerne for de næste afgange (→) står efter navnet.",
+        "data": {
+          "stop": "Stoppested"
+        }
+      },
+      "lines": {
+        "title": "Linjer at følge",
+        "description": "Linjer, der betjener {stop}. Hver fulgt linje får sin egen sensor.",
+        "data": {
+          "lines": "Linjer"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "API-nøglen blev afvist.",
+      "cannot_connect": "Netværkets open data kan ikke nås. Prøv igen senere.",
+      "no_stop_found": "Intet stoppested matcher dette navn.",
+      "no_line_selected": "Vælg mindst én linje."
+    },
+    "abort": {
+      "already_configured": "Dette stoppested følges allerede.",
+      "no_line": "Netværket angiver ingen linje for dette stoppested."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Indstillinger for stoppestedet",
+        "data": {
+          "lines": "Linjer",
+          "scan_interval": "Opdateringsinterval",
+          "max_departures": "Gemte afgange",
+          "api_key": "API-nøgle (valgfri)"
+        },
+        "data_description": {
+          "scan_interval": "Alle netværkets stoppesteder opdateres i én forespørgsel med det korteste interval blandt dets stoppesteder.",
+          "max_departures": "Antal kommende afgange i stoppestedssensorens attributter, vist af kortet.",
+          "api_key": "Lad stå tom for at bruge open data-API'et uden nøgle (et tømt felt fjerner nøglen)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Vælg mindst én linje."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Næste afgang"
+      },
+      "line": {
+        "name": "Linje {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Trafikmeddelelse"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Afgangene kunne ikke opdateres: {error}"
+    },
+    "no_stop": {
+      "message": "Intet stoppested fra Public Transport er indlæst."
+    },
+    "network_unavailable": {
+      "message": "Netværkets open data kan ikke nås: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Opdater",
+      "description": "Opdaterer nu stoppestedernes afgange og meddelelser.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Stoppested",
+          "description": "Opdater kun netværket for dette stoppested (alle netværk hvis tom)."
+        }
+      }
+    }
+  }
+}

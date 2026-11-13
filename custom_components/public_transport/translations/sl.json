@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Izberite omrežje",
+        "description": "Izberite prometno omrežje svojega postajališča. Njegov API odprtih podatkov deluje brez ključa; ključ le poveča dnevno kvoto.",
+        "data": {
+          "provider": "Omrežje",
+          "api_key": "API ključ (neobvezno)"
+        },
+        "data_description": {
+          "api_key": "Pustite prazno za uporabo API-ja odprtih podatkov brez ključa."
+        }
+      },
+      "search": {
+        "title": "Poiščite postajališče",
+        "description": "Vnesite del imena postajališča {network}.",
+        "data": {
+          "query": "Ime postajališča"
+        }
+      },
+      "stop": {
+        "title": "Izberite postajališče",
+        "description": "Postajališča z istim imenom so perona posameznih smeri: linije, ki jih obiskujejo, in cilji naslednjih odhodov (→) so navedeni za imenom.",
+        "data": {
+          "stop": "Postajališče"
+        }
+      },
+      "lines": {
+        "title": "Spremljane linije",
+        "description": "Linije, ki obiskujejo {stop}. Vsaka spremljana linija ima svoj senzor.",
+        "data": {
+          "lines": "Linije"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "API ključ je bil zavrnjen.",
+      "cannot_connect": "Odprti podatki omrežja niso dosegljivi. Poskusite pozneje.",
+      "no_stop_found": "Nobeno postajališče se ne ujema s tem imenom.",
+      "no_line_selected": "Izberite vsaj eno linijo."
+    },
+    "abort": {
+      "already_configured": "To postajališče se že spremlja.",
+      "no_line": "Omrežje za to postajališče ne navaja nobene linije."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Možnosti postajališča",
+        "data": {
+          "lines": "Linije",
+          "scan_interval": "Interval posodabljanja",
+          "max_departures": "Shranjeni odhodi",
+          "api_key": "API ključ (neobvezno)"
+        },
+        "data_description": {
+          "scan_interval": "Vsa postajališča omrežja se posodobijo z eno zahtevo, v najkrajšem intervalu njegovih postajališč.",
+          "max_departures": "Število prihodnjih odhodov v atributih senzorja postajališča, ki jih prikazuje kartica.",
+          "api_key": "Pustite prazno za uporabo API-ja odprtih podatkov brez ključa (izpraznjeno polje odstrani ključ)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Izberite vsaj eno linijo."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Naslednji odhod"
+      },
+      "line": {
+        "name": "Linija {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Prometno opozorilo"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Odhodov ni bilo mogoče posodobiti: {error}"
+    },
+    "no_stop": {
+      "message": "Nobeno postajališče Public Transport ni naloženo."
+    },
+    "network_unavailable": {
+      "message": "Odprti podatki omrežja niso dosegljivi: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Osveži",
+      "description": "Zdaj posodobi odhode in opozorila postajališč.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Postajališče",
+          "description": "Osveži samo omrežje tega postajališča (vsa omrežja, če je prazno)."
+        }
+      }
+    }
+  }
+}

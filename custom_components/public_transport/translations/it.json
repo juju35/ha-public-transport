@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Scegli una rete",
+        "description": "Scegli la rete di trasporto della tua fermata. La sua API open data funziona senza chiave; una chiave aumenta solo la quota giornaliera.",
+        "data": {
+          "provider": "Rete",
+          "api_key": "Chiave API (facoltativa)"
+        },
+        "data_description": {
+          "api_key": "Lascia vuoto per usare l'API open data senza chiave."
+        }
+      },
+      "search": {
+        "title": "Trova la tua fermata",
+        "description": "Digita parte del nome di una fermata {network}.",
+        "data": {
+          "query": "Nome della fermata"
+        }
+      },
+      "stop": {
+        "title": "Scegli la fermata",
+        "description": "Le fermate con lo stesso nome sono le banchine di ogni direzione: le linee che servono ciascuna e le destinazioni delle prossime partenze (→) sono indicate dopo il nome.",
+        "data": {
+          "stop": "Fermata"
+        }
+      },
+      "lines": {
+        "title": "Linee da seguire",
+        "description": "Linee che servono {stop}. Ogni linea seguita ha il proprio sensore.",
+        "data": {
+          "lines": "Linee"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "La chiave API è stata rifiutata.",
+      "cannot_connect": "Gli open data della rete non sono raggiungibili. Riprova più tardi.",
+      "no_stop_found": "Nessuna fermata corrisponde a questo nome.",
+      "no_line_selected": "Scegli almeno una linea."
+    },
+    "abort": {
+      "already_configured": "Questa fermata è già seguita.",
+      "no_line": "La rete non indica alcuna linea per questa fermata."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opzioni della fermata",
+        "data": {
+          "lines": "Linee",
+          "scan_interval": "Intervallo di aggiornamento",
+          "max_departures": "Partenze conservate",
+          "api_key": "Chiave API (facoltativa)"
+        },
+        "data_description": {
+          "scan_interval": "Tutte le fermate della rete sono aggiornate con una sola richiesta, all'intervallo più breve delle sue fermate.",
+          "max_departures": "Numero di prossime partenze negli attributi del sensore della fermata, mostrate dalla scheda.",
+          "api_key": "Lascia vuoto per usare l'API open data senza chiave (svuotare il campo rimuove la chiave)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Scegli almeno una linea."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Prossima partenza"
+      },
+      "line": {
+        "name": "Linea {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Avviso traffico"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Impossibile aggiornare le partenze: {error}"
+    },
+    "no_stop": {
+      "message": "Nessuna fermata di Public Transport è caricata."
+    },
+    "network_unavailable": {
+      "message": "Gli open data della rete non sono raggiungibili: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Aggiorna",
+      "description": "Aggiorna ora le partenze e gli avvisi delle fermate.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Fermata",
+          "description": "Aggiorna solo la rete di questa fermata (tutte le reti se vuoto)."
+        }
+      }
+    }
+  }
+}

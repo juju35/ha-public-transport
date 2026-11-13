@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Elegir una red",
+        "description": "Elija la red de transporte de su parada. Su API de datos abiertos funciona sin clave; una clave solo aumenta la cuota diaria.",
+        "data": {
+          "provider": "Red",
+          "api_key": "Clave de API (opcional)"
+        },
+        "data_description": {
+          "api_key": "Déjelo vacío para usar la API de datos abiertos sin clave."
+        }
+      },
+      "search": {
+        "title": "Buscar su parada",
+        "description": "Escriba parte del nombre de una parada de {network}.",
+        "data": {
+          "query": "Nombre de la parada"
+        }
+      },
+      "stop": {
+        "title": "Elegir la parada",
+        "description": "Las paradas con el mismo nombre son los andenes de cada sentido: las líneas que paran en cada una y los destinos de sus próximas salidas (→) se indican tras su nombre.",
+        "data": {
+          "stop": "Parada"
+        }
+      },
+      "lines": {
+        "title": "Líneas a seguir",
+        "description": "Líneas que paran en {stop}. Cada línea seguida tiene su propio sensor.",
+        "data": {
+          "lines": "Líneas"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "La clave de API fue rechazada.",
+      "cannot_connect": "Los datos abiertos de la red no responden. Inténtelo más tarde.",
+      "no_stop_found": "Ninguna parada coincide con este nombre.",
+      "no_line_selected": "Elija al menos una línea."
+    },
+    "abort": {
+      "already_configured": "Esta parada ya se sigue.",
+      "no_line": "La red no indica ninguna línea para esta parada."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opciones de la parada",
+        "data": {
+          "lines": "Líneas",
+          "scan_interval": "Intervalo de actualización",
+          "max_departures": "Salidas conservadas",
+          "api_key": "Clave de API (opcional)"
+        },
+        "data_description": {
+          "scan_interval": "Todas las paradas de la red se actualizan en una sola petición, al intervalo más corto de sus paradas.",
+          "max_departures": "Número de próximas salidas en los atributos del sensor de la parada, mostradas por la tarjeta.",
+          "api_key": "Déjelo vacío para usar la API de datos abiertos sin clave (vaciar el campo elimina la clave)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Elija al menos una línea."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Próxima salida"
+      },
+      "line": {
+        "name": "Línea {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Aviso de tráfico"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "No se pudieron actualizar las salidas: {error}"
+    },
+    "no_stop": {
+      "message": "No hay ninguna parada de Public Transport cargada."
+    },
+    "network_unavailable": {
+      "message": "Los datos abiertos de la red no responden: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Actualizar",
+      "description": "Actualiza ahora las salidas y los avisos de las paradas.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Parada",
+          "description": "Actualizar solo la red de esta parada (todas las redes si está vacío)."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,340 @@
+# ha-public-transport
+
+[![Marketplace](https://img.shields.io/badge/Marketplace-Custom-41BDF5.svg)](https://www.home-assistant.io/integrations/marketplace/)
+[![HACS Validation](https://github.com/juju35/ha-public-transport/actions/workflows/hacs.yml/badge.svg)](https://github.com/juju35/ha-public-transport/actions/workflows/hacs.yml)
+[![Validate](https://github.com/juju35/ha-public-transport/actions/workflows/validate.yml/badge.svg)](https://github.com/juju35/ha-public-transport/actions/workflows/validate.yml)
+[![Lint](https://github.com/juju35/ha-public-transport/actions/workflows/lint.yml/badge.svg)](https://github.com/juju35/ha-public-transport/actions/workflows/lint.yml)
+[![Release](https://img.shields.io/github/v/release/juju35/ha-public-transport)](https://github.com/juju35/ha-public-transport/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/juju35/ha-public-transport/blob/main/LICENSE)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/julienstep9)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/custom_components/public_transport/brand/icon.png" alt="Public Transport" width="96">
+</p>
+
+Home Assistant integration for the **next departures at your public transport stops**: lines, direction, minutes left, real time or timetable, and traffic alerts — with its Lovelace cards included. The first network is **[STAR](https://www.star.fr)** (bus and metro of Rennes Métropole), through its [open data portal](https://data.explore.star.fr); networks are separate *providers*, so others can be added.
+
+[![Open your Home Assistant instance and open a repository inside the Marketplace.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=juju35&repository=ha-public-transport&category=integration)
+
+| Card | Mini card |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card.png" alt="public-transport-card" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/mini-card.png" alt="public-transport-mini-card" width="300"> |
+
+## Features
+
+- **Stops set up in the UI**: pick the network, search the stop by name, choose the lines to follow — no YAML, no stop code to look up
+- **Next departure** sensor per stop (timestamp), with the coming departures, the lines and their colors, and the alerts as attributes
+- **Line** sensor per followed line: its next departure, destination, real time or not, delay
+- **Traffic alert** binary sensor per stop, on while an alert concerns one of its lines
+- **Real time or timetable**, for each departure: real-time times come with their delay to the timetable; timetable-only times are marked like the `*` of the stop displays
+- **One request per network**: every stop of a network is updated at once, so following more stops costs no more of the open data quota
+- `public_transport.refresh` action to update now
+- `custom:public-transport-card` card, **shipped with the integration** and loaded automatically: line badges in the official colors, countdown that ticks by itself, real-time indicator, collapsible traffic alerts, and an **animated scene** of the next departure (the bus or the train drives in when it is close)
+- `custom:public-transport-mini-card` compact card: the next three departures of each stop, with a button to open the full card
+- Diagnostics download with the API key redacted
+- English, French, German, Spanish, Serbian (Cyrillic and Latin), Italian, Dutch, Portuguese, Polish, Romanian, Danish, Swedish, Bulgarian, Russian, Ukrainian, Hungarian, Slovak, Czech, Slovenian, Latvian and Greek
+
+## Supported networks
+
+| Network | Area | Modes | Real time | Alerts | Data |
+|---|---|---|---|---|---|
+| [STAR](https://www.star.fr) | Rennes Métropole (France) | Bus, metro (lines a and b) | Yes, with the timetable delay (bus) | Yes, with their level (information, disruption, major disruption) | [data.explore.star.fr](https://data.explore.star.fr) (ODbL), no key needed |
+
+More networks can be added as providers: see [Adding a network](#adding-a-network).
+
+## Prerequisites
+
+- Home Assistant 2024.12 or later
+- Internet access to the network's open data portal
+
+## Installation
+
+### Via the Marketplace (recommended)
+
+Click the button below to add the repository directly:
+
+[![Add to the Marketplace](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=juju35&repository=ha-public-transport&category=integration)
+
+Then click **Install** and restart Home Assistant.
+
+Or manually:
+
+1. Open **Settings → Marketplace → Add from link** (top right; this needs a GitHub account connected)
+2. Add `https://github.com/juju35/ha-public-transport` — Type: **Integration**
+3. Open **Public Transport** and click **Install**
+4. Restart Home Assistant
+
+The cards are **part of the integration**: at startup they are added to the dashboard resources (`/public_transport_static/public-transport-card.js`, module). After an install or an update, restart Home Assistant and refresh the browser (clear the companion app cache if needed).
+
+If your dashboards are in YAML mode, the cards are loaded on every page without going through the resources.
+
+### Manual
+
+Copy `custom_components/public_transport/` to `/config/custom_components/public_transport/`, then restart Home Assistant.
+
+## Configuration
+
+### Integration
+
+[![Add integration](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=public_transport)
+
+**Settings → Devices & services → Add integration → Public Transport**, then:
+
+1. **Network**: STAR — Rennes Métropole. The API key is optional (see below).
+2. **Stop**: type part of its name (`Républ`, `Gares`…).
+3. **Choose the stop**: stops of the same name are the platforms of each direction; the bus lines serving each one and the destinations of its next departures (→) are listed after its name, so you can tell them apart (a metro station has one platform per direction).
+4. **Lines**: all the lines serving the stop are selected; keep the ones you take.
+
+Add the integration again for each stop. Each stop is a device with its own sensors.
+
+Options (**Configure** button):
+
+| Option | Default | Description |
+|---|---|---|
+| Lines | the lines chosen | Lines followed at this stop; each one has its own sensor |
+| Update interval | 60 s | 30 s to 10 min. All the stops of a network are updated in one request, at the shortest interval of its stops |
+| Departures kept | 6 | Coming departures in the stop sensor's attributes, which the card shows |
+| API key | none | Only raises the daily quota of the open data API (STAR: free account on data.explore.star.fr) |
+
+### Entities
+
+For a stop named *République*:
+
+| Entity | State | Main attributes |
+|---|---|---|
+| `sensor.star_republique_next_departure` | Next departure on the followed lines (timestamp) | `departures` (line, colors, destination, departure, scheduled, delay, realtime), `lines`, `alerts`, `stop_name`, `mode`, `network`, `stale`, `last_error` |
+| `sensor.star_republique_line_c4` | Next departure of line C4 (timestamp) | `destination`, `realtime`, `delay`, `color`, `next_departures` |
+| `binary_sensor.star_republique_traffic_alert` | `on` while an alert concerns a followed line | `level` (1 to 3), `alerts` |
+
+The timestamp states work as they are in automations and in the standard cards (`Next departure: in 4 minutes`):
+
+```yaml
+triggers:
+  - trigger: template
+    value_template: >
+      {{ states('sensor.star_republique_line_c4') not in ['unknown', 'unavailable']
+         and (as_datetime(states('sensor.star_republique_line_c4')) - now()).total_seconds() < 300 }}
+actions:
+  - action: notify.mobile_app_phone
+    data:
+      message: "C4 to {{ state_attr('sensor.star_republique_line_c4', 'destination') }} in 5 minutes"
+```
+
+### Refresh action
+
+```yaml
+action: public_transport.refresh
+data:
+  config_entry_id: 01J...   # optional: only the network of this stop
+```
+
+Errors are translated in the Home Assistant language.
+
+### Card types
+
+| Type | Description |
+|---|---|
+| `custom:public-transport-card` | Full card: animated scene of the next departure, departures of each stop, traffic alerts |
+| `custom:public-transport-mini-card` | Compact card: the next three departures of each stop; the button at the top right opens the full card in place, a click outside folds it back |
+
+### Visual editor
+
+Add the **Public transport** card from the card picker: every option is set in the visual editor.
+
+### Minimal
+
+```yaml
+type: custom:public-transport-card
+```
+
+Without `entities`, the card shows every stop of the integration.
+
+### Full options
+
+```yaml
+type: custom:public-transport-card
+entities:
+  - sensor.star_republique_metro_next_departure
+  - sensor.star_republique_next_departure
+title: To work
+show_title: true
+show_scene: true
+show_alerts: true
+show_refresh: true
+max_departures: 5
+time_format: relative
+language: en
+```
+
+### Options reference
+
+| Option | Default | Description |
+|---|---|---|
+| `entities` | every stop | Stop sensors (`sensor.*_next_departure`) to show, in this order; line sensors (`sensor.*_line_*`) work too |
+| `title` | `Next departures` | Card title |
+| `show_title` | `true` | Show the title in the header (e.g. `false` under a section heading of your own) |
+| `show_scene` | `true` | Show the animated scene of the next departure (first stop) |
+| `show_alerts` | `true` | Show the traffic alerts (and their count in the header) |
+| `show_refresh` | `true` | Show the refresh button |
+| `max_departures` | `5` | Departures shown per stop (up to the integration's *Departures kept*) |
+| `time_format` | `relative` | `relative`: countdown (`4 min`, `Now`), clock time from an hour; `absolute`: always the clock time |
+| `language` | Auto | Force language: `en`, `fr`, `de`, `es`, `sr`, `sr-Latn`, `it`, `nl`, `pt`, `pl`, `ro`, `da`, `sv`, `bg`, `ru`, `uk`, `hu`, `sk`, `cs`, `sl`, `lv` or `el` (auto-detects from HA settings) |
+
+The mini card takes the same options; `show_scene` and `max_departures` apply to its full view.
+
+## Screenshots
+
+### Animations
+
+Each animation of the card, in the light and dark themes.
+
+**The next departure is close** (2 minutes or less): the bus, in its line color, drives in to the stop and stops at the sign; waves rise from the sign while the time is real time, and the countdown pulses.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving.gif" alt="bus arriving" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-dark.gif" alt="bus arriving dark" width="400"> |
+
+**At a metro station**, the train glides in along the rails.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-metro.gif" alt="metro arriving" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-metro-dark.gif" alt="metro arriving dark" width="400"> |
+
+**The next departure is a few minutes away**: the bus idles before the stop, engine running.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/waiting.gif" alt="bus waiting" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/waiting-dark.gif" alt="bus waiting dark" width="400"> |
+
+**Major disruption**: the alert sign shakes (a lesser alert only pulses).
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/alerts.gif" alt="major alert" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/alerts-dark.gif" alt="major alert dark" width="400"> |
+
+**Refreshing**: the refresh button spins until the update is done.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/refreshing.gif" alt="refreshing" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/refreshing-dark.gif" alt="refreshing dark" width="400"> |
+
+All animations stop when the system asks for reduced motion.
+
+### Cards
+
+A bus stop: the next departure with its scene, then the coming departures — line badge in the official colors, destination, delay, real time (waves) or timetable (clock) — and the folded traffic alerts.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card.png" alt="card" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-dark.png" alt="card dark" width="400"> |
+
+Two stops (the metro station and the bus stop of the same name), with the traffic alerts unfolded: level, lines concerned, validity and a link to the network's page.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-alerts.png" alt="card with alerts" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-alerts-dark.png" alt="card with alerts dark" width="400"> |
+
+The mini card: the next three departures of each stop.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/mini-card.png" alt="mini card" width="300"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/mini-card-dark.png" alt="mini card dark" width="300"> |
+
+## How it works
+
+Each config entry is one stop. The entries of the same network share one coordinator: it asks the network for the departures of all their stops in a single request (one per mode for STAR, bus and metro being separate datasets), at the shortest update interval among them. Line names and colors are fetched once a day, traffic alerts every 5 minutes.
+
+When an update fails (quota reached, timeout, server error), the sensors keep the last departures — without those already gone — and flag them with their `stale` (`true`) and `last_error` attributes; the card says the network is unreachable. Only a failed first update leaves the stop to be set up again later.
+
+The card reads the stop sensors and counts the minutes down every 15 seconds by itself, between two updates. A departure 2 minutes away or less is *approaching*: the countdown pulses and the scene shows the vehicle arriving.
+
+### STAR open data
+
+| Dataset | Used for |
+|---|---|
+| `tco-bus-circulation-passages-tr`, `tco-metro-circulation-passages-tr` | Coming departures, and their destinations in the stop list; `precision` *Temps réel* (real time) or *Applicable* (timetable); the timetable time (delay) for the bus only |
+| `tco-bus-topologie-pointsarret-td`, `tco-metro-topologie-pointsarret-td` | Stop search |
+| `tco-bus-topologie-dessertes-td` | Lines serving each bus stop |
+| `tco-bus-topologie-lignes-td`, `tco-metro-topologie-lignes-td` | Line names and official colors |
+| `tco-busmetro-trafic-alertes-tr` | Traffic alerts; their level (*Mineure*, *Bloquante*, *Majeure*) gives 1 to 3 |
+
+The portal's API works without a key; a key (free account) only raises the daily quota.
+
+### Adding a network
+
+A network is a class of `custom_components/public_transport/providers/` deriving from `Provider` (`providers/base.py`) and registered in `providers/__init__.py`. It implements:
+
+| Method | Returns |
+|---|---|
+| `search_stops(query)` | Stops matching a name |
+| `lines_at_stop(stop)` | Lines serving a stop |
+| `lines()` | Every line, with its colors |
+| `departures(stops)` | Coming departures of several stops, in as few requests as the API allows |
+| `alerts()` | Current traffic alerts (optional) |
+
+The config flow, sensors and cards then work unchanged. Contributions for other networks (or a generic GTFS / GTFS-RT provider) are welcome.
+
+## Development
+
+```bash
+pip install -r requirements_test.txt && pytest
+npm install && npm test          # card tests (node --test)
+npm run build                    # checks the translation split the release makes
+pip install playwright pillow && playwright install chromium
+python scripts/screenshots.py    # renders the stills and every animation GIF (needs ffmpeg) into screenshots/
+```
+
+Python tests live in `tests/` (pytest, every API answer mocked: no network needed); the card's JavaScript tests live in `test/`.
+
+### Releasing
+
+1. Bump the version in `custom_components/public_transport/manifest.json`, `TRANSPORT_CARD_VERSION` in the card and `package.json`
+2. Add a `## <version>` section at the top of [CHANGELOG.md](https://github.com/juju35/ha-public-transport/blob/main/CHANGELOG.md)
+3. Push to `main`: the **Release** workflow creates the tag and the GitHub release with the changelog section as notes
+
+## Translations
+
+The integration and the cards follow the language of Home Assistant (the card's `language` option can force another one). In the release, the card file keeps English only; each other language is a small file next to it, loaded when needed. Currently supported:
+
+| Language | Code |
+|---|---|
+| English | `en` |
+| Français | `fr` |
+| Deutsch | `de` |
+| Español | `es` |
+| Српски | `sr` |
+| Srpski (latinica) | `sr-Latn` |
+| Italiano | `it` |
+| Nederlands | `nl` |
+| Português (Portugal) | `pt` |
+| Polski | `pl` |
+| Română | `ro` |
+| Dansk | `da` |
+| Svenska | `sv` |
+| Български | `bg` |
+| Русский | `ru` |
+| Українська | `uk` |
+| Magyar | `hu` |
+| Slovenčina | `sk` |
+| Čeština | `cs` |
+| Slovenščina | `sl` |
+| Latviešu | `lv` |
+| Ελληνικά | `el` |
+
+Brazilian Portuguese (`pt-BR`): pt-BR uses the European Portuguese texts, in the integration and the cards.
+
+Contributions for additional languages are welcome!
+
+## Credits
+
+Departures, lines and alerts: [STAR open data](https://data.explore.star.fr) (Rennes Métropole / Keolis Rennes), under the [Open Database License (ODbL)](https://opendatacommons.org/licenses/odbl/).
+
+## License
+
+[MIT](https://github.com/juju35/ha-public-transport/blob/main/LICENSE)
+
+## Support
+
+If you find this project useful, you can support its development:
+
+<a href="https://buymeacoffee.com/julienstep9"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" height="50"></a>

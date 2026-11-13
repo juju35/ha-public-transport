@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Choisir un réseau",
+        "description": "Choisissez le réseau de transport de votre arrêt. Son API open data fonctionne sans clé ; une clé ne fait qu'augmenter le quota quotidien.",
+        "data": {
+          "provider": "Réseau",
+          "api_key": "Clé d'API (facultative)"
+        },
+        "data_description": {
+          "api_key": "Laissez vide pour utiliser l'API open data sans clé."
+        }
+      },
+      "search": {
+        "title": "Trouver votre arrêt",
+        "description": "Saisissez une partie du nom d'un arrêt {network}.",
+        "data": {
+          "query": "Nom de l'arrêt"
+        }
+      },
+      "stop": {
+        "title": "Choisir l'arrêt",
+        "description": "Les arrêts de même nom sont les quais de chaque direction : les lignes qui desservent chacun et les destinations de ses prochains départs (→) sont indiquées après son nom.",
+        "data": {
+          "stop": "Arrêt"
+        }
+      },
+      "lines": {
+        "title": "Lignes à suivre",
+        "description": "Lignes desservant {stop}. Chaque ligne suivie a son propre capteur.",
+        "data": {
+          "lines": "Lignes"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "La clé d'API a été refusée.",
+      "cannot_connect": "L'open data du réseau est injoignable. Réessayez plus tard.",
+      "no_stop_found": "Aucun arrêt ne correspond à ce nom.",
+      "no_line_selected": "Choisissez au moins une ligne."
+    },
+    "abort": {
+      "already_configured": "Cet arrêt est déjà suivi.",
+      "no_line": "Le réseau n'indique aucune ligne pour cet arrêt."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options de l'arrêt",
+        "data": {
+          "lines": "Lignes",
+          "scan_interval": "Intervalle de mise à jour",
+          "max_departures": "Départs conservés",
+          "api_key": "Clé d'API (facultative)"
+        },
+        "data_description": {
+          "scan_interval": "Tous les arrêts du réseau sont mis à jour en une seule requête, à l'intervalle le plus court de ses arrêts.",
+          "max_departures": "Nombre de prochains départs dans les attributs du capteur de l'arrêt, affichés par la carte.",
+          "api_key": "Laissez vide pour utiliser l'API open data sans clé (vider le champ retire la clé)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Choisissez au moins une ligne."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Prochain départ"
+      },
+      "line": {
+        "name": "Ligne {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Alerte trafic"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Les départs n'ont pas pu être mis à jour : {error}"
+    },
+    "no_stop": {
+      "message": "Aucun arrêt de Public Transport n'est chargé."
+    },
+    "network_unavailable": {
+      "message": "L'open data du réseau est injoignable : {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Actualiser",
+      "description": "Met à jour maintenant les départs et les alertes des arrêts.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Arrêt",
+          "description": "Actualiser uniquement le réseau de cet arrêt (tous les réseaux si vide)."
+        }
+      }
+    }
+  }
+}

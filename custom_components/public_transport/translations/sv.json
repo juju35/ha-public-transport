@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Välj ett nätverk",
+        "description": "Välj trafiknätverket för din hållplats. Dess API för öppna data fungerar utan nyckel; en nyckel höjer bara den dagliga kvoten.",
+        "data": {
+          "provider": "Nätverk",
+          "api_key": "API-nyckel (valfri)"
+        },
+        "data_description": {
+          "api_key": "Lämna tomt för att använda API:et för öppna data utan nyckel."
+        }
+      },
+      "search": {
+        "title": "Hitta din hållplats",
+        "description": "Skriv en del av namnet på en {network}-hållplats.",
+        "data": {
+          "query": "Hållplatsens namn"
+        }
+      },
+      "stop": {
+        "title": "Välj hållplats",
+        "description": "Hållplatser med samma namn är plattformarna för varje riktning: linjerna som trafikerar dem och destinationerna för nästa avgångar (→) står efter namnet.",
+        "data": {
+          "stop": "Hållplats"
+        }
+      },
+      "lines": {
+        "title": "Linjer att följa",
+        "description": "Linjer som trafikerar {stop}. Varje följd linje får en egen sensor.",
+        "data": {
+          "lines": "Linjer"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "API-nyckeln nekades.",
+      "cannot_connect": "Nätverkets öppna data kan inte nås. Försök igen senare.",
+      "no_stop_found": "Ingen hållplats matchar detta namn.",
+      "no_line_selected": "Välj minst en linje."
+    },
+    "abort": {
+      "already_configured": "Den här hållplatsen följs redan.",
+      "no_line": "Nätverket anger ingen linje för den här hållplatsen."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Hållplatsens alternativ",
+        "data": {
+          "lines": "Linjer",
+          "scan_interval": "Uppdateringsintervall",
+          "max_departures": "Sparade avgångar",
+          "api_key": "API-nyckel (valfri)"
+        },
+        "data_description": {
+          "scan_interval": "Alla nätverkets hållplatser uppdateras i en enda begäran, med det kortaste intervallet bland dess hållplatser.",
+          "max_departures": "Antal kommande avgångar i hållplatssensorns attribut, som visas av kortet.",
+          "api_key": "Lämna tomt för att använda API:et för öppna data utan nyckel (ett tömt fält tar bort nyckeln)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Välj minst en linje."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Nästa avgång"
+      },
+      "line": {
+        "name": "Linje {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Trafikstörning"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Avgångarna kunde inte uppdateras: {error}"
+    },
+    "no_stop": {
+      "message": "Ingen hållplats i Public Transport är inläst."
+    },
+    "network_unavailable": {
+      "message": "Nätverkets öppna data kan inte nås: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Uppdatera",
+      "description": "Uppdaterar hållplatsernas avgångar och störningar nu.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Hållplats",
+          "description": "Uppdatera bara nätverket för denna hållplats (alla nätverk om tomt)."
+        }
+      }
+    }
+  }
+}

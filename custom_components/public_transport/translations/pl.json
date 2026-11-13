@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Wybierz sieć",
+        "description": "Wybierz sieć komunikacyjną swojego przystanku. Jej API otwartych danych działa bez klucza; klucz tylko zwiększa dzienny limit.",
+        "data": {
+          "provider": "Sieć",
+          "api_key": "Klucz API (opcjonalny)"
+        },
+        "data_description": {
+          "api_key": "Pozostaw puste, aby używać API otwartych danych bez klucza."
+        }
+      },
+      "search": {
+        "title": "Znajdź przystanek",
+        "description": "Wpisz część nazwy przystanku {network}.",
+        "data": {
+          "query": "Nazwa przystanku"
+        }
+      },
+      "stop": {
+        "title": "Wybierz przystanek",
+        "description": "Przystanki o tej samej nazwie to perony każdego kierunku: linie obsługujące każdy z nich i cele najbliższych odjazdów (→) są podane po nazwie.",
+        "data": {
+          "stop": "Przystanek"
+        }
+      },
+      "lines": {
+        "title": "Linie do śledzenia",
+        "description": "Linie obsługujące {stop}. Każda śledzona linia ma własny czujnik.",
+        "data": {
+          "lines": "Linie"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Klucz API został odrzucony.",
+      "cannot_connect": "Otwarte dane sieci są niedostępne. Spróbuj później.",
+      "no_stop_found": "Żaden przystanek nie pasuje do tej nazwy.",
+      "no_line_selected": "Wybierz co najmniej jedną linię."
+    },
+    "abort": {
+      "already_configured": "Ten przystanek jest już śledzony.",
+      "no_line": "Sieć nie podaje żadnej linii dla tego przystanku."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opcje przystanku",
+        "data": {
+          "lines": "Linie",
+          "scan_interval": "Interwał aktualizacji",
+          "max_departures": "Zachowane odjazdy",
+          "api_key": "Klucz API (opcjonalny)"
+        },
+        "data_description": {
+          "scan_interval": "Wszystkie przystanki sieci są aktualizowane jednym zapytaniem, w najkrótszym interwale jej przystanków.",
+          "max_departures": "Liczba najbliższych odjazdów w atrybutach czujnika przystanku, wyświetlanych przez kartę.",
+          "api_key": "Pozostaw puste, aby używać API otwartych danych bez klucza (wyczyszczenie pola usuwa klucz)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Wybierz co najmniej jedną linię."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Najbliższy odjazd"
+      },
+      "line": {
+        "name": "Linia {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Komunikat o utrudnieniach"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Nie udało się zaktualizować odjazdów: {error}"
+    },
+    "no_stop": {
+      "message": "Żaden przystanek Public Transport nie jest załadowany."
+    },
+    "network_unavailable": {
+      "message": "Otwarte dane sieci są niedostępne: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Odśwież",
+      "description": "Aktualizuje teraz odjazdy i komunikaty przystanków.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Przystanek",
+          "description": "Odśwież tylko sieć tego przystanku (wszystkie sieci, jeśli puste)."
+        }
+      }
+    }
+  }
+}

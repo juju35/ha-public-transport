@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Alegeți o rețea",
+        "description": "Alegeți rețeaua de transport a stației dvs. API-ul de date deschise funcționează fără cheie; o cheie doar mărește cota zilnică.",
+        "data": {
+          "provider": "Rețea",
+          "api_key": "Cheie API (opțională)"
+        },
+        "data_description": {
+          "api_key": "Lăsați gol pentru a folosi API-ul de date deschise fără cheie."
+        }
+      },
+      "search": {
+        "title": "Găsiți stația",
+        "description": "Tastați o parte din numele unei stații {network}.",
+        "data": {
+          "query": "Numele stației"
+        }
+      },
+      "stop": {
+        "title": "Alegeți stația",
+        "description": "Stațiile cu același nume sunt peroanele fiecărui sens: liniile care le deservesc și destinațiile următoarelor plecări (→) sunt afișate după nume.",
+        "data": {
+          "stop": "Stație"
+        }
+      },
+      "lines": {
+        "title": "Linii urmărite",
+        "description": "Liniile care deservesc {stop}. Fiecare linie urmărită are propriul senzor.",
+        "data": {
+          "lines": "Linii"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Cheia API a fost refuzată.",
+      "cannot_connect": "Datele deschise ale rețelei nu sunt accesibile. Încercați mai târziu.",
+      "no_stop_found": "Nicio stație nu corespunde acestui nume.",
+      "no_line_selected": "Alegeți cel puțin o linie."
+    },
+    "abort": {
+      "already_configured": "Această stație este deja urmărită.",
+      "no_line": "Rețeaua nu indică nicio linie pentru această stație."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opțiunile stației",
+        "data": {
+          "lines": "Linii",
+          "scan_interval": "Interval de actualizare",
+          "max_departures": "Plecări păstrate",
+          "api_key": "Cheie API (opțională)"
+        },
+        "data_description": {
+          "scan_interval": "Toate stațiile rețelei sunt actualizate printr-o singură cerere, la cel mai scurt interval al stațiilor sale.",
+          "max_departures": "Numărul de plecări următoare din atributele senzorului stației, afișate de card.",
+          "api_key": "Lăsați gol pentru a folosi API-ul de date deschise fără cheie (golirea câmpului elimină cheia)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Alegeți cel puțin o linie."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Următoarea plecare"
+      },
+      "line": {
+        "name": "Linia {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Alertă de trafic"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Plecările nu au putut fi actualizate: {error}"
+    },
+    "no_stop": {
+      "message": "Nicio stație Public Transport nu este încărcată."
+    },
+    "network_unavailable": {
+      "message": "Datele deschise ale rețelei nu sunt accesibile: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Reîmprospătare",
+      "description": "Actualizează acum plecările și alertele stațiilor.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Stație",
+          "description": "Reîmprospătează doar rețeaua acestei stații (toate rețelele dacă e gol)."
+        }
+      }
+    }
+  }
+}

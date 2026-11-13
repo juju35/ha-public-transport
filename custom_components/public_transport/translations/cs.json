@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vyberte síť",
+        "description": "Vyberte dopravní síť své zastávky. Její API otevřených dat funguje bez klíče; klíč jen zvyšuje denní kvótu.",
+        "data": {
+          "provider": "Síť",
+          "api_key": "API klíč (volitelný)"
+        },
+        "data_description": {
+          "api_key": "Ponechte prázdné pro použití API otevřených dat bez klíče."
+        }
+      },
+      "search": {
+        "title": "Najděte zastávku",
+        "description": "Zadejte část názvu zastávky {network}.",
+        "data": {
+          "query": "Název zastávky"
+        }
+      },
+      "stop": {
+        "title": "Vyberte zastávku",
+        "description": "Zastávky stejného názvu jsou nástupiště jednotlivých směrů: linky, které je obsluhují, a cíle nejbližších odjezdů (→) jsou uvedeny za názvem.",
+        "data": {
+          "stop": "Zastávka"
+        }
+      },
+      "lines": {
+        "title": "Sledované linky",
+        "description": "Linky obsluhující {stop}. Každá sledovaná linka má vlastní senzor.",
+        "data": {
+          "lines": "Linky"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "API klíč byl odmítnut.",
+      "cannot_connect": "Otevřená data sítě nejsou dostupná. Zkuste to později.",
+      "no_stop_found": "Tomuto názvu neodpovídá žádná zastávka.",
+      "no_line_selected": "Vyberte alespoň jednu linku."
+    },
+    "abort": {
+      "already_configured": "Tato zastávka je již sledována.",
+      "no_line": "Síť pro tuto zastávku neuvádí žádnou linku."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Možnosti zastávky",
+        "data": {
+          "lines": "Linky",
+          "scan_interval": "Interval aktualizace",
+          "max_departures": "Uchované odjezdy",
+          "api_key": "API klíč (volitelný)"
+        },
+        "data_description": {
+          "scan_interval": "Všechny zastávky sítě se aktualizují jedním požadavkem, v nejkratším intervalu jejích zastávek.",
+          "max_departures": "Počet nejbližších odjezdů v atributech senzoru zastávky, které zobrazuje karta.",
+          "api_key": "Ponechte prázdné pro použití API otevřených dat bez klíče (vyprázdněné pole klíč odstraní)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Vyberte alespoň jednu linku."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Nejbližší odjezd"
+      },
+      "line": {
+        "name": "Linka {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Dopravní upozornění"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Odjezdy se nepodařilo aktualizovat: {error}"
+    },
+    "no_stop": {
+      "message": "Není načtena žádná zastávka Public Transport."
+    },
+    "network_unavailable": {
+      "message": "Otevřená data sítě nejsou dostupná: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Obnovit",
+      "description": "Nyní aktualizuje odjezdy a upozornění zastávek.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Zastávka",
+          "description": "Obnovit jen síť této zastávky (všechny sítě, je-li prázdné)."
+        }
+      }
+    }
+  }
+}

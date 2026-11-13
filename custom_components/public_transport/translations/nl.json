@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Kies een netwerk",
+        "description": "Kies het vervoersnetwerk van je halte. De open-data-API werkt zonder sleutel; een sleutel verhoogt alleen het dagquotum.",
+        "data": {
+          "provider": "Netwerk",
+          "api_key": "API-sleutel (optioneel)"
+        },
+        "data_description": {
+          "api_key": "Laat leeg om de open-data-API zonder sleutel te gebruiken."
+        }
+      },
+      "search": {
+        "title": "Zoek je halte",
+        "description": "Typ een deel van de naam van een {network}-halte.",
+        "data": {
+          "query": "Naam van de halte"
+        }
+      },
+      "stop": {
+        "title": "Kies de halte",
+        "description": "Haltes met dezelfde naam zijn de perrons van elke richting: de lijnen die er stoppen en de bestemmingen van de volgende vertrekken (→) staan achter de naam.",
+        "data": {
+          "stop": "Halte"
+        }
+      },
+      "lines": {
+        "title": "Te volgen lijnen",
+        "description": "Lijnen die {stop} aandoen. Elke gevolgde lijn krijgt een eigen sensor.",
+        "data": {
+          "lines": "Lijnen"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "De API-sleutel is geweigerd.",
+      "cannot_connect": "De open data van het netwerk zijn niet bereikbaar. Probeer het later opnieuw.",
+      "no_stop_found": "Geen halte komt overeen met deze naam.",
+      "no_line_selected": "Kies ten minste één lijn."
+    },
+    "abort": {
+      "already_configured": "Deze halte wordt al gevolgd.",
+      "no_line": "Het netwerk vermeldt geen lijn voor deze halte."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opties van de halte",
+        "data": {
+          "lines": "Lijnen",
+          "scan_interval": "Update-interval",
+          "max_departures": "Bewaarde vertrekken",
+          "api_key": "API-sleutel (optioneel)"
+        },
+        "data_description": {
+          "scan_interval": "Alle haltes van het netwerk worden in één verzoek bijgewerkt, met het kortste interval van de haltes.",
+          "max_departures": "Aantal komende vertrekken in de attributen van de haltesensor, getoond door de kaart.",
+          "api_key": "Laat leeg om de open-data-API zonder sleutel te gebruiken (een leeggemaakt veld verwijdert de sleutel)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Kies ten minste één lijn."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Volgend vertrek"
+      },
+      "line": {
+        "name": "Lijn {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Verkeersmelding"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "De vertrekken konden niet worden bijgewerkt: {error}"
+    },
+    "no_stop": {
+      "message": "Er is geen halte van Public Transport geladen."
+    },
+    "network_unavailable": {
+      "message": "De open data van het netwerk zijn niet bereikbaar: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Vernieuwen",
+      "description": "Werkt nu de vertrekken en meldingen van de haltes bij.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Halte",
+          "description": "Alleen het netwerk van deze halte vernieuwen (alle netwerken als leeg)."
+        }
+      }
+    }
+  }
+}

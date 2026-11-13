@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Izaberite mrežu",
+        "description": "Izaberite prevozničku mrežu svoje stanice. Njen API otvorenih podataka radi bez ključa; ključ samo povećava dnevnu kvotu.",
+        "data": {
+          "provider": "Mreža",
+          "api_key": "API ključ (opciono)"
+        },
+        "data_description": {
+          "api_key": "Ostavite prazno da biste koristili API otvorenih podataka bez ključa."
+        }
+      },
+      "search": {
+        "title": "Pronađite stanicu",
+        "description": "Unesite deo naziva stanice mreže {network}.",
+        "data": {
+          "query": "Naziv stanice"
+        }
+      },
+      "stop": {
+        "title": "Izaberite stanicu",
+        "description": "Stanice istog naziva su peroni svakog smera: linije koje ih opslužuju i odredišta sledećih polazaka (→) navedeni su posle naziva.",
+        "data": {
+          "stop": "Stanica"
+        }
+      },
+      "lines": {
+        "title": "Linije za praćenje",
+        "description": "Linije koje opslužuju {stop}. Svaka praćena linija ima svoj senzor.",
+        "data": {
+          "lines": "Linije"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "API ključ je odbijen.",
+      "cannot_connect": "Otvoreni podaci mreže nisu dostupni. Pokušajte kasnije.",
+      "no_stop_found": "Nijedna stanica ne odgovara ovom nazivu.",
+      "no_line_selected": "Izaberite bar jednu liniju."
+    },
+    "abort": {
+      "already_configured": "Ova stanica se već prati.",
+      "no_line": "Mreža ne navodi nijednu liniju za ovu stanicu."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opcije stanice",
+        "data": {
+          "lines": "Linije",
+          "scan_interval": "Interval ažuriranja",
+          "max_departures": "Zadržani polasci",
+          "api_key": "API ključ (opciono)"
+        },
+        "data_description": {
+          "scan_interval": "Sve stanice mreže ažuriraju se jednim zahtevom, u najkraćem intervalu njenih stanica.",
+          "max_departures": "Broj narednih polazaka u atributima senzora stanice, koje prikazuje kartica.",
+          "api_key": "Ostavite prazno da biste koristili API otvorenih podataka bez ključa (ispražnjeno polje uklanja ključ)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Izaberite bar jednu liniju."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Sledeći polazak"
+      },
+      "line": {
+        "name": "Linija {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Saobraćajno upozorenje"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Polasci nisu mogli da se ažuriraju: {error}"
+    },
+    "no_stop": {
+      "message": "Nijedna stanica Public Transport nije učitana."
+    },
+    "network_unavailable": {
+      "message": "Otvoreni podaci mreže nisu dostupni: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Osveži",
+      "description": "Odmah ažurira polaske i upozorenja stanica.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Stanica",
+          "description": "Osveži samo mrežu ove stanice (sve mreže ako je prazno)."
+        }
+      }
+    }
+  }
+}

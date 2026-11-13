@@ -1,0 +1,14 @@
+{
+  "domain": "public_transport",
+  "name": "Public Transport",
+  "after_dependencies": ["lovelace"],
+  "codeowners": ["@juju35"],
+  "config_flow": true,
+  "dependencies": ["frontend", "http"],
+  "documentation": "https://github.com/juju35/ha-public-transport",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/juju35/ha-public-transport/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}

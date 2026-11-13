@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Válasszon hálózatot",
+        "description": "Válassza ki megállója közlekedési hálózatát. A nyílt adatos API kulcs nélkül is működik; a kulcs csak a napi kvótát növeli.",
+        "data": {
+          "provider": "Hálózat",
+          "api_key": "API-kulcs (nem kötelező)"
+        },
+        "data_description": {
+          "api_key": "Hagyja üresen a nyílt adatos API kulcs nélküli használatához."
+        }
+      },
+      "search": {
+        "title": "Keresse meg a megállót",
+        "description": "Írja be egy {network}-megálló nevének egy részét.",
+        "data": {
+          "query": "Megálló neve"
+        }
+      },
+      "stop": {
+        "title": "Válassza ki a megállót",
+        "description": "Az azonos nevű megállók az egyes irányok peronjai: az ott közlekedő vonalak és a következő indulások célállomásai (→) a név után láthatók.",
+        "data": {
+          "stop": "Megálló"
+        }
+      },
+      "lines": {
+        "title": "Követett vonalak",
+        "description": "A(z) {stop} megállót érintő vonalak. Minden követett vonal saját érzékelőt kap.",
+        "data": {
+          "lines": "Vonalak"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Az API-kulcsot elutasították.",
+      "cannot_connect": "A hálózat nyílt adatai nem érhetők el. Próbálja újra később.",
+      "no_stop_found": "Egy megálló sem felel meg ennek a névnek.",
+      "no_line_selected": "Válasszon legalább egy vonalat."
+    },
+    "abort": {
+      "already_configured": "Ezt a megállót már követi.",
+      "no_line": "A hálózat nem ad meg vonalat ehhez a megállóhoz."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Megálló beállításai",
+        "data": {
+          "lines": "Vonalak",
+          "scan_interval": "Frissítési időköz",
+          "max_departures": "Megőrzött indulások",
+          "api_key": "API-kulcs (nem kötelező)"
+        },
+        "data_description": {
+          "scan_interval": "A hálózat összes megállója egyetlen kéréssel frissül, a megállói közül a legrövidebb időközzel.",
+          "max_departures": "A közelgő indulások száma a megálló érzékelőjének attribútumaiban, a kártya ezeket mutatja.",
+          "api_key": "Hagyja üresen a nyílt adatos API kulcs nélküli használatához (a kiürített mező törli a kulcsot)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Válasszon legalább egy vonalat."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Következő indulás"
+      },
+      "line": {
+        "name": "{line} vonal"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Forgalmi riasztás"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Az indulásokat nem sikerült frissíteni: {error}"
+    },
+    "no_stop": {
+      "message": "Nincs betöltött Public Transport megálló."
+    },
+    "network_unavailable": {
+      "message": "A hálózat nyílt adatai nem érhetők el: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Frissítés",
+      "description": "Most frissíti a megállók indulásait és riasztásait.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Megálló",
+          "description": "Csak ennek a megállónak a hálózatát frissíti (üresen az összeset)."
+        }
+      }
+    }
+  }
+}

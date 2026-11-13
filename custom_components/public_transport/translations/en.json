@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Choose a network",
+        "description": "Pick the transit network of your stop. Its open data API works without a key; a key only raises the daily quota.",
+        "data": {
+          "provider": "Network",
+          "api_key": "API key (optional)"
+        },
+        "data_description": {
+          "api_key": "Leave empty to use the open data API without a key."
+        }
+      },
+      "search": {
+        "title": "Find your stop",
+        "description": "Type part of the name of a {network} stop.",
+        "data": {
+          "query": "Stop name"
+        }
+      },
+      "stop": {
+        "title": "Choose the stop",
+        "description": "Stops of the same name are the platforms of each direction: the lines serving each one and the destinations of its next departures (→) are listed after its name.",
+        "data": {
+          "stop": "Stop"
+        }
+      },
+      "lines": {
+        "title": "Lines to follow",
+        "description": "Lines serving {stop}. Each line followed gets its own sensor.",
+        "data": {
+          "lines": "Lines"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "The API key was refused.",
+      "cannot_connect": "The network's open data cannot be reached. Try again later.",
+      "no_stop_found": "No stop matches this name.",
+      "no_line_selected": "Choose at least one line."
+    },
+    "abort": {
+      "already_configured": "This stop is already followed.",
+      "no_line": "The network lists no line for this stop."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Stop options",
+        "data": {
+          "lines": "Lines",
+          "scan_interval": "Update interval",
+          "max_departures": "Departures kept",
+          "api_key": "API key (optional)"
+        },
+        "data_description": {
+          "scan_interval": "Every stop of the network is updated in one request, at the shortest interval of its stops.",
+          "max_departures": "Number of coming departures in the stop sensor's attributes, shown by the card.",
+          "api_key": "Leave empty to use the open data API without a key (an emptied field removes the key)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Choose at least one line."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Next departure"
+      },
+      "line": {
+        "name": "Line {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Traffic alert"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "The departures could not be updated: {error}"
+    },
+    "no_stop": {
+      "message": "No stop of Public Transport is loaded."
+    },
+    "network_unavailable": {
+      "message": "The network's open data cannot be reached: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Refresh",
+      "description": "Updates the departures and alerts of the stops now.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Stop",
+          "description": "Refresh only the network of this stop (all networks if empty)."
+        }
+      }
+    }
+  }
+}

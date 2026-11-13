@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Izvēlieties tīklu",
+        "description": "Izvēlieties savas pieturas transporta tīklu. Tā atvērto datu API darbojas bez atslēgas; atslēga tikai palielina dienas kvotu.",
+        "data": {
+          "provider": "Tīkls",
+          "api_key": "API atslēga (neobligāta)"
+        },
+        "data_description": {
+          "api_key": "Atstājiet tukšu, lai izmantotu atvērto datu API bez atslēgas."
+        }
+      },
+      "search": {
+        "title": "Atrodiet pieturu",
+        "description": "Ievadiet daļu no {network} pieturas nosaukuma.",
+        "data": {
+          "query": "Pieturas nosaukums"
+        }
+      },
+      "stop": {
+        "title": "Izvēlieties pieturu",
+        "description": "Pieturas ar vienādu nosaukumu ir katra virziena platformas: maršruti, kas tās apkalpo, un nākamo atiešanu galamērķi (→) norādīti aiz nosaukuma.",
+        "data": {
+          "stop": "Pietura"
+        }
+      },
+      "lines": {
+        "title": "Sekojamie maršruti",
+        "description": "Maršruti, kas apkalpo {stop}. Katram sekojamam maršrutam ir savs sensors.",
+        "data": {
+          "lines": "Maršruti"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "API atslēga tika noraidīta.",
+      "cannot_connect": "Tīkla atvērtie dati nav sasniedzami. Mēģiniet vēlāk.",
+      "no_stop_found": "Neviena pietura neatbilst šim nosaukumam.",
+      "no_line_selected": "Izvēlieties vismaz vienu maršrutu."
+    },
+    "abort": {
+      "already_configured": "Šai pieturai jau seko.",
+      "no_line": "Tīkls šai pieturai nenorāda nevienu maršrutu."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Pieturas opcijas",
+        "data": {
+          "lines": "Maršruti",
+          "scan_interval": "Atjaunināšanas intervāls",
+          "max_departures": "Saglabātie atiešanas laiki",
+          "api_key": "API atslēga (neobligāta)"
+        },
+        "data_description": {
+          "scan_interval": "Visas tīkla pieturas tiek atjauninātas ar vienu pieprasījumu, ar īsāko tā pieturu intervālu.",
+          "max_departures": "Tuvāko atiešanas laiku skaits pieturas sensora atribūtos, ko rāda kartīte.",
+          "api_key": "Atstājiet tukšu, lai izmantotu atvērto datu API bez atslēgas (iztukšots lauks noņem atslēgu)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Izvēlieties vismaz vienu maršrutu."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Nākamā atiešana"
+      },
+      "line": {
+        "name": "Maršruts {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Satiksmes brīdinājums"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Atiešanas laikus neizdevās atjaunināt: {error}"
+    },
+    "no_stop": {
+      "message": "Nav ielādēta neviena Public Transport pietura."
+    },
+    "network_unavailable": {
+      "message": "Tīkla atvērtie dati nav sasniedzami: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Atsvaidzināt",
+      "description": "Tagad atjaunina pieturu atiešanas laikus un brīdinājumus.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Pietura",
+          "description": "Atsvaidzināt tikai šīs pieturas tīklu (visus tīklus, ja tukšs)."
+        }
+      }
+    }
+  }
+}

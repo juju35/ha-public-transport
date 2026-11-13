@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Escolher uma rede",
+        "description": "Escolha a rede de transportes da sua paragem. A API de dados abertos funciona sem chave; uma chave apenas aumenta a quota diária.",
+        "data": {
+          "provider": "Rede",
+          "api_key": "Chave de API (opcional)"
+        },
+        "data_description": {
+          "api_key": "Deixe vazio para usar a API de dados abertos sem chave."
+        }
+      },
+      "search": {
+        "title": "Encontrar a sua paragem",
+        "description": "Escreva parte do nome de uma paragem {network}.",
+        "data": {
+          "query": "Nome da paragem"
+        }
+      },
+      "stop": {
+        "title": "Escolher a paragem",
+        "description": "As paradas com o mesmo nome são as plataformas de cada sentido: as linhas que atendem cada uma e os destinos das próximas partidas (→) aparecem depois do nome.",
+        "data": {
+          "stop": "Paragem"
+        }
+      },
+      "lines": {
+        "title": "Linhas a seguir",
+        "description": "Linhas que servem {stop}. Cada linha seguida tem o seu próprio sensor.",
+        "data": {
+          "lines": "Linhas"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "A chave de API foi recusada.",
+      "cannot_connect": "Os dados abertos da rede não estão acessíveis. Tente mais tarde.",
+      "no_stop_found": "Nenhuma paragem corresponde a este nome.",
+      "no_line_selected": "Escolha pelo menos uma linha."
+    },
+    "abort": {
+      "already_configured": "Esta paragem já é seguida.",
+      "no_line": "A rede não indica nenhuma linha para esta paragem."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opções da paragem",
+        "data": {
+          "lines": "Linhas",
+          "scan_interval": "Intervalo de atualização",
+          "max_departures": "Partidas guardadas",
+          "api_key": "Chave de API (opcional)"
+        },
+        "data_description": {
+          "scan_interval": "Todas as paragens da rede são atualizadas num só pedido, no intervalo mais curto das suas paragens.",
+          "max_departures": "Número de próximas partidas nos atributos do sensor da paragem, mostradas pelo cartão.",
+          "api_key": "Deixe vazio para usar a API de dados abertos sem chave (esvaziar o campo remove a chave)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Escolha pelo menos uma linha."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Próxima partida"
+      },
+      "line": {
+        "name": "Linha {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Alerta de tráfego"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Não foi possível atualizar as partidas: {error}"
+    },
+    "no_stop": {
+      "message": "Nenhuma paragem de Public Transport está carregada."
+    },
+    "network_unavailable": {
+      "message": "Os dados abertos da rede não estão acessíveis: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Atualizar",
+      "description": "Atualiza agora as partidas e os alertas das paragens.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Paragem",
+          "description": "Atualizar só a rede desta paragem (todas as redes se vazio)."
+        }
+      }
+    }
+  }
+}

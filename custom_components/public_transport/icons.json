@@ -1,0 +1,14 @@
+{
+  "entity": {
+    "sensor": {
+      "next_departure": { "default": "mdi:bus-clock" },
+      "line": { "default": "mdi:bus-marker" }
+    },
+    "binary_sensor": {
+      "disruption": { "default": "mdi:alert-outline", "state": { "off": "mdi:check-circle-outline" } }
+    }
+  },
+  "services": {
+    "refresh": { "service": "mdi:refresh" }
+  }
+}

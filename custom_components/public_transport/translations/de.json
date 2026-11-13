@@ -1,0 +1,107 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Netz wählen",
+        "description": "Wählen Sie das Verkehrsnetz Ihrer Haltestelle. Seine Open-Data-API funktioniert ohne Schlüssel; ein Schlüssel erhöht nur das Tageskontingent.",
+        "data": {
+          "provider": "Netz",
+          "api_key": "API-Schlüssel (optional)"
+        },
+        "data_description": {
+          "api_key": "Leer lassen, um die Open-Data-API ohne Schlüssel zu nutzen."
+        }
+      },
+      "search": {
+        "title": "Haltestelle suchen",
+        "description": "Geben Sie einen Teil des Namens einer {network}-Haltestelle ein.",
+        "data": {
+          "query": "Name der Haltestelle"
+        }
+      },
+      "stop": {
+        "title": "Haltestelle wählen",
+        "description": "Gleichnamige Haltestellen sind die Steige der einzelnen Richtungen: Die Linien, die sie bedienen, und die Ziele der nächsten Abfahrten (→) stehen hinter dem Namen.",
+        "data": {
+          "stop": "Haltestelle"
+        }
+      },
+      "lines": {
+        "title": "Zu verfolgende Linien",
+        "description": "Linien an {stop}. Jede verfolgte Linie erhält einen eigenen Sensor.",
+        "data": {
+          "lines": "Linien"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Der API-Schlüssel wurde abgelehnt.",
+      "cannot_connect": "Die Open Data des Netzes sind nicht erreichbar. Versuchen Sie es später erneut.",
+      "no_stop_found": "Keine Haltestelle passt zu diesem Namen.",
+      "no_line_selected": "Wählen Sie mindestens eine Linie."
+    },
+    "abort": {
+      "already_configured": "Diese Haltestelle wird bereits verfolgt.",
+      "no_line": "Das Netz nennt keine Linie für diese Haltestelle."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Optionen der Haltestelle",
+        "data": {
+          "lines": "Linien",
+          "scan_interval": "Aktualisierungsintervall",
+          "max_departures": "Gespeicherte Abfahrten",
+          "api_key": "API-Schlüssel (optional)"
+        },
+        "data_description": {
+          "scan_interval": "Alle Haltestellen des Netzes werden mit einer Anfrage aktualisiert, im kürzesten Intervall seiner Haltestellen.",
+          "max_departures": "Anzahl kommender Abfahrten in den Attributen des Haltestellensensors, von der Karte angezeigt.",
+          "api_key": "Leer lassen, um die Open-Data-API ohne Schlüssel zu nutzen (ein geleertes Feld entfernt den Schlüssel)."
+        }
+      }
+    },
+    "error": {
+      "no_line_selected": "Wählen Sie mindestens eine Linie."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "next_departure": {
+        "name": "Nächste Abfahrt"
+      },
+      "line": {
+        "name": "Linie {line}"
+      }
+    },
+    "binary_sensor": {
+      "disruption": {
+        "name": "Verkehrsmeldung"
+      }
+    }
+  },
+  "exceptions": {
+    "refresh_failed": {
+      "message": "Die Abfahrten konnten nicht aktualisiert werden: {error}"
+    },
+    "no_stop": {
+      "message": "Keine Haltestelle von Public Transport ist geladen."
+    },
+    "network_unavailable": {
+      "message": "Die Open Data des Netzes sind nicht erreichbar: {error}"
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Aktualisieren",
+      "description": "Aktualisiert jetzt die Abfahrten und Meldungen der Haltestellen.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Haltestelle",
+          "description": "Nur das Netz dieser Haltestelle aktualisieren (alle Netze, wenn leer)."
+        }
+      }
+    }
+  }
+}
