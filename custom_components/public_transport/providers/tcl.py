@@ -15,7 +15,6 @@ from dataclasses import replace
 from datetime import datetime
 from typing import Any
 
-import aiohttp
 from homeassistant.util import dt as dt_util
 
 from .base import (
@@ -26,6 +25,7 @@ from .base import (
     ProviderAuthError,
     ProviderError,
     Stop,
+    basic_auth,
     by_level,
     to_float,
 )
@@ -74,15 +74,15 @@ class TclProvider(ListedStopsProvider):
     url = "https://data.grandlyon.com"
     api_key_mode = "required"
 
-    def _auth(self) -> aiohttp.BasicAuth:
+    def _auth(self) -> dict[str, str]:
         login, _, password = (self.api_key or "").partition(":")
         if not login or not password:
             raise ProviderAuthError("TCL needs a data.grandlyon.com login:password")
-        return aiohttp.BasicAuth(login, password)
+        return basic_auth(login, password)
 
     async def _values(self, dataset: str, **params: Any) -> list[dict[str, Any]]:
         data = await self._get_json(
-            f"{API}/{dataset}/all.json", params={"maxfeatures": -1, **params}, auth=self._auth(), timeout=40
+            f"{API}/{dataset}/all.json", params={"maxfeatures": -1, **params}, headers=self._auth(), timeout=40
         )
         if not isinstance(data, dict):
             raise ProviderError("Unexpected response from data.grandlyon.com")

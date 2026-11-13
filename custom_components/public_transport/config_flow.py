@@ -90,6 +90,7 @@ class PublicTransportConfigFlow(ConfigFlow, domain=DOMAIN):
         self._network: GtfsNetwork | None = None
         self._network_query = ""
         self._download: asyncio.Task[None] | None = None
+        self._progress_shown = False
         self._provider_instance: Provider | None = None
 
     def _provider(self) -> Provider:
@@ -175,19 +176,22 @@ class PublicTransportConfigFlow(ConfigFlow, domain=DOMAIN):
         if self._download is None:
             provider = self._provider()
             self._download = self.hass.async_create_task(provider.prepare(), f"{DOMAIN}_timetable")
+            self._progress_shown = False
         if not self._download.done():
+            self._progress_shown = True
             return self.async_show_progress(
                 step_id="download",
                 progress_action="download",
                 progress_task=self._download,
                 description_placeholders={"network": self._provider().network_name},
             )
-        try:
-            self._download.result()
-        except ProviderError:
+        failed = self._download.exception() is not None
+        if failed:
             self._download = None
-            return self.async_show_progress_done(next_step_id="download_failed")
-        return self.async_show_progress_done(next_step_id="search")
+        if not self._progress_shown:
+            # Done before any progress was shown (eager tasks, timetable already on disk): no progress step to close.
+            return self.async_abort(reason="cannot_connect") if failed else await self.async_step_search()
+        return self.async_show_progress_done(next_step_id="download_failed" if failed else "search")
 
     async def async_step_download_failed(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         return self.async_abort(reason="cannot_connect")

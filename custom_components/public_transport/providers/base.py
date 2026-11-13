@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 import unicodedata
 from abc import ABC, abstractmethod
 from collections.abc import Awaitable, Callable, Iterable
@@ -170,14 +171,13 @@ class Provider(ABC):
         *,
         params: dict[str, Any] | None = None,
         headers: dict[str, str] | None = None,
-        auth: aiohttp.BasicAuth | None = None,
         timeout: float = 20,
     ) -> Any:
         """A JSON answer of the network's API, with its errors as provider errors (key refused, quota reached)."""
         label = self.network_name
         try:
             async with self._session.get(
-                url, params=params, headers=headers, auth=auth, timeout=aiohttp.ClientTimeout(total=timeout)
+                url, params=params, headers=headers, timeout=aiohttp.ClientTimeout(total=timeout)
             ) as resp:
                 if resp.status == 429:
                     raise ProviderRateLimitError(f"{label} API quota reached")
@@ -263,3 +263,9 @@ def to_float(value: Any) -> float | None:
 def by_level(alerts: Iterable[Alert]) -> list[Alert]:
     """The gravest alerts first."""
     return sorted(alerts, key=lambda a: -a.level)
+
+
+def basic_auth(user: str, password: str = "") -> dict[str, str]:
+    """An Authorization header for HTTP basic authentication (aiohttp.BasicAuth is deprecated)."""
+    token = base64.b64encode(f"{user}:{password}".encode()).decode()
+    return {"Authorization": f"Basic {token}"}
