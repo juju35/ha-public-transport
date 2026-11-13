@@ -92,6 +92,228 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 <summary>Every network the GTFS-RT provider offers, by area</summary>
 
 <!-- networks:start -->
+218 networks, from the [transport.data.gouv.fr](https://transport.data.gouv.fr) catalogue (refreshed every week; the setup form always reads the current catalogue).
+
+| Area | Network | Alerts |
+|---|---|---|
+| Bagnères-de-Bigorre, Barèges, Campan | [Navettes Bagnères-de-Bigorre - La Mongie](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-des-navettes-de-la-ligne-bagneres-la-mongie-gtfs-gtfs-rt) | — |
+| Bordeaux Métropole | [Réseau urbain et scolaire TBM](https://transport.data.gouv.fr/datasets/offres-de-services-bus-tram-et-scolaire-au-format-gtfs-netex-gtfs-rt-siri-lite) | Yes |
+| Bordeaux, Mérignac | [Navette Aéroport de Bordeaux](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-bordeaux-navettes-aeroport-30-direct-gtfs-gtfs-rt) | Yes |
+| Brest Métropole | [Réseau urbain Bibus](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-des-bus-et-tramways-circulant-sur-le-territoire-de-brest-metropole) | Yes |
+| Bretagne | [Réseau interurbain BreizhGo Car](https://transport.data.gouv.fr/datasets/breizhgo-car) | — |
+| CA "Saintes - Grandes Rives - L'Agglo" | [Réseau urbain Buss](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-buss-saintes-gtfs-gtfs-rt) | — |
+| CA Agglo du Pays de Dreux | [Réseau urbain Linead](https://transport.data.gouv.fr/datasets/dreux-offre-theorique-mobilite-reseau-urbain) | — |
+| CA Agglo Pays d'Issoire | [Réseau urbain Cherpa](https://transport.data.gouv.fr/datasets/cherpa-horaires-lignes-regulieres) | Yes |
+| CA Agglomération d'Agen | [Réseau urbain Tempo Bus](https://transport.data.gouv.fr/datasets/agen-gtfs-urbain) | — |
+| CA Alès Agglomération, Allègre-les-Fumades, Bessèges, Bouquet (+9) | [Réseau urbain Alesy](https://transport.data.gouv.fr/datasets/horaires-theoriques-des-lignes-urbaines-et-interurbaines-sur-le-reseau-alesy-gtfs) | — |
+| CA Amiens Métropole | [Réseau urbain Ametis](https://transport.data.gouv.fr/datasets/ametis) | — |
+| CA Annemasse-Les Voirons-Agglomération | [Réseau urbain TAC Mobilité](https://transport.data.gouv.fr/datasets/offre-de-transports-reseau-tac-annemasse-agglo) | Yes |
+| CA Ardenne Métropole | [Réseau urbain TAC](https://transport.data.gouv.fr/datasets/fr-200052264-t0002-0000-1) | — |
+| CA Beaune, Côte et Sud - Communauté Beaune-Chagny-Nolay | [Réseau urbain Côte&Bus](https://transport.data.gouv.fr/datasets/offre-de-transport-de-la-c-a-beaune-cote-sud-gtfs) | — |
+| CA Bourges Plus, Fussy, Pigny, Saint-Florent-sur-Cher | [Réseau urbain AggloBus](https://transport.data.gouv.fr/datasets/agglobus-offre-theorique-mobilite-reseau-urbain-de-bourges) | Yes |
+| CA Cannes Pays de Lérins | [Réseau urbain Palmbus](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-gtfs-gtfs-rt-du-reseau-palmbus-cannes-pays-de-lerins) | — |
+| CA Carcassonne Agglo | [Réseau urbain RTCA](https://transport.data.gouv.fr/datasets/reseau-rtca) | — |
+| CA Caux Seine Agglo | [Réseau urbain REZO'BUS](https://transport.data.gouv.fr/datasets/reseau-urbain-caux-seine-mobilite-rezobus) | Yes |
+| CA Chartres Métropole | [Réseau Filibus](https://transport.data.gouv.fr/datasets/reseau-filibus) | — |
+| CA Cholet Agglomération | [Réseau urbain Choletbus](https://transport.data.gouv.fr/datasets/horaires-theoriques-reseau-choletbus) | Yes |
+| CA CIVIS (Communauté Intercommunale des Villes Solidaires) | [Réseau urbain Alternéo](https://transport.data.gouv.fr/datasets/donnees-du-reseau-alterneo) | — |
+| CA Coeur de Flandre | [Réseau urbain Hop Bus](https://transport.data.gouv.fr/datasets/hop-bus-le-reseau-100-gratuit-du-coeur-de-flandre) | Yes |
+| CA Creil Sud Oise | [Réseau urbain AXO](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-axo-communaute-dagglomeration-creil-sud-oise) | — |
+| CA d'Arles-Crau-Camargue-Montagnette | [Réseau urbain Envia](https://transport.data.gouv.fr/datasets/donnees-statiques-et-temps-reels-reseau-envia) | — |
+| CA d'Epinal | [Réseau urbain Imagine](https://transport.data.gouv.fr/datasets/fr-200052264-t0009-0000-1) | — |
+| CA de Bar-le-Duc - Sud Meuse | [Réseau urbain TUB](https://transport.data.gouv.fr/datasets/fr-200052264-t0003-0000-1) | — |
+| CA de Béziers-Méditerranée | [Réseau urbain beeMob](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-de-transports-beemob-beziers-mediterranee) | — |
+| CA de Blois ''Agglopolys'' | [Réseau urbain Azalys](https://transport.data.gouv.fr/datasets/agglopolys-offre-theorique-mobilite-reseau-urbain-azalys-de-blois) | — |
+| CA de Châlons-en-Champagne | [Réseau urbain SITAC](https://transport.data.gouv.fr/datasets/fr-200052264-t0005-0000-1) | — |
+| CA de Forbach Porte de France | [Réseau urbain Forbus](https://transport.data.gouv.fr/datasets/fr-200052264-t0007-0000-1) | — |
+| CA de Haguenau | [Réseau urbain Ritmo](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-ritmo-haguenau-gtfs-gtfs-rt) | — |
+| CA de l'Auxerrois | [Réseau urbain Léo](https://transport.data.gouv.fr/datasets/reseau-de-transports-en-commun-de-la-communaute-dagglomeration-de-lauxerrois) | — |
+| CA de l'Espace Sud de la Martinique | [Réseau urbain de la zone Sud (CAESM)](https://transport.data.gouv.fr/datasets/gtfs-urbain-de-la-zone-sud) | Yes |
+| CA de la Presqu'île de Guérande Atlantique (Cap Atlantique) | [Réseau urbain et scolaire Lila Presqu'ile](https://transport.data.gouv.fr/datasets/reseau-urbain-scolaire-lila) | — |
+| CA de la Région de Compiègne et de la Basse Automne | [Réseau interurbain TIC](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-tic-interurbain-communaute-dagglomeration-de-la-region-de-compiegne-et-de-la-basse-automne) | — |
+| CA de la Région de Compiègne et de la Basse Automne | [Réseau urbain TIC](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-tic-urbain-communaute-dagglomeration-de-la-region-de-compiegne-et-de-la-basse-automne) | — |
+| CA de la Région Dieppoise | [Réseau urbain DeepMob](https://transport.data.gouv.fr/datasets/deepmob-dieppe-maritime) | — |
+| CA de la Riviera Française | [Réseau urbain Zest](https://transport.data.gouv.fr/datasets/horaires-reseau-zest) | — |
+| CA de La Rochelle | [Réseau urbain Yélo](https://transport.data.gouv.fr/datasets/arrets-horaires-et-parcours-theoriques-des-reseaux-naq-lro-nva-m-1) | — |
+| CA de Lens - Liévin | [Réseau urbain TADAO](https://transport.data.gouv.fr/datasets/gtfs-tadao) | — |
+| CA de Nîmes Métropole | [Réseau urbain Tango](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-tango-de-nimes-metropole-gtfs-gtfs-rt) | — |
+| CA de Saint-Dié-des-Vosges | [Réseau urbain Sylvia](https://transport.data.gouv.fr/datasets/fr-200052264-t0016-0000-1) | Yes |
+| CA de Vesoul | [Réseau urbain moova](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-moova-communaute-dagglomeration-de-vesoul-gtfs) | — |
+| CA Dracénie Provence Verdon Agglomération | [Réseau urbain TEDbus](https://transport.data.gouv.fr/datasets/reseau-tedbus-lignes-regulieres-dracenie-provence-verdon-agglomeration) | Yes |
+| CA du Bassin de Bourg-en-Bresse | [Réseau urbain Rubis](https://transport.data.gouv.fr/datasets/rubis-grand-bourg-mobilites-offre-de-transport-theorique-et-temps-reel) | — |
+| CA du Beauvaisis | [Réseau interurbain et TAD zonal Corolis](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-corolis-interurbain-communaute-dagglomeration-du-beauvaisis) | — |
+| CA du Beauvaisis | [Réseau urbain Corolis](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-corolis-urbain-communaute-dagglomeration-du-beauvaisis) | — |
+| CA du Boulonnais | [Réseau urbain Marinéo](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-de-transport-marineo) | Yes |
+| CA du Centre de la Martinique | [Réseau urbain de la zone Centre (CACEM)](https://transport.data.gouv.fr/datasets/gtfs-urbain-de-la-zone-centre) | Yes |
+| CA du Centre Littoral | [Réseau urbain Agglobus](https://transport.data.gouv.fr/datasets/agence-agglobus) | — |
+| CA du Cotentin | [Réseau urbain Cap Cotentin](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-en-temps-reel-des-bus-et-autocars-circulant-sur-le-reseau-cap-cotentin) | — |
+| CA du Gard Rhodanien | [Réseau urbain UGGO](https://transport.data.gouv.fr/datasets/donnees-transport-2024) | — |
+| CA du Grand Angoulême | [Réseau urbain Möbius](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-reseau-mobius) | — |
+| CA du Grand Avignon (COGA) | [Réseau urbain Orizo](https://transport.data.gouv.fr/datasets/reseau-orizo-grand-avignon) | — |
+| CA du Grand Chambéry | [Réseau urbain Synchro Bus](https://transport.data.gouv.fr/datasets/arrets-et-horaires-theoriques-bus-temps-reel) | Yes |
+| CA du Grand Dole | [Réseau urbain Grandole Mobilités](https://transport.data.gouv.fr/datasets/reseau-de-transport-du-grand-dole) | — |
+| CA du Grand Verdun | [Réseau urbain Rezo](https://transport.data.gouv.fr/datasets/fr-200052264-t0011-0000-1) | — |
+| CA du Pays Basque, Ondres, Saint-Martin-de-Seignanx, Tarnos | [Réseau interurbain TXIK TXAK](https://transport.data.gouv.fr/datasets/offre-transport-du-reseau-txik-txak) | Yes |
+| CA du Pays de l'Or | [Réseau urbain Transp’Or](https://transport.data.gouv.fr/datasets/offre-transport-en-commun-du-reseau-transpor-gtfs) | — |
+| CA du Pays de Landerneau-Daoulas | [Réseau urbain Ar bus](https://transport.data.gouv.fr/datasets/ar-bus-landerneau-daoulas-transport) | — |
+| CA du Pays de Saint Malo Agglomération | [Réseau urbain MAT](https://transport.data.gouv.fr/datasets/reseau-urbain-mat) | — |
+| CA du Pays de Saint-Omer | [Réseau urbain Mouvéo](https://transport.data.gouv.fr/datasets/transports-en-commun-audomarois-1) | — |
+| CA du Pays Nord Martinique | [Réseau urbain de la zone Nord (CAP NORD)](https://transport.data.gouv.fr/datasets/gtfs-urbain-de-la-zone-nord-cap-nord) | — |
+| CA du Sud | [Réseau urbain CarSud](https://transport.data.gouv.fr/datasets/referentiel-topologique-reseau-carsud) | — |
+| CA Epernay, Coteaux et Plaine de Champagne | [Réseau urbain Mouvéo](https://transport.data.gouv.fr/datasets/fr-200052264-t0012-0000-1) | — |
+| CA Estérel Côte d'Azur Agglomération | [Réseau urbain Le Bus](https://transport.data.gouv.fr/datasets/reseau-transport-urbain-le-bus) | Yes |
+| CA Evreux Portes de Normandie | [Réseau urbain Transurbain](https://transport.data.gouv.fr/datasets/transurbain-evreux-portes-de-normandie) | — |
+| CA Fécamp Caux Littoral Agglomération | [Réseau urbain Ficibus](https://transport.data.gouv.fr/datasets/ficibus-fecamp-caux-littoral) | — |
+| CA Flers Agglo | [Réseau scolaire de Flers](https://transport.data.gouv.fr/datasets/reseau-nemus) | — |
+| CA Flers Agglo | [Réseau urbain Nemus](https://transport.data.gouv.fr/datasets/donnees-theoriques-du-reseau-urbain-de-flers-agglo-au-format-gtfs) | — |
+| CA Fougères Agglomération | [Réseau urbain SURF](https://transport.data.gouv.fr/datasets/reseau-urbain-surf) | — |
+| CA Gap-Tallard-Durance | [Réseau urbain L'Agglo en Bus](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reels-du-reseau-de-transports-lagglo-en-bus-communaute-dagglomeration-gap-tallard-durance) | — |
+| CA Golfe du Morbihan - Vannes Agglomération | [Réseau urbain Kicéo](https://transport.data.gouv.fr/datasets/reseau-urbain-kiceo) | — |
+| CA Grand Auch Coeur de Gascogne | [Réseau urbain Alliance](https://transport.data.gouv.fr/datasets/gtfs-reseau-alliance-bus-grand-auch) | Yes |
+| CA Grand Calais Terres et Mers, Guînes | [Réseau urbain SITAC](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-aux-formats-gtfs-et-gtfs-rt-du-reseau-sitac) | Yes |
+| CA Grand Châtellerault | [Réseau urbain TAC](https://transport.data.gouv.fr/datasets/donnees-tac-reseau-de-transport-de-grand-chatellerault-2025) | — |
+| CA Grand Lac | [Réseau urbain Ondéa](https://transport.data.gouv.fr/datasets/ctlb-donnees-theoriques-et-rt-aix-les-bains-lac-du-bourget) | Yes |
+| CA Grand Longwy Agglomération | [Réseau urbain TGL](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-tgl) | — |
+| CA Guingamp-Paimpol Agglomération de l'Armor à l'Argoat | [Réseau urbain et scolaire Guingamp-Paimpol Mobilité](https://transport.data.gouv.fr/datasets/reseau-urbain-scolaire-guingamp-paimpol-mobilite) | — |
+| CA Hérault-Méditerranée | [Réseau urbain Cap’Bus](https://transport.data.gouv.fr/datasets/gtfs-capbus) | — |
+| CA Lamballe Terre et Mer | [Réseau urbain Distribus](https://transport.data.gouv.fr/datasets/reseau-urbain-distribus) | — |
+| CA Lannion-Trégor Communauté | [Réseau urbain Tilt](https://transport.data.gouv.fr/datasets/tilt-lannion-tregor-communaute) | — |
+| CA Le Grand Narbonne | [Réseau urbain Citibus](https://transport.data.gouv.fr/datasets/offre-de-transport-communaute-dagglomeration-le-grand-narbonne) | Yes |
+| CA Le Muretain Agglo, CA du Sicoval, CC Le Grand Ouest Toulousain, CC des Coteaux Bellevue (+1) | [Réseau urbain Tisséo](https://transport.data.gouv.fr/datasets/tisseo-reseau-transport-urbain-toulousain) | Yes |
+| CA Lisieux Normandie | [Réseau urbain Astrobus](https://transport.data.gouv.fr/datasets/astrobus-lisieux-normandie) | — |
+| CA Loire Forez Agglomération (LFA) | [Cars Région Loire - lignes 19 et 32](https://transport.data.gouv.fr/datasets/flux-gtfs-realtime-des-lignes-cars-region-loire-l19-et-l32-fournis-par-pysae) | — |
+| CA Lorient Agglomération | [Réseau urbain Izilo](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-izilo-format-gtfs-de-lorient-agglomeration) | Yes |
+| CA Luberon Monts de Vaucluse | [Réseau urbain Cmonbus](https://transport.data.gouv.fr/datasets/gtfs-reseau-cmonbus) | Yes |
+| CA Lunel Agglo | [Réseau urbain Olé](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-ole-lunel-agglo-gtfs-et-gtfs-rt) | — |
+| CA Montélimar Agglomération | [Réseau urbain Montelibus](https://transport.data.gouv.fr/datasets/horaires-montelibus) | — |
+| CA Montluçon Communauté | [Réseau urbain Maelis](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-reel-du-reseau-maelis-montlucon-communaute-gtfs) | — |
+| CA Moulins Communauté | [Réseau urbain Aléo](https://transport.data.gouv.fr/datasets/donnees-du-reseau-de-transport-aleo) | — |
+| CA Mulhouse Alsace Agglomération | [Réseau urbain Solea](https://transport.data.gouv.fr/datasets/fr-200052264-t0014-0000-1) | Yes |
+| CA Portes de France-Thionville, CA du Val de Fensch, CC Rives de Moselle, CC de Cattenom et Environs (+2) | [Réseau urbain TeMo'b](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-temob-syndicat-mixte-des-transports-urbains-thionville-fensch) | — |
+| CA Quimper Bretagne Occidentale | [Réseau urbain Qub](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-du-reseau-de-transports-qub-transports-urbains-de-quimper-bretagne-occidentale) | Yes |
+| CA Quimperlé Communauté | [Réseau urbain TBK](https://transport.data.gouv.fr/datasets/tbk-offre-theorique-et-temps-reel-du-reseau-de-transports-du-pays-de-quimperle) | Yes |
+| CA Riom Limagne et Volcans | [Réseau urbain RLV Mobilités](https://transport.data.gouv.fr/datasets/horaires-rlv-mobilites) | — |
+| CA Roannais Agglomération | [Réseau urbain Star](https://transport.data.gouv.fr/datasets/star-horaires-theoriques-et-temps-reel-du-reseau-de-transport-urbain-de-roannais-agglomeration) | — |
+| CA Saint-Avold Synergie | [Réseau urbain Transavold](https://transport.data.gouv.fr/datasets/fr-200052264-t0015-0000-1) | — |
+| CA Saint-Louis Agglomération | [Réseau urbain Distribus](https://transport.data.gouv.fr/datasets/fr-200052264-t0017-0000-1) | — |
+| CA Seine Normandie Agglomération | [Réseau urbain SNgo!](https://transport.data.gouv.fr/datasets/sngo-vernon-les-andelys-seine-normandie-agglo) | — |
+| CA Seine-Eure | [Réseau urbain et scolaire SEMO](https://transport.data.gouv.fr/datasets/semo-val-de-reuil-louviers-seine-eure-agglo) | Yes |
+| CA Sète Agglopôle Méditerranée | [Réseau urbain Sète Agglopole Mobilité](https://transport.data.gouv.fr/datasets/reseau-bus-sete-agglopole-mobilite) | — |
+| CA Tarbes-Lourdes-Pyrénées | [Réseau urbain TLP](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-tarbes-lourdes-tlp-mobilites-gtfs) | — |
+| CA Territoires Vendômois | [Réseau urbain Move](https://transport.data.gouv.fr/datasets/gtfs-move-vendome) | Yes |
+| CA Troyes Champagne Métropole | [Réseau urbain TCAT](https://transport.data.gouv.fr/datasets/donnees-tcat-troyes-champagne-metropole-1) | — |
+| CA Valence Romans Agglo | [Réseau urbain Citéa](https://transport.data.gouv.fr/datasets/ce-jeu-de-donnees-contient-la-liste-des-arrets-des-horaires-et-des-parcours-theoriques-du-reseau-de-transport-urbain-et-interurbain-de-vrm) | Yes |
+| CA Valenciennes Métropole, CA de la Porte du Hainaut | [Réseau urbain Transvilles](https://transport.data.gouv.fr/datasets/simouv-horaires-theoriques-format-gtfs-et-temps-reel-format-siri-transvilles-valenciennes) | — |
+| CA Vichy Communauté | [Réseau urbain Mobivie](https://transport.data.gouv.fr/datasets/mobivie-reseau-urbain-vichy-communaute) | — |
+| CA Vienne Condrieu | [Réseau urbain L'va](https://transport.data.gouv.fr/datasets/reseau-lva) | Yes |
+| CA Vitré Communauté | [Réseau urbain Vitobus](https://transport.data.gouv.fr/datasets/mova-ensemble-de-loffre-de-transport-collectif) | — |
+| Cavalaire-sur-Mer | [Réseau urbain estival Cavalaire](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-cavalaire-ete) | — |
+| Cavalaire-sur-Mer | [Réseau urbain hivernal Cavalaire](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-cavalaire-sur-mer-hiver) | — |
+| CC Auray Quiberon Terre Atlantique | [Réseau urbain Glazgo](https://transport.data.gouv.fr/datasets/reseau-urbain-glazgo) | Yes |
+| CC Caux - Austreberthe | [Réseau urbain MOCA](https://transport.data.gouv.fr/datasets/moca-communaute-de-communes-caux-austreberthe) | — |
+| CC Chinon, Vienne et Loire | [Réseau urbain CVL Mobilité](https://transport.data.gouv.fr/datasets/reseau-cvlmobilite-plan-de-transport-theorique-ligne-a-format-gtfs) | — |
+| CC Coeur de Loire | [Réseau urbain Papillon](https://transport.data.gouv.fr/datasets/donnees-du-reseau-de-bus-papillon-a-cosne-cours-sur-loire) | Yes |
+| CC Coeur du Var | [Réseau urbain Le TACO](https://transport.data.gouv.fr/datasets/le-taco-1) | — |
+| CC Coeur du Var | [Réseau urbain OZ'CAR](https://transport.data.gouv.fr/datasets/ozcar-navette-intercommunale) | — |
+| CC de Granville, Terre et Mer | [Réseau urbain Néva](https://transport.data.gouv.fr/datasets/neva-granville-terre-et-mer) | Yes |
+| CC de l'Aire Cantilienne | [Réseau urbain et interurbain Aire’MOB](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-airemob-communaute-de-communes-de-laire-cantilienne) | — |
+| CC de l'Ile de Ré | [Réseau urbain RespiRé](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-respire-ile-de-re-gtfs-gtfs-rt) | — |
+| CC de la Plaine d'Estrées | [Réseau urbain Hoplà](https://transport.data.gouv.fr/datasets/donnees-theoriques-du-reseau-hopla-communaute-de-communes-de-la-plaine-destrees) | — |
+| CC de la Vallée de Chamonix-Mont-Blanc | [Réseau urbain Chamonix](https://transport.data.gouv.fr/datasets/gtfs-reseau-chamonix-mobilite) | Yes |
+| CC de Miribel et du Plateau | [Réseau urbain Colibri](https://transport.data.gouv.fr/datasets/colibri-horaires-theoriques-et-temps-reel-du-reseau-de-transport-urbain-de-la-ccmp) | — |
+| CC de Sélestat | [Réseau urbain ELSA](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-elsa-petr-selestat-alsace-centrale) | — |
+| CC des Pays d'Oise et d'Halatte | [Réseau urbain TOHM](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-tohm-communaute-de-communes-des-pays-doise-et-dhalatte) | — |
+| CC des Pays du Sel et du Vermois | [Navette de la CC Sel et Vermois](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-de-la-communaute-de-communes-des-pays-du-sel-et-du-vermois) | — |
+| CC des Sablons | [Réseau urbain Sablons Bus](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-sablons-bus-communaute-de-communes-des-sablons) | — |
+| CC Dombes Saône Vallée | [Réseau urbain Saônibus](https://transport.data.gouv.fr/datasets/saonibus-horaires-theoriques-et-temps-reel-du-reseau-de-transport-urbain-de-la-cc-dsv) | — |
+| CC du Bassin d'Aubenas | [Réseau urbain Tout'enbus](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel) | Yes |
+| CC du Bassin de Pont-à-Mousson | [Réseau urbain Le Bus](https://transport.data.gouv.fr/datasets/fr-200052264-t0023-0000-1) | — |
+| CC du Clermontois | [Réseau urbain Le Bus](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-le-bus-communaute-de-communes-du-clermontois) | — |
+| CC du Liancourtois | [Réseau urbain et TAD zonal Libellule](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-le-libellule-communaute-du-liancourtois-la-vallee-doree) | — |
+| CC du Pays de Honfleur-Beuzeville | [Réseau urbain Hobus](https://transport.data.gouv.fr/datasets/hobus-honfleur) | — |
+| CC du Pays de Sainte-Odile | [Réseau urbain Pass'O](https://transport.data.gouv.fr/datasets/fr-200052264-t0041-0000-1) | — |
+| CC du Pays de Valois | [Réseau urbain Mobi](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-mobi-communaute-de-communes-du-pays-de-valois) | — |
+| CC du Pays des Ecrins | [Réseau urbain Pays des Ecrins](https://transport.data.gouv.fr/datasets/transports-en-commun-pays-des-ecrins) | — |
+| CC du Pays Noyonnais | [Réseau urbain Lib'Bus](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-libbus-communaute-de-communes-du-pays-noyonnais) | — |
+| CC du Pays Sabolien | [Réseau urbain Réso](https://transport.data.gouv.fr/datasets/reseau-urbain-reso) | Yes |
+| CC du Sud Corse | [Réseau urbain A Citadina](https://transport.data.gouv.fr/datasets/reseau-a-citadina-porto-vecchio-horaires-theoriques-et-temps-reel) | Yes |
+| CC du Sud Estuaire | [Réseau urbain Brévibus](https://transport.data.gouv.fr/datasets/reseau-urbain-brevibus) | — |
+| CC du Territoire de Lunéville à Baccarat | [Réseau urbain Lunéo](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-lulu-en-bus-ex-luneo-gtfs-gtfs-rt) | Yes |
+| CC Haut Val de Sèvre | [Réseau urbain Fil Bus](https://transport.data.gouv.fr/datasets/fil-bus-saint-maixentais) | Yes |
+| CC Intercom Bernay Terres de Normandie | [Réseau urbain l'Bus](https://transport.data.gouv.fr/datasets/reseau-transport-urbain-de-bernay) | — |
+| CC Le Gesnois Bilurien, CC Maine Coeur de Sarthe, CC Orée de Bercé - Belinois, CC de la Champagne Conlinoise et du Pays de Sillé (+2) | [Réseau urbain Illygo](https://transport.data.gouv.fr/datasets/reseau-urbain-illygo) | Yes |
+| CC Moselle et Madon, CC des Pays du Sel et du Vermois, CC du Bassin de Pompey, Métropole du Grand Nancy | [Réseau urbain SUB - Nancy](https://transport.data.gouv.fr/datasets/fr-200052264-t0039-0000-1) | — |
+| CC Pays d'Evian Vallée d'Abondance | [Réseau urbain EVA'D](https://transport.data.gouv.fr/datasets/donnees-du-reseau-evad-1) | — |
+| CC Pays d'Orange en Provence | [Réseau urbain TCVO](https://transport.data.gouv.fr/datasets/transport-en-commun-de-la-ville-dorange-ccpop-1) | — |
+| CC Pontivy Communauté | [Réseau urbain PondiBUS](https://transport.data.gouv.fr/datasets/reseau-urbain-pondibus) | Yes |
+| CC Rives de Moselle | [Réseau urbain Riv'Connect](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-rivconnect-communaute-de-communes-rives-de-moselle) | — |
+| CC Rumilly Terre de Savoie | [Réseau urbain Jybus](https://transport.data.gouv.fr/datasets/offre-de-transports-jybus-a-rumilly) | — |
+| CC Terres Touloises | [Réseau urbain Colibri](https://transport.data.gouv.fr/datasets/fr-200052264-t0027-0000-1) | — |
+| CC Thelloise | [Réseau urbain PassThelle Bus](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-pass-thelle-bus-communaute-de-communes-thelloise) | — |
+| CC Vierzon-Sologne-Berry | [Réseau urbain Le Vib'](https://transport.data.gouv.fr/datasets/reseau-urbain-le-vib) | Yes |
+| CC Yvetot Normandie | [Réseau urbain Vikibus](https://transport.data.gouv.fr/datasets/vikibus-yvetot-normandie) | — |
+| Centre-Val de Loire | [Réseau interurbain Rémi](https://transport.data.gouv.fr/datasets/remi-offre-theorique-mobilite-reseau-interurbain-regional) | Yes |
+| Chinon | [Navette estivale CVL Mobilité](https://transport.data.gouv.fr/datasets/reseau-cvlmobilite-plan-de-transport-theorique-la-navette-lete-a-chinon-format-gtfs) | — |
+| Clermont Auvergne Métropole | [Réseau urbain T2C](https://transport.data.gouv.fr/datasets/syndicat-mixte-des-transports-en-commun-de-lagglomeration-clermontoise-smtc-ac-reseau-t2c-gtfs-gtfs-rt) | — |
+| Cogolin | [Réseau saisonnier ligne Cogolin](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-ligne-cogolin) | — |
+| Corse | [Réseau interurbain - Corse](https://transport.data.gouv.fr/datasets/gtfs-transport-via-strada) | — |
+| CU Angers Loire Métropole | [Réseau urbain Irigo](https://transport.data.gouv.fr/datasets/angers-loire-metropole-reseau-irigo-gtfs-gtfs-rt-siri) | Yes |
+| CU d'Arras | [Réseau urbain Artis](https://transport.data.gouv.fr/datasets/reseau-de-transport-artis) | — |
+| CU de Dunkerque | [Réseau urbain DK'BUS](https://transport.data.gouv.fr/datasets/offre-de-transports-reseau-dk-bus-de-la-communaute-urbaine-de-dunkerque-gtfs) | — |
+| CU du Grand Poitiers | [Réseau urbain Vitalis](https://transport.data.gouv.fr/datasets/mobilite-offre-de-transport-du-reseau-bus-gtfs-gtfs-rt) | — |
+| CU du Grand Reims | [Réseau urbain Grand Reims Mobilités](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-grand-reims-mobilites-communaute-urbaine-du-grand-reims) | — |
+| CU Le Havre Seine Métropole | [Réseau urbain LiA](https://transport.data.gouv.fr/datasets/reseau-de-transport-en-commun-lia-gtfs-siri) | Yes |
+| CU Le Mans Métropole | [Réseau urbain SETRAM](https://transport.data.gouv.fr/datasets/gtfs-du-reseau-des-transports-bus-et-tramway-setram-circulant-sur-le-territoire-le-mans-metropole) | — |
+| CU Perpignan Méditerranée Métropole | [Réseau urbain et scolaire Sankéo](https://transport.data.gouv.fr/datasets/gtfs-sankeo) | Yes |
+| Dijon Métropole | [Réseau urbain DiviaMobilités](https://transport.data.gouv.fr/datasets/gtfs-diviamobilites) | — |
+| Figeac | [Réseau urbain Figeac - Le Bus](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-figeac-le-bus-gtfs) | — |
+| France | [Réseau SNCF TGV, Intercités et TER](https://transport.data.gouv.fr/datasets/horaires-sncf) | Yes |
+| France | [Réseau européen AVE Renfe](https://transport.data.gouv.fr/datasets/horaires-ave-espagne-france) | — |
+| France | [Réseau européen Eurostar](https://transport.data.gouv.fr/datasets/eurostar-gtfs-plan-de-transport-et-temps-reel) | Yes |
+| France | [Réseau européen FlixBus et FlixTrain](https://transport.data.gouv.fr/datasets/flixbus-horaires-theoriques-du-reseau-europeen-1) | — |
+| France | [Réseau national Trenitalia France](https://transport.data.gouv.fr/datasets/horaires-des-trains-trenitalia-france) | — |
+| Giverny, Vernon | [Navette estivale SNGO! Giverny Vernon - Gare SNCF](https://transport.data.gouv.fr/datasets/giverny-vernon-gare-sncf) | — |
+| Grenoble-Alpes-Métropole | [Réseau urbain TAG](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-tag) | — |
+| Grimaud | [Navette estivale Grimaud](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-navette-estivale-grimaud) | — |
+| Haut-Rhin | [Réseau interurbain Fluo Grand-Est - Haut-Rhin (68)](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-fluo-grand-est-haut-rhin-68) | Yes |
+| Huez | [Navettes hivernales de l'Alpe d'Huez](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-des-navettes-hivernales-de-lalpe-dhuez-gtfs-gtfs-rt) | — |
+| Isère | [Navettes saisonnières Transaltitude - Isère](https://transport.data.gouv.fr/datasets/desserte-des-stations-de-ski-iseroises-transaltitude-38) | — |
+| Isère | [Réseau interurbain - Isère (38)](https://transport.data.gouv.fr/datasets/reseau-interurbain-cars-region-isere-38-1) | Yes |
+| La Croix-Valmer | [Réseau urbain La Croix Valmer](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-ligne-de-la-croix-valmer) | — |
+| La Réunion | [Réseau interurbain Car Jaune](https://transport.data.gouv.fr/datasets/horaires-theoriques-au-format-gtfs-et-horaires-temps-reel-au-format-gtfs-rt-du-reseau-car-jaune-a-la-reunion) | Yes |
+| Lavaur | [Réseau urbain LISATIS](https://transport.data.gouv.fr/datasets/reseau-de-transport-urbain-lisatis) | Yes |
+| Les Avanchers-Valmorel | [Navettes saisonnières Valmobus](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-de-la-station-de-ski-valmorel-gtfs-gtfs-rt) | — |
+| Mayenne | [Réseau urbain May'bus](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-maybus-mayenne-gtfs-gtfs-rt) | Yes |
+| Mende | [Réseau urbain TUM](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-max-mende-mobilites-bus-gtfs-gtfs-rt) | — |
+| Métropole du Grand Nancy | [Réseau urbain Stan](https://transport.data.gouv.fr/datasets/fr-200052264-t0034-0000-1) | — |
+| Métropole Européenne de Lille | [Réseau urbain ilévia](https://transport.data.gouv.fr/datasets/ilevia-localisation-des-arrets-bus-metro-et-tram-gtfs) | — |
+| Métropole Nice Côte d'Azur | [Réseau urbain Lignes d'Azur](https://transport.data.gouv.fr/datasets/donnees-statiques-et-dynamiques-du-reseau-de-transport-lignes-dazur) | — |
+| Métropole Rouen Normandie | [Réseau urbain Astuce](https://transport.data.gouv.fr/datasets/donnees-statiques-et-temps-reel-du-reseau-astuce-metropole-rouen-normandie) | Yes |
+| Métropole Toulon-Provence-Méditerranée | [Réseau urbain Mistral](https://transport.data.gouv.fr/datasets/reseau-de-transport-urbain-de-la-metropole-toulon-provence-mediterranee) | Yes |
+| Metz Métropole | [Réseau urbain Le Met'](https://transport.data.gouv.fr/datasets/fichiers-gtfs-eurometropole-de-metz) | — |
+| Montpellier Méditerranée Métropole | [Réseau urbain TaM](https://transport.data.gouv.fr/datasets/offre-de-transport-tam-en-temps-reel-gtfs-rt-urbain-et-suburbain) | Yes |
+| Nantes Métropole | [Réseau urbain Naolib](https://transport.data.gouv.fr/datasets/reseau-de-transports-collectifs-naolib) | Yes |
+| Nogent-le-Rotrou | [Réseau urbain Nosbus](https://transport.data.gouv.fr/datasets/reseau-urbain-nosbus) | Yes |
+| Normandie | [Agrégat des réseaux urbains et interurbains de Normandie](https://transport.data.gouv.fr/datasets/base-de-donnees-multimodale-des-reseaux-de-transport-public-normands) | — |
+| Occitanie | [Réseau interurbain liO Occitanie](https://transport.data.gouv.fr/datasets/reseau-lio-occitanie) | — |
+| Oloron-Sainte-Marie | [Réseau urbain La Navette Oloron Sainte-Marie](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-oloron-sainte-marie-la-navette-gtfs-gtfs-rt) | Yes |
+| Orléans Métropole | [Réseau urbain TAO](https://transport.data.gouv.fr/datasets/gtfs-netex-et-gtfs-rt-reseau-tao-orleans-metropole) | — |
+| Pays de la Loire | [Réseau interurbain Aléop - Pays de la Loire](https://transport.data.gouv.fr/datasets/arrets-horaires-et-circuits-des-lignes-de-transports-aleop-1) | Yes |
+| Ramatuelle | [Navette estivale Ramatuelle](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-navette-estivale-ramatuelle) | — |
+| Rayol-Canadel-sur-Mer | [Réseau saisonnier Le Rayol Canadel sur Mer](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-ligne-le-rayol-canadel-sur-mer) | — |
+| Région Sud — Provence-Alpes-Côte d’Azur | [Réseau interurbain Express ZOU !](https://transport.data.gouv.fr/datasets/lignes-des-reseaux-transport-zou-provence-alpes-cote-d-azur-express-3-3) | Yes |
+| Région Sud — Provence-Alpes-Côte d’Azur | [Réseau interurbain bus Proximité ZOU !](https://transport.data.gouv.fr/datasets/lignes-des-reseaux-transport-zou-provence-alpes-cote-d-azur-proximite-3-3) | Yes |
+| Région Sud — Provence-Alpes-Côte d’Azur | [Trains régionaux ZOU ! - Transdev Rail Sud Intermétropole](https://transport.data.gouv.fr/datasets/zou) | — |
+| Région Sud — Provence-Alpes-Côte d’Azur | [Trains régionaux ZOU !](https://transport.data.gouv.fr/datasets/trains-zou-en-provence-alpes-cote-dazur) | Yes |
+| Rennes Métropole | [Réseau urbain STAR](https://transport.data.gouv.fr/datasets/versions-des-horaires-theoriques-des-lignes-de-bus-et-de-metro-du-reseau-star-dans-les-formats-gtfs-et-netex-ainsi-que-les-urls-dacces-au-gtfs-rt-1) | Yes |
+| Rosny-sous-Bois | [Réseau urbain Titus](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-titus-rosny-sous-bois-gtfs-gtfs-rt) | Yes |
+| Saint-Étienne Métropole | [Réseau urbain STAS](https://transport.data.gouv.fr/datasets/horaires-du-reseau-stas) | — |
+| Saint-Sulpice-la-Pointe | [Réseau urbain ST SULPICE LA POINTE](https://transport.data.gouv.fr/datasets/reseau-de-transport-urbain-de-la-ville-de-st-sulpice-la-pointe) | Yes |
+| Saint-Tropez | [Réseau urbain Navette Saint-Tropez](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-navette-reguliere-saint-tropez) | — |
+| Sarlat-la-Canéda | [Réseau urbain Sarlat Bus](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-sarlatbus-gtfs-gtfs-rt) | — |
+| Tignes | [Navettes saisonnières Tignes](https://transport.data.gouv.fr/datasets/navettes-tignes) | — |
+| Tours Métropole Val de Loire | [Réseau urbain et périurbain Fil Bleu](https://transport.data.gouv.fr/datasets/fil-bleu-syndicat-des-mobilites-gtfs-gtfs-rt) | — |
+| Val-d'Isère | [Navettes saisonnières Val d'Isère](https://transport.data.gouv.fr/datasets/navettes-val-disere) | — |
 <!-- networks:end -->
 
 </details>
