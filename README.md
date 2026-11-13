@@ -86,6 +86,16 @@ Home Assistant integration for the **next departures at your public transport st
 
 Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (Naolib), Lille (Ilévia), Rouen (Astuce), Nice (Lignes d'Azur), Tours (Fil Bleu), Le Havre (LiA), Angers (Irigo), Brest (Bibus), and many smaller networks — any dataset of the catalogue with both a GTFS file and a GTFS-RT feed. More networks can be added as providers: see [Adding a network](#adding-a-network).
 
+### Cities and networks through GTFS-RT
+
+<details>
+<summary>Every network the GTFS-RT provider offers, by area</summary>
+
+<!-- networks:start -->
+<!-- networks:end -->
+
+</details>
+
 ## Prerequisites
 
 - Home Assistant 2024.12 or later

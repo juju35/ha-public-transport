@@ -1,0 +1,90 @@
+name: Networks list
+
+# The README's list of the GTFS-RT networks (scripts/networks_readme.py), read from the transport.data.gouv.fr
+# catalogue. Protected main is never pushed to: on a pull request the list is committed onto its branch; every week
+# (or by hand) a refreshed list comes as a pull request of its own.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 5 * * 1"
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/networks_readme.py"
+      - "custom_components/public_transport/providers/gtfs.py"
+      - ".github/workflows/networks.yml"
+
+permissions:
+  contents: write
+  pull-requests: write
+  # Lets the job start the check workflows on its own commit (see below).
+  actions: write
+
+concurrency:
+  group: networks-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  networks:
+    name: List the GTFS-RT networks
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || '' }}
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.13"
+      - run: pip install aiohttp
+      - name: Write the list into the README
+        run: python scripts/networks_readme.py
+      - name: Commit onto the pull request
+        id: commit
+        if: github.event_name == 'pull_request'
+        run: |
+          if [ -z "$(git status --porcelain README.md)" ]; then
+            echo "No change to the list."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          # [skip ci]: the checks are re-run on this commit below as workflow_dispatch runs.
+          git commit -m "docs: refresh the list of the GTFS-RT networks [skip ci]"
+          git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+      - name: Re-run checks on the list commit
+        if: steps.commit.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # Passed through the environment, never expanded into the script: a branch name cannot inject commands.
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          for wf in lint.yml validate.yml hacs.yml; do
+            [ -f ".github/workflows/$wf" ] && gh workflow run "$wf" --ref "$HEAD_REF"
+          done
+      - name: Open a pull request with the refreshed list
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain README.md)" ]; then
+            echo "No change to the list."
+            exit 0
+          fi
+          # One branch per refresh: a pull request still open from an earlier week is left as it is
+          if [ -n "$(gh pr list --base main --search 'docs: refresh the list of the GTFS-RT networks in:title' --state open --json number --jq '.[]')" ]; then
+            echo "A refresh is already waiting in an open pull request."
+            exit 0
+          fi
+          branch="docs/networks-list-$(date -u +%Y%m%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git add README.md
+          git commit -m "docs: refresh the list of the GTFS-RT networks"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" \
+            --title "docs: refresh the list of the GTFS-RT networks" \
+            --body "The README's list of the GTFS-RT networks, read again from the transport.data.gouv.fr catalogue (scripts/networks_readme.py)."
