@@ -54,16 +54,17 @@ jobs:
           git commit -m "docs: refresh the list of the GTFS-RT networks [skip ci]"
           git push
           echo "pushed=true" >> "$GITHUB_OUTPUT"
-      - name: Re-run checks on the list commit
+      # A push made with GITHUB_TOKEN starts no pull_request run: the checks of the list commit, by hand
+      - name: Run the checks on the list commit
         if: steps.commit.outputs.pushed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-          # Passed through the environment, never expanded into the script: a branch name cannot inject commands.
-          HEAD_REF: ${{ github.head_ref }}
+          # The branch through the environment only, never expanded into the script
+          BRANCH: ${{ github.head_ref }}
         run: |
-          for wf in lint.yml validate.yml hacs.yml; do
-            [ -f ".github/workflows/$wf" ] && gh workflow run "$wf" --ref "$HEAD_REF"
-          done
+          gh workflow run lint.yml --ref "$BRANCH"
+          gh workflow run validate.yml --ref "$BRANCH"
+          gh workflow run hacs.yml --ref "$BRANCH"
       - name: Open a pull request with the refreshed list
         if: github.event_name != 'pull_request'
         env:

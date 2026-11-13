@@ -64,7 +64,12 @@ def table(datasets: list) -> str:
         areas = [str(a.get("nom")) for a in dataset.get("covered_area") or [] if isinstance(a, dict) and a.get("nom")]
         area = ", ".join(areas[:4]) + (f" (+{len(areas) - 4})" if len(areas) > 4 else "")
         page = f"https://transport.data.gouv.fr/datasets/{n.id}"
-        rows.append((_fold(area or n.name), f"| {_cell(area) or '—'} | [{_cell(n.name)}]({page}) | {'Yes' if n.alerts_urls else '—'} |"))
+        rows.append(
+            (
+                _fold(area or n.name),
+                f"| {_cell(area) or '—'} | [{_cell(n.name)}]({page}) | {'Yes' if n.alerts_urls else '—'} |",
+            )
+        )
     rows.sort()
     lines = [
         f"{len(rows)} networks, from the [transport.data.gouv.fr](https://transport.data.gouv.fr) catalogue "
