@@ -1,4 +1,4 @@
-var TRANSPORT_CARD_VERSION = '1.0.0';
+var TRANSPORT_CARD_VERSION = '1.1.0';
 
 // ── Header icon: tinted round icon in the integration's accent (the integration keeps its brand/icon.png) ──────
 var TRANSPORT_ACCENT = '#00897b';
