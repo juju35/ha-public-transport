@@ -1414,7 +1414,7 @@ class TransportCard extends HTMLElement {
   /* Brand logos keep their colors on a light plate, readable in dark themes too. */
   .badge.logo { width: auto; min-width: 40px; max-width: 96px; padding: 0 8px; box-sizing: border-box; border-radius: 10px;
                 background: #fff; box-shadow: inset 0 0 0 1px var(--divider-color, rgba(0, 0, 0, .12)); }
-  .badge.logo img { max-width: 80px; max-height: 26px; object-fit: contain; display: block; }
+  .badge.logo img { max-width: 80px; max-height: 32px; object-fit: contain; display: block; }
   .titles { flex: 1 1 0; min-width: 5ch; }
   :host([hide-title]) .titles > .name { display: none; }
   .name { font-size: 16px; font-weight: 500; line-height: 1.25; color: var(--primary-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
