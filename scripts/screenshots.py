@@ -6,6 +6,7 @@ A screenshot is rewritten only when its decoded pixels change, so a re-render ne
 The clock is frozen on 13 November 2026, 08:00 in Paris, so countdowns and dates stay the same.
 """
 
+import base64
 import json
 import os
 import shutil
@@ -67,8 +68,8 @@ LINES = {
 }
 
 
-def dep(line, minutes, destination, *, realtime=True, delay=0):
-    color, text = LINES[line]
+def dep(line, minutes, destination, *, realtime=True, delay=0, colors=None):
+    color, text = (colors or LINES)[line]
     when = NOW + timedelta(minutes=minutes, seconds=20)
     return {
         "line_id": line,
@@ -108,17 +109,30 @@ ALERTS = [
 MAJOR = [{**ALERTS[0], "id": "P3", "title": "Metro line a interrupted", "level": 3, "lines": ["a"]}]
 
 
-def stop(entity, name, mode, departures, alerts=()):
+LOGOS = ROOT / "custom_components/public_transport/frontend/logos"
+
+
+def logo(name):
+    """A network logo of the integration as a data URL (the page has no server to fetch it from)."""
+    path = LOGOS / name
+    mime = "image/svg+xml" if path.suffix == ".svg" else "image/png"
+    return f"data:{mime};base64,{base64.b64encode(path.read_bytes()).decode()}"
+
+
+def stop(
+    entity, name, mode, departures, alerts=(), *, provider="star", network="STAR", city="Rennes", logo_file="star.svg"
+):
     return {
         "entity_id": entity,
         "state": departures[0]["departure"] if departures else "unknown",
         "attributes": {
             "config_entry_id": entity,
-            "provider": "star",
-            "network": "STAR",
+            "provider": provider,
+            "network": network,
+            "logo": logo(logo_file),
             "stop_id": "1201",
             "stop_name": name,
-            "stop_city": "Rennes",
+            "stop_city": city,
             "mode": mode,
             "departures": departures,
             "alerts": list(alerts),
@@ -152,6 +166,182 @@ STATES = {
     ),
 }
 BUS_STOP = ["sensor.star_republique_next_departure"]
+
+
+def alert(alert_id, title, description, lines, *, level=2, days=(-2, 5)):
+    return {
+        "id": alert_id,
+        "title": title,
+        "description": description,
+        "level": level,
+        "lines": lines,
+        "start": (NOW + timedelta(days=days[0])).isoformat(),
+        "end": (NOW + timedelta(days=days[1])).isoformat(),
+        "url": None,
+    }
+
+
+# One stop of each other network, with its real lines, official colors (as published) and destinations.
+NETWORKS = {
+    "idfm": {
+        "network": "Île-de-France Mobilités",
+        "provider": "idfm",
+        "logo": "idfm.svg",
+        "city": "Paris",
+        "stop": "Châtelet",
+        "mode": "metro",
+        "colors": {"1": ("#ffcd00", "#000000"), "14": ("#62259d", "#ffffff"), "4": ("#be418d", "#ffffff")},
+        "departures": [
+            ("1", 1, "La Défense", 1),
+            ("14", 2, "Aéroport d'Orly", 0),
+            ("1", 3, "Château de Vincennes", 0),
+            ("4", 4, "Bagneux–Lucie Aubrac", 2),
+            ("14", 5, "Saint-Denis Pleyel", 0),
+            ("4", 7, "Porte de Clignancourt", 0),
+        ],
+        "alerts": [
+            alert("I1", "Line 4: reduced service after 22:00", "Works between Montparnasse and Bagneux.", ["4"])
+        ],
+    },
+    "tcl": {
+        "network": "TCL",
+        "provider": "tcl",
+        "logo": "tcl.svg",
+        "city": "Lyon",
+        "stop": "Bellecour",
+        "mode": "metro",
+        "colors": {"A": ("#ec1c24", "#ffffff"), "D": ("#00a651", "#ffffff")},
+        "departures": [
+            ("A", 2, "Vaulx-en-Velin La Soie", 0),
+            ("D", 3, "Gare de Vénissieux", 0),
+            ("A", 5, "Perrache", 0),
+            ("D", 6, "Gare de Vaise", 1),
+            ("A", 8, "Vaulx-en-Velin La Soie", 0),
+        ],
+        "alerts": [],
+    },
+    "cts": {
+        "network": "CTS",
+        "provider": "cts",
+        "logo": "cts.svg",
+        "city": "Strasbourg",
+        "stop": "Homme de Fer",
+        "mode": "tram",
+        "colors": {
+            "A": ("#e10d19", "#ffffff"),
+            "B": ("#00a0dd", "#ffffff"),
+            "C": ("#f29400", "#ffffff"),
+            "D": ("#007934", "#ffffff"),
+            "F": ("#9bc31c", "#ffffff"),
+        },
+        "departures": [
+            ("A", 2, "Illkirch Graffenstaden", 0),
+            ("D", 3, "Kehl Rathaus", 1),
+            ("B", 4, "Hoenheim Gare", 0),
+            ("C", 6, "Neuhof Rodolphe Reuss", 0),
+            ("F", 8, "Place d'Islande", 0),
+        ],
+        "alerts": [
+            alert("S1", "Line C: Christmas market", "Stop Broglie not served from 26 November.", ["C"], level=1)
+        ],
+    },
+    "tisseo": {
+        "network": "Réseau urbain Tisséo",
+        "provider": "gtfs",
+        "logo": "gtfs-tisseo-reseau-transport-urbain-toulousain.png",
+        "city": "Toulouse",
+        "stop": "Capitole",
+        "mode": "metro",
+        "colors": {"A": ("#e3051c", "#ffffff"), "L4": ("#f39200", "#ffffff")},
+        "departures": [
+            ("A", 1, "Balma-Gramont", 0),
+            ("A", 3, "Basso Cambo", 0),
+            ("L4", 5, "Cité de l'Espace", 2),
+            ("A", 6, "Balma-Gramont", 0),
+        ],
+        "alerts": [],
+    },
+    "tbm": {
+        "network": "Réseau urbain et scolaire TBM",
+        "provider": "gtfs",
+        "logo": "gtfs-offres-de-services-bus-tram-et-scolaire-au-format-gtfs-netex-gtfs-rt-siri-lite.svg",
+        "city": "Bordeaux",
+        "stop": "Hôtel de Ville",
+        "mode": "tram",
+        "colors": {"A": ("#81197f", "#ffffff"), "B": ("#e30613", "#ffffff")},
+        "departures": [
+            ("A", 2, "Floirac Dravemont", 1),
+            ("B", 3, "Pessac Centre", 0),
+            ("A", 5, "Le Haillan Rostand", 0),
+            ("B", 7, "Berges de la Garonne", 0),
+        ],
+        "alerts": [alert("B1", "Line B: works at Quinconces", "Trams every 8 minutes until Sunday.", ["B"])],
+    },
+    "tam": {
+        "network": "Réseau urbain TaM",
+        "provider": "gtfs",
+        "logo": "gtfs-offre-de-transport-tam-en-temps-reel-gtfs-rt-urbain-et-suburbain.png",
+        "city": "Montpellier",
+        "stop": "Comédie",
+        "mode": "tram",
+        "colors": {"1": ("#005ca9", "#ffffff"), "2": ("#f37c21", "#ffffff")},
+        "departures": [
+            ("1", 1, "Odysseum", 0),
+            ("2", 4, "Jacou", 0),
+            ("1", 5, "Mosson", 0),
+            ("2", 9, "Saint-Jean-de-Védas Centre", 1),
+        ],
+        "alerts": [],
+    },
+    "naolib": {
+        "network": "Réseau urbain Naolib",
+        "provider": "gtfs",
+        "logo": "gtfs-reseau-de-transports-collectifs-naolib.svg",
+        "city": "Nantes",
+        "stop": "Commerce",
+        "mode": "tram",
+        "colors": {"1": ("#007a3d", "#ffffff"), "2": ("#e30613", "#ffffff"), "3": ("#1d71b8", "#ffffff")},
+        "departures": [
+            ("1", 2, "François Mitterrand", 0),
+            ("2", 3, "Orvault Grand Val", 0),
+            ("3", 4, "Marcel Paul", 1),
+            ("1", 6, "Ranzay", 0),
+        ],
+        "alerts": [],
+    },
+    "ilevia": {
+        "network": "Réseau urbain ilévia",
+        "provider": "gtfs",
+        "logo": "gtfs-ilevia-localisation-des-arrets-bus-metro-et-tram-gtfs.svg",
+        "city": "Lille",
+        "stop": "Gare Lille Flandres",
+        "mode": "metro",
+        "colors": {"1": ("#ffcd00", "#000000"), "2": ("#e2001a", "#ffffff")},
+        "departures": [
+            ("1", 1, "4 Cantons Stade Pierre Mauroy", 0),
+            ("2", 2, "Saint-Philibert", 0),
+            ("1", 3, "CHU Eurasanté", 0),
+            ("2", 5, "CH Dron", 1),
+        ],
+        "alerts": [],
+    },
+}
+
+for _key, _net in NETWORKS.items():
+    STATES[f"sensor.{_key}_next_departure"] = stop(
+        f"sensor.{_key}_next_departure",
+        _net["stop"],
+        _net["mode"],
+        [
+            dep(line, minutes, dest, delay=delay, colors=_net["colors"])
+            for line, minutes, dest, delay in _net["departures"]
+        ],
+        _net["alerts"],
+        provider=_net["provider"],
+        network=_net["network"],
+        city=_net["city"],
+        logo_file=_net["logo"],
+    )
 
 SHOTS = [
     # The full card on a bus stop: the bus idles before the stop, departures, folded alerts.
@@ -194,6 +384,21 @@ SHOTS = [
         },
     },
 ]
+
+# Each other network: the full card and the mini card, light and dark.
+for _key in NETWORKS:
+    for _theme, _suffix in (("light", ""), ("dark", "-dark")):
+        _entities = {"entities": [f"sensor.{_key}_next_departure"]}
+        SHOTS.append({"file": f"card-{_key}{_suffix}", "theme": _theme, "config": _entities})
+        SHOTS.append(
+            {
+                "file": f"mini-card-{_key}{_suffix}",
+                "theme": _theme,
+                "element": "public-transport-mini-card",
+                "width": 300,
+                "config": _entities,
+            }
+        )
 
 # One GIF per animation, each with a dark twin (same setup): seconds is one loop of the animation.
 ANIMATIONS = [
