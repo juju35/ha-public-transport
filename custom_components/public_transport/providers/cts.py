@@ -14,9 +14,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
-import aiohttp
-
-from .base import Alert, Line, ListedStopsProvider, ProviderAuthError, Stop
+from .base import Alert, Line, ListedStopsProvider, ProviderAuthError, Stop, basic_auth
 from .siri import SiriMonitoringProvider, general_messages, items, text
 
 API = "https://api.cts-strasbourg.eu/v1/siri/2.0"
@@ -38,13 +36,13 @@ class CtsProvider(SiriMonitoringProvider, ListedStopsProvider):
     url = "https://www.cts-strasbourg.eu/fr/portail-open-data/"
     api_key_mode = "required"
 
-    def _auth(self) -> aiohttp.BasicAuth:
+    def _auth(self) -> dict[str, str]:
         if not self.api_key:
             raise ProviderAuthError("The CTS API needs a token")
-        return aiohttp.BasicAuth(self.api_key, "")
+        return basic_auth(self.api_key)
 
     async def _api(self, endpoint: str, **params: Any) -> Any:
-        return await self._get_json(f"{API}/{endpoint}", params=params or None, auth=self._auth())
+        return await self._get_json(f"{API}/{endpoint}", params=params or None, headers=self._auth())
 
     async def _list_stops(self) -> list[tuple[Stop, list[str]]]:
         data = await self._api("stoppoints-discovery")

@@ -255,6 +255,8 @@ async def test_cts(cts_provider, aioclient_mock) -> None:
     ]
     assert await cts_provider.alerts() == []
     assert aioclient_mock.mock_calls[-2][1].query["MonitoringRef"] == "275C"
+    # The token is the user of a basic authentication with an empty password.
+    assert aioclient_mock.mock_calls[-2][3]["Authorization"] == "Basic dG9rZW46"
 
 
 async def test_cts_needs_a_token(hass, aioclient_mock) -> None:
@@ -316,6 +318,7 @@ async def test_tcl(tcl_provider, aioclient_mock) -> None:
     call = next(c for c in aioclient_mock.mock_calls if tcl.PASSAGES in str(c[1]))
     assert call[1].query["field"] == "id"
     assert call[1].query["value"] == "30101"
+    assert call[3]["Authorization"] == "Basic bWU6c2VjcmV0"
     alerts = await tcl_provider.alerts()
     assert [(a.title, a.level, a.line_ids) for a in alerts] == [("Travaux", 2, ("C9", "A"))]
 
