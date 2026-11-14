@@ -41,4 +41,4 @@ custom_components/public_transport/
   Only bus passages have `departtheorique` (delay = depart − departtheorique). Alert `niveau`: list of labels
   (Mineure 1, Bloquante 2, Majeure 3) or a number 1-3. Field names checked against portal answers captured in Oct. 2026 and the dataset schemas.
 - Stop step labels: bus lines (dessertes) + destinations of the coming passages (`destinations()`), to tell platforms apart.
-- Card: countdown re-rendered every 15 s; approaching ≤ 2 min (scene `arriving`, pulsing countdown). Translations split at release (scripts/split-frontend.mjs).
+- Card: countdown re-rendered every 15 s; approaching ≤ 2 min (scene `arriving`, pulsing countdown). Departures grouped by line + destination (`_groups`): full card 3 times per row and one scene per stop, mini card one scene for the next departure of all stops and 3 rows × 2 times per stop. Translations split at release (scripts/split-frontend.mjs).

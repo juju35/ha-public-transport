@@ -233,7 +233,7 @@ test('header status: alerts first, then real time, timetable, no departure', () 
   const timetable = makeCard(TransportCard, {}, { 'sensor.a': stopState({}, { departures: [dep('11', 4, { realtime: false })] }) });
   assert.equal(timetable._status(timetable._stops(), t).text, 'Timetable');
   const alerts = makeCard(TransportCard, {}, { 'sensor.a': stopState({}, { alerts: [{ id: 'a', level: 2 }, { id: 'b', level: 1 }] }) });
-  assert.deepEqual({ ...alerts._status(alerts._stops(), t) }, { cls: 'warn', text: 'Alerts: 2' });
+  assert.deepEqual({ ...alerts._status(alerts._stops(), t) }, { cls: 'warn', text: 'Alerts: 2', n: 2 });
   const none = makeCard(TransportCard, {}, { 'sensor.a': stopState({}, { departures: [] }) });
   assert.equal(none._status(none._stops(), t).text, 'No departure');
 });
@@ -245,17 +245,58 @@ test('texts from the network are escaped', () => {
   assert.doesNotMatch(html, /<b>/);
 });
 
-test('the mini card is compact: the next three departures of each stop, with a detail button', () => {
-  const states = { 'sensor.a': stopState({}, { departures: [dep('C4', 1), dep('11', 5), dep('C4', 9), dep('11', 14)] }) };
-  const card = makeCard(TransportMiniCard, {}, states);
+test('the mini card is compact: one scene for the next departure, three rows of two times per stop, a detail button', () => {
+  const metro = stopState({}, { mode: 'metro', departures: [dep('a', 1), dep('a', 4), dep('a', 8)] });
+  const bus = stopState({}, { departures: [dep('C4', 3), dep('11', 5), dep('C4', 9), dep('12', 14), dep('13', 15), dep('11', 20)] });
+  const card = makeCard(TransportMiniCard, { entities: ['sensor.bus', 'sensor.metro'] }, { 'sensor.bus': bus, 'sensor.metro': metro });
   assert.equal(card._compact(), true);
   const html = card._renderCompact(card._stops(), TransportI18n.en);
-  assert.equal((html.match(/class="cdep[ "]/g) || []).length, 3);
-  assert.match(html, /class="cdep soon"/);
+  // A single scene, for the metro a minute away though it is the second stop.
+  assert.equal((html.match(/class="scene /g) || []).length, 1);
+  assert.match(html, /class="scene arriving"/);
+  assert.match(html, /class="sleepers"/);
+  // Metro: one row (a), bus: three rows out of four lines and destinations; two times each.
+  assert.equal((html.match(/class="dep[ "]/g) || []).length, 4);
+  assert.equal((html.match(/class="times n2"/g) || []).length, 4);
+  assert.match(html, /class="when">3 min<\/span><span class="then">9<\/span>/);
+  assert.doesNotMatch(html, />13</);
+  assert.match(html, /section-title"/);
   assert.match(card._detailButton(TransportI18n.en), /data-action="detail"/);
   card._zoomed = true;
   assert.equal(card._compact(), false);
   assert.match(card._detailButton(TransportI18n.en), /Back to the compact view/);
+});
+
+test('the full card groups the departures by line and destination, with three times per row', () => {
+  const states = { 'sensor.a': stopState({}, { departures: [dep('C4', 3), dep('11', 5), dep('C4', 9), dep('C4', 12), dep('C4', 20), dep('C4', 75, { destination: 'Other' })] }) };
+  const card = makeCard(TransportCard, {}, states);
+  const html = card._renderFull(card._stops(), TransportI18n.en);
+  assert.equal((html.match(/class="dep[ "]/g) || []).length, 3);
+  assert.match(html, /class="when">3 min<\/span><span class="then">9<\/span><span class="then">12<\/span>/);
+  // A row with one departure keeps its empty columns, so the times stay aligned.
+  assert.match(html, /class="when">5 min<\/span><span class="then"><\/span><span class="then"><\/span>/);
+  // After an hour, the clock time.
+  assert.match(html, /class="when">\d{2}:\d{2}/);
+  const clock = makeCard(TransportCard, { time_format: 'absolute' }, states);
+  assert.match(clock._renderFull(clock._stops(), TransportI18n.en), /class="then">\d{2}:\d{2}/);
+});
+
+test('every stop of the full card has its scene; a late real-time departure strikes its timetable time', () => {
+  const late = stopState({}, { departures: [dep('C4', 4, { delay: 2, scheduled: at(2) })] });
+  const card = makeCard(TransportCard, { entities: ['sensor.a', 'sensor.b'] }, { 'sensor.a': late, 'sensor.b': stopState() });
+  const html = card._renderFull(card._stops(), TransportI18n.en);
+  assert.equal((html.match(/class="scene /g) || []).length, 2);
+  assert.match(html, /class="was">\d{2}:\d{2}/);
+  assert.match(html, /class="delay warn">\+2 min late/);
+});
+
+test('the mini card header keeps the title readable: alert sign and count, or the dot alone', () => {
+  const alerts = [{ id: 'a', level: 2 }, { id: 'b', level: 1 }];
+  const card = makeCard(TransportMiniCard, {}, { 'sensor.a': stopState({}, { alerts }) });
+  const status = card._status(card._stops(), TransportI18n.en);
+  assert.equal(status.n, 2);
+  assert.match(TransportCard._styles(), /\.chip\.short\.has-alerts \.cicon \{ display: block; \}/);
+  assert.match(TransportCard._styles(), /\.chip\.short:not\(\.has-alerts\) \.t \{ display: none; \}/);
 });
 
 test('the refresh action targets the entries of the shown stops', async () => {
