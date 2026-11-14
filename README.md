@@ -307,7 +307,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Val-d'Isère | [Navettes saisonnières Val d'Isère](https://transport.data.gouv.fr/datasets/navettes-val-disere) | — |
 | Valence Romans Agglo | [Réseau urbain Citéa](https://transport.data.gouv.fr/datasets/ce-jeu-de-donnees-contient-la-liste-des-arrets-des-horaires-et-des-parcours-theoriques-du-reseau-de-transport-urbain-et-interurbain-de-vrm) | Yes |
 | Valenciennes Métropole, Porte du Hainaut | [Réseau urbain Transvilles](https://transport.data.gouv.fr/datasets/simouv-horaires-theoriques-format-gtfs-et-temps-reel-format-siri-transvilles-valenciennes) | — |
-| Vallée de Chamonix-Mont-Blanc | [Réseau urbain Chamonix](https://transport.data.gouv.fr/datasets/gtfs-reseau-chamonix-mobilite) | Yes |
+| Vallée de Chamonix-Mont-Blanc | [Réseau urbain Chamonix](https://transport.data.gouv.fr/datasets/gtfs-reseau-chamonix-mobilite) | — |
 | Vesoul | [Réseau urbain moova](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-moova-communaute-dagglomeration-de-vesoul-gtfs) | — |
 | Vichy Communauté | [Réseau urbain Mobivie](https://transport.data.gouv.fr/datasets/mobivie-reseau-urbain-vichy-communaute) | — |
 | Vienne Condrieu | [Réseau urbain L'va](https://transport.data.gouv.fr/datasets/reseau-lva) | Yes |

@@ -40,6 +40,8 @@ DOWNLOAD_TIMEOUT = aiohttp.ClientTimeout(total=600, sock_read=120)
 STATIC_REFRESH = timedelta(hours=24)
 # Departures looked for this far ahead, at most this many per stop.
 HORIZON = timedelta(hours=3)
+# When nothing runs within HORIZON (typically overnight), look this far to keep the next departures.
+LOOKAHEAD = timedelta(hours=24)
 PER_STOP = 30
 # A departure a few minutes late is still worth listing when the real-time feed fails.
 PAST = timedelta(minutes=2)
@@ -520,12 +522,21 @@ class GtfsProvider(Provider):
             updates = {}
         zone = dt_util.get_time_zone(static.timezone) or dt_util.get_default_time_zone()
         now = dt_util.now(zone)
+
+        def scheduled_at(stop: Stop, horizon: timedelta) -> list[Departure]:
+            items = _scheduled(static, timetable.passages.get(stop.id, []), zone, now, horizon)
+            found = [d for d in (_apply(static, stop.id, item, updates) for item in items) if d is not None]
+            found.extend(_added(static, stop.id, updates, now))
+            found.sort(key=lambda d: d.departure)
+            return found
+
         for stop in stops:
-            items = _scheduled(static, timetable.passages.get(stop.id, []), zone, now)
-            departures = [d for d in (_apply(static, stop.id, item, updates) for item in items) if d is not None]
-            departures.extend(_added(static, stop.id, updates, now))
-            departures.sort(key=lambda d: d.departure)
-            result[stop.key] = [d for d in departures if now - PAST <= d.departure <= now + HORIZON][:PER_STOP]
+            within = [d for d in scheduled_at(stop, HORIZON) if now - PAST <= d.departure <= now + HORIZON]
+            if within:
+                result[stop.key] = within[:PER_STOP]
+            else:
+                # Nothing in the next HORIZON: keep the card alive with the next departures (e.g. tomorrow morning).
+                result[stop.key] = [d for d in scheduled_at(stop, LOOKAHEAD) if d.departure >= now - PAST][:PER_STOP]
         return result
 
     async def alerts(self) -> list[Alert]:
@@ -558,14 +569,18 @@ class GtfsProvider(Provider):
 
 
 def _scheduled(
-    static: GtfsStatic, passages: list[tuple[int, str, int]], zone: tzinfo, now: datetime
+    static: GtfsStatic,
+    passages: list[tuple[int, str, int]],
+    zone: tzinfo,
+    now: datetime,
+    horizon: timedelta = HORIZON,
 ) -> list[tuple[datetime, str, int, str]]:
-    """Passages of yesterday's and today's services in the coming hours: (time, trip, sequence, service date)."""
+    """Passages of the services around now in the coming hours: (time, trip, sequence, service date)."""
     found = []
-    for day in (now.date() - timedelta(days=1), now.date()):
+    for day in (now.date() - timedelta(days=1), now.date(), now.date() + timedelta(days=1)):
         # GTFS times count from noon minus 12 h, which is midnight except on daylight saving days.
         base = datetime(day.year, day.month, day.day, 12, tzinfo=zone) - timedelta(hours=12)
-        low, high = (now - PAST - base).total_seconds() - 3600, (now + HORIZON - base).total_seconds()
+        low, high = (now - PAST - base).total_seconds() - 3600, (now + horizon - base).total_seconds()
         for seconds, trip_id, sequence in passages:
             if seconds < low or seconds > high:
                 continue

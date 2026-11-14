@@ -131,6 +131,24 @@ async def test_departures_with_real_time(provider, aioclient_mock) -> None:
     assert g2[0].direction == 1
 
 
+async def test_overnight_keeps_next_departures(provider, aioclient_mock) -> None:
+    # The only departure is well beyond HORIZON (e.g. tomorrow morning): the card must still show it.
+    aioclient_mock.get(data.GTFS_URL, content=data.gtfs_zip_times(("n1", 300)), headers={"ETag": '"v1"'})
+    aioclient_mock.get(data.RT_URL, content=data.feed())
+    aioclient_mock.get(data.ALERTS_URL, content=data.feed())
+    result = await provider.departures([G1])
+    assert [d.trip_id for d in result["tram:G1"]] == ["n1"]
+
+
+async def test_within_horizon_hides_far_departures(provider, aioclient_mock) -> None:
+    # A near departure exists, so the far one (beyond HORIZON) stays out of the normal window.
+    aioclient_mock.get(data.GTFS_URL, content=data.gtfs_zip_times(("near", 5), ("far", 300)), headers={"ETag": '"v1"'})
+    aioclient_mock.get(data.RT_URL, content=data.feed())
+    aioclient_mock.get(data.ALERTS_URL, content=data.feed())
+    result = await provider.departures([G1])
+    assert [d.trip_id for d in result["tram:G1"]] == ["near"]
+
+
 async def test_real_time_failure_keeps_the_timetable(provider, aioclient_mock) -> None:
     mock_feeds(aioclient_mock, rt_status=503)
     result = await provider.departures([G1])
