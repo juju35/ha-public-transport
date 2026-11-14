@@ -149,7 +149,14 @@ BUS = [
     dep("C1", 16, "Chantepie Rosa Parks"),
     dep("11", 27, "Gaité", realtime=False),
 ]
-METRO = [dep("a", 1, "J.F. Kennedy"), dep("a", 4, "La Poterie"), dep("b", 6, "Cesson Viasilva")]
+METRO = [
+    dep("a", 1, "J.F. Kennedy"),
+    dep("a", 4, "La Poterie"),
+    dep("b", 6, "Cesson Viasilva"),
+    dep("a", 8, "J.F. Kennedy"),
+    dep("a", 11, "La Poterie"),
+    dep("b", 13, "Cesson Viasilva"),
+]
 
 STATES = {
     "sensor.star_republique_next_departure": stop(
@@ -451,7 +458,7 @@ SHOTS = [
         },
         "open": True,
     },
-    # The mini card: the next three departures of each stop.
+    # The mini card: the scene of the next departure, then up to three rows of two times per stop.
     {
         "file": "mini-card",
         "theme": "light",

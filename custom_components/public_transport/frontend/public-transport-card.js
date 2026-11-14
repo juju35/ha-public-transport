@@ -1,4 +1,4 @@
-var TRANSPORT_CARD_VERSION = '1.1.0';
+var TRANSPORT_CARD_VERSION = '1.2.0';
 
 // ── Header icon: tinted round icon in the integration's accent (the integration keeps its brand/icon.png) ──────
 var TRANSPORT_ACCENT = '#00897b';
@@ -1157,7 +1157,7 @@ class TransportCard extends HTMLElement {
           ? `<div class="badge logo"><img src="${transportEsc(logo)}" alt=""></div>`
           : `<div class="badge" style="--c:${TRANSPORT_ACCENT}">${transportIcon('header')}</div>`) +
         '<div class="titles"><div class="name"></div><div class="sub" hidden></div></div>' +
-        '<span class="chip" hidden><span class="dot"></span><span class="t"></span></span>' +
+        `<span class="chip${compact ? ' short' : ''}" hidden><span class="dot"></span>${transportIcon('alert', 'cicon')}<span class="t"></span></span>` +
         (c.show_refresh && stops.length && !compact
           ? `<button class="btn round refresh" data-action="refresh" title="${transportEsc(t.refresh)}" aria-label="${transportEsc(t.refresh)}">${transportIcon('refresh')}</button>`
           : '') +
@@ -1173,10 +1173,11 @@ class TransportCard extends HTMLElement {
     var status = this._status(stops, t);
     chip.hidden = !status;
     if (status) {
-      chip.className = `chip ${status.cls}`;
+      // The mini card keeps its title readable: an alert sign and the count, or the dot alone (the text stays in the tooltip).
+      chip.className = `chip ${status.cls}${compact ? ' short' : ''}${status.n ? ' has-alerts' : ''}`;
       chip.title = status.text;
       chip.setAttribute('aria-label', status.text);
-      chip.querySelector('.t').textContent = status.text;
+      chip.querySelector('.t').textContent = compact && status.n ? String(status.n) : status.text;
     }
     var refresh = header.querySelector('.refresh');
     if (refresh) refresh.classList.toggle('spinning', !!this._refreshing);
@@ -1210,7 +1211,7 @@ class TransportCard extends HTMLElement {
       departures = departures.concat(transportDepartures(a) || []);
     });
     var count = Object.keys(alerts).length;
-    if (count && this._config.show_alerts) return { cls: level >= 3 ? 'crit' : 'warn', text: transportFill(t.alerts_count, { n: count }) };
+    if (count && this._config.show_alerts) return { cls: level >= 3 ? 'crit' : 'warn', text: transportFill(t.alerts_count, { n: count }), n: count };
     if (!departures.length) return stops.some((s) => s.st) ? { cls: 'idle', text: t.no_departures_short } : null;
     return departures.some((d) => d.realtime) ? { cls: 'ok live', text: t.realtime } : { cls: 'idle', text: t.timetable };
   }
@@ -1226,10 +1227,31 @@ class TransportCard extends HTMLElement {
 
   _renderFull(stops, t) {
     var many = stops.length > 1;
-    return `<div class="content">${stops.map((s, i) => this._renderStop(s, i, many, t)).join('')}</div>`;
+    return `<div class="content">${stops.map((s) => this._renderStop(s, many, t)).join('')}</div>`;
   }
 
-  _renderStop(stop, index, many, t) {
+  // The coming departures of a stop, one row per line and destination with its next times, in the order of the first one.
+  _groups(departures, rows, per) {
+    var groups = [];
+    var byKey = {};
+    departures.forEach((d) => {
+      var key = `${d.line_id || d.line}\u0000${d.destination || ''}`;
+      var g = byKey[key];
+      if (!g) {
+        if (groups.length >= rows) return;
+        g = byKey[key] = { first: d, deps: [] };
+        groups.push(g);
+      }
+      if (g.deps.length < per) g.deps.push(d);
+    });
+    return groups;
+  }
+
+  _valid(a, now) {
+    return (transportDepartures(a) || []).filter((d) => !Number.isNaN(transportMinutes(d.departure, now)));
+  }
+
+  _renderStop(stop, many, t) {
     var st = stop.st;
     var a = st?.attributes || {};
     var html = '<section class="stop">';
@@ -1241,12 +1263,10 @@ class TransportCard extends HTMLElement {
       return `${html}<div class="empty">${transportEsc(st ? t.unavailable : t.no_entity)}</div></section>`;
     }
     var now = this._now();
-    var departures = all.filter((d) => !Number.isNaN(transportMinutes(d.departure, now))).slice(0, Math.max(1, this._config.max_departures));
-    if (this._config.show_scene && index === 0) html += this._renderScene(a, departures[0], t, now);
+    var departures = this._valid(a, now);
+    if (this._config.show_scene) html += this._renderScene(a, departures[0], t, now);
     if (a.stale) html += `<div class="note warn">${transportIcon('offline')}<span>${transportEsc(t.stale)}</span></div>`;
-    html += departures.length
-      ? `<div class="departures">${departures.map((d) => this._renderDeparture(d, a.mode, t, now)).join('')}</div>`
-      : `<div class="empty quiet">${transportIcon('night')}<span>${transportEsc(t.no_departures)}</span></div>`;
+    html += this._renderBoard(departures, a.mode, t, now, Math.max(1, this._config.max_departures), 3);
     if (this._config.show_alerts && (a.alerts || []).length) html += this._renderAlerts(stop.id, a, t);
     return `${html}</section>`;
   }
@@ -1306,7 +1326,7 @@ class TransportCard extends HTMLElement {
 
   _when(d, t, now) {
     var minutes = transportMinutes(d.departure, now);
-    var clock = new Date(d.departure).toLocaleTimeString(transportLocale(this._hass, this._config), { hour: '2-digit', minute: '2-digit' });
+    var clock = this._clock(d.departure);
     if (this._config.time_format === 'absolute' || minutes >= 60) return clock;
     return minutes < 1 ? t.now : transportFill(t.min, { n: minutes });
   }
@@ -1317,20 +1337,42 @@ class TransportCard extends HTMLElement {
     var delay = Number(d.delay) || 0;
     var late = delay > 0 ? `<span class="delay warn">${transportEsc(transportFill(t.late, { n: delay }))}</span>` : '';
     var early = delay < 0 ? `<span class="delay active">${transportEsc(transportFill(t.early, { n: -delay }))}</span>` : '';
-    return `<span class="prec ok live">${transportIcon('realtime')}${transportEsc(t.realtime)}</span>${late}${early}`;
+    // The timetable time it replaces, struck through.
+    var was = delay && d.scheduled && !Number.isNaN(Date.parse(d.scheduled)) ? `<span class="was">${transportEsc(this._clock(d.scheduled))}</span>` : '';
+    return `<span class="prec ok live">${transportIcon('realtime')}${transportEsc(t.realtime)}</span>${late}${early}${was}`;
   }
 
-  _renderDeparture(d, mode, t, now) {
+  _clock(iso) {
+    return new Date(iso).toLocaleTimeString(transportLocale(this._hass, this._config), { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // The next times of a row after the first: bare minutes, or the clock time like the countdown.
+  _short(d, now) {
     var minutes = transportMinutes(d.departure, now);
-    var soon = minutes <= TRANSPORT_SOON;
+    return this._config.time_format === 'absolute' || minutes >= 60 ? this._clock(d.departure) : String(minutes);
+  }
+
+  _renderBoard(departures, mode, t, now, rows, per) {
+    return departures.length
+      ? `<div class="departures">${this._groups(departures, rows, per).map((g) => this._renderRow(g, mode, t, now, per)).join('')}</div>`
+      : `<div class="empty quiet">${transportIcon('night')}<span>${transportEsc(t.no_departures)}</span></div>`;
+  }
+
+  _renderRow(g, mode, t, now, per) {
+    var d = g.first;
+    var soon = transportMinutes(d.departure, now) <= TRANSPORT_SOON;
     var icon = d.realtime
       ? `<span class="rt ok live" title="${transportEsc(t.realtime)}">${transportIcon('realtime')}</span>`
       : `<span class="rt idle" title="${transportEsc(t.timetable_hint)}">${transportIcon('clock')}</span>`;
-    var delay = Number(d.delay) || 0;
-    var sub = delay > 0 ? `<span class="delay warn">${transportEsc(transportFill(t.late, { n: delay }))}</span>` : '';
+    var delay = d.realtime ? Number(d.delay) || 0 : 0;
+    var sub = delay > 0
+      ? `<span class="delay warn">${transportEsc(transportFill(t.late, { n: delay }))}</span>`
+      : delay < 0 ? `<span class="delay active">${transportEsc(transportFill(t.early, { n: -delay }))}</span>` : '';
+    var times = `<span class="when">${transportEsc(this._when(d, t, now))}</span>`;
+    for (var i = 1; i < per; i++) times += `<span class="then">${g.deps[i] ? transportEsc(this._short(g.deps[i], now)) : ''}</span>`;
     return `<div class="dep${soon ? ' soon' : ''}">${this._badge(d, mode)}` +
       `<div class="what"><span class="dest">${transportEsc(d.destination)}</span>${sub}</div>` +
-      `${icon}<span class="when">${transportEsc(this._when(d, t, now))}</span></div>`;
+      `${icon}<span class="times n${per}">${times}</span></div>`;
   }
 
   _renderAlerts(stopId, a, t) {
@@ -1430,6 +1472,10 @@ class TransportCard extends HTMLElement {
           box-sizing: border-box; flex: 0 1 auto; min-width: 0; overflow: hidden; }
   .chip .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   .chip.live .dot { animation: tp-glow 1.2s ease-in-out infinite alternate; }
+  .chip .cicon { display: none; width: 13px; height: 13px; color: var(--c); }
+  /* Mini card: the alert sign and the count, or the dot alone. */
+  .chip.short.has-alerts .dot { display: none; } .chip.short.has-alerts .cicon { display: block; }
+  .chip.short:not(.has-alerts) { padding: 4px; } .chip.short:not(.has-alerts) .t { display: none; }
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; cursor: pointer; font: inherit; font-size: 13px;
          font-weight: 500; padding: 6px 12px; border-radius: 18px; background: var(--secondary-background-color, rgba(127,127,127,.12));
          color: var(--primary-text-color); min-width: 0; flex: none; }
@@ -1487,6 +1533,7 @@ class TransportCard extends HTMLElement {
   .prec .icon { width: 14px; height: 14px; color: var(--c); }
   .prec.live .icon, .rt.live .icon { animation: tp-glow 1.2s ease-in-out infinite alternate; }
   .delay { font-size: 12px; font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .was { text-decoration: line-through; white-space: nowrap; }
   .lb { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; min-width: 30px; height: 22px; padding: 0 6px; flex: none;
         border-radius: 6px; font-size: 12px; font-weight: 700; letter-spacing: .01em; background: var(--lc); color: var(--lt);
         box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); white-space: nowrap; }
@@ -1495,11 +1542,17 @@ class TransportCard extends HTMLElement {
   .dep { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 10px; padding: 6px 2px; font-size: 13px;
          border-bottom: 1px solid var(--divider-color, rgba(127,127,127,.15)); }
   .dep:last-child { border-bottom: none; }
-  .dep .what { display: flex; align-items: baseline; gap: 6px; min-width: 0; }
+  .dep .what { display: flex; flex-direction: column; min-width: 0; }
   .dep .dest { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--primary-text-color); }
+  .dep .what .delay { font-size: 11px; line-height: 1.3; }
+  /* The next times of a line and destination, in aligned columns: the first one bold. */
+  .times { display: grid; grid-template-columns: minmax(48px, auto) repeat(2, 36px); align-items: baseline; text-align: right; }
+  .times.n2 { grid-template-columns: minmax(48px, auto) 36px; }
+  .times.n1 { grid-template-columns: minmax(48px, auto); }
+  .then { font-size: 12px; color: var(--secondary-text-color); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .rt { display: inline-flex; color: var(--c); }
   .rt .icon { width: 15px; height: 15px; }
-  .when { min-width: 44px; text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--primary-text-color); white-space: nowrap; }
+  .when { min-width: 44px; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--primary-text-color); white-space: nowrap; }
   .dep.soon .when { color: color-mix(in srgb, var(--tp-accent) 55%, var(--primary-text-color, #212121)); animation: tp-glow 1.2s ease-in-out infinite alternate; }
   .empty { padding: 12px 4px; color: var(--secondary-text-color); font-size: 13px; }
   .header + .body > .empty { padding: 12px 16px 16px; }
@@ -1525,19 +1578,13 @@ class TransportCard extends HTMLElement {
   .alert-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--secondary-text-color); }
   .alert-foot a { display: inline-flex; align-items: center; gap: 3px; color: color-mix(in srgb, var(--tp-accent) 55%, var(--primary-text-color, #212121)); text-decoration: none; }
   .alert-foot a .icon { width: 12px; height: 12px; }
-  /* Mini card: one line per stop, its next departures side by side. */
+  /* Mini card: one scene for the next departure, then the board of each stop. */
   ha-card.mini { padding-bottom: 12px; }
-  .compact { padding: 10px 12px 0; display: flex; flex-direction: column; gap: 8px; }
-  .crow { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .crow .cname { display: flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .04em; color: var(--secondary-text-color); min-width: 0; }
-  .crow .cname span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .crow .cname .icon { width: 14px; height: 14px; }
-  .crow .cname .alert-mark { color: var(--tp-warn); }
-  .cdeps { display: flex; gap: 6px; flex-wrap: wrap; }
-  .cdep { display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px 3px 3px; border-radius: 14px; background: var(--secondary-background-color, rgba(127,127,127,.1)); }
-  .cdep .when { min-width: 0; font-size: 13px; }
-  .cdep.soon .when { color: color-mix(in srgb, var(--tp-accent) 55%, var(--primary-text-color, #212121)); animation: tp-glow 1.2s ease-in-out infinite alternate; }
-  .cdep .rt .icon { width: 12px; height: 12px; }
+  .compact { padding: 8px 12px 0; display: flex; flex-direction: column; gap: 10px; }
+  .compact > .hero .scene { width: 132px; height: 52px; }
+  .compact .stop { gap: 4px; }
+  .compact .section-title { font-size: 11px; }
+  .section-title .alert-mark { color: var(--tp-warn); }
   /* Narrow cards: the scene shrinks, then goes above the countdown; the chip keeps only its dot. */
   @container (max-width: 320px) { .scene { width: 112px; height: 44px; } .count { font-size: 22px; } }
   @container (max-width: 240px) {
@@ -1619,27 +1666,32 @@ class TransportMiniCard extends TransportCard {
     this._render();
   }
 
+  // One scene for the next departure of all the stops, then the board of each stop: up to three rows, two times each.
   _renderCompact(stops, t) {
     var now = this._now();
     var many = stops.length > 1;
-    return '<div class="compact">' + stops.map((s) => {
+    var next = null;
+    stops.forEach((s) => {
+      var a = s.st?.attributes || {};
+      if (!s.st || s.st.state === 'unavailable') return;
+      var first = this._valid(a, now)[0];
+      if (first && (!next || Date.parse(first.departure) < Date.parse(next.d.departure))) next = { d: first, a: a };
+    });
+    var html = '<div class="compact">';
+    if (this._config.show_scene && next) html += this._renderScene(next.a, next.d, t, now);
+    html += stops.map((s) => {
       var a = s.st?.attributes || {};
       var alerts = this._config.show_alerts && (a.alerts || []).length;
-      var name = many || alerts
-        ? `<div class="cname">${many ? transportIcon(a.mode in TRANSPORT_ICONS ? a.mode : 'marker') : ''}<span>${transportEsc(many ? a.stop_name || s.id : t.alerts)}</span>${alerts ? transportIcon('alert', 'alert-mark') : ''}</div>`
+      var name = many
+        ? `<div class="section-title">${transportIcon(a.mode in TRANSPORT_ICONS ? a.mode : 'marker')}<span>${transportEsc(a.stop_name || s.id)}</span>${alerts ? transportIcon('alert', 'alert-mark') : ''}</div>`
         : '';
-      var all = transportDepartures(a);
-      if (!s.st || s.st.state === 'unavailable' || !all) return `<div class="crow">${name}<div class="empty">${transportEsc(s.st ? t.unavailable : t.no_entity)}</div></div>`;
-      var deps = all.filter((d) => !Number.isNaN(transportMinutes(d.departure, now))).slice(0, 3);
-      var items = deps.length
-        ? deps.map((d) => {
-            var soon = transportMinutes(d.departure, now) <= TRANSPORT_SOON;
-            var rt = d.realtime ? `<span class="rt ok live">${transportIcon('realtime')}</span>` : '';
-            return `<span class="cdep${soon ? ' soon' : ''}" title="${transportEsc(d.destination)}">${this._badge(d, a.mode)}<span class="when">${transportEsc(this._when(d, t, now))}</span>${rt}</span>`;
-          }).join('')
-        : `<span class="empty quiet">${transportEsc(t.no_departures_short)}</span>`;
-      return `<div class="crow">${name}<div class="cdeps">${items}</div></div>`;
-    }).join('') + '</div>';
+      if (!s.st || s.st.state === 'unavailable' || !transportDepartures(a)) {
+        return `<section class="stop">${name}<div class="empty">${transportEsc(s.st ? t.unavailable : t.no_entity)}</div></section>`;
+      }
+      var stale = a.stale ? `<div class="note warn">${transportIcon('offline')}<span>${transportEsc(t.stale)}</span></div>` : '';
+      return `<section class="stop">${name}${stale}${this._renderBoard(this._valid(a, now), a.mode, t, now, 3, 2)}</section>`;
+    }).join('');
+    return `${html}</div>`;
   }
 }
 

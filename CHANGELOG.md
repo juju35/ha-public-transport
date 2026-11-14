@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 - 2026-11-14
+
+### Features
+- **Departures board**: both cards group the departures by line and destination, one row each with its next times in aligned columns (three in the full card, two in the mini card), the first one bold; the delay is written under the destination. `max_departures` now counts these rows.
+- **Full card**: every stop has its animated scene (not only the first one); the countdown of a late or early departure shows the timetable time it replaces, struck through.
+- **Mini card**: the animated scene of the next departure of all its stops, then up to three rows per stop; its header chip is reduced to the alert sign and count (or the status dot) so the title stays readable.
+
 ## 1.1.0 - 2026-11-13
 
 ### Features

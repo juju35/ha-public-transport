@@ -70,7 +70,7 @@ Home Assistant integration for the **next departures at your public transport st
 - **One request per network**: every stop of a network is updated at once, so following more stops costs no more of the open data quota
 - `public_transport.refresh` action to update now
 - `custom:public-transport-card` card, **shipped with the integration** and loaded automatically: line badges in the official colors, countdown that ticks by itself, real-time indicator, collapsible traffic alerts, and an **animated scene** of the next departure (the bus or the train drives in when it is close)
-- `custom:public-transport-mini-card` compact card: the next three departures of each stop, with a button to open the full card
+- `custom:public-transport-mini-card` compact card: the animated scene of the next departure, then the next lines and destinations of each stop, with a button to open the full card
 - Diagnostics download with the API key redacted
 - English, French, German, Spanish, Serbian (Cyrillic and Latin), Italian, Dutch, Portuguese, Polish, Romanian, Danish, Swedish, Bulgarian, Russian, Ukrainian, Hungarian, Slovak, Czech, Slovenian, Latvian and Greek
 
@@ -412,7 +412,7 @@ Errors are translated in the Home Assistant language.
 | Type | Description |
 |---|---|
 | `custom:public-transport-card` | Full card: animated scene of the next departure, departures of each stop, traffic alerts |
-| `custom:public-transport-mini-card` | Compact card: the next three departures of each stop; the button at the top right opens the full card in place, a click outside folds it back |
+| `custom:public-transport-mini-card` | Compact card: the animated scene of the next departure, then up to three lines and destinations per stop with their next two times; the button at the top right opens the full card in place, a click outside folds it back |
 
 ### Visual editor
 
@@ -450,14 +450,14 @@ language: en
 | `entities` | every stop | Stop sensors (`sensor.*_next_departure`) to show, in this order; line sensors (`sensor.*_line_*`) work too |
 | `title` | `Next departures` | Card title |
 | `show_title` | `true` | Show the title in the header (e.g. `false` under a section heading of your own) |
-| `show_scene` | `true` | Show the animated scene of the next departure (first stop) |
+| `show_scene` | `true` | Show the animated scene of the next departure (one per stop; one for all the stops in the mini card) |
 | `show_alerts` | `true` | Show the traffic alerts (and their count in the header) |
 | `show_refresh` | `true` | Show the refresh button |
-| `max_departures` | `5` | Departures shown per stop (up to the integration's *Departures kept*) |
+| `max_departures` | `5` | Rows shown per stop, one per line and destination with its next three times (up to the integration's *Departures kept*) |
 | `time_format` | `relative` | `relative`: countdown (`4 min`, `Now`), clock time from an hour; `absolute`: always the clock time |
 | `language` | Auto | Force language: `en`, `fr`, `de`, `es`, `sr`, `sr-Latn`, `it`, `nl`, `pt`, `pl`, `ro`, `da`, `sv`, `bg`, `ru`, `uk`, `hu`, `sk`, `cs`, `sl`, `lv` or `el` (auto-detects from HA settings) |
 
-The mini card takes the same options; `show_scene` and `max_departures` apply to its full view.
+The mini card takes the same options; `max_departures` applies to its full view, `show_scene` to both views.
 
 ## Screenshots
 
@@ -511,7 +511,7 @@ Two stops (the metro station and the bus stop of the same name), with the traffi
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-alerts.png" alt="card with alerts" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-alerts-dark.png" alt="card with alerts dark" width="400"> |
 
-The mini card: the next three departures of each stop.
+The mini card: the scene of the next departure, then up to three lines and destinations per stop with their next two times.
 
 | Light | Dark |
 |---|---|
