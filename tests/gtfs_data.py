@@ -185,6 +185,36 @@ def gtfs_zip() -> bytes:
     return buffer.getvalue()
 
 
+def gtfs_zip_times(*stop_times: tuple[str, float], service: str = "DAILY") -> bytes:
+    """A minimal one-stop (G1) GTFS zip; each (trip_id, minutes) is a departure `minutes` from now."""
+    start, end = service_date(-30), service_date(30)
+    trips = "\n".join(f"R1,{service},{trip},Terminus,0" for trip, _ in stop_times)
+    times = "\n".join(f"{trip},{gtfs_time(m)},{gtfs_time(m)},G1,1,0" for trip, m in stop_times)
+    files = {
+        "agency.txt": _csv("agency_id,agency_name,agency_url,agency_timezone", f"A,Test,https://example.org,{ZONE}"),
+        "stops.txt": _csv(
+            "stop_id,stop_name,stop_lat,stop_lon,location_type,parent_station",
+            "GARE,Gare,48.1,-1.6,1,",
+            "G1,Gare,48.1,-1.6,0,GARE",
+        ),
+        "routes.txt": _csv(
+            "route_id,agency_id,route_short_name,route_long_name,route_type,route_color,route_text_color",
+            "R1,A,T1,Gare - Terminus,0,E2001A,FFFFFF",
+        ),
+        "trips.txt": _csv("route_id,service_id,trip_id,trip_headsign,direction_id", trips),
+        "calendar.txt": _csv(
+            "service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date",
+            f"DAILY,1,1,1,1,1,1,1,{start},{end}",
+        ),
+        "stop_times.txt": _csv("trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type", times),
+    }
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as archive:
+        for name, content in files.items():
+            archive.writestr(name, "﻿" + content if name == "stops.txt" else content)
+    return buffer.getvalue()
+
+
 def realtime() -> bytes:
     """t1 two minutes late at G1, t2 cancelled, an extra trip at G1, t5 late from an earlier stop."""
     soon = int((dt_util.utcnow() + timedelta(minutes=12)).timestamp())
