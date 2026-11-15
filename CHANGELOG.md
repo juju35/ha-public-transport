@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1 - 2026-11-15
+
+### Fixes
+- **GTFS destinations**: on feeds that carry the train number in the trip headsign (notably the SNCF TGV INOUI export), departures showed an opaque number ("8719") instead of a place. A headsign that is empty or a bare number now falls back to the trip's terminus (a real station name); the same applies to extra real-time trips and to the destination hints shown in the configuration form.
+
 ## 1.3.0 - 2026-11-15
 
 ### Features
