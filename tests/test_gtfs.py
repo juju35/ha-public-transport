@@ -131,6 +131,25 @@ async def test_departures_with_real_time(provider, aioclient_mock) -> None:
     assert g2[0].direction == 1
 
 
+async def test_numeric_headsign_shows_terminus(provider, aioclient_mock) -> None:
+    # SNCF-style feed: headsigns are train numbers; the destination must be the terminus name.
+    aioclient_mock.get(data.GTFS_URL, content=data.gtfs_zip_sncf(), headers={"ETag": '"v1"'})
+    aioclient_mock.get(data.RT_URL, content=data.sncf_added())
+    aioclient_mock.get(data.ALERTS_URL, content=data.feed())
+    s1 = Stop(id="S1", name="Rennes", mode="train")
+    result = await provider.departures([s1])
+    board = result["train:S1"]
+    by_trip = {d.trip_id: d for d in board}
+    # The scheduled train 8719 and the headsign-less trip both point at the terminus, not the number.
+    assert by_trip["tn"].destination == "Paris Montparnasse"
+    assert by_trip["tn"].line == "401C"
+    assert by_trip["tz"].destination == "Paris Montparnasse"
+    # The extra real-time trip takes its terminus from its own downstream stops.
+    assert by_trip["extra-tgv"].destination == "Paris Montparnasse"
+    # The config form's destination hints are readable too (no bare "8719").
+    assert await provider.destinations([s1]) == {"train:S1": ["Paris Montparnasse"]}
+
+
 async def test_overnight_keeps_next_departures(provider, aioclient_mock) -> None:
     # The only departure is well beyond HORIZON (e.g. tomorrow morning): the card must still show it.
     aioclient_mock.get(data.GTFS_URL, content=data.gtfs_zip_times(("n1", 300)), headers={"ETag": '"v1"'})

@@ -139,7 +139,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Chinon | [Navette estivale CVL Mobilité](https://transport.data.gouv.fr/datasets/reseau-cvlmobilite-plan-de-transport-theorique-la-navette-lete-a-chinon-format-gtfs) | — |
 | Chinon, Vienne et Loire | [Réseau urbain CVL Mobilité](https://transport.data.gouv.fr/datasets/reseau-cvlmobilite-plan-de-transport-theorique-ligne-a-format-gtfs) | — |
 | Cholet Agglomération | [Réseau urbain Choletbus](https://transport.data.gouv.fr/datasets/horaires-theoriques-reseau-choletbus) | Yes |
-| CIVIS | [Réseau urbain Alternéo](https://transport.data.gouv.fr/datasets/donnees-du-reseau-alterneo) | — |
+| CIVIS | [Réseau urbain Alternéo](https://transport.data.gouv.fr/datasets/donnees-du-reseau-alterneo) | Yes |
 | Clermont Auvergne Métropole | [Réseau urbain T2C](https://transport.data.gouv.fr/datasets/syndicat-mixte-des-transports-en-commun-de-lagglomeration-clermontoise-smtc-ac-reseau-t2c-gtfs-gtfs-rt) | — |
 | Clermontois | [Réseau urbain Le Bus](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-le-bus-communaute-de-communes-du-clermontois) | — |
 | Coeur de Flandre | [Réseau urbain Hop Bus](https://transport.data.gouv.fr/datasets/hop-bus-le-reseau-100-gratuit-du-coeur-de-flandre) | Yes |

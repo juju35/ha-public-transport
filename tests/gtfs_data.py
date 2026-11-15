@@ -215,6 +215,63 @@ def gtfs_zip_times(*stop_times: tuple[str, float], service: str = "DAILY") -> by
     return buffer.getvalue()
 
 
+def gtfs_zip_sncf() -> bytes:
+    """A SNCF-like feed: a route named by a code ("401C") whose trips carry a train number as
+    headsign ("8719") instead of a destination. The terminus (Paris) is a real stop name."""
+    start, end = service_date(-30), service_date(30)
+    files = {
+        "agency.txt": _csv("agency_id,agency_name,agency_url,agency_timezone", f"A,SNCF,https://example.org,{ZONE}"),
+        "stops.txt": _csv(
+            "stop_id,stop_name,stop_lat,stop_lon,location_type,parent_station",
+            "RENNES,Rennes,48.1,-1.6,1,",
+            "S1,Rennes,48.1,-1.6,0,RENNES",
+            "S9,Paris Montparnasse,48.8,2.3,0,",
+        ),
+        "routes.txt": _csv(
+            "route_id,agency_id,route_short_name,route_long_name,route_type,route_color,route_text_color",
+            "FR:Line::UUID401C:,A,401C,,2,,",
+        ),
+        # tn has a train-number headsign; tz has none at all.
+        "trips.txt": _csv(
+            "route_id,service_id,trip_id,trip_headsign,direction_id",
+            "FR:Line::UUID401C:,DAILY,tn,8719,1",
+            "FR:Line::UUID401C:,DAILY,tz,,1",
+        ),
+        "calendar.txt": _csv(
+            "service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date",
+            f"DAILY,1,1,1,1,1,1,1,{start},{end}",
+        ),
+        "stop_times.txt": _csv(
+            "trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type",
+            f"tn,{gtfs_time(5)},{gtfs_time(5)},S1,1,0",
+            f"tn,{gtfs_time(90)},{gtfs_time(90)},S9,2,0",
+            f"tz,{gtfs_time(8)},{gtfs_time(8)},S1,1,0",
+            f"tz,{gtfs_time(95)},{gtfs_time(95)},S9,2,0",
+        ),
+    }
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w") as archive:
+        for name, content in files.items():
+            archive.writestr(name, "﻿" + content if name == "stops.txt" else content)
+    return buffer.getvalue()
+
+
+def sncf_added() -> bytes:
+    """An extra (unscheduled) trip on route 401C passing S1 then terminating at S9 (Paris)."""
+    soon = int((dt_util.utcnow() + timedelta(minutes=20)).timestamp())
+    later = int((dt_util.utcnow() + timedelta(minutes=100)).timestamp())
+    return feed(
+        trip_update(
+            "ex",
+            "extra-tgv",
+            stop_time(1, "S1", time=soon),
+            stop_time(2, "S9", time=later),
+            route_id="FR:Line::UUID401C:",
+            relationship=1,
+        )
+    )
+
+
 def realtime() -> bytes:
     """t1 two minutes late at G1, t2 cancelled, an extra trip at G1, t5 late from an earlier stop."""
     soon = int((dt_util.utcnow() + timedelta(minutes=12)).timestamp())
