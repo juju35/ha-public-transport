@@ -26,6 +26,11 @@ MIN_SCAN_INTERVAL: Final = 30
 MAX_SCAN_INTERVAL: Final = 600
 DEFAULT_MAX_DEPARTURES: Final = 6
 # Traffic alerts and line colors change rarely: fetched less often than the departures.
+# Some networks (e.g. SNCF) broadcast every regional disruption network-wide, with no line in the feed, so a
+# single stop would otherwise inherit hundreds of them. Line-scoped alerts are always kept; the network-wide
+# ones are capped per stop.
+MAX_NETWORK_ALERTS_PER_STOP: Final = 3
+
 ALERTS_REFRESH: Final = timedelta(minutes=5)
 LINES_REFRESH: Final = timedelta(hours=24)
 # A departure stays listed this long after its time (the vehicle may still be at the stop).

@@ -10,7 +10,15 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
-from .const import ALERTS_REFRESH, DEFAULT_SCAN_INTERVAL, DEPARTED_GRACE, DOMAIN, LINES_REFRESH, MIN_SCAN_INTERVAL
+from .const import (
+    ALERTS_REFRESH,
+    DEFAULT_SCAN_INTERVAL,
+    DEPARTED_GRACE,
+    DOMAIN,
+    LINES_REFRESH,
+    MAX_NETWORK_ALERTS_PER_STOP,
+    MIN_SCAN_INTERVAL,
+)
 from .providers import Alert, Departure, Line, Provider, ProviderError, Stop
 
 _LOGGER = logging.getLogger(__name__)
@@ -108,6 +116,17 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
         return [d for d in items if d.departure >= limit and (not line_ids or d.line_id in line_ids)]
 
     def alerts_for(self, line_ids: list[str]) -> list[Alert]:
-        """Alerts on these lines; an alert naming no line concerns the whole network."""
+        """Alerts on these lines, plus the network-wide ones (naming no line), capped so a noisy feed that
+        broadcasts every disruption network-wide cannot bury a stop under hundreds of them. Line-scoped
+        alerts are always kept; the gravest network-wide ones survive the cap (self.alerts is level-ordered)."""
         wanted = set(line_ids)
-        return [a for a in self.alerts if not a.line_ids or wanted.intersection(a.line_ids)]
+        result: list[Alert] = []
+        network_wide = 0
+        for alert in self.alerts:
+            if alert.line_ids:
+                if wanted.intersection(alert.line_ids):
+                    result.append(alert)
+            elif network_wide < MAX_NETWORK_ALERTS_PER_STOP:
+                result.append(alert)
+                network_wide += 1
+        return result
