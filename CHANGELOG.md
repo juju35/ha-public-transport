@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.3 - 2026-11-15
+
+### Features
+- **SNCF logo**: the national SNCF network (TGV, Intercités, TER — `horaires-sncf`), reachable through the generic GTFS-RT provider, now ships its logo on the card.
+
 ## 1.3.2 - 2026-11-15
 
 ### Fixes
