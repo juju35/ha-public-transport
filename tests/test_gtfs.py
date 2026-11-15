@@ -143,6 +143,9 @@ async def test_numeric_headsign_shows_terminus(provider, aioclient_mock) -> None
     # The scheduled train 8719 and the headsign-less trip both point at the terminus, not the number.
     assert by_trip["tn"].destination == "Paris Montparnasse"
     assert by_trip["tn"].line == "401C"
+    # The train number survives: recovered from the numeric headsign, or read from trip_short_name.
+    assert by_trip["tn"].train_number == "8719"
+    assert by_trip["tz"].train_number == "8800"
     assert by_trip["tz"].destination == "Paris Montparnasse"
     # The extra real-time trip takes its terminus from its own downstream stops.
     assert by_trip["extra-tgv"].destination == "Paris Montparnasse"

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0 - 2026-11-15
+
+### Features
+- **Train number on departures**: the GTFS carries the run's own number (SNCF `trip_short_name`, or `trip_headsign` when it is a bare number). It is now kept and exposed as the `train_number` attribute of each departure, distinct from the line code.
+
 ## 1.3.5 - 2026-11-15
 
 ### Fixes
