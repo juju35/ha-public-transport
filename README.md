@@ -26,7 +26,8 @@
   <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/custom_components/public_transport/frontend/logos/gtfs-donnees-statiques-et-dynamiques-du-reseau-de-transport-lignes-dazur.svg" alt="Lignes d'Azur" height="40">&nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/custom_components/public_transport/frontend/logos/gtfs-fil-bleu-syndicat-des-mobilites-gtfs-gtfs-rt.png" alt="Fil Bleu" height="40">&nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/custom_components/public_transport/frontend/logos/gtfs-reseau-de-transport-en-commun-lia-gtfs-siri.svg" alt="LiA" height="40">&nbsp;&nbsp;
-  <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/custom_components/public_transport/frontend/logos/gtfs-angers-loire-metropole-reseau-irigo-gtfs-gtfs-rt-siri.svg" alt="Irigo" height="40">
+  <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/custom_components/public_transport/frontend/logos/gtfs-angers-loire-metropole-reseau-irigo-gtfs-gtfs-rt-siri.svg" alt="Irigo" height="40">&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/custom_components/public_transport/frontend/logos/gtfs-horaires-theoriques-et-temps-reel-des-bus-et-tramways-circulant-sur-le-territoire-de-brest-metropole.png" alt="Bibus" height="40">
 </p>
 
 Home Assistant integration for the **next departures at your public transport stops**: lines, direction, minutes left, real time or timetable, and traffic alerts — with its Lovelace cards included. Networks: **[STAR](https://www.star.fr)** (Rennes), **Île-de-France Mobilités** (Paris region), **TCL** (Lyon), **CTS** (Strasbourg), and **every network publishing GTFS-RT** on the French national access point [transport.data.gouv.fr](https://transport.data.gouv.fr) (Toulouse, Montpellier, Bordeaux, Nantes, Lille, Brest… and hundreds of smaller networks).
