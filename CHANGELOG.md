@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1 - 2026-11-15
+
+### Removed
+- **SNCF provider**: removed. It relied on a Navitia/SNCF API key that can no longer be obtained through self-service (the SNCF developer-token page is gone and Navitia's free token is no longer issued), so the provider was unusable for new users. The optional `code`/`platform` departure fields and the card's train rendering added for it are reverted. SNCF national trains remain reachable through the generic GTFS-RT provider (transport.data.gouv.fr).
+
 ## 1.3.0 - 2026-11-15
 
 ### Features
