@@ -49,6 +49,7 @@ class PublicTransportEntity(CoordinatorEntity[NetworkCoordinator]):
         return {
             "line_id": departure.line_id,
             "line": line.short_name,
+            "train_number": departure.train_number,
             "color": line.color,
             "text_color": line.text_color,
             "destination": departure.destination,

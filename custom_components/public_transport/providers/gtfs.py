@@ -155,6 +155,7 @@ class GtfsStatic:
                     row.get("service_id", ""),
                     row.get("trip_headsign", ""),
                     int(direction) if direction.isdigit() else None,
+                    row.get("trip_short_name", "").strip() or None,
                 )
         for row in _rows(archive, "calendar.txt"):
             days = {i for i, day in enumerate(WEEKDAYS) if row.get(day) == "1"}
@@ -185,9 +186,11 @@ class GtfsStatic:
         # Trips with no usable headsign (empty, or a bare train number like the SNCF
         # TGV feeds expose) go to their last stop, which is a real place name.
         for trip_id, (_, stop_id) in last.items():
-            route, service, headsign, direction = self.trips[trip_id]
+            route, service, headsign, direction, number = self.trips[trip_id]
             if _unhelpful(headsign) and stop_id in self.stops:
-                self.trips[trip_id] = (route, service, self.stops[stop_id][0], direction)
+                # A bare-number headsign (SNCF TGV) is the train number: keep it before the place name hides it.
+                keep = number or (headsign.strip() if headsign.strip().isdigit() else None)
+                self.trips[trip_id] = (route, service, self.stops[stop_id][0], direction, keep)
         # The destinations offered at each stop, taken from the finalised headsigns so the
         # config form shows place names rather than train numbers.
         for stop_id, trip_ids in stop_trips.items():
@@ -609,7 +612,7 @@ def _apply(
 ) -> Departure | None:
     """A scheduled passage with its real-time correction; None when the trip is cancelled or skips the stop."""
     scheduled, trip_id, sequence, service_date = item
-    route_id, _, headsign, direction = static.trips[trip_id]
+    route_id, _, headsign, direction, number = static.trips[trip_id]
     line = static.lines.get(route_id)
     update = updates.get(trip_id)
     if update is not None and update.start_date and update.start_date != service_date:
@@ -649,6 +652,7 @@ def _apply(
         scheduled=scheduled if realtime else None,
         direction=direction,
         trip_id=trip_id,
+        train_number=number,
     )
 
 

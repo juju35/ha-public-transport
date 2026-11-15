@@ -73,6 +73,7 @@ class Departure:
     scheduled: datetime | None = None
     direction: int | None = None
     trip_id: str | None = None
+    train_number: str | None = None  # The run's own number (SNCF trip_short_name), distinct from the line.
 
     @property
     def delay(self) -> int | None:

@@ -231,11 +231,11 @@ def gtfs_zip_sncf() -> bytes:
             "route_id,agency_id,route_short_name,route_long_name,route_type,route_color,route_text_color",
             "FR:Line::UUID401C:,A,401C,,2,,",
         ),
-        # tn has a train-number headsign; tz has none at all.
+        # tn carries its number as the headsign; tz carries it in trip_short_name and has no headsign.
         "trips.txt": _csv(
-            "route_id,service_id,trip_id,trip_headsign,direction_id",
-            "FR:Line::UUID401C:,DAILY,tn,8719,1",
-            "FR:Line::UUID401C:,DAILY,tz,,1",
+            "route_id,service_id,trip_id,trip_headsign,direction_id,trip_short_name",
+            "FR:Line::UUID401C:,DAILY,tn,8719,1,",
+            "FR:Line::UUID401C:,DAILY,tz,,1,8800",
         ),
         "calendar.txt": _csv(
             "service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date",
