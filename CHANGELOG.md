@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.0 - 2026-11-15
+
+### Features
+- **SNCF national trains** (TGV, OUIGO, Intercités, TER, Transilien, RER): a new `sncf` provider reads the SNCF/Navitia API (`api.sncf.com`) and gives the departures board of a station — the coming trains with their commercial mode as badge, destination, train number, real-time delay to the timetable, and the disruptions impacting them. A free SNCF API key is required. Replaces the unmaintained `train_traveler`; also usable by `ha-train-board-card`.
+- The cards show a train scene and, for each departure, the train number and platform (voie) when the network provides them.
+
 ## 1.2.0 - 2026-11-14
 
 ### Features

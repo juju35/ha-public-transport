@@ -73,6 +73,9 @@ class Departure:
     scheduled: datetime | None = None
     direction: int | None = None
     trip_id: str | None = None
+    # Trains: the public train number (e.g. "8075") and the platform/track, when the network tells.
+    code: str | None = None
+    platform: str | None = None
 
     @property
     def delay(self) -> int | None:

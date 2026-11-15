@@ -46,7 +46,7 @@ class PublicTransportEntity(CoordinatorEntity[NetworkCoordinator]):
 
     def departure_dict(self, departure: Departure) -> dict[str, Any]:
         line = self.line(departure.line_id, departure.line)
-        return {
+        data: dict[str, Any] = {
             "line_id": departure.line_id,
             "line": line.short_name,
             "color": line.color,
@@ -58,6 +58,12 @@ class PublicTransportEntity(CoordinatorEntity[NetworkCoordinator]):
             "delay": departure.delay,
             "realtime": departure.realtime,
         }
+        # Trains: the train number and the platform, only when the network provides them.
+        if departure.code:
+            data["code"] = departure.code
+        if departure.platform:
+            data["platform"] = departure.platform
+        return data
 
     def alert_dicts(self, alerts: list[Alert]) -> list[dict[str, Any]]:
         return [
