@@ -1,4 +1,4 @@
-var TRANSPORT_CARD_VERSION = '1.3.0';
+var TRANSPORT_CARD_VERSION = '1.3.1';
 
 // ── Header icon: tinted round icon in the integration's accent (the integration keeps its brand/icon.png) ──────
 var TRANSPORT_ACCENT = '#00897b';
@@ -14,7 +14,6 @@ var TransportI18n = {
     timetable_hint: 'Timetable time: no real-time data for this departure yet',
     late: '+{n} min late',
     early: '{n} min early',
-    platform: 'Platform {n}',
     no_departures: 'No departure announced for now',
     no_departures_short: 'No departure',
     no_entity: 'No stop found. Add a stop in the Public Transport integration or set “entities”.',
@@ -57,7 +56,6 @@ var TransportI18n = {
     timetable_hint: 'Horaire théorique : pas encore de donnée temps réel pour ce départ',
     late: '+{n} min de retard',
     early: '{n} min d\'avance',
-    platform: 'Voie {n}',
     no_departures: 'Aucun départ annoncé pour l\'instant',
     no_departures_short: 'Aucun départ',
     no_entity: 'Aucun arrêt trouvé. Ajoutez un arrêt dans l\'intégration Public Transport ou renseignez « entities ».',
@@ -100,7 +98,6 @@ var TransportI18n = {
     timetable_hint: 'Fahrplanzeit: noch keine Echtzeitdaten für diese Abfahrt',
     late: '+{n} Min. Verspätung',
     early: '{n} Min. früher',
-    platform: 'Gleis {n}',
     no_departures: 'Derzeit keine Abfahrt angekündigt',
     no_departures_short: 'Keine Abfahrt',
     no_entity: 'Keine Haltestelle gefunden. Fügen Sie in der Integration Public Transport eine Haltestelle hinzu oder setzen Sie „entities“.',
@@ -143,7 +140,6 @@ var TransportI18n = {
     timetable_hint: 'Hora del horario: aún no hay datos en tiempo real para esta salida',
     late: '+{n} min de retraso',
     early: '{n} min de adelanto',
-    platform: 'Vía {n}',
     no_departures: 'Ninguna salida anunciada por ahora',
     no_departures_short: 'Sin salidas',
     no_entity: 'No se encontró ninguna parada. Añada una parada en la integración Public Transport o indique «entities».',
@@ -186,7 +182,6 @@ var TransportI18n = {
     timetable_hint: 'Orario programmato: ancora nessun dato in tempo reale per questa partenza',
     late: '+{n} min di ritardo',
     early: '{n} min di anticipo',
-    platform: 'Binario {n}',
     no_departures: 'Nessuna partenza annunciata per ora',
     no_departures_short: 'Nessuna partenza',
     no_entity: 'Nessuna fermata trovata. Aggiungi una fermata nell\'integrazione Public Transport o imposta «entities».',
@@ -229,7 +224,6 @@ var TransportI18n = {
     timetable_hint: 'Tijd volgens dienstregeling: nog geen realtime-gegevens voor dit vertrek',
     late: '+{n} min vertraging',
     early: '{n} min te vroeg',
-    platform: 'Spoor {n}',
     no_departures: 'Momenteel geen vertrek aangekondigd',
     no_departures_short: 'Geen vertrek',
     no_entity: 'Geen halte gevonden. Voeg een halte toe in de integratie Public Transport of stel “entities” in.',
@@ -272,7 +266,6 @@ var TransportI18n = {
     timetable_hint: 'Hora do horário: ainda sem dados em tempo real para esta partida',
     late: '+{n} min de atraso',
     early: '{n} min adiantado',
-    platform: 'Linha {n}',
     no_departures: 'Nenhuma partida anunciada por agora',
     no_departures_short: 'Sem partidas',
     no_entity: 'Nenhuma paragem encontrada. Adicione uma paragem na integração Public Transport ou defina «entities».',
@@ -315,7 +308,6 @@ var TransportI18n = {
     timetable_hint: 'Czas z rozkładu: brak jeszcze danych w czasie rzeczywistym dla tego odjazdu',
     late: '+{n} min opóźnienia',
     early: '{n} min przed czasem',
-    platform: 'Peron {n}',
     no_departures: 'Na razie brak zapowiedzianych odjazdów',
     no_departures_short: 'Brak odjazdów',
     no_entity: 'Nie znaleziono przystanku. Dodaj przystanek w integracji Public Transport lub ustaw „entities”.',
@@ -358,7 +350,6 @@ var TransportI18n = {
     timetable_hint: 'Време по реду вожње: још нема података у реалном времену за овај полазак',
     late: '+{n} мин кашњења',
     early: '{n} мин раније',
-    platform: 'Колосек {n}',
     no_departures: 'Тренутно нема најављених полазака',
     no_departures_short: 'Нема полазака',
     no_entity: 'Није пронађена ниједна станица. Додајте станицу у интеграцији Public Transport или подесите „entities“.',
@@ -401,7 +392,6 @@ var TransportI18n = {
     timetable_hint: 'Vreme po redu vožnje: još nema podataka u realnom vremenu za ovaj polazak',
     late: '+{n} min kašnjenja',
     early: '{n} min ranije',
-    platform: 'Kolosek {n}',
     no_departures: 'Trenutno nema najavljenih polazaka',
     no_departures_short: 'Nema polazaka',
     no_entity: 'Nije pronađena nijedna stanica. Dodajte stanicu u integraciji Public Transport ili podesite „entities“.',
@@ -444,7 +434,6 @@ var TransportI18n = {
     timetable_hint: 'Ora din orar: încă nu există date în timp real pentru această plecare',
     late: '+{n} min întârziere',
     early: '{n} min mai devreme',
-    platform: 'Linia {n}',
     no_departures: 'Nicio plecare anunțată deocamdată',
     no_departures_short: 'Nicio plecare',
     no_entity: 'Nu s-a găsit nicio stație. Adăugați o stație în integrarea Public Transport sau setați „entities”.',
@@ -487,7 +476,6 @@ var TransportI18n = {
     timetable_hint: 'Køreplanstid: endnu ingen realtidsdata for denne afgang',
     late: '+{n} min forsinket',
     early: '{n} min før tid',
-    platform: 'Spor {n}',
     no_departures: 'Ingen afgang annonceret lige nu',
     no_departures_short: 'Ingen afgang',
     no_entity: 'Intet stoppested fundet. Tilføj et stoppested i integrationen Public Transport, eller angiv “entities”.',
@@ -530,7 +518,6 @@ var TransportI18n = {
     timetable_hint: 'Tidtabellstid: ännu inga realtidsdata för denna avgång',
     late: '+{n} min sen',
     early: '{n} min tidig',
-    platform: 'Spår {n}',
     no_departures: 'Ingen avgång annonserad just nu',
     no_departures_short: 'Ingen avgång',
     no_entity: 'Ingen hållplats hittades. Lägg till en hållplats i integrationen Public Transport eller ange ”entities”.',
@@ -573,7 +560,6 @@ var TransportI18n = {
     timetable_hint: 'Час по разписание: все още няма данни в реално време за това тръгване',
     late: '+{n} мин закъснение',
     early: '{n} мин по-рано',
-    platform: 'Коловоз {n}',
     no_departures: 'Засега няма обявени тръгвания',
     no_departures_short: 'Няма тръгвания',
     no_entity: 'Не е намерена спирка. Добавете спирка в интеграцията Public Transport или задайте „entities“.',
@@ -616,7 +602,6 @@ var TransportI18n = {
     timetable_hint: 'Время по расписанию: данных в реальном времени для этого отправления пока нет',
     late: '+{n} мин опоздание',
     early: 'на {n} мин раньше',
-    platform: 'Путь {n}',
     no_departures: 'Пока отправлений не объявлено',
     no_departures_short: 'Нет отправлений',
     no_entity: 'Остановка не найдена. Добавьте остановку в интеграции Public Transport или укажите «entities».',
@@ -659,7 +644,6 @@ var TransportI18n = {
     timetable_hint: 'Час за розкладом: даних у реальному часі для цього відправлення ще немає',
     late: '+{n} хв запізнення',
     early: 'на {n} хв раніше',
-    platform: 'Колія {n}',
     no_departures: 'Поки що відправлень не оголошено',
     no_departures_short: 'Немає відправлень',
     no_entity: 'Зупинку не знайдено. Додайте зупинку в інтеграції Public Transport або вкажіть «entities».',
@@ -702,7 +686,6 @@ var TransportI18n = {
     timetable_hint: 'Menetrendi idő: ehhez az induláshoz még nincs valós idejű adat',
     late: '+{n} perc késés',
     early: '{n} perccel korábban',
-    platform: 'Vágány {n}',
     no_departures: 'Jelenleg nincs bejelentett indulás',
     no_departures_short: 'Nincs indulás',
     no_entity: 'Nem található megálló. Adjon hozzá megállót a Public Transport integrációban, vagy adja meg az „entities” opciót.',
@@ -745,7 +728,6 @@ var TransportI18n = {
     timetable_hint: 'Čas podľa cestovného poriadku: pre tento odchod zatiaľ nie sú údaje v reálnom čase',
     late: '+{n} min meškanie',
     early: 'o {n} min skôr',
-    platform: 'Nástupište {n}',
     no_departures: 'Zatiaľ nie je ohlásený žiadny odchod',
     no_departures_short: 'Žiadny odchod',
     no_entity: 'Nenašla sa žiadna zastávka. Pridajte zastávku v integrácii Public Transport alebo nastavte „entities“.',
@@ -788,7 +770,6 @@ var TransportI18n = {
     timetable_hint: 'Čas podle jízdního řádu: pro tento odjezd zatím nejsou data v reálném čase',
     late: '+{n} min zpoždění',
     early: 'o {n} min dříve',
-    platform: 'Nástupiště {n}',
     no_departures: 'Zatím není ohlášen žádný odjezd',
     no_departures_short: 'Žádný odjezd',
     no_entity: 'Nebyla nalezena žádná zastávka. Přidejte zastávku v integraci Public Transport nebo nastavte „entities“.',
@@ -831,7 +812,6 @@ var TransportI18n = {
     timetable_hint: 'Čas po voznem redu: za ta odhod še ni podatkov v realnem času',
     late: '+{n} min zamude',
     early: '{n} min prej',
-    platform: 'Tir {n}',
     no_departures: 'Trenutno ni napovedanih odhodov',
     no_departures_short: 'Ni odhodov',
     no_entity: 'Ni najdenega postajališča. Dodajte postajališče v integraciji Public Transport ali nastavite »entities«.',
@@ -874,7 +854,6 @@ var TransportI18n = {
     timetable_hint: 'Laiks pēc saraksta: šai atiešanai vēl nav reāllaika datu',
     late: '+{n} min kavējums',
     early: '{n} min agrāk',
-    platform: 'Perons {n}',
     no_departures: 'Pagaidām nav paziņotu atiešanu',
     no_departures_short: 'Nav atiešanu',
     no_entity: 'Pietura nav atrasta. Pievienojiet pieturu integrācijā Public Transport vai iestatiet “entities”.',
@@ -917,7 +896,6 @@ var TransportI18n = {
     timetable_hint: 'Ώρα δρομολογίου: δεν υπάρχουν ακόμη δεδομένα πραγματικού χρόνου για αυτή την αναχώρηση',
     late: '+{n} λεπ. καθυστέρηση',
     early: '{n} λεπ. νωρίτερα',
-    platform: 'Αποβάθρα {n}',
     no_departures: 'Δεν έχει ανακοινωθεί αναχώρηση προς το παρόν',
     no_departures_short: 'Καμία αναχώρηση',
     no_entity: 'Δεν βρέθηκε στάση. Προσθέστε μια στάση στην ενσωμάτωση Public Transport ή ορίστε «entities».',
@@ -969,7 +947,6 @@ var TRANSPORT_ICONS = {
   bus: 'M18,11H6V6H18M16.5,17A1.5,1.5 0 0,1 15,15.5A1.5,1.5 0 0,1 16.5,14A1.5,1.5 0 0,1 18,15.5A1.5,1.5 0 0,1 16.5,17M7.5,17A1.5,1.5 0 0,1 6,15.5A1.5,1.5 0 0,1 7.5,14A1.5,1.5 0 0,1 9,15.5A1.5,1.5 0 0,1 7.5,17M4,16C4,16.88 4.39,17.67 5,18.22V20A1,1 0 0,0 6,21H7A1,1 0 0,0 8,20V19H16V20A1,1 0 0,0 17,21H18A1,1 0 0,0 19,20V18.22C19.61,17.67 20,16.88 20,16V6C20,2.5 16.42,2 12,2C7.58,2 4,2.5 4,6V16Z',
   metro: 'M18,11H13V6H18M16.5,17A1.5,1.5 0 0,1 15,15.5A1.5,1.5 0 0,1 16.5,14A1.5,1.5 0 0,1 18,15.5A1.5,1.5 0 0,1 16.5,17M11,11H6V6H11M7.5,17A1.5,1.5 0 0,1 6,15.5A1.5,1.5 0 0,1 7.5,14A1.5,1.5 0 0,1 9,15.5A1.5,1.5 0 0,1 7.5,17M12,2C7.58,2 4,2.5 4,6V15.5A3.5,3.5 0 0,0 7.5,19L6,20.5V21H18V20.5L16.5,19A3.5,3.5 0 0,0 20,15.5V6C20,2.5 16.42,2 12,2Z',
   tram: 'M19,16.94V8.5C19,5.71 16.39,5.1 13,5L13.75,3.5H17V2H7V3.5H11.75L11,5C7.86,5.11 5,5.73 5,8.5V16.94C5,18.39 6.19,19.6 7.59,19.91L6,21.5V22H8.23L10.23,20H14L16,22H18V21.5L16.5,20H16.42C18.11,20 19,18.63 19,16.94M12,18.5A1.5,1.5 0 0,1 10.5,17A1.5,1.5 0 0,1 12,15.5A1.5,1.5 0 0,1 13.5,17A1.5,1.5 0 0,1 12,18.5M17,14H7V9H17V14Z',
-  train: 'M12,2C8,2 4,2.5 4,6V15.5A3.5,3.5 0 0,0 7.5,19L6,20.5V21H8L10,19H14L16,21H18V20.5L16.5,19A3.5,3.5 0 0,0 20,15.5V6C20,2.5 16,2 12,2M7.5,17A1.5,1.5 0 0,1 6,15.5A1.5,1.5 0 0,1 7.5,14A1.5,1.5 0 0,1 9,15.5A1.5,1.5 0 0,1 7.5,17M11,10H6V6H11V10M13,10V6H18V10H13M16.5,17A1.5,1.5 0 0,1 15,15.5A1.5,1.5 0 0,1 16.5,14A1.5,1.5 0 0,1 18,15.5A1.5,1.5 0 0,1 16.5,17Z',
   realtime: 'M4.93,4.93C3.12,6.74 2,9.24 2,12C2,14.76 3.12,17.26 4.93,19.07L6.34,17.66C4.89,16.22 4,14.22 4,12C4,9.79 4.89,7.78 6.34,6.34L4.93,4.93M19.07,4.93L17.66,6.34C19.11,7.78 20,9.79 20,12C20,14.22 19.11,16.22 17.66,17.66L19.07,19.07C20.88,17.26 22,14.76 22,12C22,9.24 20.88,6.74 19.07,4.93M7.76,7.76C6.67,8.85 6,10.35 6,12C6,13.65 6.67,15.15 7.76,16.24L9.17,14.83C8.45,14.11 8,13.11 8,12C8,10.89 8.45,9.89 9.17,9.17L7.76,7.76M16.24,7.76L14.83,9.17C15.55,9.89 16,10.89 16,12C16,13.11 15.55,14.11 14.83,14.83L16.24,16.24C17.33,15.15 18,13.65 18,12C18,10.35 17.33,8.85 16.24,7.76M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10Z',
   clock: 'M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z',
   marker: 'M12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5M12,2A7,7 0 0,1 19,9C19,14.25 12,22 12,22C12,22 5,14.25 5,9A7,7 0 0,1 12,2M12,4A5,5 0 0,0 7,9C7,10 7,12 12,18.71C17,12 17,10 17,9A5,5 0 0,0 12,4Z',
@@ -1297,7 +1274,7 @@ class TransportCard extends HTMLElement {
   // The animated picture of the next departure: the vehicle in its line color drives in when it is close,
   // idles at the edge of the scene otherwise; waves rise from the stop sign while the time is real time.
   _renderScene(a, next, t, now) {
-    var mode = a.mode === 'metro' || a.mode === 'tram' || a.mode === 'train' ? a.mode : 'bus';
+    var mode = a.mode === 'metro' || a.mode === 'tram' ? a.mode : 'bus';
     var minutes = next ? transportMinutes(next.departure, now) : NaN;
     var state = !next ? 'empty' : minutes <= TRANSPORT_SOON ? 'arriving' : 'waiting';
     var color = transportColor(next?.color, TRANSPORT_ACCENT);
@@ -1391,15 +1368,10 @@ class TransportCard extends HTMLElement {
     var sub = delay > 0
       ? `<span class="delay warn">${transportEsc(transportFill(t.late, { n: delay }))}</span>`
       : delay < 0 ? `<span class="delay active">${transportEsc(transportFill(t.early, { n: -delay }))}</span>` : '';
-    // Trains carry a number (e.g. "8075") and sometimes a platform; shown under the destination when present.
-    var meta = '';
-    if (d.code) meta += `<span class="num">${transportEsc(d.code)}</span>`;
-    if (d.platform) meta += `<span class="voie">${transportEsc(transportFill(t.platform || 'Voie {n}', { n: d.platform }))}</span>`;
-    meta += sub;
     var times = `<span class="when">${transportEsc(this._when(d, t, now))}</span>`;
     for (var i = 1; i < per; i++) times += `<span class="then">${g.deps[i] ? transportEsc(this._short(g.deps[i], now)) : ''}</span>`;
     return `<div class="dep${soon ? ' soon' : ''}">${this._badge(d, mode)}` +
-      `<div class="what"><span class="dest">${transportEsc(d.destination)}</span>${meta ? `<span class="meta">${meta}</span>` : ''}</div>` +
+      `<div class="what"><span class="dest">${transportEsc(d.destination)}</span>${sub}</div>` +
       `${icon}<span class="times n${per}">${times}</span></div>`;
   }
 
@@ -1573,10 +1545,6 @@ class TransportCard extends HTMLElement {
   .dep .what { display: flex; flex-direction: column; min-width: 0; }
   .dep .dest { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--primary-text-color); }
   .dep .what .delay { font-size: 11px; line-height: 1.3; }
-  .dep .what .meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 11px; line-height: 1.3; }
-  .dep .what .num { font-variant-numeric: tabular-nums; font-weight: 500; color: var(--secondary-text-color); }
-  .dep .what .voie { font-size: 10px; color: var(--secondary-text-color); padding: 0 4px; border-radius: 4px;
-    border: 1px solid color-mix(in srgb, var(--secondary-text-color) 35%, transparent); white-space: nowrap; }
   /* The next times of a line and destination, in aligned columns: the first one bold. */
   .times { display: grid; grid-template-columns: minmax(48px, auto) repeat(2, 36px); align-items: baseline; text-align: right; }
   .times.n2 { grid-template-columns: minmax(48px, auto) 36px; }

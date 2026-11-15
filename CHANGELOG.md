@@ -1,9 +1,14 @@
 # Changelog
 
-## 1.3.1 - 2026-11-15
+## 1.3.2 - 2026-11-15
 
 ### Fixes
 - **GTFS destinations**: on feeds that carry the train number in the trip headsign (notably the SNCF TGV INOUI export), departures showed an opaque number ("8719") instead of a place. A headsign that is empty or a bare number now falls back to the trip's terminus (a real station name); the same applies to extra real-time trips and to the destination hints shown in the configuration form.
+
+## 1.3.1 - 2026-11-15
+
+### Removed
+- **SNCF provider**: removed. It relied on a Navitia/SNCF API key that can no longer be obtained through self-service (the SNCF developer-token page is gone and Navitia's free token is no longer issued), so the provider was unusable for new users. The optional `code`/`platform` departure fields and the card's train rendering added for it are reverted. SNCF national trains remain reachable through the generic GTFS-RT provider (transport.data.gouv.fr).
 
 ## 1.3.0 - 2026-11-15
 

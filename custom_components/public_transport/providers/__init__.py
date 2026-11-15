@@ -19,12 +19,11 @@ from .base import (
 from .cts import CtsProvider
 from .gtfs import GtfsNetwork, GtfsProvider, fetch_catalog, search_networks
 from .idfm import IdfmProvider
-from .sncf import SncfProvider
 from .star import StarProvider
 from .tcl import TclProvider
 
 PROVIDERS: dict[str, type[Provider]] = {
-    cls.id: cls for cls in (StarProvider, IdfmProvider, TclProvider, CtsProvider, SncfProvider, GtfsProvider)
+    cls.id: cls for cls in (StarProvider, IdfmProvider, TclProvider, CtsProvider, GtfsProvider)
 }
 
 

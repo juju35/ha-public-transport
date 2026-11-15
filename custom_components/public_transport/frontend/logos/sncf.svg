@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 40" width="128" height="40" role="img" aria-label="SNCF">
-  <title>SNCF</title>
-  <rect x="0.5" y="0.5" width="127" height="39" rx="8" fill="#1a2b49"/>
-  <g transform="translate(9 8)" fill="#ffffff">
-    <path d="M12,0C8,0 4,0.5 4,4V13.5A3.5,3.5 0 0,0 7.5,17L6,18.5V19H8L10,17H14L16,19H18V18.5L16.5,17A3.5,3.5 0 0,0 20,13.5V4C20,0.5 16,0 12,0M7.5,15A1.5,1.5 0 0,1 6,13.5A1.5,1.5 0 0,1 7.5,12A1.5,1.5 0 0,1 9,13.5A1.5,1.5 0 0,1 7.5,15M11,8H6V4H11V8M13,8V4H18V8H13M16.5,15A1.5,1.5 0 0,1 15,13.5A1.5,1.5 0 0,1 16.5,12A1.5,1.5 0 0,1 18,13.5A1.5,1.5 0 0,1 16.5,15Z"/>
-  </g>
-  <text x="40" y="27" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="1.5" fill="#ffffff">SNCF</text>
-</svg>
