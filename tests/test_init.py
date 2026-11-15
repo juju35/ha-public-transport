@@ -13,10 +13,29 @@ from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as dt_util
 from pytest_homeassistant_custom_component.common import MockConfigEntry, async_fire_time_changed
 
-from custom_components.public_transport.const import DOMAIN
+from custom_components.public_transport.const import DOMAIN, MAX_NETWORK_ALERTS_PER_STOP
+from custom_components.public_transport.coordinator import NetworkCoordinator
 from custom_components.public_transport.diagnostics import async_get_config_entry_diagnostics
+from custom_components.public_transport.providers import Alert
 
 from . import star_data as data
+
+
+def test_network_wide_alerts_are_capped_per_stop() -> None:
+    """Line-scoped alerts on a followed line are always kept; network-wide ones (no line) are capped, so a feed
+    that broadcasts every disruption network-wide (e.g. SNCF) cannot bury a stop under hundreds of them."""
+    coordinator = object.__new__(NetworkCoordinator)
+    coordinator.alerts = [
+        Alert(id="line-a", title="Ligne A", line_ids=("A",), level=3),
+        *(Alert(id=f"net-{i}", title=f"Réseau {i}", level=2) for i in range(6)),
+        Alert(id="line-b", title="Ligne B", line_ids=("B",), level=1),
+    ]
+    kept = coordinator.alerts_for(["A"])
+    scoped = [a.id for a in kept if a.line_ids]
+    network_wide = [a.id for a in kept if not a.line_ids]
+    assert scoped == ["line-a"], "the alert on the followed line stays, the one on line B is dropped"
+    assert len(network_wide) == MAX_NETWORK_ALERTS_PER_STOP
+    assert network_wide == ["net-0", "net-1", "net-2"], "the gravest network-wide alerts survive the cap"
 
 
 def make_entry(hass: HomeAssistant, stop_id: str = "1201", lines=("0004", "0011"), mode="bus", **options):

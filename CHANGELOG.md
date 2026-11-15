@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.5 - 2026-11-15
+
+### Fixes
+- **Network-wide alerts capped per stop**: some networks (SNCF) broadcast every regional disruption network-wide, with no line in the feed, so a single stop inherited hundreds of them. Alerts on a followed line are always kept; the network-wide ones are now capped (the gravest first).
+
 ## 1.3.4 - 2026-11-15
 
 ### Features
