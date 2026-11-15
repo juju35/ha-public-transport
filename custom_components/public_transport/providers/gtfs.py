@@ -166,25 +166,39 @@ class GtfsStatic:
             if row.get("service_id") and day:
                 self.exceptions.setdefault(row["service_id"], {})[day] = row.get("exception_type") == "1"
         last: dict[str, tuple[int, str]] = {}
+        stop_trips: dict[str, list[str]] = {}
         for row in _rows(archive, "stop_times.txt"):
             trip = self.trips.get(row.get("trip_id", ""))
             stop_id = row.get("stop_id", "")
             if trip is None or not stop_id:
                 continue
             self.stop_routes.setdefault(stop_id, set()).add(trip[0])
-            if trip[2]:
-                heads = self.stop_headsigns.setdefault(stop_id, set())
-                if len(heads) < 6:
-                    heads.add(trip[2])
+            # Keep a bounded sample of the trips calling here; their destinations are
+            # resolved below, once the headsigns are readable.
+            serving = stop_trips.setdefault(stop_id, [])
+            if len(serving) < 24:
+                serving.append(row["trip_id"])
             sequence = _int(row.get("stop_sequence"))
             previous = last.get(row["trip_id"])
             if previous is None or sequence > previous[0]:
                 last[row["trip_id"]] = (sequence, stop_id)
-        # Trips without a headsign go to their last stop.
+        # Trips with no usable headsign (empty, or a bare train number like the SNCF
+        # TGV feeds expose) go to their last stop, which is a real place name.
         for trip_id, (_, stop_id) in last.items():
             route, service, headsign, direction = self.trips[trip_id]
-            if not headsign and stop_id in self.stops:
+            if _unhelpful(headsign) and stop_id in self.stops:
                 self.trips[trip_id] = (route, service, self.stops[stop_id][0], direction)
+        # The destinations offered at each stop, taken from the finalised headsigns so the
+        # config form shows place names rather than train numbers.
+        for stop_id, trip_ids in stop_trips.items():
+            own = self.stops[stop_id][0] if stop_id in self.stops else ""
+            heads = self.stop_headsigns.setdefault(stop_id, set())
+            for trip_id in trip_ids:
+                headsign = self.trips[trip_id][2]
+                if headsign and headsign != own:
+                    heads.add(headsign)
+                if len(heads) >= 6:
+                    break
 
     def read_timetable(self, stop_ids: frozenset[str]) -> Timetable:
         """The scheduled passages at these stops (a second pass over stop_times, kept until the stops change)."""
@@ -652,7 +666,7 @@ def _added(static: GtfsStatic, stop_id: str, updates: dict[str, TripUpdate], now
                     Departure(
                         line_id=update.route_id,
                         line=line.short_name if line else update.route_id,
-                        destination="",
+                        destination=_terminus(static, update, stop_id),
                         departure=dt_util.utc_from_timestamp(moment),
                         realtime=True,
                         direction=update.direction_id,
@@ -660,6 +674,28 @@ def _added(static: GtfsStatic, stop_id: str, updates: dict[str, TripUpdate], now
                     )
                 )
     return [d for d in found if d.departure >= now - PAST]
+
+
+def _unhelpful(headsign: str) -> bool:
+    """A headsign that names no place: empty, or a bare train number (e.g. SNCF TGV "8719")."""
+    return not headsign or headsign.strip().isdigit()
+
+
+def _terminus(static: GtfsStatic, update: TripUpdate, boarding: str) -> str:
+    """The last served stop's name from a real-time trip update, or '' when it is not known.
+
+    Returns '' when the only known stop is where the traveller boards, since that is an
+    origin, not a destination.
+    """
+    stops = [stu for stu in update.stop_time_updates if stu.stop_id]
+    if not stops:
+        return ""
+    sequenced = [stu for stu in stops if stu.stop_sequence is not None]
+    last = max(sequenced, key=lambda stu: stu.stop_sequence) if sequenced else stops[-1]
+    if last.stop_id == boarding:
+        return ""
+    name = static.stops.get(last.stop_id or "")
+    return name[0] if name else ""
 
 
 def _natural(name: str) -> tuple[int, str]:
