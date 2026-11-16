@@ -67,11 +67,11 @@ Home Assistant integration for the **next departures at your public transport st
 - **Traffic alert** binary sensor per stop, on while an alert concerns one of its lines
 - **Real time or timetable**, for each departure: real-time times come with their delay to the timetable; timetable-only times are marked like the `*` of the stop displays
 - **Hundreds of networks**: a generic GTFS / GTFS-RT provider searches the national catalogue by city or network name, downloads the timetable once a day and corrects it with the real-time feed
-- **Network logo** in the card header, when the integration ships one
+- **Network logo** on the card's banner, when the integration ships one
 - **One request per network**: every stop of a network is updated at once, so following more stops costs no more of the open data quota
 - `public_transport.refresh` action to update now
-- `custom:public-transport-card` card, **shipped with the integration** and loaded automatically: line badges in the official colors, countdown that ticks by itself, real-time indicator, collapsible traffic alerts, and an **animated scene** of the next departure (the bus or the train drives in when it is close)
-- `custom:public-transport-mini-card` compact card: the animated scene of the next departure, then the next lines and destinations of each stop, with a button to open the full card
+- `custom:public-transport-card` card, **shipped with the integration** and loaded automatically: an **illustrated banner** whose bus, metro or tram drives in when it is close (night picture after sunset), the next departure with its **approach bar**, tabs per stop, the following departures with line badges in the official colors and a state pill (approaching, delay, real time or timetable), a countdown that ticks by itself, and collapsible traffic alerts
+- `custom:public-transport-mini-card` compact card: the banner tells the next departure of all its stops — line, destination, countdown, real time, delay and the timetable time struck through — with its approach bar and a button to open the full card
 - Diagnostics download with the API key redacted
 - English, French, German, Spanish, Serbian (Cyrillic and Latin), Italian, Dutch, Portuguese, Polish, Romanian, Danish, Swedish, Bulgarian, Russian, Ukrainian, Hungarian, Slovak, Czech, Slovenian, Latvian and Greek
 
@@ -412,8 +412,8 @@ Errors are translated in the Home Assistant language.
 
 | Type | Description |
 |---|---|
-| `custom:public-transport-card` | Full card: animated scene of the next departure, departures of each stop, traffic alerts |
-| `custom:public-transport-mini-card` | Compact card: the animated scene of the next departure, then up to three lines and destinations per stop with their next two times; the button at the top right opens the full card in place, a click outside folds it back |
+| `custom:public-transport-card` | Full card: illustrated banner, the next departure and its approach bar, tabs per stop, the following departures, traffic alerts |
+| `custom:public-transport-mini-card` | Compact card: the banner tells the next departure of all its stops, with its approach bar; the button at the top right opens the full card in place, a click outside folds it back |
 
 ### Visual editor
 
@@ -449,12 +449,12 @@ language: en
 | Option | Default | Description |
 |---|---|---|
 | `entities` | every stop | Stop sensors (`sensor.*_next_departure`) to show, in this order; line sensors (`sensor.*_line_*`) work too |
-| `title` | `Next departures` | Card title |
-| `show_title` | `true` | Show the title in the header (e.g. `false` under a section heading of your own) |
-| `show_scene` | `true` | Show the animated scene of the next departure (one per stop; one for all the stops in the mini card) |
-| `show_alerts` | `true` | Show the traffic alerts (and their count in the header) |
+| `title` | the stop's name | Card title (`Next departures` for stops of different names) |
+| `show_title` | `true` | Show the title on the banner (e.g. `false` under a section heading of your own) |
+| `show_scene` | `true` | Show the banner's animated scene and its street or track (`false`: the sky alone) |
+| `show_alerts` | `true` | Show the traffic alerts (and their count above the departures) |
 | `show_refresh` | `true` | Show the refresh button |
-| `max_departures` | `5` | Rows shown per stop, one per line and destination with its next three times (up to the integration's *Departures kept*) |
+| `max_departures` | `5` | Rows shown after the next departure, one per line and destination with its next times (up to the integration's *Departures kept*) |
 | `time_format` | `relative` | `relative`: countdown (`4 min`, `Now`), clock time from an hour; `absolute`: always the clock time |
 | `language` | Auto | Force language: `en`, `fr`, `de`, `es`, `sr`, `sr-Latn`, `it`, `nl`, `pt`, `pl`, `ro`, `da`, `sv`, `bg`, `ru`, `uk`, `hu`, `sk`, `cs`, `sl`, `lv` or `el` (auto-detects from HA settings) |
 
@@ -464,19 +464,25 @@ The mini card takes the same options; `max_departures` applies to its full view,
 
 ### Animations
 
-Each animation of the card, in the light and dark themes.
+Each animation of the card, in the light and dark themes (the dark theme shows the night picture, also used after sunset).
 
-**The next departure is close** (2 minutes or less): the bus, in its line color, drives in to the stop and stops at the sign; waves rise from the sign while the time is real time, and the countdown pulses.
+**The next departure is close** (2 minutes or less): the bus, with its line color and number, drives in and stops at the shelter; waves rise from the sign while the time is real time, the countdown pulses and the vehicle reaches the end of the approach bar.
 
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving.gif" alt="bus arriving" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-dark.gif" alt="bus arriving dark" width="400"> |
 
-**At a metro station**, the train glides in along the rails.
+**At a metro station**, the train glides in along the rails to the covered platform.
 
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-metro.gif" alt="metro arriving" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-metro-dark.gif" alt="metro arriving dark" width="400"> |
+
+**At a tram stop**, the tram glides in under its catenary, on a grass track.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-tram.gif" alt="tram arriving" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-tram-dark.gif" alt="tram arriving dark" width="400"> |
 
 **The next departure is a few minutes away**: the bus idles before the stop, engine running.
 
@@ -500,19 +506,19 @@ All animations stop when the system asks for reduced motion.
 
 ### Cards
 
-A bus stop: the next departure with its scene, then the coming departures — line badge in the official colors, destination, delay, real time (waves) or timetable (clock) — and the folded traffic alerts.
+A bus stop: the banner with the stop's figures and its scene, the next departure with its real time, the timetable time struck through, its delay and its approach bar; then the following departures — countdown, line badge in the official colors, destination, next times and state pill — and the folded traffic alerts.
 
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card.png" alt="card" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-dark.png" alt="card dark" width="400"> |
 
-Two stops (the metro station and the bus stop of the same name), with the traffic alerts unfolded: level, lines concerned, validity and a link to the network's page.
+Two stops (the metro station and the bus stop of the same name): the *All* tab, then one per mode; the traffic alerts unfolded: level, lines concerned, validity and a link to the network's page.
 
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-alerts.png" alt="card with alerts" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-alerts-dark.png" alt="card with alerts dark" width="400"> |
 
-The mini card: the scene of the next departure, then up to three lines and destinations per stop with their next two times.
+The mini card: the banner tells the next departure of all its stops, with its approach bar.
 
 | Light | Dark |
 |---|---|
@@ -544,7 +550,7 @@ Each config entry is one stop. The entries of the same network share one coordin
 
 When an update fails (quota reached, timeout, server error), the sensors keep the last departures — without those already gone — and flag them with their `stale` (`true`) and `last_error` attributes; the card says the network is unreachable. Only a failed first update leaves the stop to be set up again later.
 
-The card reads the stop sensors and counts the minutes down every 15 seconds by itself, between two updates. A departure 2 minutes away or less is *approaching*: the countdown pulses and the scene shows the vehicle arriving.
+The card reads the stop sensors and counts the minutes down every 15 seconds by itself, between two updates. A departure 2 minutes away or less is *approaching*: the countdown pulses and the scene shows the vehicle arriving. The approach bar starts 10 minutes before the departure.
 
 ### STAR open data
 
@@ -577,7 +583,7 @@ The catalogue is the [transport.data.gouv.fr API](https://transport.data.gouv.fr
 
 ### Network logos
 
-The card shows the network's logo in its header when the integration ships `frontend/logos/<network>.svg` (or `.png`) (`star`, `idfm`, `tcl`, `cts`; a GTFS-RT network as `gtfs-<dataset>.svg`) and every stop of the card belongs to that network; otherwise it keeps its icon. Shipped: STAR, CTS and TCL (Wikimedia Commons), Île-de-France Mobilités ([Simple Icons](https://simpleicons.org), CC0), Tisséo, TaM, Fil Bleu (Wikimedia Commons, PNG), TBM, Naolib, ilévia, Astuce, Lignes d'Azur, LiA, Irigo (Wikimedia Commons). The logos remain the trademarks of their networks.
+The card shows the network's logo on its banner when the integration ships `frontend/logos/<network>.svg` (or `.png`) (`star`, `idfm`, `tcl`, `cts`; a GTFS-RT network as `gtfs-<dataset>.svg`) and every stop of the card belongs to that network; otherwise it keeps its icon. Shipped: STAR, CTS and TCL (Wikimedia Commons), Île-de-France Mobilités ([Simple Icons](https://simpleicons.org), CC0), Tisséo, TaM, Fil Bleu (Wikimedia Commons, PNG), TBM, Naolib, ilévia, Astuce, Lignes d'Azur, LiA, Irigo (Wikimedia Commons). The logos remain the trademarks of their networks.
 
 ### Adding a network
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5.0 - 2026-11-16
+
+### Features
+- **Board redesign of both cards**, in the style of the flight and train board cards: an illustrated banner with the stop's name, its number of departures and share of real time, and a street scene whose bus, metro or tram (line color and number) drives in and stops when it is close; the road or the track runs under the whole banner, with a night picture after sunset.
+- **Next departure block** on the full card: line, destination, real time, the timetable time struck through, a big countdown with its state, and an **approach bar** where the vehicle reaches the stop as the countdown runs out.
+- **Tabs** when the card shows several stops (*All*, then one per mode or stop), then the following departures — countdown, line badge, destination with its next times, and a state pill (approaching, delay, real time or timetable).
+- **Mini card**: the banner now tells the next departure of all its stops (line, destination, countdown, real time, delay and the timetable time struck through), with its approach bar.
+
 ## 1.4.0 - 2026-11-15
 
 ### Features

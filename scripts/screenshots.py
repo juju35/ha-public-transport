@@ -438,10 +438,10 @@ for _key, _net in NETWORKS.items():
     )
 
 SHOTS = [
-    # The full card on a bus stop: the bus idles before the stop, departures, folded alerts.
+    # The full card on a bus stop: the banner (the bus idles before the stop), the next departure, the following ones, folded alerts.
     {"file": "card", "theme": "light", "config": {"entities": ["sensor.star_republique_next_departure"]}},
     {"file": "card-dark", "theme": "dark", "config": {"entities": ["sensor.star_republique_next_departure"]}},
-    # Two stops (metro and bus) with the traffic alerts unfolded.
+    # Two stops (metro and bus): their tabs, the traffic alerts unfolded.
     {
         "file": "card-alerts",
         "theme": "light",
@@ -458,7 +458,7 @@ SHOTS = [
         },
         "open": True,
     },
-    # The mini card: the scene of the next departure, then up to three rows of two times per stop.
+    # The mini card: the banner tells the next departure of all its stops, then its approach bar.
     {
         "file": "mini-card",
         "theme": "light",
@@ -498,8 +498,10 @@ for _key in NETWORKS:
 ANIMATIONS = [
     # The next bus is a minute away: it drives in to the stop, waves rise from the sign (real time).
     {"file": "arriving", "config": {"entities": ["sensor.star_arriving_next_departure"]}, "seconds": 3.2},
-    # The next train is a minute away: it glides in along the rails.
+    # The next train is a minute away: it glides in along the rails to the covered platform.
     {"file": "arriving-metro", "config": {"entities": ["sensor.star_republique_metro_next_departure"]}, "seconds": 3.2},
+    # The next tram is two minutes away: it glides in under its catenary, on a grass track.
+    {"file": "arriving-tram", "config": {"entities": ["sensor.cts_next_departure"]}, "seconds": 3.2},
     # The next bus is minutes away: it idles before the stop, engine running.
     {"file": "waiting", "config": {"entities": BUS_STOP}, "seconds": 1.6},
     # A major disruption: the alert sign shakes.
@@ -566,10 +568,10 @@ def mount(context, shot):
     page.add_script_tag(content=HA_ELEMENTS)
     page.add_script_tag(content=CARD_JS)
     page.evaluate(
-        """({config, states, element, open, refreshing}) => {
+        """({config, states, element, open, refreshing, dark}) => {
           const el = document.createElement(element);
           el.setConfig({type: `custom:${element}`, ...config});
-          el.hass = {states, language: "en", locale: {language: "en"},
+          el.hass = {states, language: "en", locale: {language: "en"}, themes: {darkMode: dark},
                      callService: () => new Promise(() => {}), callWS: () => Promise.resolve({})};
           document.getElementById("root").appendChild(el);
           if (open) { for (const id of config.entities) el._open[id] = true; el._render(); }
@@ -581,6 +583,7 @@ def mount(context, shot):
             "element": shot.get("element", "public-transport-card"),
             "open": shot.get("open", False),
             "refreshing": shot.get("refreshing", False),
+            "dark": shot["theme"] == "dark",
         },
     )
     return page

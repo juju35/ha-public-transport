@@ -140,63 +140,112 @@ test('countdown: now, minutes, then clock time after an hour or with time_format
   assert.match(clock._when(dep('C4', 7), t, NOW), /\d{2}:\d{2}/);
 });
 
-test('a stop shows the scene, its departures with line badges and real-time marks', () => {
+test('a stop shows the banner scene, the next departure, then the following ones with line badges and state pills', () => {
   const card = makeCard();
   const html = card._renderFull(card._stops(), TransportI18n.en);
-  assert.match(html, /class="scene waiting"/);
-  assert.equal((html.match(/class="dep[ "]/g) || []).length, 2);
-  assert.match(html, /class="lb" style="--lc:#e30613;--lt:#ffffff">C4</);
-  assert.match(html, /class="rt ok live"/);
-  assert.match(html, /class="rt idle"/);
-  // A single stop has no section title of its own (its name is the header's sub-line).
-  assert.doesNotMatch(html, /section-title"/);
+  assert.match(html, /class="banner bus/);
+  assert.match(html, /class="veh waiting"/);
+  // The next departure (C4) on its own, with its precision and approach bar; the following one (11) in the board.
+  assert.match(html, /class="lb big" style="--lc:#e30613;--lt:#ffffff">C4</);
+  assert.match(html, /class="prec ok live"/);
+  assert.match(html, /class="approach"/);
+  assert.equal((html.match(/class="dep[ "]/g) || []).length, 1);
+  assert.match(html, /class="pill idle" title="Timetable time/);
+  // A single stop: no tabs, the "Then" label; its name is the banner's title.
+  assert.doesNotMatch(html, /role="tablist"/);
+  assert.match(html, /class="then">Then</);
+  assert.match(html, /class="name">Central</);
+  assert.match(html, /2 departures · STAR/);
+  assert.match(html, /50% real time/);
 });
 
 test('the scene drives the vehicle in when the next departure is close, with waves for real time', () => {
-  const states = { 'sensor.a': stopState({}, { departures: [dep('C4', 1)] }) };
+  const states = { 'sensor.a': stopState({}, { departures: [dep('C4', 1), dep('C4', 2.5)] }) };
   const html = makeCard(TransportCard, {}, states)._renderFull([{ id: 'sensor.a', st: states['sensor.a'] }], TransportI18n.en);
-  assert.match(html, /class="scene arriving"/);
   assert.match(html, /class="veh arriving"/);
   assert.match(html, /class="waves"/);
   assert.match(html, /class="count soon"/);
+  assert.match(html, /class="vdot soon"/);
   assert.match(html, /class="dep soon"/);
+  assert.match(html, /class="pill active" title="Real time"><span class="dot"><\/span><span class="t">Now</);
 });
 
-test('a metro stop draws a train on rails and round line badges', () => {
-  const states = { 'sensor.m': stopState({}, { mode: 'metro', departures: [dep('a', 4)] }) };
+test('the approach bar puts the vehicle at the stop when the countdown reaches zero', () => {
+  const card = makeCard();
+  assert.match(card._approach({ ...dep('C4', 10), _mode: 'bus' }, NOW), /--p:4%/);
+  assert.match(card._approach({ ...dep('C4', 5), _mode: 'bus' }, NOW), /--p:48%/);
+  assert.match(card._approach({ ...dep('C4', 0), _mode: 'bus' }, NOW), /--p:92%/);
+  assert.match(card._approach({ ...dep('C4', 30), _mode: 'bus' }, NOW), /--p:4%/);
+});
+
+test('a metro stop draws a train on rails and round line badges; a tram its catenary', () => {
+  const states = { 'sensor.m': stopState({}, { mode: 'metro', departures: [dep('a', 4), dep('b', 6)] }) };
   const html = makeCard(TransportCard, {}, states)._renderFull([{ id: 'sensor.m', st: states['sensor.m'] }], TransportI18n.en);
-  assert.match(html, /class="sleepers"/);
+  assert.match(html, /class="banner metro/);
+  assert.match(html, /class="lb round big"/);
   assert.match(html, /class="lb round"/);
+  const tram = { 'sensor.t': stopState({}, { mode: 'tram', departures: [dep('T1', 4)] }) };
+  const t = makeCard(TransportCard, {}, tram)._renderFull([{ id: 'sensor.t', st: tram['sensor.t'] }], TransportI18n.en);
+  assert.match(t, /class="catenary"/);
+  assert.match(t, /class="panto"/);
 });
 
 test('no departure shows the quiet message and an empty scene', () => {
   const states = { 'sensor.a': stopState({}, { departures: [] }) };
   const html = makeCard(TransportCard, {}, states)._renderFull([{ id: 'sensor.a', st: states['sensor.a'] }], TransportI18n.en);
-  assert.match(html, /class="scene empty"/);
+  assert.match(html, /class="veh empty"/);
+  assert.match(html, /class="next quiet"/);
   assert.match(html, /No departure announced for now/);
 });
 
 test('show_scene false hides the scene, max_departures limits the rows', () => {
-  const card = makeCard(TransportCard, { show_scene: false, max_departures: 1 });
+  const states = { 'sensor.a': stopState({}, { departures: [dep('C4', 3), dep('11', 5), dep('12', 7)] }) };
+  const card = makeCard(TransportCard, { show_scene: false, max_departures: 1 }, states);
   const html = card._renderFull(card._stops(), TransportI18n.en);
   assert.doesNotMatch(html, /class="scene/);
+  assert.match(html, /class="banner bus plain"/);
   assert.equal((html.match(/class="dep[ "]/g) || []).length, 1);
 });
 
-test('a late departure shows its delay', () => {
+test('a late departure shows its delay in its pill', () => {
   const states = { 'sensor.a': stopState({}, { departures: [dep('C4', 8, { delay: 3 })] }) };
   const html = makeCard(TransportCard, {}, states)._renderFull([{ id: 'sensor.a', st: states['sensor.a'] }], TransportI18n.en);
-  assert.match(html, /class="delay warn">\+3 min late/);
+  assert.match(html, /class="pill warn" title="\+3 min late"><span class="dot"><\/span><span class="t">\+3 min</);
 });
 
-test('stale data and an unavailable sensor are said', () => {
+test('stale data and an unavailable sensor are said, with the stop named; several stops get tabs', () => {
   const states = { 'sensor.a': stopState({}, { stale: true }), 'sensor.b': { state: 'unavailable', attributes: {} } };
   const card = makeCard(TransportCard, { entities: ['sensor.a', 'sensor.b'] }, states);
   const html = card._renderFull(card._stops(), TransportI18n.en);
-  assert.match(html, /Network unreachable/);
-  assert.match(html, /Departures are unavailable/);
-  // Several stops: each has its section title.
-  assert.match(html, /section-title"/);
+  assert.match(html, /Central · Network unreachable/);
+  assert.match(html, /sensor\.b · Departures are unavailable/);
+  assert.match(html, /role="tablist"/);
+});
+
+test('tabs: all the stops, then one per stop named after its mode; a tab shows its stop only', () => {
+  const metro = stopState({}, { mode: 'metro', departures: [dep('a', 1), dep('a', 4)] });
+  const card = makeCard(TransportCard, { entities: ['sensor.bus', 'sensor.metro'] }, { 'sensor.bus': stopState(), 'sensor.metro': metro });
+  const t = TransportI18n.en;
+  assert.deepEqual([...card._tabs(card._stops(), t).map((x) => x.label)], ['All', 'Bus', 'Metro']);
+  let html = card._renderFull(card._stops(), t);
+  assert.match(html, /class="tab active"[^>]*data-tab="all"/);
+  assert.match(html, /class="banner metro/);
+  card._tab = 'sensor.bus';
+  html = card._renderFull(card._stops(), t);
+  assert.match(html, /class="tab active"[^>]*data-tab="sensor.bus"/);
+  assert.match(html, /class="banner bus/);
+  assert.doesNotMatch(html, /class="lb round/);
+  // Two stops of the same mode: named after the stop.
+  const two = makeCard(TransportCard, { entities: ['sensor.a', 'sensor.b'] }, { 'sensor.a': stopState(), 'sensor.b': stopState({}, { stop_name: 'Gare' }) });
+  assert.deepEqual([...two._tabs(two._stops(), t).map((x) => x.label)], ['All', 'Central', 'Gare']);
+});
+
+test('the banner turns to night when the sun is down, else follows the dark mode', () => {
+  const night = vm.runInContext('transportIsNight', context);
+  assert.equal(night({ states: { 'sun.sun': { state: 'below_horizon' } } }), true);
+  assert.equal(night({ states: { 'sun.sun': { state: 'above_horizon' } }, themes: { darkMode: true } }), false);
+  assert.equal(night({ states: {}, themes: { darkMode: true } }), true);
+  assert.equal(night({ states: {} }), false);
 });
 
 test('alerts: a folded section with a chevron, opened on click, with level, lines and link', () => {
@@ -245,49 +294,51 @@ test('texts from the network are escaped', () => {
   assert.doesNotMatch(html, /<b>/);
 });
 
-test('the mini card is compact: one scene for the next departure, three rows of two times per stop, a detail button', () => {
+test('the mini card is compact: the banner tells the next departure of all the stops, its approach bar, a detail button', () => {
   const metro = stopState({}, { mode: 'metro', departures: [dep('a', 1), dep('a', 4), dep('a', 8)] });
-  const bus = stopState({}, { departures: [dep('C4', 3), dep('11', 5), dep('C4', 9), dep('12', 14), dep('13', 15), dep('11', 20)] });
+  const bus = stopState({}, { departures: [dep('C4', 3, { delay: 2, scheduled: at(1) }), dep('11', 5)] });
   const card = makeCard(TransportMiniCard, { entities: ['sensor.bus', 'sensor.metro'] }, { 'sensor.bus': bus, 'sensor.metro': metro });
   assert.equal(card._compact(), true);
-  const html = card._renderCompact(card._stops(), TransportI18n.en);
+  let html = card._renderCompact(card._stops(), TransportI18n.en);
   // A single scene, for the metro a minute away though it is the second stop.
-  assert.equal((html.match(/class="scene /g) || []).length, 1);
-  assert.match(html, /class="scene arriving"/);
-  assert.match(html, /class="sleepers"/);
-  // Metro: one row (a), bus: three rows out of four lines and destinations; two times each.
-  assert.equal((html.match(/class="dep[ "]/g) || []).length, 4);
-  assert.equal((html.match(/class="times n2"/g) || []).length, 4);
-  assert.match(html, /class="when">3 min<\/span><span class="then">9<\/span>/);
-  assert.doesNotMatch(html, />13</);
-  assert.match(html, /section-title"/);
+  assert.equal((html.match(/class="scene"/g) || []).length, 1);
+  assert.match(html, /class="banner mini metro/);
+  assert.match(html, /class="veh arriving"/);
+  assert.match(html, /class="mline"><span class="lb round"/);
+  assert.match(html, /class="rt ok live"/);
+  assert.match(html, /class="approach"/);
+  assert.doesNotMatch(html, /class="dep[ "]/);
   assert.match(card._detailButton(TransportI18n.en), /data-action="detail"/);
+  // A late bus: its delay, the expected time and the timetable time struck through.
+  const late = makeCard(TransportMiniCard, {}, { 'sensor.bus': bus });
+  html = late._renderCompact(late._stops(), TransportI18n.en);
+  assert.match(html, /class="delay warn">\+2 min<\/span><span class="at">/);
+  assert.match(html, /class="was">/);
   card._zoomed = true;
   assert.equal(card._compact(), false);
   assert.match(card._detailButton(TransportI18n.en), /Back to the compact view/);
 });
 
-test('the full card groups the departures by line and destination, with three times per row', () => {
+test('the full card groups the following departures by line and destination, with their next times', () => {
   const states = { 'sensor.a': stopState({}, { departures: [dep('C4', 3), dep('11', 5), dep('C4', 9), dep('C4', 12), dep('C4', 20), dep('C4', 75, { destination: 'Other' })] }) };
   const card = makeCard(TransportCard, {}, states);
   const html = card._renderFull(card._stops(), TransportI18n.en);
+  // C4 at 3 min is the next departure; then 11, C4 (9, 12, 20) and C4 to Other.
   assert.equal((html.match(/class="dep[ "]/g) || []).length, 3);
-  assert.match(html, /class="when">3 min<\/span><span class="then">9<\/span><span class="then">12<\/span>/);
-  // A row with one departure keeps its empty columns, so the times stay aligned.
-  assert.match(html, /class="when">5 min<\/span><span class="then"><\/span><span class="then"><\/span>/);
+  assert.match(html, /class="when">9 min<\/span>/);
+  assert.match(html, /then 12, 20 min/);
   // After an hour, the clock time.
   assert.match(html, /class="when">\d{2}:\d{2}/);
   const clock = makeCard(TransportCard, { time_format: 'absolute' }, states);
-  assert.match(clock._renderFull(clock._stops(), TransportI18n.en), /class="then">\d{2}:\d{2}/);
+  assert.match(clock._renderFull(clock._stops(), TransportI18n.en), /then \d{2}:\d{2}/);
 });
 
-test('every stop of the full card has its scene; a late real-time departure strikes its timetable time', () => {
-  const late = stopState({}, { departures: [dep('C4', 4, { delay: 2, scheduled: at(2) })] });
+test('several stops share one banner; a late real-time departure strikes its timetable time', () => {
+  const late = stopState({}, { departures: [dep('C4', 2, { delay: 2, scheduled: at(0) })] });
   const card = makeCard(TransportCard, { entities: ['sensor.a', 'sensor.b'] }, { 'sensor.a': late, 'sensor.b': stopState() });
   const html = card._renderFull(card._stops(), TransportI18n.en);
-  assert.equal((html.match(/class="scene /g) || []).length, 2);
+  assert.equal((html.match(/class="scene"/g) || []).length, 1);
   assert.match(html, /class="was">\d{2}:\d{2}/);
-  assert.match(html, /class="delay warn">\+2 min late/);
 });
 
 test('the mini card header keeps the title readable: alert sign and count, or the dot alone', () => {
@@ -310,14 +361,14 @@ test('the refresh action targets the entries of the shown stops', async () => {
   assert.equal(card._refreshing, false);
 });
 
-test('styles: animations stop with prefers-reduced-motion, no filled button, 40 px header badge', () => {
+test('styles: animations stop with prefers-reduced-motion, no filled button, the road runs under the whole banner', () => {
   const css = TransportCard._styles();
-  for (const name of ['tp-arrive', 'tp-roll', 'tp-idle', 'tp-puff', 'tp-wave', 'tp-glow', 'tp-shake', 'tp-spin']) {
+  for (const name of ['tp-arrive', 'tp-idle', 'tp-puff', 'tp-wave', 'tp-glow', 'tp-shake', 'tp-spin']) {
     assert.match(css, new RegExp(`@keyframes ${name} `), name);
   }
   assert.match(css, /prefers-reduced-motion: reduce\) \{ \* \{ animation: none !important/);
-  assert.match(css, /\.badge \{ width: 40px; height: 40px; border-radius: 50%/);
-  assert.doesNotMatch(css, /\.btn[^{]*\{[^}]*background: var\(--tp-accent\)/);
+  assert.match(css, /\.ground \{ position: absolute; left: 0; right: 0; bottom: 0;/);
+  assert.doesNotMatch(css, /\.iconbtn[^{]*\{[^}]*background: var\(--tp-accent\)/);
 });
 
 test('both cards and the editor are registered for the card picker', () => {

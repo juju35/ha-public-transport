@@ -1,4 +1,4 @@
-var TRANSPORT_CARD_VERSION = '1.4.0';
+var TRANSPORT_CARD_VERSION = '1.5.0';
 
 // ── Header icon: tinted round icon in the integration's accent (the integration keeps its brand/icon.png) ──────
 var TRANSPORT_ACCENT = '#00897b';
@@ -31,7 +31,17 @@ var TransportI18n = {
     refresh_failed: 'Refresh failed:',
     show_full: 'Show the full card',
     show_compact: 'Back to the compact view',
-    stops: 'Stops: {n}',
+    departures_count: '{n} departures',
+    realtime_share: '{n}% real time',
+    next_departure: 'Next departure',
+    following: 'Then',
+    then_times: 'then {list}',
+    all: 'All',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Bus',
+    mode_metro: 'Metro',
+    mode_tram: 'Tram',
     editor: {
       entities: 'Stop sensors',
       title: 'Title',
@@ -73,7 +83,17 @@ var TransportI18n = {
     refresh_failed: 'Échec de l\'actualisation :',
     show_full: 'Afficher la carte complète',
     show_compact: 'Revenir à la vue compacte',
-    stops: 'Arrêts : {n}',
+    departures_count: '{n} départs',
+    realtime_share: '{n} % en temps réel',
+    next_departure: 'Prochain passage',
+    following: 'Ensuite',
+    then_times: 'puis {list}',
+    all: 'Tous',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Bus',
+    mode_metro: 'Métro',
+    mode_tram: 'Tram',
     editor: {
       entities: 'Capteurs d\'arrêt',
       title: 'Titre',
@@ -115,7 +135,17 @@ var TransportI18n = {
     refresh_failed: 'Aktualisierung fehlgeschlagen:',
     show_full: 'Vollständige Karte anzeigen',
     show_compact: 'Zurück zur kompakten Ansicht',
-    stops: 'Haltestellen: {n}',
+    departures_count: '{n} Abfahrten',
+    realtime_share: '{n} % in Echtzeit',
+    next_departure: 'Nächste Abfahrt',
+    following: 'Danach',
+    then_times: 'dann {list}',
+    all: 'Alle',
+    late_short: '+{n} Min.',
+    early_short: '−{n} Min.',
+    mode_bus: 'Bus',
+    mode_metro: 'U-Bahn',
+    mode_tram: 'Tram',
     editor: {
       entities: 'Haltestellensensoren',
       title: 'Titel',
@@ -157,7 +187,17 @@ var TransportI18n = {
     refresh_failed: 'Error al actualizar:',
     show_full: 'Mostrar la tarjeta completa',
     show_compact: 'Volver a la vista compacta',
-    stops: 'Paradas: {n}',
+    departures_count: '{n} salidas',
+    realtime_share: '{n} % en tiempo real',
+    next_departure: 'Próxima salida',
+    following: 'Después',
+    then_times: 'luego {list}',
+    all: 'Todos',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Autobús',
+    mode_metro: 'Metro',
+    mode_tram: 'Tranvía',
     editor: {
       entities: 'Sensores de parada',
       title: 'Título',
@@ -199,7 +239,17 @@ var TransportI18n = {
     refresh_failed: 'Aggiornamento non riuscito:',
     show_full: 'Mostra la scheda completa',
     show_compact: 'Torna alla vista compatta',
-    stops: 'Fermate: {n}',
+    departures_count: '{n} partenze',
+    realtime_share: '{n}% in tempo reale',
+    next_departure: 'Prossima partenza',
+    following: 'Poi',
+    then_times: 'poi {list}',
+    all: 'Tutti',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Bus',
+    mode_metro: 'Metro',
+    mode_tram: 'Tram',
     editor: {
       entities: 'Sensori di fermata',
       title: 'Titolo',
@@ -241,7 +291,17 @@ var TransportI18n = {
     refresh_failed: 'Vernieuwen mislukt:',
     show_full: 'Volledige kaart tonen',
     show_compact: 'Terug naar de compacte weergave',
-    stops: 'Haltes: {n}',
+    departures_count: '{n} vertrekken',
+    realtime_share: '{n}% realtime',
+    next_departure: 'Volgend vertrek',
+    following: 'Daarna',
+    then_times: 'dan {list}',
+    all: 'Alle',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Bus',
+    mode_metro: 'Metro',
+    mode_tram: 'Tram',
     editor: {
       entities: 'Haltesensoren',
       title: 'Titel',
@@ -283,7 +343,17 @@ var TransportI18n = {
     refresh_failed: 'Falha ao atualizar:',
     show_full: 'Mostrar o cartão completo',
     show_compact: 'Voltar à vista compacta',
-    stops: 'Paragens: {n}',
+    departures_count: '{n} partidas',
+    realtime_share: '{n}% em tempo real',
+    next_departure: 'Próxima partida',
+    following: 'Depois',
+    then_times: 'depois {list}',
+    all: 'Todos',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Autocarro',
+    mode_metro: 'Metro',
+    mode_tram: 'Elétrico',
     editor: {
       entities: 'Sensores de paragem',
       title: 'Título',
@@ -325,7 +395,17 @@ var TransportI18n = {
     refresh_failed: 'Odświeżenie nie powiodło się:',
     show_full: 'Pokaż pełną kartę',
     show_compact: 'Wróć do widoku kompaktowego',
-    stops: 'Przystanki: {n}',
+    departures_count: 'Odjazdy: {n}',
+    realtime_share: '{n}% w czasie rzeczywistym',
+    next_departure: 'Najbliższy odjazd',
+    following: 'Następnie',
+    then_times: 'potem {list}',
+    all: 'Wszystkie',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Autobus',
+    mode_metro: 'Metro',
+    mode_tram: 'Tramwaj',
     editor: {
       entities: 'Czujniki przystanków',
       title: 'Tytuł',
@@ -367,7 +447,17 @@ var TransportI18n = {
     refresh_failed: 'Освежавање није успело:',
     show_full: 'Прикажи целу картицу',
     show_compact: 'Назад на сажети приказ',
-    stops: 'Станице: {n}',
+    departures_count: 'Поласци: {n}',
+    realtime_share: '{n}% у реалном времену',
+    next_departure: 'Следећи полазак',
+    following: 'Затим',
+    then_times: 'затим {list}',
+    all: 'Све',
+    late_short: '+{n} мин',
+    early_short: '−{n} мин',
+    mode_bus: 'Аутобус',
+    mode_metro: 'Метро',
+    mode_tram: 'Трамвај',
     editor: {
       entities: 'Сензори станица',
       title: 'Наслов',
@@ -409,7 +499,17 @@ var TransportI18n = {
     refresh_failed: 'Osvežavanje nije uspelo:',
     show_full: 'Prikaži celu karticu',
     show_compact: 'Nazad na sažeti prikaz',
-    stops: 'Stanice: {n}',
+    departures_count: 'Polasci: {n}',
+    realtime_share: '{n}% u realnom vremenu',
+    next_departure: 'Sledeći polazak',
+    following: 'Zatim',
+    then_times: 'zatim {list}',
+    all: 'Sve',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Autobus',
+    mode_metro: 'Metro',
+    mode_tram: 'Tramvaj',
     editor: {
       entities: 'Senzori stanica',
       title: 'Naslov',
@@ -451,7 +551,17 @@ var TransportI18n = {
     refresh_failed: 'Reîmprospătarea a eșuat:',
     show_full: 'Afișați cardul complet',
     show_compact: 'Înapoi la vizualizarea compactă',
-    stops: 'Stații: {n}',
+    departures_count: '{n} plecări',
+    realtime_share: '{n}% în timp real',
+    next_departure: 'Următoarea plecare',
+    following: 'Apoi',
+    then_times: 'apoi {list}',
+    all: 'Toate',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Autobuz',
+    mode_metro: 'Metrou',
+    mode_tram: 'Tramvai',
     editor: {
       entities: 'Senzori de stație',
       title: 'Titlu',
@@ -493,7 +603,17 @@ var TransportI18n = {
     refresh_failed: 'Opdatering mislykkedes:',
     show_full: 'Vis hele kortet',
     show_compact: 'Tilbage til kompakt visning',
-    stops: 'Stoppesteder: {n}',
+    departures_count: '{n} afgange',
+    realtime_share: '{n} % i realtid',
+    next_departure: 'Næste afgang',
+    following: 'Derefter',
+    then_times: 'derefter {list}',
+    all: 'Alle',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Bus',
+    mode_metro: 'Metro',
+    mode_tram: 'Sporvogn',
     editor: {
       entities: 'Stoppestedssensorer',
       title: 'Titel',
@@ -535,7 +655,17 @@ var TransportI18n = {
     refresh_failed: 'Uppdateringen misslyckades:',
     show_full: 'Visa hela kortet',
     show_compact: 'Tillbaka till kompakt vy',
-    stops: 'Hållplatser: {n}',
+    departures_count: '{n} avgångar',
+    realtime_share: '{n} % i realtid',
+    next_departure: 'Nästa avgång',
+    following: 'Sedan',
+    then_times: 'sedan {list}',
+    all: 'Alla',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Buss',
+    mode_metro: 'Tunnelbana',
+    mode_tram: 'Spårvagn',
     editor: {
       entities: 'Hållplatssensorer',
       title: 'Titel',
@@ -577,7 +707,17 @@ var TransportI18n = {
     refresh_failed: 'Неуспешно обновяване:',
     show_full: 'Покажи пълната карта',
     show_compact: 'Обратно към компактния изглед',
-    stops: 'Спирки: {n}',
+    departures_count: 'Тръгвания: {n}',
+    realtime_share: '{n}% в реално време',
+    next_departure: 'Следващо тръгване',
+    following: 'След това',
+    then_times: 'след това {list}',
+    all: 'Всички',
+    late_short: '+{n} мин',
+    early_short: '−{n} мин',
+    mode_bus: 'Автобус',
+    mode_metro: 'Метро',
+    mode_tram: 'Трамвай',
     editor: {
       entities: 'Сензори на спирки',
       title: 'Заглавие',
@@ -619,7 +759,17 @@ var TransportI18n = {
     refresh_failed: 'Не удалось обновить:',
     show_full: 'Показать полную карточку',
     show_compact: 'Вернуться к компактному виду',
-    stops: 'Остановки: {n}',
+    departures_count: 'Отправления: {n}',
+    realtime_share: '{n}% в реальном времени',
+    next_departure: 'Ближайшее отправление',
+    following: 'Далее',
+    then_times: 'затем {list}',
+    all: 'Все',
+    late_short: '+{n} мин',
+    early_short: '−{n} мин',
+    mode_bus: 'Автобус',
+    mode_metro: 'Метро',
+    mode_tram: 'Трамвай',
     editor: {
       entities: 'Датчики остановок',
       title: 'Заголовок',
@@ -661,7 +811,17 @@ var TransportI18n = {
     refresh_failed: 'Не вдалося оновити:',
     show_full: 'Показати повну картку',
     show_compact: 'Повернутися до компактного вигляду',
-    stops: 'Зупинки: {n}',
+    departures_count: 'Відправлення: {n}',
+    realtime_share: '{n}% у реальному часі',
+    next_departure: 'Найближче відправлення',
+    following: 'Далі',
+    then_times: 'потім {list}',
+    all: 'Усі',
+    late_short: '+{n} хв',
+    early_short: '−{n} хв',
+    mode_bus: 'Автобус',
+    mode_metro: 'Метро',
+    mode_tram: 'Трамвай',
     editor: {
       entities: 'Датчики зупинок',
       title: 'Заголовок',
@@ -703,7 +863,17 @@ var TransportI18n = {
     refresh_failed: 'A frissítés sikertelen:',
     show_full: 'Teljes kártya megjelenítése',
     show_compact: 'Vissza a kompakt nézethez',
-    stops: 'Megállók: {n}',
+    departures_count: '{n} indulás',
+    realtime_share: '{n}% valós idejű',
+    next_departure: 'Következő indulás',
+    following: 'Utána',
+    then_times: 'majd {list}',
+    all: 'Összes',
+    late_short: '+{n} perc',
+    early_short: '−{n} perc',
+    mode_bus: 'Busz',
+    mode_metro: 'Metró',
+    mode_tram: 'Villamos',
     editor: {
       entities: 'Megálló-érzékelők',
       title: 'Cím',
@@ -745,7 +915,17 @@ var TransportI18n = {
     refresh_failed: 'Obnovenie zlyhalo:',
     show_full: 'Zobraziť celú kartu',
     show_compact: 'Späť na kompaktné zobrazenie',
-    stops: 'Zastávky: {n}',
+    departures_count: 'Odchody: {n}',
+    realtime_share: '{n} % v reálnom čase',
+    next_departure: 'Najbližší odchod',
+    following: 'Potom',
+    then_times: 'potom {list}',
+    all: 'Všetky',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Autobus',
+    mode_metro: 'Metro',
+    mode_tram: 'Električka',
     editor: {
       entities: 'Snímače zastávok',
       title: 'Názov',
@@ -787,7 +967,17 @@ var TransportI18n = {
     refresh_failed: 'Obnovení selhalo:',
     show_full: 'Zobrazit celou kartu',
     show_compact: 'Zpět na kompaktní zobrazení',
-    stops: 'Zastávky: {n}',
+    departures_count: 'Odjezdy: {n}',
+    realtime_share: '{n} % v reálném čase',
+    next_departure: 'Nejbližší odjezd',
+    following: 'Potom',
+    then_times: 'potom {list}',
+    all: 'Vše',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Autobus',
+    mode_metro: 'Metro',
+    mode_tram: 'Tramvaj',
     editor: {
       entities: 'Senzory zastávek',
       title: 'Název',
@@ -829,7 +1019,17 @@ var TransportI18n = {
     refresh_failed: 'Osvežitev ni uspela:',
     show_full: 'Prikaži celotno kartico',
     show_compact: 'Nazaj na strnjen pogled',
-    stops: 'Postajališča: {n}',
+    departures_count: 'Odhodi: {n}',
+    realtime_share: '{n} % v realnem času',
+    next_departure: 'Naslednji odhod',
+    following: 'Nato',
+    then_times: 'nato {list}',
+    all: 'Vse',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Avtobus',
+    mode_metro: 'Metro',
+    mode_tram: 'Tramvaj',
     editor: {
       entities: 'Senzorji postajališč',
       title: 'Naslov',
@@ -871,7 +1071,17 @@ var TransportI18n = {
     refresh_failed: 'Atsvaidzināšana neizdevās:',
     show_full: 'Rādīt pilno kartīti',
     show_compact: 'Atpakaļ uz kompakto skatu',
-    stops: 'Pieturas: {n}',
+    departures_count: 'Atiešanas: {n}',
+    realtime_share: '{n}% reāllaikā',
+    next_departure: 'Nākamā atiešana',
+    following: 'Pēc tam',
+    then_times: 'pēc tam {list}',
+    all: 'Visi',
+    late_short: '+{n} min',
+    early_short: '−{n} min',
+    mode_bus: 'Autobuss',
+    mode_metro: 'Metro',
+    mode_tram: 'Tramvajs',
     editor: {
       entities: 'Pieturu sensori',
       title: 'Virsraksts',
@@ -913,7 +1123,17 @@ var TransportI18n = {
     refresh_failed: 'Η ανανέωση απέτυχε:',
     show_full: 'Εμφάνιση πλήρους κάρτας',
     show_compact: 'Επιστροφή στη συμπαγή προβολή',
-    stops: 'Στάσεις: {n}',
+    departures_count: 'Αναχωρήσεις: {n}',
+    realtime_share: '{n}% σε πραγματικό χρόνο',
+    next_departure: 'Επόμενη αναχώρηση',
+    following: 'Στη συνέχεια',
+    then_times: 'μετά {list}',
+    all: 'Όλα',
+    late_short: '+{n} λεπ.',
+    early_short: '−{n} λεπ.',
+    mode_bus: 'Λεωφορείο',
+    mode_metro: 'Μετρό',
+    mode_tram: 'Τραμ',
     editor: {
       entities: 'Αισθητήρες στάσεων',
       title: 'Τίτλος',
@@ -1023,7 +1243,86 @@ function transportInDialog(ev) {
   return ev.composedPath().some((n) => ['ha-more-info-dialog', 'ha-dialog', 'dialog'].includes(n.localName));
 }
 
+// ── The banner's illustration ─────────────────────────────────────────────────
+// A street scene at the right of the banner, drawn in a 200 × 128 box (x 70–270, the vehicle's path starts at
+// x 70): pale buildings, a tree, the stop (a shelter for buses, a covered platform for metros and trams) and the
+// vehicle of the next departure in its line color. The road or the track is not part of the picture: it is a band
+// of the banner (CSS) that runs under the text too, at the scene's height. Generic shapes, no operator livery.
+
+// Approach bar: the vehicle reaches the stop when the countdown reaches zero, from this many minutes away.
+var TRANSPORT_APPROACH = 10;
+
+// Night picture: the sun below the horizon, else Home Assistant's dark mode.
+function transportIsNight(hass) {
+  var sun = hass?.states?.['sun.sun'];
+  if (sun && sun.state !== 'unavailable' && sun.state !== 'unknown') return sun.state === 'below_horizon';
+  return !!hass?.themes?.darkMode;
+}
+
+function transportMode(mode) {
+  return mode === 'metro' || mode === 'tram' ? mode : 'bus';
+}
+
+// The bus, front to the right, at x 70–198 (wheels on the road at y 114).
+function transportBusSvg(color, label) {
+  return '<g transform="translate(70 67)">' +
+    '<rect class="body" x="0" y="0" width="128" height="40" rx="7"/>' +
+    '<path class="glass" d="M112 0h9a7 7 0 0 1 7 7v14h-16z"/><rect class="glass" x="8" y="7" width="98" height="13" rx="3"/>' +
+    '<g class="pillar"><rect x="31" y="7" width="2" height="13"/><rect x="56" y="7" width="2" height="13"/><rect x="81" y="7" width="2" height="13"/></g>' +
+    `<rect x="0" y="26" width="128" height="5" fill="${color}"/>` +
+    '<rect class="door" x="40" y="21" width="14" height="17" rx="1.5"/><rect class="door" x="88" y="21" width="14" height="17" rx="1.5"/>' +
+    `<rect class="girouette" x="112.6" y="1.4" width="13" height="4.4" rx="1"/><text class="gtext" x="119.1" y="4.9" text-anchor="middle">${label}</text>` +
+    '<circle class="lamp" cx="125" cy="33" r="1.8"/>' +
+    '<g class="wheel"><circle cx="24" cy="41" r="6.5"/><circle class="hub" cx="24" cy="41" r="2.5"/></g>' +
+    '<g class="wheel"><circle cx="104" cy="41" r="6.5"/><circle class="hub" cx="104" cy="41" r="2.5"/></g>' +
+    '<g class="puff"><circle cx="-3" cy="36" r="3"/></g></g>';
+}
+
+// Two metro cars and their cab (x 80–235), or one long tram with its pantograph; the line's disc on the front.
+function transportTrainSvg(mode, color, text, label) {
+  var car = (x, w) => `<rect class="body" x="${x}" y="0" width="${w}" height="34" rx="5"/>` +
+    `<rect class="glass" x="${x + 6}" y="6" width="${w - 12}" height="12" rx="3"/>` +
+    `<rect x="${x}" y="22" width="${w}" height="4" fill="${color}"/>` +
+    `<rect class="door" x="${x + w / 2 - 7}" y="19" width="14" height="14" rx="1.5"/>` +
+    `<g class="wheel"><circle cx="${x + 16}" cy="35" r="4.5"/><circle cx="${x + w - 16}" cy="35" r="4.5"/></g>`;
+  var cars = mode === 'tram' ? car(0, 141) : `${car(0, 74)}${car(77, 64)}<rect class="gangway" x="74" y="8" width="3" height="20"/>`;
+  var panto = mode === 'tram' ? '<g class="panto"><path d="M58 0 66 -9 58 -15"/><path d="M52 -15h14"/></g>' : '';
+  return `<g transform="translate(80 70)">${panto}${cars}` +
+    '<path class="body" d="M141 0h4a10 10 0 0 1 10 10v24h-14z"/><path class="glass" d="M141 4h4a7 7 0 0 1 7 7v7h-11z"/>' +
+    `<rect x="141" y="22" width="14" height="4" fill="${color}"/>` +
+    `<circle cx="148" cy="29.6" r="3.8" fill="${color}"/><text class="disc" x="148" y="31.1" text-anchor="middle" fill="${text}">${label}</text>` +
+    '<circle class="lamp" cx="153.4" cy="31.4" r="1.3"/></g>';
+}
+
+function transportSceneSvg(mode, state, color, text, line, live) {
+  var label = transportEsc(String(line).slice(0, 3));
+  var vehicle = mode === 'bus' ? transportBusSvg(color, label) : transportTrainSvg(mode, color, text, label);
+  var icon = `<path transform="translate(%X %Y) scale(.42)" fill="#fff" d="${TRANSPORT_ICONS[mode]}"/>`;
+  var stop = mode === 'bus'
+    ? '<g class="shelter"><rect class="roof" x="160" y="66" width="52" height="4" rx="2"/><rect class="pane" x="163" y="70" width="46" height="34"/>' +
+      '<rect class="roof" x="162" y="70" width="2" height="36"/><rect class="roof" x="208" y="70" width="2" height="36"/><rect class="roof" x="170" y="94" width="30" height="3" rx="1"/></g>' +
+      `<g class="sign"><rect class="pole" x="222" y="66" width="2.4" height="40"/><circle class="plate" cx="223.2" cy="66" r="8.5"/>${icon.replace('%X', '218.2').replace('%Y', '61')}</g>`
+    : '<g class="shelter"><rect class="roof" x="144" y="66" width="92" height="5" rx="2"/><rect class="pane" x="153" y="71" width="74" height="22"/>' +
+      '<rect class="roof" x="150" y="71" width="3" height="31"/><rect class="roof" x="227" y="71" width="3" height="31"/><rect class="platform" x="140" y="102" width="98" height="4"/></g>' +
+      `<g class="sign"><rect class="pole" x="244" y="64" width="2.4" height="42"/><rect class="plate" x="238" y="52" width="14.4" height="14.4" rx="3"/>${icon.replace('%X', '240.2').replace('%Y', '54.2')}</g>`;
+  var wire = mode === 'tram' ? '<g class="catenary"><path d="M70 55.6H270"/><rect x="128" y="54" width="2" height="52"/><rect x="262" y="54" width="2" height="52"/></g>' : '';
+  var waves = live && state !== 'empty'
+    ? `<g class="waves" transform="translate(${mode === 'bus' ? '223.2 66' : '245.2 59.2'})"><circle class="wave" r="12"/><circle class="wave d1" r="12"/><circle class="wave d2" r="12"/></g>`
+    : '';
+  return '<svg class="scene" viewBox="70 0 200 128" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false">' +
+    '<g class="day"><circle class="sun" cx="150" cy="22" r="10"/><path class="cloud" d="M84 24a6 6 0 0 1 9-5 7 7 0 0 1 13 2 4 4 0 0 1 1 8H87a4 4 0 0 1-3-5z"/>' +
+    '<path class="cloud" d="M222 32a4 4 0 0 1 6-3.4 5 5 0 0 1 9 1.4 3 3 0 0 1 .6 6H224a3 3 0 0 1-2-4z"/></g>' +
+    '<g class="night"><path class="moon" d="M150 13a9 9 0 1 0 8 13.4 7.4 7.4 0 1 1-8-13.4z"/>' +
+    '<circle class="star" cx="96" cy="14" r="1"/><circle class="star tw" cx="210" cy="10" r="1.2"/><circle class="star" cx="250" cy="28" r="1"/><circle class="star tw" cx="120" cy="34" r=".9"/></g>' +
+    '<g class="far"><rect x="104" y="48" width="30" height="58" rx="2"/><rect x="200" y="46" width="34" height="60" rx="2"/><rect x="238" y="58" width="28" height="48" rx="2"/></g>' +
+    '<g class="lit"><rect x="110" y="56" width="5" height="6"/><rect x="122" y="72" width="5" height="6"/><rect x="208" y="56" width="5" height="6"/><rect x="222" y="70" width="5" height="6"/><rect x="244" y="66" width="5" height="6"/></g>' +
+    `<g class="tree"><rect class="trunk" x="94" y="88" width="3" height="18"/><circle cx="95.5" cy="82" r="11"/><circle class="leaf" cx="100" cy="78" r="6"/></g>${wire}${stop}${waves}` +
+    `<g class="veh ${state}">${vehicle}</g></svg>`;
+}
+
 // ── public-transport-card ─────────────────────────────────────────────────────
+// A banner (sky, the street or the track, the stop's scene and its vehicle), the next departure with its approach
+// bar, tabs (all the stops, then each one) and the following departures, one row per line and destination.
 class TransportCard extends HTMLElement {
   static getConfigElement() {
     return document.createElement('public-transport-card-editor');
@@ -1056,8 +1355,8 @@ class TransportCard extends HTMLElement {
 
   set hass(hass) {
     this._hass = hass;
-    var states = this._entityIds().map((id) => hass.states[id]);
-    // Redraw only when one of the stop sensors changed (the countdown ticks on its own timer).
+    // Redraw only when a stop sensor or the sun (day / night picture) changed; the countdown ticks on its own timer.
+    var states = this._entityIds().map((id) => hass.states[id]).concat([hass.states['sun.sun'], !!hass.themes?.darkMode]);
     var changed = !this._lastStates || states.length !== this._lastStates.length || states.some((s, i) => s !== this._lastStates[i]);
     if (changed) {
       this._lastStates = states;
@@ -1085,7 +1384,7 @@ class TransportCard extends HTMLElement {
   }
 
   getCardSize() {
-    return 2 + this._entityIds().length * (1 + (this._config?.max_departures || 5));
+    return 5 + (this._config?.max_departures || 5);
   }
 
   getGridOptions() {
@@ -1117,7 +1416,7 @@ class TransportCard extends HTMLElement {
   _ensureShell() {
     if (this._root) return;
     this._root = this.attachShadow({ mode: 'open' });
-    this._root.innerHTML = `<style>${TransportCard._styles()}</style><ha-card><div class="header"></div><div class="body"></div></ha-card>`;
+    this._root.innerHTML = `<style>${TransportCard._styles()}</style><ha-card><div class="body"></div></ha-card>`;
     this._root.querySelector('ha-card').addEventListener('click', this._onClick.bind(this));
     this._root.querySelector('ha-card').addEventListener('keydown', (ev) => {
       if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.closest?.('[role="button"]')) {
@@ -1132,69 +1431,20 @@ class TransportCard extends HTMLElement {
     this._ensureShell();
     var t = this._t();
     var stops = this._stops();
-    this._renderHeader(t, stops);
     var body = this._root.querySelector('.body');
-    if (!stops.length) {
-      body.innerHTML = `<div class="empty">${transportEsc(t.no_entity)}</div>`;
-      return;
-    }
-    body.innerHTML = this._compact() ? this._renderCompact(stops, t) : this._renderFull(stops, t);
-    var card = this._root.querySelector('ha-card');
-    card.classList.toggle('mini', this._compact());
-  }
-
-  // The header is rebuilt only when its buttons or its language change, so its focus survives the updates.
-  _renderHeader(t, stops) {
-    var header = this._root.querySelector('.header');
-    var c = this._config;
-    var compact = this._compact();
-    var logo = this._logo(stops);
-    var key = [c.show_refresh, compact, transportLang(this._hass, c), stops.length > 0, logo].join('|');
-    if (this._headerKey !== key || !header.querySelector('.name')) {
-      this._headerKey = key;
-      header.innerHTML =
-        (logo
-          ? `<div class="badge logo"><img src="${transportEsc(logo)}" alt=""></div>`
-          : `<div class="badge" style="--c:${TRANSPORT_ACCENT}">${transportIcon('header')}</div>`) +
-        '<div class="titles"><div class="name"></div><div class="sub" hidden></div></div>' +
-        `<span class="chip${compact ? ' short' : ''}" hidden><span class="dot"></span>${transportIcon('alert', 'cicon')}<span class="t"></span></span>` +
-        (c.show_refresh && stops.length && !compact
-          ? `<button class="btn round refresh" data-action="refresh" title="${transportEsc(t.refresh)}" aria-label="${transportEsc(t.refresh)}">${transportIcon('refresh')}</button>`
-          : '') +
-        this._detailButton(t);
-    }
-    header.querySelector('.name').textContent = c.title || t.default_title;
-    var sub = header.querySelector('.sub');
-    var subText = this._refreshError || this._subtitle(stops, t);
-    sub.hidden = !subText;
-    sub.textContent = subText || '';
-    sub.classList.toggle('error', !!this._refreshError);
-    var chip = header.querySelector('.chip');
-    var status = this._status(stops, t);
-    chip.hidden = !status;
-    if (status) {
-      // The mini card keeps its title readable: an alert sign and the count, or the dot alone (the text stays in the tooltip).
-      chip.className = `chip ${status.cls}${compact ? ' short' : ''}${status.n ? ' has-alerts' : ''}`;
-      chip.title = status.text;
-      chip.setAttribute('aria-label', status.text);
-      chip.querySelector('.t').textContent = compact && status.n ? String(status.n) : status.text;
-    }
-    var refresh = header.querySelector('.refresh');
-    if (refresh) refresh.classList.toggle('spinning', !!this._refreshing);
+    // The whole card is redrawn: the focused control gets the keyboard focus back, without scrolling the page.
+    var focused = this._root.activeElement?.getAttribute?.('data-focus');
+    body.innerHTML = !stops.length
+      ? `<div class="empty">${transportEsc(t.no_entity)}</div>`
+      : this._compact() ? this._renderCompact(stops, t) : this._renderFull(stops, t);
+    this._root.querySelector('ha-card').classList.toggle('mini', this._compact());
+    if (focused) this._root.querySelector(`[data-focus="${CSS?.escape ? CSS.escape(focused) : focused}"]`)?.focus?.({ preventScroll: true });
   }
 
   // The network's logo (served by the integration) when every stop of the card belongs to the same network.
   _logo(stops) {
     var logos = stops.map((s) => s.st?.attributes?.logo || '');
     return logos.length && logos.every((l) => l && l === logos[0]) ? logos[0] : '';
-  }
-
-  _subtitle(stops, t) {
-    if (stops.length === 1) {
-      var a = stops[0].st?.attributes || {};
-      return [a.stop_name, a.network].filter(Boolean).join(' · ');
-    }
-    return stops.length > 1 ? transportFill(t.stops, { n: stops.length }) : '';
   }
 
   // Alerts first (their level), then real time or timetable, from what every stop shows.
@@ -1225,9 +1475,79 @@ class TransportCard extends HTMLElement {
     return '';
   }
 
+  _valid(a, now) {
+    return (transportDepartures(a) || []).filter((d) => !Number.isNaN(transportMinutes(d.departure, now)));
+  }
+
+  _usable(s) {
+    return !!s.st && s.st.state !== 'unavailable' && !!transportDepartures(s.st.attributes);
+  }
+
+  // The departures of the given stops, in time order, each with the mode of its stop.
+  _merged(stops, now) {
+    var all = [];
+    stops.forEach((s) => {
+      if (!this._usable(s)) return;
+      var mode = transportMode(s.st.attributes.mode);
+      this._valid(s.st.attributes, now).forEach((d) => {
+        all.push(Object.assign({}, d, { _mode: mode }));
+      });
+    });
+    return all.sort((x, y) => Date.parse(x.departure) - Date.parse(y.departure));
+  }
+
+  // Several stops: the "All" tab, then one per stop, named after its mode when each stop has its own.
+  _tabs(stops, t) {
+    if (stops.length < 2) return [];
+    var modes = stops.map((s) => transportMode(s.st?.attributes?.mode));
+    var distinct = modes.every((m, i) => modes.indexOf(m) === i);
+    return [{ key: 'all', label: t.all }].concat(stops.map((s, i) => ({
+      key: s.id,
+      mode: modes[i],
+      label: distinct ? t[`mode_${modes[i]}`] : s.st?.attributes?.stop_name || s.id,
+    })));
+  }
+
+  _selected(stops) {
+    if (stops.length < 2 || !this._tab || this._tab === 'all') return stops;
+    var picked = stops.filter((s) => s.id === this._tab);
+    return picked.length ? picked : stops;
+  }
+
   _renderFull(stops, t) {
+    var now = this._now();
+    var tabs = this._tabs(stops, t);
+    var sel = this._selected(stops);
+    var deps = this._merged(sel, now);
+    var next = deps[0];
+    var html = this._renderBanner(sel, next, t, now, false);
+    html += this._renderNext(sel, next, t, now);
+    var tabKey = sel.length === stops.length ? 'all' : sel[0].id;
+    var status = this._status(sel, t);
+    var bar = tabs.length
+      ? `<div class="tabs" role="tablist">${tabs.map((tab) => `<span class="tab${tab.key === tabKey ? ' active' : ''}" role="tab" tabindex="0" aria-selected="${tab.key === tabKey}" ` +
+        `data-action="tab" data-tab="${transportEsc(tab.key)}" data-focus="tab:${transportEsc(tab.key)}">${tab.mode ? transportIcon(tab.mode) : ''}<span>${transportEsc(tab.label)}</span></span>`).join('')}</div>`
+      : `<span class="then">${transportEsc(t.following)}</span>`;
+    html += `<div class="toolbar">${bar}${status ? `<span class="chip ${status.cls}${status.n ? ' has-alerts' : ''}" title="${transportEsc(status.text)}"><span class="dot"></span>${transportIcon('alert', 'cicon')}<span class="t">${transportEsc(status.text)}</span></span>` : ''}</div>`;
+    html += this._notes(sel, t);
+    var rest = deps.slice(1);
+    html += rest.length
+      ? `<div class="departures">${this._groups(rest, Math.max(1, this._config.max_departures), 3).map((g) => this._renderRow(g, t, now)).join('')}</div>`
+      : '';
+    if (this._config.show_alerts) {
+      html += sel.filter((s) => this._usable(s) && (s.st.attributes.alerts || []).length).map((s) => this._renderAlerts(s.id, s.st.attributes, t)).join('');
+    }
+    return html;
+  }
+
+  // Stale data and unavailable stops, named when the card shows several.
+  _notes(stops, t) {
     var many = stops.length > 1;
-    return `<div class="content">${stops.map((s) => this._renderStop(s, many, t)).join('')}</div>`;
+    return stops.map((s) => {
+      var name = many ? `${s.st?.attributes?.stop_name || s.id} · ` : '';
+      if (!this._usable(s)) return `<div class="note crit">${transportIcon('offline')}<span>${transportEsc(name + (s.st ? t.unavailable : t.no_entity))}</span></div>`;
+      return s.st.attributes.stale ? `<div class="note warn">${transportIcon('offline')}<span>${transportEsc(name + t.stale)}</span></div>` : '';
+    }).join('');
   }
 
   // The coming departures of a stop, one row per line and destination with its next times, in the order of the first one.
@@ -1235,7 +1555,7 @@ class TransportCard extends HTMLElement {
     var groups = [];
     var byKey = {};
     departures.forEach((d) => {
-      var key = `${d.line_id || d.line}\u0000${d.destination || ''}`;
+      var key = `${d._mode || ''}\u0000${d.line_id || d.line}\u0000${d.destination || ''}`;
       var g = byKey[key];
       if (!g) {
         if (groups.length >= rows) return;
@@ -1247,81 +1567,107 @@ class TransportCard extends HTMLElement {
     return groups;
   }
 
-  _valid(a, now) {
-    return (transportDepartures(a) || []).filter((d) => !Number.isNaN(transportMinutes(d.departure, now)));
-  }
-
-  _renderStop(stop, many, t) {
-    var st = stop.st;
-    var a = st?.attributes || {};
-    var html = '<section class="stop">';
-    if (many) {
-      html += `<div class="section-title">${transportIcon(a.mode in TRANSPORT_ICONS ? a.mode : 'marker')}<span>${transportEsc(a.stop_name || stop.id)}</span></div>`;
-    }
-    var all = transportDepartures(a);
-    if (!st || st.state === 'unavailable' || !all) {
-      return `${html}<div class="empty">${transportEsc(st ? t.unavailable : t.no_entity)}</div></section>`;
-    }
-    var now = this._now();
-    var departures = this._valid(a, now);
-    if (this._config.show_scene) html += this._renderScene(a, departures[0], t, now);
-    if (a.stale) html += `<div class="note warn">${transportIcon('offline')}<span>${transportEsc(t.stale)}</span></div>`;
-    html += this._renderBoard(departures, a.mode, t, now, Math.max(1, this._config.max_departures), 3);
-    if (this._config.show_alerts && (a.alerts || []).length) html += this._renderAlerts(stop.id, a, t);
-    return `${html}</section>`;
-  }
-
-  // The animated picture of the next departure: the vehicle in its line color drives in when it is close,
-  // idles at the edge of the scene otherwise; waves rise from the stop sign while the time is real time.
-  _renderScene(a, next, t, now) {
-    var mode = a.mode === 'metro' || a.mode === 'tram' ? a.mode : 'bus';
+  // The banner: sky, the street or the track (a band under the whole width), the stop's scene with the vehicle of
+  // the next departure, and the text at the left: the stop and its figures (full card) or the next departure (mini).
+  _renderBanner(stops, next, t, now, mini) {
+    var c = this._config;
+    var first = stops.find((s) => s.st?.attributes) || stops[0];
+    var mode = next ? next._mode : transportMode(first?.st?.attributes?.mode);
     var minutes = next ? transportMinutes(next.departure, now) : NaN;
     var state = !next ? 'empty' : minutes <= TRANSPORT_SOON ? 'arriving' : 'waiting';
-    var color = transportColor(next?.color, TRANSPORT_ACCENT);
-    var text = transportColor(next?.text_color, '#ffffff');
-    var svg = TransportCard._vehicle(mode, state, color, text, next ? next.line : '', !!next?.realtime);
-    var info = next
-      ? `<div class="hero-info"><div class="hero-line">${this._badge(next, mode)}<span class="dest">${transportEsc(next.destination)}</span></div>` +
-        `<div class="count ${state === 'arriving' ? 'soon' : ''}">${transportEsc(this._when(next, t, now))}</div>` +
-        `<div class="hero-sub">${this._precision(next, t)}</div></div>`
-      : `<div class="hero-info"><div class="count idle">—</div><div class="hero-sub">${transportEsc(t.no_departures)}</div></div>`;
-    return `<div class="hero"><div class="scene ${state}" data-scene="${state}">${svg}</div>${info}</div>`;
-  }
-
-  static _vehicle(mode, state, color, text, line, live) {
-    var cls = state === 'empty' ? 'veh gone' : `veh ${state}`;
-    var label = transportEsc(String(line).slice(0, 4));
-    var rail = mode === 'bus'
-      ? '<rect class="ground" x="0" y="55" width="168" height="2" rx="1"/><g class="dashes"><rect x="6" y="60" width="14" height="2" rx="1"/><rect x="34" y="60" width="14" height="2" rx="1"/><rect x="62" y="60" width="14" height="2" rx="1"/><rect x="90" y="60" width="14" height="2" rx="1"/></g>'
-      : '<rect class="ground" x="0" y="55" width="168" height="2" rx="1"/><rect class="ground" x="0" y="60" width="168" height="2" rx="1"/>' +
-        '<g class="sleepers"><rect x="10" y="57" width="3" height="3"/><rect x="34" y="57" width="3" height="3"/><rect x="58" y="57" width="3" height="3"/><rect x="82" y="57" width="3" height="3"/><rect x="106" y="57" width="3" height="3"/><rect x="130" y="57" width="3" height="3"/><rect x="154" y="57" width="3" height="3"/></g>';
-    var body = mode === 'bus'
-      ? `<rect x="8" y="22" width="92" height="30" rx="7" fill="${color}"/>` +
-        '<rect class="glass" x="14" y="27" width="16" height="11" rx="2"/><rect class="glass" x="33" y="27" width="16" height="11" rx="2"/><rect class="glass" x="52" y="27" width="16" height="11" rx="2"/>' +
-        '<path class="glass" d="M78 27h12a4 4 0 0 1 4 4v9h-16z"/><rect class="door" x="70" y="27" width="6" height="22" rx="1"/>' +
-        `<rect x="14" y="41" width="22" height="8" rx="2" fill="${text}" opacity=".9"/><text x="25" y="47.6" text-anchor="middle" fill="${color}">${label}</text>` +
-        '<circle class="lamp" cx="97" cy="46" r="1.8"/>' +
-        '<g class="wheel"><circle cx="28" cy="53" r="5.5"/><circle class="hub" cx="28" cy="53" r="2"/><rect class="spoke" x="27.4" y="48.5" width="1.2" height="3"/></g>' +
-        '<g class="wheel"><circle cx="80" cy="53" r="5.5"/><circle class="hub" cx="80" cy="53" r="2"/><rect class="spoke" x="79.4" y="48.5" width="1.2" height="3"/></g>' +
-        '<g class="puff"><circle cx="5" cy="49" r="2.6"/></g>'
-      : `<path d="M6 24h80c9 0 16 7 18 15l2 9a4 4 0 0 1-4 4H6z" fill="${color}"/>` +
-        '<rect class="glass" x="12" y="29" width="18" height="10" rx="2"/><rect class="glass" x="44" y="29" width="18" height="10" rx="2"/><path class="glass" d="M76 29h10c5 0 9 4 10 9l.3 1H76z"/>' +
-        '<rect class="door" x="33" y="28" width="8" height="21" rx="1"/><rect class="door" x="65" y="28" width="8" height="21" rx="1"/>' +
-        `<rect x="12" y="42" width="18" height="7" rx="2" fill="${text}" opacity=".9"/><text x="21" y="47.8" text-anchor="middle" fill="${color}">${label}</text>` +
-        '<circle class="lamp" cx="100" cy="47" r="1.8"/><rect class="bogie" x="14" y="52" width="18" height="3" rx="1.5"/><rect class="bogie" x="70" y="52" width="18" height="3" rx="1.5"/>';
-    var sign = `<g class="sign"><rect class="pole" x="141" y="16" width="2.4" height="40" rx="1"/><rect x="132" y="6" width="20" height="14" rx="4" fill="${TRANSPORT_ACCENT}"/>` +
-      `<path transform="translate(136.5 7.5) scale(.46)" fill="#fff" d="${TRANSPORT_ICONS[mode]}"/></g>`;
-    var waves = live && state !== 'empty'
-      ? '<g class="waves"><circle class="wave" cx="142" cy="13" r="12"/><circle class="wave d1" cx="142" cy="13" r="12"/><circle class="wave d2" cx="142" cy="13" r="12"/></g>'
+    var scene = c.show_scene
+      ? transportSceneSvg(mode, state, transportColor(next?.color, TRANSPORT_ACCENT), transportColor(next?.text_color, '#ffffff'), next ? next.line : '', !!next?.realtime)
       : '';
-    return `<svg viewBox="0 0 168 66" role="img" aria-hidden="true">${rail}${waves}${sign}<g class="${cls}">${body}</g></svg>`;
+    var logo = this._logo(stops);
+    var icon = `<div class="logo">${transportIcon(mode)}${logo ? `<span class="net"><img src="${transportEsc(logo)}" alt=""></span>` : ''}</div>`;
+    var tools = '';
+    if (mini) {
+      var status = this._status(stops, t);
+      if (status?.n) tools += `<span class="chip short ${status.cls} has-alerts" title="${transportEsc(status.text)}"><span class="dot"></span>${transportIcon('alert', 'cicon')}<span class="t">${status.n}</span></span>`;
+    } else if (c.show_refresh) {
+      tools += `<button class="iconbtn refresh${this._refreshing ? ' spinning' : ''}" data-action="refresh" data-focus="refresh" title="${transportEsc(t.refresh)}" aria-label="${transportEsc(t.refresh)}">${transportIcon('refresh')}</button>`;
+    }
+    tools += this._detailButton(t);
+    var text = mini ? this._miniText(next, t, now) : this._bannerText(stops, t, now);
+    return `<div class="banner ${mode}${transportIsNight(this._hass) ? ' night' : ''}${scene ? '' : ' plain'}">` +
+      `${scene ? '<div class="ground"></div>' : ''}${scene}<div class="htext">${icon}<div class="titles">${text}</div></div>` +
+      `${tools ? `<div class="tools">${tools}</div>` : ''}</div>`;
   }
 
-  _badge(d, mode) {
+  // The stop's name (or the title), then the number of departures and the share in real time.
+  _bannerText(stops, t, now) {
+    var c = this._config;
+    var names = stops.map((s) => s.st?.attributes?.stop_name).filter(Boolean);
+    var stopName = names.length && names.every((n) => n === names[0]) ? names[0] : '';
+    var deps = this._merged(stops, now);
+    var live = deps.filter((d) => d.realtime).length;
+    var first = [deps.length ? transportFill(t.departures_count, { n: deps.length }) : t.no_departures_short, c.title ? stopName : stops.length === 1 ? stops[0].st?.attributes?.network : ''];
+    var second = this._refreshError || (deps.length ? transportFill(t.realtime_share, { n: Math.round((live * 100) / deps.length) }) : '');
+    return `<div class="name">${transportEsc(c.title || stopName || t.default_title)}</div>` +
+      `<div class="stats">${transportEsc(first.filter(Boolean).join(' · '))}</div>` +
+      (second ? `<div class="stats${this._refreshError ? ' error' : ''}">${transportEsc(second)}</div>` : '');
+  }
+
+  // Mini card: the line and its destination, the countdown with the real-time sign, then the delay and the times.
+  _miniText(next, t, now) {
+    if (!next) return `<div class="name">${transportEsc(this._config.title || t.default_title)}</div><div class="stats">${transportEsc(t.no_departures_short)}</div>`;
+    var soon = transportMinutes(next.departure, now) <= TRANSPORT_SOON;
+    var sign = next.realtime
+      ? `<span class="rt ok live" title="${transportEsc(t.realtime)}">${transportIcon('realtime')}</span>`
+      : `<span class="rt idle" title="${transportEsc(t.timetable_hint)}">${transportIcon('clock')}</span>`;
+    return `<div class="mline">${this._badge(next)}<span class="dest">${transportEsc(next.destination)}</span></div>` +
+      `<div class="mwhen"><span class="count${soon ? ' soon' : ''}">${transportEsc(this._when(next, t, now))}</span>${sign}</div>` +
+      `<div class="stats">${this._delayTimes(next, t)}</div>`;
+  }
+
+  // "+2 min 08:07 08:05": the delay, the expected time, the timetable time struck through.
+  _delayTimes(d, t) {
+    var delay = d.realtime ? Number(d.delay) || 0 : 0;
+    var html = delay > 0 ? `<span class="delay warn">${transportEsc(transportFill(t.late_short, { n: delay }))}</span>`
+      : delay < 0 ? `<span class="delay active">${transportEsc(transportFill(t.early_short, { n: -delay }))}</span>` : '';
+    html += `<span class="at">${transportEsc(this._clock(d.departure))}</span>`;
+    if (delay && d.scheduled && !Number.isNaN(Date.parse(d.scheduled))) html += `<span class="was">${transportEsc(this._clock(d.scheduled))}</span>`;
+    return html;
+  }
+
+  // The next departure: its line, destination and precision, the countdown and its state, then the approach bar.
+  _renderNext(stops, next, t, now) {
+    if (!next) {
+      var down = stops.every((s) => !this._usable(s));
+      return `<div class="next quiet">${transportIcon(down ? 'offline' : 'night')}<span>${transportEsc(down ? t.unavailable : t.no_departures)}</span></div>`;
+    }
+    var soon = transportMinutes(next.departure, now) <= TRANSPORT_SOON;
+    return `<div class="next"><div class="next-row">${this._badge(next, 'big')}` +
+      `<div class="next-what"><span class="cap">${transportEsc(t.next_departure)}</span><span class="dest">${transportEsc(next.destination)}</span>` +
+      `<span class="next-sub">${this._precision(next, t)}</span></div>` +
+      `<div class="next-when"><span class="count${soon ? ' soon' : ''}">${transportEsc(this._when(next, t, now))}</span>${this._pill(next, t, now)}</div></div>` +
+      `${this._approach(next, now)}</div>`;
+  }
+
+  // The vehicle (a dot in its line color) on its way to the stop: at the stop when the countdown reaches zero.
+  _approach(d, now) {
+    var minutes = transportMinutes(d.departure, now);
+    var share = Math.max(0, Math.min(1, 1 - minutes / TRANSPORT_APPROACH));
+    var pos = Math.round(4 + share * 88);
+    return `<div class="approach" style="--lc:${transportColor(d.color, TRANSPORT_ACCENT)};--p:${pos}%" aria-hidden="true">` +
+      `<span class="fill"></span><span class="vdot${minutes <= TRANSPORT_SOON ? ' soon' : ''}"></span><span class="smark">${transportIcon(d._mode || 'bus')}</span></div>`;
+  }
+
+  _badge(d, size) {
     var bg = transportColor(d.color, TRANSPORT_ACCENT);
     var fg = transportColor(d.text_color, '#ffffff');
-    var round = mode === 'metro' && String(d.line).length <= 2;
-    return `<span class="lb${round ? ' round' : ''}" style="--lc:${bg};--lt:${fg}">${transportEsc(d.line)}</span>`;
+    var round = d._mode === 'metro' && String(d.line).length <= 2;
+    return `<span class="lb${round ? ' round' : ''}${size ? ` ${size}` : ''}" style="--lc:${bg};--lt:${fg}">${transportEsc(d.line)}</span>`;
+  }
+
+  // The state of a departure, as a pill: approaching, late or early, real time, or timetable only.
+  _pill(d, t, now) {
+    var delay = d.realtime ? Number(d.delay) || 0 : 0;
+    var p = transportMinutes(d.departure, now) <= TRANSPORT_SOON ? { cls: 'active', text: t.now, title: t.realtime }
+      : delay > 0 ? { cls: 'warn', text: transportFill(t.late_short, { n: delay }), title: transportFill(t.late, { n: delay }) }
+        : delay < 0 ? { cls: 'active', text: transportFill(t.early_short, { n: -delay }), title: transportFill(t.early, { n: -delay }) }
+          : d.realtime ? { cls: 'ok', text: t.realtime, title: t.realtime } : { cls: 'idle', text: t.timetable, title: t.timetable_hint };
+    return `<span class="pill ${p.cls}" title="${transportEsc(p.title)}"><span class="dot"></span><span class="t">${transportEsc(p.text)}</span></span>`;
   }
 
   _when(d, t, now) {
@@ -1331,48 +1677,35 @@ class TransportCard extends HTMLElement {
     return minutes < 1 ? t.now : transportFill(t.min, { n: minutes });
   }
 
-  // Real time (and its delay to the timetable) or timetable only, like the * of the stop displays.
+  // Real time or timetable only, like the * of the stop displays; then the time (and the timetable one it replaces).
   _precision(d, t) {
-    if (!d.realtime) return `<span class="prec idle" title="${transportEsc(t.timetable_hint)}">${transportIcon('clock')}${transportEsc(t.timetable)}</span>`;
-    var delay = Number(d.delay) || 0;
-    var late = delay > 0 ? `<span class="delay warn">${transportEsc(transportFill(t.late, { n: delay }))}</span>` : '';
-    var early = delay < 0 ? `<span class="delay active">${transportEsc(transportFill(t.early, { n: -delay }))}</span>` : '';
-    // The timetable time it replaces, struck through.
-    var was = delay && d.scheduled && !Number.isNaN(Date.parse(d.scheduled)) ? `<span class="was">${transportEsc(this._clock(d.scheduled))}</span>` : '';
-    return `<span class="prec ok live">${transportIcon('realtime')}${transportEsc(t.realtime)}</span>${late}${early}${was}`;
+    var at = this._config.time_format === 'absolute' ? '' : `<span class="at">${transportEsc(this._clock(d.departure))}</span>`;
+    if (!d.realtime) return `<span class="prec idle" title="${transportEsc(t.timetable_hint)}">${transportIcon('clock')}${transportEsc(t.timetable)}</span>${at}`;
+    // The delay is the pill's; the timetable time it replaces, struck through.
+    var was = Number(d.delay) && d.scheduled && !Number.isNaN(Date.parse(d.scheduled)) ? `<span class="was">${transportEsc(this._clock(d.scheduled))}</span>` : '';
+    return `<span class="prec ok live">${transportIcon('realtime')}${transportEsc(t.realtime)}</span>${at}${was}`;
   }
 
   _clock(iso) {
     return new Date(iso).toLocaleTimeString(transportLocale(this._hass, this._config), { hour: '2-digit', minute: '2-digit' });
   }
 
-  // The next times of a row after the first: bare minutes, or the clock time like the countdown.
-  _short(d, now) {
-    var minutes = transportMinutes(d.departure, now);
-    return this._config.time_format === 'absolute' || minutes >= 60 ? this._clock(d.departure) : String(minutes);
+  // The next times of a row after the first: "then 12, 27 min", or clock times after an hour or in clock mode.
+  _then(deps, t, now) {
+    if (deps.length < 2) return '';
+    var rest = deps.slice(1);
+    var clock = this._config.time_format === 'absolute' || rest.some((d) => transportMinutes(d.departure, now) >= 60);
+    var list = clock ? rest.map((d) => this._clock(d.departure)).join(', ') : transportFill(t.min, { n: rest.map((d) => transportMinutes(d.departure, now)).join(', ') });
+    return transportFill(t.then_times, { list: list });
   }
 
-  _renderBoard(departures, mode, t, now, rows, per) {
-    return departures.length
-      ? `<div class="departures">${this._groups(departures, rows, per).map((g) => this._renderRow(g, mode, t, now, per)).join('')}</div>`
-      : `<div class="empty quiet">${transportIcon('night')}<span>${transportEsc(t.no_departures)}</span></div>`;
-  }
-
-  _renderRow(g, mode, t, now, per) {
+  _renderRow(g, t, now) {
     var d = g.first;
     var soon = transportMinutes(d.departure, now) <= TRANSPORT_SOON;
-    var icon = d.realtime
-      ? `<span class="rt ok live" title="${transportEsc(t.realtime)}">${transportIcon('realtime')}</span>`
-      : `<span class="rt idle" title="${transportEsc(t.timetable_hint)}">${transportIcon('clock')}</span>`;
-    var delay = d.realtime ? Number(d.delay) || 0 : 0;
-    var sub = delay > 0
-      ? `<span class="delay warn">${transportEsc(transportFill(t.late, { n: delay }))}</span>`
-      : delay < 0 ? `<span class="delay active">${transportEsc(transportFill(t.early, { n: -delay }))}</span>` : '';
-    var times = `<span class="when">${transportEsc(this._when(d, t, now))}</span>`;
-    for (var i = 1; i < per; i++) times += `<span class="then">${g.deps[i] ? transportEsc(this._short(g.deps[i], now)) : ''}</span>`;
-    return `<div class="dep${soon ? ' soon' : ''}">${this._badge(d, mode)}` +
-      `<div class="what"><span class="dest">${transportEsc(d.destination)}</span>${sub}</div>` +
-      `${icon}<span class="times n${per}">${times}</span></div>`;
+    var sub = [this._config.time_format === 'absolute' ? '' : this._clock(d.departure), this._then(g.deps, t, now)].filter(Boolean).join(' · ');
+    return `<div class="dep${soon ? ' soon' : ''}"><span class="when">${transportEsc(this._when(d, t, now))}</span>${this._badge(d)}` +
+      `<div class="what"><span class="dest">${transportEsc(d.destination)}</span>${sub ? `<span class="sub">${transportEsc(sub)}</span>` : ''}</div>` +
+      `${this._pill(d, t, now)}</div>`;
   }
 
   _renderAlerts(stopId, a, t) {
@@ -1382,7 +1715,7 @@ class TransportCard extends HTMLElement {
     var cls = level >= 3 ? 'crit' : level >= 2 ? 'warn' : 'active';
     var locale = transportLocale(this._hass, this._config);
     var day = (iso) => new Date(iso).toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' });
-    var html = `<div class="alerts ${cls}"><div class="section-title toggle" role="button" tabindex="0" aria-expanded="${open}" data-action="alerts" data-stop="${transportEsc(stopId)}">` +
+    var html = `<div class="alerts ${cls}"><div class="section-title toggle" role="button" tabindex="0" aria-expanded="${open}" data-action="alerts" data-stop="${transportEsc(stopId)}" data-focus="alerts:${transportEsc(stopId)}">` +
       `${transportIcon('alert', `alert-icon${level >= 3 ? ' shake' : ' glow'}`)}<span>${transportEsc(t.alerts)}</span><span class="count-pill">${alerts.length}</span>${transportIcon('chevron', 'chevron')}</div>`;
     if (open) {
       html += '<div class="alert-list">' + alerts.map((al) => {
@@ -1406,12 +1739,13 @@ class TransportCard extends HTMLElement {
     var action = el.getAttribute('data-action');
     if (action === 'refresh') this._refresh();
     else if (action === 'detail') this._toggleDetail(ev);
-    else if (action === 'alerts') {
+    else if (action === 'tab') {
+      this._tab = el.getAttribute('data-tab');
+      this._render();
+    } else if (action === 'alerts') {
       var id = el.getAttribute('data-stop');
       this._open[id] = !this._open[id];
       this._render();
-      // innerHTML replaced the toggle: give the keyboard focus back without scrolling the page.
-      this._root.querySelector(`[data-action="alerts"][data-stop="${CSS?.escape ? CSS.escape(id) : id}"]`)?.focus?.({ preventScroll: true });
     }
   }
 
@@ -1449,47 +1783,145 @@ class TransportCard extends HTMLElement {
   .ok { --c: var(--tp-ok); } .warn { --c: var(--tp-warn); } .crit { --c: var(--tp-crit); } .idle { --c: var(--tp-idle); } .active { --c: var(--tp-active); }
   /* State colors stay on dots, icons and backgrounds; texts are mixed with the text color to read at 4.5:1. */
   .ok, .warn, .crit, .idle, .active { --ink: color-mix(in srgb, var(--c) 40%, var(--primary-text-color, #212121)); }
-  .header { display: flex; align-items: center; gap: 10px; padding: 12px 12px 0; }
-  .badge { width: 40px; height: 40px; border-radius: 50%; flex: none; display: grid; place-items: center;
-           background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--c); }
-  .badge .icon { width: 24px; height: 24px; }
-  /* Brand logos keep their colors on a light plate, readable in dark themes too. */
-  .badge.logo { width: auto; min-width: 40px; max-width: 96px; padding: 0 8px; box-sizing: border-box; border-radius: 10px;
-                background: #fff; box-shadow: inset 0 0 0 1px var(--divider-color, rgba(0, 0, 0, .12)); }
-  .badge.logo img { max-width: 80px; max-height: 32px; object-fit: contain; display: block; }
-  .titles { flex: 1 1 0; min-width: 5ch; }
-  :host([hide-title]) .titles > .name { display: none; }
-  .name { font-size: 16px; font-weight: 500; line-height: 1.25; color: var(--primary-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .sub { font-size: 12px; line-height: 1.2; color: var(--secondary-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .sub.error { color: color-mix(in srgb, var(--tp-crit) 40%, var(--primary-text-color, #212121)); }
-  .sub[hidden], .chip[hidden] { display: none; }
-  /* With a sub-line, the chip sits on the name line: lifted by half the sub-line (12px × 1.2). */
-  .header:has(.sub:not([hidden])) > .chip { margin-bottom: 14.4px; }
-  .header:has(.sub:not([hidden])) > .btn, .header:has(.sub:not([hidden])) > .zoom { align-self: flex-start; }
   .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--c, var(--tp-ok)); flex: none; display: inline-block; }
-  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 12px; font-size: 11px; font-weight: 500; white-space: nowrap;
-          background: color-mix(in srgb, var(--c, var(--tp-ok)) 15%, transparent); color: var(--ink, var(--c));
+  .chip, .pill { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 12px; font-size: 12px; font-weight: 500; line-height: 18px;
+          white-space: nowrap; background: color-mix(in srgb, var(--c, var(--tp-ok)) 15%, transparent); color: var(--ink, var(--c));
           box-sizing: border-box; flex: 0 1 auto; min-width: 0; overflow: hidden; }
-  .chip .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
-  .chip.live .dot { animation: tp-glow 1.2s ease-in-out infinite alternate; }
+  .chip .t, .pill .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .chip.live .dot, .pill.active .dot { animation: tp-glow 1.2s ease-in-out infinite alternate; }
   .chip .cicon { display: none; width: 13px; height: 13px; color: var(--c); }
+  .chip.has-alerts .dot { display: none; } .chip.has-alerts .cicon { display: block; }
   /* Mini card: the alert sign and the count, or the dot alone. */
-  .chip.short.has-alerts .dot { display: none; } .chip.short.has-alerts .cicon { display: block; }
+  .chip.short.has-alerts .cicon { display: block; }
   .chip.short:not(.has-alerts) { padding: 4px; } .chip.short:not(.has-alerts) .t { display: none; }
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; cursor: pointer; font: inherit; font-size: 13px;
-         font-weight: 500; padding: 6px 12px; border-radius: 18px; background: var(--secondary-background-color, rgba(127,127,127,.12));
-         color: var(--primary-text-color); min-width: 0; flex: none; }
-  .btn:hover { background: color-mix(in srgb, var(--tp-accent) 12%, var(--secondary-background-color, rgba(127,127,127,.12))); }
-  .btn .icon { width: 18px; height: 18px; color: var(--tp-accent); }
-  .btn.round { width: 32px; height: 32px; padding: 0; border-radius: 50%; }
-  .btn.spinning .icon { animation: tp-spin 1s linear infinite; }
-  .zoom { all: unset; flex: none; cursor: pointer; width: 24px; height: 24px; margin: -4px -4px -4px 0; border-radius: 50%; align-self: flex-start;
-          display: grid; place-items: center; color: var(--secondary-text-color); }
-  .zoom .icon { width: 16px; height: 16px; }
-  .zoom:hover { background: color-mix(in srgb, var(--tp-idle) 16%, transparent); color: var(--primary-text-color); }
-  [role="button"]:focus-visible, .btn:focus-visible, .zoom:focus-visible { outline: 2px solid var(--tp-accent); outline-offset: 2px; }
-  .content { padding: 8px 12px 12px; display: flex; flex-direction: column; gap: 14px; }
-  .stop { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  [role="button"]:focus-visible, [role="tab"]:focus-visible, .iconbtn:focus-visible { outline: 2px solid var(--tp-accent); outline-offset: 2px; }
+
+  /* ── Banner: the sky, a band for the street or the track under the whole width, the scene at the right. ── */
+  .banner { --bh: 116px; --sh: min(var(--bh), calc(50cqw * .64)); --sw: calc(var(--sh) * 1.5625);
+            --sky1: #eef5fd; --sky2: #cfe3f7; --far: #dde8f3; --tree: #a9d494; --leaf: #8cc277; --ink-h: #10283f; --ink-s: #3d5670;
+            --walk: #dfe3e8; --road: #b9bfc7; --bal: #c9c3b8; --sleep: #9b8f80; --rail: #7d848d; --grass: #b5d39b; --pane: rgba(232,244,251,.7);
+            position: relative; height: var(--bh); overflow: hidden; color: var(--ink-h);
+            background: linear-gradient(115deg, var(--sky1), var(--sky2)); }
+  .banner.night { --sky1: #17233a; --sky2: #26385c; --far: #2b3b59; --tree: #2f5a3c; --leaf: #264b32; --ink-h: #eef3fa; --ink-s: rgba(255,255,255,.8);
+                  --walk: #4b525c; --road: #3a4048; --bal: #3e3f44; --sleep: #2b2b2f; --rail: #8d949e; --grass: #2f4a35; --pane: rgba(80,104,140,.55); }
+  .ground { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--sh) * .1875); }
+  .banner.bus .ground { background: repeating-linear-gradient(90deg, rgba(255,255,255,.8) 0 18px, transparent 18px 50px) 0 62% / 100% 1.6px no-repeat,
+                                    linear-gradient(var(--walk) 25%, var(--road) 25%); }
+  .banner.metro .ground, .banner.tram .ground { background: linear-gradient(var(--rail), var(--rail)) 0 24% / 100% 2px no-repeat,
+                                    repeating-linear-gradient(90deg, var(--sleep) 0 4px, transparent 4px 13px) 0 20% / 100% 28% no-repeat, var(--bal); }
+  .banner.tram .ground { background-color: var(--grass); }
+  .scene { position: absolute; right: 0; bottom: 0; width: var(--sw); height: var(--sh); overflow: hidden;
+           -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%); mask-image: linear-gradient(90deg, transparent, #000 10%); }
+  .scene .day { display: inline; } .scene .night, .scene .lit { display: none; }
+  .banner.night .scene .day { display: none; } .banner.night .scene .night, .banner.night .scene .lit { display: inline; }
+  .scene .sun { fill: #ffd54f; } .scene .cloud { fill: #fff; } .scene .moon { fill: #f4ecd0; } .scene .star { fill: #fff; }
+  .scene .star.tw { animation: tp-glow 2.4s ease-in-out infinite alternate; }
+  .scene .far rect { fill: var(--far); } .scene .lit rect { fill: #f2c94c; opacity: .8; }
+  .scene .tree circle { fill: var(--tree); } .scene .tree .leaf { fill: var(--leaf); } .scene .trunk { fill: #8a6a4a; }
+  .scene .roof { fill: #5b6b7c; } .scene .pane { fill: var(--pane); stroke: #9aa6b3; stroke-width: .8; } .scene .platform { fill: var(--walk); }
+  .scene .pole { fill: #6c757d; } .scene .plate { fill: var(--tp-accent); }
+  .scene .catenary path { stroke: #6c757d; stroke-width: .8; fill: none; } .scene .catenary rect { fill: #8a939c; }
+  .scene .body { fill: #fbfbfc; stroke: #cfd5dc; } .scene .glass { fill: #25364d; } .scene .pillar rect { fill: #fbfbfc; }
+  .scene .door { fill: #dfe6ee; stroke: #cfd5dc; } .scene .gangway { fill: #9aa6b3; }
+  .scene .girouette { fill: #1b1b1b; } .scene .gtext { font: 700 3.4px Roboto, sans-serif; fill: #ffb02e; }
+  .scene .disc { font: 700 4.6px Roboto, sans-serif; text-transform: uppercase; }
+  .scene .lamp { fill: #ffd34d; }
+  .scene .wheel circle { fill: #2b2f36; } .scene .wheel .hub { fill: #9aa1ab; }
+  .scene .panto path { stroke: #4b5560; stroke-width: 1.2; fill: none; }
+  .scene .puff circle { fill: rgba(140,150,160,.5); opacity: 0; }
+  .scene .wave { fill: none; stroke: var(--tp-ok); stroke-width: 1.2; transform-box: fill-box; transform-origin: center; animation: tp-wave 1.8s ease-out infinite; }
+  .scene .wave.d1 { animation-delay: -.6s; } .scene .wave.d2 { animation-delay: -1.2s; }
+  .scene .veh.empty { display: none; }
+  /* Arriving: the vehicle drives in and stops at the stop (at rest, in stills and with reduced motion: at the stop). */
+  .scene .veh.arriving { animation: tp-arrive 3.2s cubic-bezier(.25,.7,.3,1) infinite; }
+  .scene .veh.arriving .lamp { animation: tp-glow .4s ease-in-out infinite alternate; }
+  /* Waiting: the vehicle idles before the stop, engine running. */
+  .scene .veh.waiting { transform: translateX(-58px); animation: tp-idle 1.6s ease-in-out infinite; }
+  .scene .veh.waiting .puff circle { animation: tp-puff 1.6s ease-out infinite; }
+  /* The text, on the sky at the left of the scene: the round icon with the network's logo, then the titles. */
+  .htext { position: absolute; left: 14px; top: 0; bottom: calc(var(--sh) * .1875); right: calc(var(--sw) + 4px);
+           display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .banner.plain .htext { bottom: 0; right: 48px; }
+  .logo { position: relative; flex: none; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center;
+          color: var(--tp-accent); background: rgba(255,255,255,.7); box-shadow: inset 0 0 0 1px rgba(0,137,123,.2); }
+  .banner.night .logo { color: #7fd6cb; background: rgba(255,255,255,.12); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
+  .logo .icon { width: 26px; height: 26px; }
+  /* The network's logo on a white tile at the icon's bottom right, readable by day and by night. */
+  .net { position: absolute; right: -9px; bottom: -4px; height: 16px; min-width: 16px; max-width: 34px; padding: 2px 3px; box-sizing: border-box;
+         border-radius: 6px; background: #fff; display: grid; place-items: center; box-shadow: 0 0 0 1px rgba(13,42,69,.14), 0 1px 3px rgba(13,42,69,.18); }
+  .net img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+  .titles { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .name { font-size: 18px; font-weight: 500; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  :host([hide-title]) .banner:not(.mini) .name { display: none; }
+  .stats { display: flex; align-items: center; gap: 6px; font-size: 13px; line-height: 18px; color: var(--ink-s); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .stats.error { color: color-mix(in srgb, var(--tp-crit) 70%, var(--ink-h)); white-space: normal; }
+  .tools { position: absolute; top: 8px; right: 8px; display: flex; align-items: center; gap: 6px; }
+  .iconbtn { all: unset; flex: none; cursor: pointer; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; box-sizing: border-box;
+             color: #10283f; background: rgba(255,255,255,.62); }
+  .banner.night .iconbtn { color: #fff; background: rgba(10,20,40,.45); }
+  .iconbtn .icon { width: 17px; height: 17px; }
+  .iconbtn:hover { background: rgba(255,255,255,.85); } .banner.night .iconbtn:hover { background: rgba(10,20,40,.7); }
+  .iconbtn.spinning .icon { animation: tp-spin 1s linear infinite; }
+  .tools .chip { background: rgba(255,255,255,.75); } .banner.night .tools .chip { background: rgba(10,20,40,.5); color: color-mix(in srgb, var(--c) 45%, #fff); }
+
+  /* ── The next departure, its approach bar. ── */
+  .next { padding: 12px 16px 14px; border-bottom: 1px solid var(--divider-color, rgba(127,127,127,.15));
+          background: color-mix(in srgb, var(--primary-text-color, #212121) 3%, transparent); }
+  .next.quiet { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--secondary-text-color); }
+  .next.quiet .icon { color: var(--tp-idle); }
+  .next-row { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .next-what { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .cap { font-size: 12px; color: var(--secondary-text-color); }
+  .next-what .dest { font-size: 16px; font-weight: 500; line-height: 1.3; color: var(--primary-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .next-sub, .banner .stats { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12px; color: var(--secondary-text-color); }
+  .banner .stats { color: var(--ink-s); flex-wrap: nowrap; }
+  .next-when { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  .count { font-size: 28px; font-weight: 500; line-height: 1.05; color: var(--primary-text-color); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .count.soon { color: color-mix(in srgb, var(--tp-accent) 55%, var(--primary-text-color, #212121)); animation: tp-glow 1.2s ease-in-out infinite alternate; }
+  .prec { display: inline-flex; align-items: center; gap: 4px; color: var(--ink); }
+  .prec .icon, .rt .icon { width: 14px; height: 14px; color: var(--c); }
+  .prec.live .icon, .rt.live .icon { animation: tp-glow 1.2s ease-in-out infinite alternate; }
+  .delay { font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .was { text-decoration: line-through; white-space: nowrap; opacity: .8; }
+  .at { white-space: nowrap; }
+  .approach { position: relative; height: 4px; margin: 12px 8px 2px 0; border-radius: 2px; background: color-mix(in srgb, var(--secondary-text-color) 22%, transparent); }
+  .approach .fill { position: absolute; left: 0; top: 0; bottom: 0; width: var(--p); border-radius: 2px; background: var(--lc); }
+  .approach .vdot { position: absolute; left: var(--p); top: 50%; width: 12px; height: 12px; border-radius: 50%; transform: translate(-50%, -50%);
+                    background: var(--lc); box-shadow: 0 0 0 2px var(--card-background-color, #fff); }
+  .approach .vdot.soon { animation: tp-glow .9s ease-in-out infinite alternate; }
+  .approach .smark { position: absolute; right: -8px; top: 50%; width: 16px; height: 16px; border-radius: 4px; transform: translateY(-50%);
+                     display: grid; place-items: center; background: var(--tp-accent); color: #fff; }
+  .approach .smark .icon { width: 11px; height: 11px; }
+  .lb { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; min-width: 32px; height: 24px; padding: 0 6px; flex: none;
+        border-radius: 7px; font-size: 13px; font-weight: 700; letter-spacing: .01em; background: var(--lc); color: var(--lt);
+        box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); white-space: nowrap; }
+  .lb.round { min-width: 24px; width: 24px; padding: 0; border-radius: 50%; text-transform: uppercase; }
+  .lb.big { min-width: 40px; height: 36px; font-size: 16px; border-radius: 9px; }
+  .lb.big.round { min-width: 36px; width: 36px; border-radius: 50%; }
+
+  /* ── Tabs (several stops) or the "Then" label, the status chip; then the following departures. ── */
+  .toolbar { display: flex; align-items: center; gap: 12px; padding: 0 16px; min-height: 42px; border-bottom: 1px solid var(--divider-color, rgba(127,127,127,.15)); }
+  .tabs { display: flex; gap: 20px; flex: 1 1 auto; min-width: 0; align-self: stretch; overflow: hidden; }
+  .tab { cursor: pointer; display: inline-flex; align-items: center; gap: 5px; padding: 0 0 0; font-size: 14px; font-weight: 500; color: var(--secondary-text-color);
+         border-bottom: 3px solid transparent; margin-bottom: -1px; white-space: nowrap; user-select: none; }
+  .tab .icon { width: 16px; height: 16px; }
+  .tab.active { color: var(--primary-text-color); border-bottom-color: var(--tp-accent); }
+  .tab:hover { color: var(--primary-text-color); }
+  .then { flex: 1; font-size: 13px; font-weight: 500; color: var(--secondary-text-color); }
+  .departures { display: flex; flex-direction: column; padding: 0 16px 4px; }
+  /* Each row owns its columns (no subgrid, a WebKit hover bug): countdown, line badge, destination, state. */
+  .dep { display: grid; grid-template-columns: 4em 40px minmax(0, 1fr) auto; align-items: center; column-gap: 10px; padding: 9px 0;
+         border-bottom: 1px solid var(--divider-color, rgba(127,127,127,.15)); font-size: 14px; }
+  .dep:last-child { border-bottom: none; }
+  .dep .lb { justify-self: start; }
+  .when { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--primary-text-color); white-space: nowrap; }
+  .dep.soon .when { color: color-mix(in srgb, var(--tp-accent) 55%, var(--primary-text-color, #212121)); animation: tp-glow 1.2s ease-in-out infinite alternate; }
+  .what { display: flex; flex-direction: column; min-width: 0; }
+  .dest { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--primary-text-color); }
+  .what .sub { font-size: 12px; color: var(--secondary-text-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+  .empty { padding: 16px; color: var(--secondary-text-color); font-size: 13px; }
+  .note { display: flex; align-items: center; gap: 6px; margin: 8px 16px 0; font-size: 12px; color: var(--ink); }
+  .note .icon { width: 16px; height: 16px; color: var(--c); }
   .section-title { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; text-transform: uppercase;
                    letter-spacing: .04em; color: var(--secondary-text-color); min-width: 0; }
   .section-title > span:not(.count-pill) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -1497,70 +1929,8 @@ class TransportCard extends HTMLElement {
   .section-title.toggle { cursor: pointer; user-select: none; }
   .section-title .chevron { margin-left: auto; width: 16px; height: 16px; transition: transform .2s ease; }
   .section-title.toggle[aria-expanded="false"] .chevron { transform: rotate(-90deg); }
-  .hero { display: flex; gap: 12px; align-items: center; min-width: 0; }
-  .scene { flex: none; width: 150px; height: 59px; color: var(--secondary-text-color); }
-  .scene svg { width: 100%; height: 100%; overflow: visible; }
-  .scene .ground, .scene .dashes rect, .scene .sleepers rect { fill: color-mix(in srgb, var(--secondary-text-color) 45%, transparent); }
-  .scene .pole { fill: var(--secondary-text-color); }
-  .scene .glass { fill: color-mix(in srgb, #ffffff 82%, var(--card-background-color, #fff)); opacity: .92; }
-  .scene .door { fill: rgba(0,0,0,.18); }
-  .scene text { font: 700 7px Roboto, "Segoe UI", sans-serif; }
-  .scene .wheel > circle:first-child { fill: #37474f; } .scene .hub { fill: #b0bec5; } .scene .spoke { fill: #b0bec5; }
-  .scene .bogie { fill: #37474f; }
-  .scene .lamp { fill: #ffd54f; }
-  .scene .puff circle { fill: color-mix(in srgb, var(--secondary-text-color) 40%, transparent); opacity: 0; }
-  .scene .wave { fill: none; stroke: var(--tp-ok); stroke-width: 1.4; transform-box: fill-box; transform-origin: center; animation: tp-wave 1.8s ease-out infinite; }
-  .scene .wave.d1 { animation-delay: -.6s; } .scene .wave.d2 { animation-delay: -1.2s; }
-  .scene .veh.gone { display: none; }
-  /* At rest (stills, reduced motion) an arriving vehicle stands at the stop. */
-  .scene .veh.arriving { transform: translateX(22px); }
-  /* Arriving: the vehicle drives in from the left and stops at the sign, its wheels turning until it stops. */
-  .scene .veh.arriving { animation: tp-arrive 3.2s cubic-bezier(.25,.7,.3,1) infinite; }
-  .scene .veh.arriving .wheel { transform-box: fill-box; transform-origin: center; animation: tp-roll 3.2s cubic-bezier(.25,.7,.3,1) infinite; }
-  .scene .veh.arriving .lamp { animation: tp-glow .4s ease-in-out infinite alternate; }
-  .scene.arriving .dashes { animation: tp-road 3.2s cubic-bezier(.25,.7,.3,1) infinite; }
-  /* Waiting: the vehicle idles away from the sign, engine running. */
-  .scene .veh.waiting { animation: tp-idle 1.6s ease-in-out infinite; }
-  .scene .veh.waiting .puff circle { animation: tp-puff 1.6s ease-out infinite; }
-  .hero-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-  .hero-line { display: flex; align-items: center; gap: 6px; min-width: 0; }
-  .hero-line .dest { font-size: 13px; font-weight: 500; color: var(--primary-text-color); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .count { font-size: 26px; font-weight: 400; line-height: 1.15; color: var(--primary-text-color); font-variant-numeric: tabular-nums; }
-  .count.soon { color: color-mix(in srgb, var(--tp-accent) 55%, var(--primary-text-color, #212121)); animation: tp-glow 1.2s ease-in-out infinite alternate; }
-  .count.idle { color: var(--secondary-text-color); }
-  .hero-sub { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--secondary-text-color); min-width: 0; }
-  .prec { display: inline-flex; align-items: center; gap: 4px; color: var(--ink); }
-  .prec .icon { width: 14px; height: 14px; color: var(--c); }
-  .prec.live .icon, .rt.live .icon { animation: tp-glow 1.2s ease-in-out infinite alternate; }
-  .delay { font-size: 12px; font-weight: 500; color: var(--ink); white-space: nowrap; }
-  .was { text-decoration: line-through; white-space: nowrap; }
-  .lb { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; min-width: 30px; height: 22px; padding: 0 6px; flex: none;
-        border-radius: 6px; font-size: 12px; font-weight: 700; letter-spacing: .01em; background: var(--lc); color: var(--lt);
-        box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); white-space: nowrap; }
-  .lb.round { min-width: 22px; width: 22px; padding: 0; border-radius: 50%; text-transform: uppercase; }
-  .departures { display: flex; flex-direction: column; }
-  .dep { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 10px; padding: 6px 2px; font-size: 13px;
-         border-bottom: 1px solid var(--divider-color, rgba(127,127,127,.15)); }
-  .dep:last-child { border-bottom: none; }
-  .dep .what { display: flex; flex-direction: column; min-width: 0; }
-  .dep .dest { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--primary-text-color); }
-  .dep .what .delay { font-size: 11px; line-height: 1.3; }
-  /* The next times of a line and destination, in aligned columns: the first one bold. */
-  .times { display: grid; grid-template-columns: minmax(48px, auto) repeat(2, 36px); align-items: baseline; text-align: right; }
-  .times.n2 { grid-template-columns: minmax(48px, auto) 36px; }
-  .times.n1 { grid-template-columns: minmax(48px, auto); }
-  .then { font-size: 12px; color: var(--secondary-text-color); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .rt { display: inline-flex; color: var(--c); }
-  .rt .icon { width: 15px; height: 15px; }
-  .when { min-width: 44px; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--primary-text-color); white-space: nowrap; }
-  .dep.soon .when { color: color-mix(in srgb, var(--tp-accent) 55%, var(--primary-text-color, #212121)); animation: tp-glow 1.2s ease-in-out infinite alternate; }
-  .empty { padding: 12px 4px; color: var(--secondary-text-color); font-size: 13px; }
-  .header + .body > .empty { padding: 12px 16px 16px; }
-  .empty.quiet { display: flex; align-items: center; gap: 8px; padding: 6px 2px; }
-  .empty.quiet .icon { color: var(--tp-idle); }
-  .note { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink); }
-  .note .icon { width: 16px; height: 16px; color: var(--c); }
-  .alerts { display: flex; flex-direction: column; gap: 8px; padding: 8px 10px; border-radius: 12px; background: color-mix(in srgb, var(--c) 9%, transparent); }
+  .alerts { display: flex; flex-direction: column; gap: 8px; margin: 8px 12px 12px; padding: 8px 10px; border-radius: 12px; background: color-mix(in srgb, var(--c) 9%, transparent); }
+  .alerts + .alerts { margin-top: 0; }
   .alerts > .section-title { color: var(--ink); }
   .alerts .alert-icon { color: var(--c); transform-box: fill-box; transform-origin: center; }
   .alert-icon.glow { animation: tp-glow 1.2s ease-in-out infinite alternate; }
@@ -1571,6 +1941,7 @@ class TransportCard extends HTMLElement {
   .alert { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
   .alert + .alert { padding-top: 10px; border-top: 1px solid var(--divider-color, rgba(127,127,127,.15)); }
   .alert-head { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+  .alert-head .chip { font-size: 11px; padding: 0 8px; }
   .tag { display: inline-flex; align-items: center; font-size: 11px; font-weight: 500; padding: 1px 6px; border-radius: 8px;
          background: var(--secondary-background-color, rgba(127,127,127,.12)); color: var(--primary-text-color); white-space: nowrap; }
   .alert-title { font-size: 13px; font-weight: 500; color: var(--primary-text-color); overflow-wrap: anywhere; }
@@ -1578,39 +1949,43 @@ class TransportCard extends HTMLElement {
   .alert-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--secondary-text-color); }
   .alert-foot a { display: inline-flex; align-items: center; gap: 3px; color: color-mix(in srgb, var(--tp-accent) 55%, var(--primary-text-color, #212121)); text-decoration: none; }
   .alert-foot a .icon { width: 12px; height: 12px; }
-  /* Mini card: one scene for the next departure, then the board of each stop. */
-  ha-card.mini { padding-bottom: 12px; }
-  .compact { padding: 8px 12px 0; display: flex; flex-direction: column; gap: 10px; }
-  .compact > .hero .scene { width: 132px; height: 52px; }
-  .compact .stop { gap: 4px; }
-  .compact .section-title { font-size: 11px; }
-  .section-title .alert-mark { color: var(--tp-warn); }
-  /* Narrow cards: the scene shrinks, then goes above the countdown; the chip keeps only its dot. */
-  @container (max-width: 320px) { .scene { width: 112px; height: 44px; } .count { font-size: 22px; } }
-  @container (max-width: 240px) {
-    .header { gap: 6px; padding: 10px 8px 0; }
-    .header .chip { padding: 4px; flex: none; } .header .chip .t { display: none; }
-    .content { padding: 8px 8px 12px; }
-    .hero { flex-direction: column; align-items: stretch; } .scene { align-self: center; }
-    .dep { gap: 6px; }
-  }
-  @keyframes tp-arrive { 0% { transform: translateX(-118px); opacity: 0; } 12% { opacity: 1; } 68%, 100% { transform: translateX(22px); opacity: 1; } }
-  @keyframes tp-roll { 0% { transform: rotate(0deg); } 68%, 100% { transform: rotate(900deg); } }
-  @keyframes tp-road { 0% { transform: translateX(0); } 68%, 100% { transform: translateX(28px); } }
-  @keyframes tp-idle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-.8px); } }
+  .departures:last-child, .toolbar:last-child { border-bottom: none; }
+  .body > :last-child.departures { padding-bottom: 8px; }
+
+  /* ── Mini card: the banner tells the next departure; the approach bar under it. ── */
+  ha-card.mini .banner { --bh: 100px; --sh: min(var(--bh), calc(45cqw * .64)); }
+  ha-card.mini .logo { width: 44px; height: 44px; } ha-card.mini .logo .icon { width: 23px; height: 23px; }
+  ha-card.mini .htext { left: 12px; gap: 10px; }
+  .mline { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 14px; font-weight: 500; }
+  .mline .dest { color: inherit; }
+  .mline .lb { height: 22px; min-width: 28px; font-size: 12px; } .mline .lb.round { min-width: 22px; width: 22px; }
+  .mwhen { display: flex; align-items: center; gap: 6px; }
+  .mwhen .count { font-size: 24px; color: inherit; }
+  .mwhen .count.soon { color: inherit; }
+  .banner .rt { display: inline-flex; } .banner .rt.ok .icon { color: #2e8b3a; } .banner.night .rt.ok .icon { color: #7fdc8a; }
+  .banner .delay.warn { color: #9a6200; } .banner.night .delay.warn { color: #f5c062; }
+  .banner .delay.active { color: #0b6aa8; } .banner.night .delay.active { color: #8fd0ff; }
+  .mini-bar { padding: 2px 18px 12px 12px; }
+  .mini-bar .approach { margin-top: 10px; }
+  .mini-notes .note { margin: 0 12px 10px; }
+  /* Narrow cards: the icon gives way, then the scene. */
+  @container (max-width: 360px) { .logo { display: none; } .dep { grid-template-columns: 3.4em 34px minmax(0, 1fr) auto; column-gap: 8px; } .pill .t { max-width: 7em; } }
+  @container (max-width: 250px) { .scene, .ground { display: none; } .htext { right: 44px; bottom: 0; } }
+  @keyframes tp-arrive { 0% { transform: translateX(-200px); } 68%, 100% { transform: translateX(0); } }
+  @keyframes tp-idle { 0%, 100% { transform: translate(-58px, 0); } 50% { transform: translate(-58px, -.8px); } }
   @keyframes tp-puff { 0% { opacity: .9; transform: translate(0, 0) scale(.6); } 100% { opacity: 0; transform: translate(-8px, -6px) scale(1.6); } }
   @keyframes tp-wave { from { transform: scale(.55); opacity: .9; } to { transform: scale(1.35); opacity: 0; } }
   @keyframes tp-glow { from { opacity: .45; } to { opacity: 1; } }
   @keyframes tp-shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-12deg); } 75% { transform: rotate(12deg); } }
   @keyframes tp-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } .scene .veh.arriving { transform: translateX(22px); } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 `;
   }
 }
 
 // ── public-transport-mini-card ────────────────────────────────────────────────
-// The next departures of each stop on one line. Its detail button (top right) switches to the full card and back;
-// a click outside the card folds it back to the compact view.
+// The next departure of all the stops in the banner, with its approach bar. Its detail button (top right) switches
+// to the full card and back; a click outside the card folds it back to the compact view.
 class TransportMiniCard extends TransportCard {
   constructor() {
     super();
@@ -1637,7 +2012,7 @@ class TransportMiniCard extends TransportCard {
   }
 
   getCardSize() {
-    return this._zoomed ? super.getCardSize() : 1 + this._entityIds().length;
+    return this._zoomed ? super.getCardSize() : 3;
   }
 
   getGridOptions() {
@@ -1650,14 +2025,12 @@ class TransportMiniCard extends TransportCard {
 
   _detailButton(t) {
     var label = this._zoomed ? t.show_compact : t.show_full;
-    return `<button class="zoom" data-action="detail" title="${transportEsc(label)}" aria-label="${transportEsc(label)}">${transportIcon(this._zoomed ? 'collapse' : 'expand')}</button>`;
+    return `<button class="iconbtn zoom" data-action="detail" data-focus="detail" title="${transportEsc(label)}" aria-label="${transportEsc(label)}">${transportIcon(this._zoomed ? 'collapse' : 'expand')}</button>`;
   }
 
   _toggleDetail(ev) {
     ev.stopPropagation();
     this._setZoom(!this._zoomed);
-    // Keyboard use (no click count) keeps the focus on the button, without scrolling the page.
-    if (!ev.detail) this._root.querySelector('.zoom')?.focus?.({ preventScroll: true });
   }
 
   _setZoom(zoomed) {
@@ -1666,32 +2039,14 @@ class TransportMiniCard extends TransportCard {
     this._render();
   }
 
-  // One scene for the next departure of all the stops, then the board of each stop: up to three rows, two times each.
+  // The banner for the next departure of all the stops, its approach bar, and what keeps a stop from showing.
   _renderCompact(stops, t) {
     var now = this._now();
-    var many = stops.length > 1;
-    var next = null;
-    stops.forEach((s) => {
-      var a = s.st?.attributes || {};
-      if (!s.st || s.st.state === 'unavailable') return;
-      var first = this._valid(a, now)[0];
-      if (first && (!next || Date.parse(first.departure) < Date.parse(next.d.departure))) next = { d: first, a: a };
-    });
-    var html = '<div class="compact">';
-    if (this._config.show_scene && next) html += this._renderScene(next.a, next.d, t, now);
-    html += stops.map((s) => {
-      var a = s.st?.attributes || {};
-      var alerts = this._config.show_alerts && (a.alerts || []).length;
-      var name = many
-        ? `<div class="section-title">${transportIcon(a.mode in TRANSPORT_ICONS ? a.mode : 'marker')}<span>${transportEsc(a.stop_name || s.id)}</span>${alerts ? transportIcon('alert', 'alert-mark') : ''}</div>`
-        : '';
-      if (!s.st || s.st.state === 'unavailable' || !transportDepartures(a)) {
-        return `<section class="stop">${name}<div class="empty">${transportEsc(s.st ? t.unavailable : t.no_entity)}</div></section>`;
-      }
-      var stale = a.stale ? `<div class="note warn">${transportIcon('offline')}<span>${transportEsc(t.stale)}</span></div>` : '';
-      return `<section class="stop">${name}${stale}${this._renderBoard(this._valid(a, now), a.mode, t, now, 3, 2)}</section>`;
-    }).join('');
-    return `${html}</div>`;
+    var next = this._merged(stops, now)[0];
+    var html = this._renderBanner(stops, next, t, now, true).replace('class="banner ', 'class="banner mini ');
+    if (next) html += `<div class="mini-bar">${this._approach(next, now)}</div>`;
+    var notes = this._notes(stops, t);
+    return html + (notes ? `<div class="mini-notes">${notes}</div>` : '');
   }
 }
 
@@ -1790,7 +2145,7 @@ if (!customElements.get('public-transport-card')) {
   window.customCards.push({
     type: 'public-transport-card',
     name: 'Public transport',
-    description: 'Next departures at your stops: line colors, countdown, real time and traffic alerts.',
+    description: 'Next departures at your stops: illustrated banner, approach bar, line colors, countdown, real time and traffic alerts.',
     preview: true,
     documentationURL: 'https://github.com/juju35/ha-public-transport',
   });
@@ -1802,7 +2157,7 @@ if (!customElements.get('public-transport-mini-card')) {
   window.customCards.push({
     type: 'public-transport-mini-card',
     name: 'Public transport mini',
-    description: 'The next departures of each stop on one line, with a button to show the full card.',
+    description: 'The next departure of your stops in an illustrated banner, with a button to show the full card.',
     preview: true,
     documentationURL: 'https://github.com/juju35/ha-public-transport',
   });
