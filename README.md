@@ -543,6 +543,12 @@ The mini card: the banner tells the next departure of all its stops, with its ap
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/mini-card.png" alt="mini card" width="300"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/mini-card-dark.png" alt="mini card dark" width="300"> |
 
+The mini card expanded by its detail button: the full card, in place.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/mini-card-zoom.png" alt="mini card expanded" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/mini-card-zoom-dark.png" alt="mini card expanded, dark" width="400"> |
+
 ### Networks
 
 One stop of each network, with its logo, its lines in their official colors and real destinations (GTFS-RT networks show the dataset title of the national catalogue as network name).

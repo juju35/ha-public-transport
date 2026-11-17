@@ -483,6 +483,25 @@ SHOTS = [
             "entities": ["sensor.star_republique_metro_next_departure", "sensor.star_republique_next_departure"]
         },
     },
+    # The mini card expanded by its detail button: the full card, at the full card's width.
+    {
+        "file": "mini-card-zoom",
+        "theme": "light",
+        "element": "public-transport-mini-card",
+        "zoom": True,
+        "config": {
+            "entities": ["sensor.star_republique_metro_next_departure", "sensor.star_republique_next_departure"]
+        },
+    },
+    {
+        "file": "mini-card-zoom-dark",
+        "theme": "dark",
+        "element": "public-transport-mini-card",
+        "zoom": True,
+        "config": {
+            "entities": ["sensor.star_republique_metro_next_departure", "sensor.star_republique_next_departure"]
+        },
+    },
 ]
 
 # Each other network: the full card and the mini card, light and dark.
@@ -592,6 +611,9 @@ def mount(context, shot):
             "dark": shot["theme"] == "dark",
         },
     )
+    if shot.get("zoom"):
+        page.locator('[data-action="detail"]').click()
+        page.mouse.move(0, 0)
     return page
 
 
