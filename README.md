@@ -70,7 +70,7 @@ Home Assistant integration for the **next departures at your public transport st
 - **Network logo** on the card's banner, when the integration ships one
 - **One request per network**: every stop of a network is updated at once, so following more stops costs no more of the open data quota
 - `public_transport.refresh` action to update now
-- `custom:public-transport-card` card, **shipped with the integration** and loaded automatically: an **illustrated banner** whose bus, metro or tram drives in when it is close (night picture after sunset or with the dark theme), the next departure with its **approach bar**, tabs per stop, the following departures with line badges in the official colors and a state pill (approaching, delay, real time or timetable), a countdown that ticks by itself, and collapsible traffic alerts
+- `custom:public-transport-card` card, **shipped with the integration** and loaded automatically: an **illustrated banner** whose bus, metro or tram drives in when it is close (night picture with the dark theme, day picture with a light theme), the next departure with its **approach bar**, tabs per stop, the following departures with line badges in the official colors and a state pill (approaching, delay, real time or timetable), a countdown that ticks by itself, and collapsible traffic alerts
 - `custom:public-transport-mini-card` compact card: the banner tells the next departure of all its stops — line, destination, countdown, real time, delay and the timetable time struck through — with its approach bar and a button to open the full card
 - Diagnostics download with the API key redacted
 - English, French, German, Spanish, Serbian (Cyrillic and Latin), Italian, Dutch, Portuguese, Polish, Romanian, Danish, Swedish, Bulgarian, Russian, Ukrainian, Hungarian, Slovak, Czech, Slovenian, Latvian and Greek
@@ -453,7 +453,7 @@ language: en
 | `title` | the stop's name | Card title (`Next departures` for stops of different names) |
 | `show_title` | `true` | Show the title on the banner (e.g. `false` under a section heading of your own) |
 | `show_scene` | `true` | Show the banner's animated scene and its street or track (`false`: a classic header, the sky alone); `illustration: false` does the same |
-| `illustration_theme` | `auto` | Day or night picture of the banner: `auto` (night when the sun is down or Home Assistant's theme is dark, even with the sun up), `day` or `night` |
+| `illustration_theme` | `auto` | Day or night picture of the banner: `auto` (follows the Home Assistant theme: night with a dark theme, day with a light theme), `day` or `night` |
 | `show_alerts` | `true` | Show the traffic alerts (and their count above the departures) |
 | `show_refresh` | `true` | Show the refresh button |
 | `max_departures` | `5` | Rows shown after the next departure, one per line and destination with its next times (up to the integration's *Departures kept*) |
@@ -477,7 +477,7 @@ Both cards open on a 90px illustrated banner: the stop's name (full card) or the
 
 ### Animations
 
-Each animation of the card, in the light and dark themes (the dark theme shows the night picture, also used after sunset).
+Each animation of the card, in the light and dark themes (the dark theme shows the night picture).
 
 **The next departure is close** (2 minutes or less): the bus, with its line color and number, drives in and stops at the platform, the stop's display blinks `▶`; waves ripple from the display while the time is real time, the countdown pulses and the vehicle reaches the end of the approach bar.
 
