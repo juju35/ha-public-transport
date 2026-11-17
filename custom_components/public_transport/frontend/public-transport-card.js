@@ -2030,7 +2030,7 @@ class TransportCard extends HTMLElement {
   .banner.plain .htext { right: var(--tw, 48px); }
   /* The status pill right after the title (the title ellipsised first, never under 5 characters), centred on it. */
   .trow { display: flex; align-items: center; gap: 8px; min-width: 0; }
-  .trow > .name, .trow > .mline { flex: 0 1 auto; min-width: 5ch; }
+  .trow > .name, .trow > .mline { flex: 0 1 auto; min-width: 0; }
   .trow .mline .dest { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
   .hpill { flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 12px; font-size: 11px; font-weight: 500;
            line-height: 16px; white-space: nowrap; box-sizing: border-box; max-width: calc(100% - 5ch - 8px); overflow: hidden; --c: var(--si-ontime);
