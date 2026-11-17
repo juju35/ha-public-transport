@@ -1367,13 +1367,13 @@ var TRANSPORT_APPROACH = 10;
 // Delayed: the next departure runs this many minutes late or more (real time).
 var TRANSPORT_LATE = 2;
 
-// Night picture: forced by illustration_theme, else the sun below the horizon, else Home Assistant's dark mode.
+// Night picture: forced by illustration_theme, else the sun below the horizon or Home Assistant's dark theme (dark mode alone without a valid sun.sun).
 function transportIsNight(hass, config) {
   var theme = config?.illustration_theme;
   if (theme === 'day') return false;
   if (theme === 'night') return true;
   var sun = hass?.states?.['sun.sun'];
-  if (sun && sun.state !== 'unavailable' && sun.state !== 'unknown') return sun.state === 'below_horizon';
+  if (sun && sun.state !== 'unavailable' && sun.state !== 'unknown') return sun.state === 'below_horizon' || !!hass?.themes?.darkMode;
   return !!hass?.themes?.darkMode;
 }
 

@@ -240,10 +240,14 @@ test('tabs: all the stops, then one per stop named after its mode; a tab shows i
   assert.deepEqual([...two._tabs(two._stops(), t).map((x) => x.label)], ['All', 'Central', 'Gare']);
 });
 
-test('the banner turns to night when the sun is down, else follows the dark mode', () => {
+test('the banner turns to night when the sun is down or the theme is dark, even with the sun up', () => {
   const night = vm.runInContext('transportIsNight', context);
   assert.equal(night({ states: { 'sun.sun': { state: 'below_horizon' } } }), true);
-  assert.equal(night({ states: { 'sun.sun': { state: 'above_horizon' } }, themes: { darkMode: true } }), false);
+  assert.equal(night({ states: { 'sun.sun': { state: 'above_horizon' } }, themes: { darkMode: true } }), true);
+  assert.equal(night({ states: { 'sun.sun': { state: 'above_horizon' } }, themes: { darkMode: false } }), false);
+  assert.equal(night({ states: { 'sun.sun': { state: 'unavailable' } }, themes: { darkMode: true } }), true);
+  assert.equal(night({ states: { 'sun.sun': { state: 'above_horizon' } }, themes: { darkMode: true } }, { illustration_theme: 'day' }), false);
+  assert.equal(night({ states: { 'sun.sun': { state: 'above_horizon' } }, themes: { darkMode: false } }, { illustration_theme: 'night' }), true);
   assert.equal(night({ states: {}, themes: { darkMode: true } }), true);
   assert.equal(night({ states: {} }), false);
 });
