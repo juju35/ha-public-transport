@@ -439,3 +439,18 @@ test('the banner is 90px with a 10px road or rail strip; illustration_theme forc
     for (const key of ['illustration_theme', 'theme_auto', 'theme_day', 'theme_night']) assert.ok(TransportI18n[lang].editor[key], `${lang}.${key}`);
   }
 });
+
+test('status pill: beside the whole title only when both fit, else under the other lines, else its dot only (by measure)', () => {
+  const css = TransportCard._styles();
+  // Under the other lines (kept to one line), or its dot only, by the classes the card sets after measuring.
+  assert.match(css, /\.titles\.below \.hpill \{ order: 9; max-width: 100%; margin-top: 2px; \}/);
+  assert.match(css, /\.titles\.below > \.stats \{ white-space: nowrap; \}/);
+  assert.match(css, /\.titles\.dot-only \.hpill \.t \{ position: absolute;/);
+  // The only width rule left for the pill: its dot only on a card of 200 px or less.
+  assert.equal((css.match(/\.hpill \.t \{ position: absolute;/g) || []).length, 2);
+  assert.match(css, /@container tp-card \(max-width: 200px\) \{ \.hpill \{ padding: 4px; \}/);
+  // The measure compares the whole title, never four characters of it, and stops without a layout (no getComputedStyle).
+  assert.doesNotMatch(source, /transportFourChars/);
+  const card = makeCard();
+  assert.doesNotThrow(() => card._fitPill());
+});

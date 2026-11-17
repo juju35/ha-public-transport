@@ -1299,14 +1299,11 @@ function transportEsc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
 }
 
-// The width of an element's first four characters and an ellipsis, in its own font: the least a cut title keeps.
-var transportFourCtx;
-function transportFourChars(el) {
-  var cs = getComputedStyle(el);
-  transportFourCtx = transportFourCtx || document.createElement('canvas').getContext?.('2d');
-  if (!transportFourCtx) return 0;
-  transportFourCtx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-  return transportFourCtx.measureText(`${[...el.textContent.trim()].slice(0, 4).join('')}\u2026`).width;
+// The whole width of an element's text, in fractional pixels, even when it is cut with an ellipsis.
+function transportTextWidth(el) {
+  var range = document.createRange();
+  range.selectNodeContents(el);
+  return Math.max(el.scrollWidth, range.getBoundingClientRect().width);
 }
 
 function transportIcon(name, cls) {
@@ -1519,24 +1516,41 @@ class TransportCard extends HTMLElement {
     this._fitWidth = null;
   }
 
-  // The banner's status pill goes right after the title when its whole label fits there beside a title cut down to
-  // four characters (for the next departure's line: its badge and four characters of its destination); otherwise it
-  // takes a line of its own under the other lines (.titles.below). Measured, so that a short title keeps its pill
-  // beside it whatever room the picture leaves.
+  // The banner's status pill goes right after the title only when the whole title (for the next departure's line: its
+  // badge and its whole destination) and the whole label fit there; otherwise it takes a line of its own under the
+  // other lines (.titles.below, those kept to one line). When the label does not fit that line either, or the banner
+  // has no room for the lines above its ground strip, the pill keeps its dot only (.titles.dot-only, back beside the
+  // title when the dot fits there). Measured after render, so that it holds in every language.
   _fitPill() {
+    if (typeof getComputedStyle !== 'function') return;
     (this._root?.querySelectorAll?.('.banner .titles') || []).forEach((t) => {
       var pill = t.querySelector('.trow > .hpill');
-      if (!pill?.getBoundingClientRect) return;
-      t.classList.remove('below');
+      t.classList.remove('below', 'dot-only');
+      if (!pill?.getClientRects().length) return;
       var row = pill.parentElement;
       var head = row.firstElementChild;
       var text = head?.classList.contains('mline') ? head.querySelector('.dest') : head;
-      var title = 0;
-      if (head && head !== pill && text && getComputedStyle(head).display !== 'none') {
-        var lead = head === text ? 0 : text.getBoundingClientRect().left - head.getBoundingClientRect().left;
-        title = lead + Math.min(text.scrollWidth, transportFourChars(text)) + (parseFloat(getComputedStyle(row).columnGap) || 0);
-      }
-      if (title + pill.getBoundingClientRect().width > row.getBoundingClientRect().width + 0.5) t.classList.add('below');
+      var fits = () => {
+        var title = 0;
+        if (head && head !== pill && text && getComputedStyle(head).display !== 'none') {
+          var lead = head === text ? 0 : text.getBoundingClientRect().left - head.getBoundingClientRect().left;
+          title = lead + transportTextWidth(text) + (parseFloat(getComputedStyle(row).columnGap) || 0);
+        }
+        return title + pill.getBoundingClientRect().width <= row.getBoundingClientRect().width + 0.5;
+      };
+      if (fits()) return;
+      t.classList.add('below');
+      for (var line of t.querySelectorAll(':scope > .stats')) line.title = line.scrollWidth > line.clientWidth ? line.textContent.trim() : '';
+      var label = pill.querySelector('.t');
+      var banner = t.closest('.banner');
+      var tb = t.getBoundingClientRect();
+      var bb = banner.getBoundingClientRect();
+      var ground = banner.querySelector('.ground') ? parseFloat(getComputedStyle(banner).getPropertyValue('--g')) || 0 : 0;
+      var tall = tb.top < bb.top - 0.5 || tb.bottom > bb.bottom - ground + 0.5;
+      if (!tall && !(label && label.scrollWidth > label.clientWidth + 0.5)) return;
+      t.classList.add('dot-only');
+      t.classList.remove('below');
+      if (!fits()) t.classList.add('below');
     });
   }
 
@@ -2075,8 +2089,7 @@ class TransportCard extends HTMLElement {
   /* The text may run 16 px over the pale left edge of the skyline, so that a short title keeps its pill beside it. */
   .htext { right: max(calc(var(--sw) - 16px), var(--tw, 0px)); container: tp-head / inline-size; }
   .banner.plain .htext { right: var(--tw, 48px); }
-  /* The status pill right after the title with its whole label (the title ellipsised first, down to 4 characters),
-     centred on it. */
+  /* The status pill right after the title, centred on it, when the whole title and the whole label fit there. */
   .trow { display: flex; align-items: center; gap: 8px; min-width: 0; }
   .trow > .name, .trow > .mline { flex: 0 1 auto; min-width: 0; }
   .trow .mline .dest { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
@@ -2087,12 +2100,15 @@ class TransportCard extends HTMLElement {
   .hpill .dot { background: var(--c); }
   .banner.night .hpill { background: color-mix(in srgb, var(--c) 30%, rgba(8,18,38,.55)); color: color-mix(in srgb, var(--c) 35%, #ffffff); }
   .banner.st-late .hpill { --c: var(--si-late); } .banner.st-disrupted .hpill { --c: var(--si-disrupted); } .banner.st-none .hpill { --c: var(--si-none); }
-  /* Not enough room beside the title for the whole pill (measured by the card, see _fitPill): the pill on its own line
-     under the other lines; very narrow: its dot only. */
+  /* Not enough room beside the whole title for the whole pill (measured by the card, see _fitPill): the pill on its own
+     line under the other lines (kept to one line); still no room, or very narrow: its dot only. */
   .titles.below { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; }
   .titles.below .trow { display: contents; } .titles.below .trow > .name, .titles.below .trow > .mline { max-width: 100%; }
   .titles.below > :not(.trow) { justify-self: stretch; }
   .titles.below .hpill { order: 9; max-width: 100%; margin-top: 2px; }
+  .titles.below > .stats { white-space: nowrap; }
+  .titles.dot-only .hpill { padding: 4px; }
+  .titles.dot-only .hpill .t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   @container tp-card (max-width: 200px) { .hpill { padding: 4px; } .hpill .t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
   .iconbtn.spinning .icon { animation: tp-spin 1s linear infinite; }
   .tools .chip { background: rgba(255,255,255,.75); } .banner.night .tools .chip { background: rgba(10,20,40,.5); color: color-mix(in srgb, var(--c) 45%, #fff); }
