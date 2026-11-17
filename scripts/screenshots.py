@@ -168,6 +168,9 @@ STATES = {
     "sensor.star_arriving_next_departure": stop(
         "sensor.star_arriving_next_departure", "République", "bus", [dep("C4", 1, "ZA Saint-Sulpice"), *BUS[1:]]
     ),
+    "sensor.star_gares_next_departure": stop(
+        "sensor.star_gares_next_departure", "Gares", "bus", [dep("C4", 6, "ZA Saint-Sulpice", delay=3), *BUS[1:]]
+    ),
     "sensor.star_metro_major_next_departure": stop(
         "sensor.star_metro_major_next_departure", "Charles de Gaulle", "metro", METRO, MAJOR
     ),
@@ -438,9 +441,12 @@ for _key, _net in NETWORKS.items():
     )
 
 SHOTS = [
-    # The full card on a bus stop: the banner (the bus idles before the stop), the next departure, the following ones, folded alerts.
+    # The full card on a bus stop: the banner (the bus idles at the stop, a disruption sign for its alert), the next departure, the following ones, folded alerts.
     {"file": "card", "theme": "light", "config": {"entities": ["sensor.star_republique_next_departure"]}},
     {"file": "card-dark", "theme": "dark", "config": {"entities": ["sensor.star_republique_next_departure"]}},
+    # A delayed bus (no alert): the amber icon, the delay tag under the stop's display.
+    {"file": "card-delayed", "theme": "light", "config": {"entities": ["sensor.star_gares_next_departure"]}},
+    {"file": "card-delayed-dark", "theme": "dark", "config": {"entities": ["sensor.star_gares_next_departure"]}},
     # Two stops (metro and bus): their tabs, the traffic alerts unfolded.
     {
         "file": "card-alerts",
@@ -477,6 +483,25 @@ SHOTS = [
             "entities": ["sensor.star_republique_metro_next_departure", "sensor.star_republique_next_departure"]
         },
     },
+    # The mini card expanded by its detail button: the full card, at the full card's width.
+    {
+        "file": "mini-card-zoom",
+        "theme": "light",
+        "element": "public-transport-mini-card",
+        "zoom": True,
+        "config": {
+            "entities": ["sensor.star_republique_metro_next_departure", "sensor.star_republique_next_departure"]
+        },
+    },
+    {
+        "file": "mini-card-zoom-dark",
+        "theme": "dark",
+        "element": "public-transport-mini-card",
+        "zoom": True,
+        "config": {
+            "entities": ["sensor.star_republique_metro_next_departure", "sensor.star_republique_next_departure"]
+        },
+    },
 ]
 
 # Each other network: the full card and the mini card, light and dark.
@@ -496,13 +521,13 @@ for _key in NETWORKS:
 
 # One GIF per animation, each with a dark twin (same setup): seconds is one loop of the animation.
 ANIMATIONS = [
-    # The next bus is a minute away: it drives in to the stop, waves rise from the sign (real time).
-    {"file": "arriving", "config": {"entities": ["sensor.star_arriving_next_departure"]}, "seconds": 3.2},
-    # The next train is a minute away: it glides in along the rails to the covered platform.
-    {"file": "arriving-metro", "config": {"entities": ["sensor.star_republique_metro_next_departure"]}, "seconds": 3.2},
-    # The next tram is two minutes away: it glides in under its catenary, on a grass track.
-    {"file": "arriving-tram", "config": {"entities": ["sensor.cts_next_departure"]}, "seconds": 3.2},
-    # The next bus is minutes away: it idles before the stop, engine running.
+    # The next bus is a minute away: it drives in to the stop, the display blinks, waves ripple from it (real time).
+    {"file": "arriving", "config": {"entities": ["sensor.star_arriving_next_departure"]}, "seconds": 4.0},
+    # The next train is a minute away: it glides in along the rails to the platform.
+    {"file": "arriving-metro", "config": {"entities": ["sensor.star_republique_metro_next_departure"]}, "seconds": 4.0},
+    # The next tram is two minutes away: it glides in under its wire.
+    {"file": "arriving-tram", "config": {"entities": ["sensor.cts_next_departure"]}, "seconds": 4.0},
+    # The next bus is minutes away: it idles at the stop, engine running.
     {"file": "waiting", "config": {"entities": BUS_STOP}, "seconds": 1.6},
     # A major disruption: the alert sign shakes.
     {
@@ -586,6 +611,9 @@ def mount(context, shot):
             "dark": shot["theme"] == "dark",
         },
     )
+    if shot.get("zoom"):
+        page.locator('[data-action="detail"]').click()
+        page.mouse.move(0, 0)
     return page
 
 
