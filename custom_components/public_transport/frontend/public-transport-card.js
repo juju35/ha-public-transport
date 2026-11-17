@@ -1681,7 +1681,8 @@ class TransportCard extends HTMLElement {
 
   // The header's status, for the icon's color and the stop's display: disrupted (a grave alert, stale or unavailable
   // data), late (the next departure runs late), on time, or none (nothing announced).
-  _headerStatus(stops, next) {
+  // The highest level of the stops' traffic alerts (0 without any, or when they are hidden).
+  _alertLevel(stops) {
     var level = 0;
     if (this._config.show_alerts) {
       stops.forEach((s) => {
@@ -1690,6 +1691,11 @@ class TransportCard extends HTMLElement {
         });
       });
     }
+    return level;
+  }
+
+  _headerStatus(stops, next) {
+    var level = this._alertLevel(stops);
     var down = !stops.some((s) => this._usable(s));
     if (level >= 2 || down || stops.some((s) => s.st?.attributes?.stale)) return 'disrupted';
     if (!next) return 'none';
@@ -1741,14 +1747,7 @@ class TransportCard extends HTMLElement {
   _headerPill(stops, next, status, t) {
     var text;
     if (status === 'disrupted') {
-      var level = 0;
-      if (this._config.show_alerts) {
-        stops.forEach((s) => {
-          (s.st?.attributes?.alerts || []).forEach((al) => {
-            level = Math.max(level, al.level || 1);
-          });
-        });
-      }
+      var level = this._alertLevel(stops);
       text = level >= 2 ? t[`level_${Math.min(3, level)}`] : t.offline;
     } else if (status === 'late') text = transportFill(t.late_short, { n: Number(next.delay) || 0 });
     else if (status === 'none') text = t.no_departures_short;
