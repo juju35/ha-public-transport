@@ -1299,6 +1299,16 @@ function transportEsc(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
 }
 
+// The width of an element's first four characters and an ellipsis, in its own font: the least a cut title keeps.
+var transportFourCtx;
+function transportFourChars(el) {
+  var cs = getComputedStyle(el);
+  transportFourCtx = transportFourCtx || document.createElement('canvas').getContext?.('2d');
+  if (!transportFourCtx) return 0;
+  transportFourCtx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+  return transportFourCtx.measureText(`${[...el.textContent.trim()].slice(0, 4).join('')}\u2026`).width;
+}
+
 function transportIcon(name, cls) {
   return `<svg class="icon ${cls || ''}" viewBox="0 0 24 24" aria-hidden="true"><path d="${TRANSPORT_ICONS[name] || ''}"/></svg>`;
 }
@@ -1487,12 +1497,47 @@ class TransportCard extends HTMLElement {
     document.addEventListener('click', this._onOutside, true);
     // The countdown follows the clock between two sensor updates.
     if (!this._timer) this._timer = setInterval(() => this._render(), 15000);
+    // A new width (or the web font loaded): the status pill is fitted again, in the next frame.
+    if (typeof ResizeObserver === 'function') {
+      this._resize = this._resize || new ResizeObserver((entries) => {
+        var w = Math.round(entries[entries.length - 1].contentRect.width);
+        if (w === this._fitWidth) return;
+        this._fitWidth = w;
+        cancelAnimationFrame(this._fitFrame);
+        this._fitFrame = requestAnimationFrame(() => this._fitPill());
+      });
+      this._resize.observe(this);
+    }
+    document.fonts?.ready?.then(() => this._fitPill());
   }
 
   disconnectedCallback() {
     document.removeEventListener('click', this._onOutside, true);
     clearInterval(this._timer);
     this._timer = null;
+    this._resize?.disconnect();
+    this._fitWidth = null;
+  }
+
+  // The banner's status pill goes right after the title when its whole label fits there beside a title cut down to
+  // four characters (for the next departure's line: its badge and four characters of its destination); otherwise it
+  // takes a line of its own under the other lines (.titles.below). Measured, so that a short title keeps its pill
+  // beside it whatever room the picture leaves.
+  _fitPill() {
+    (this._root?.querySelectorAll?.('.banner .titles') || []).forEach((t) => {
+      var pill = t.querySelector('.trow > .hpill');
+      if (!pill?.getBoundingClientRect) return;
+      t.classList.remove('below');
+      var row = pill.parentElement;
+      var head = row.firstElementChild;
+      var text = head?.classList.contains('mline') ? head.querySelector('.dest') : head;
+      var title = 0;
+      if (head && head !== pill && text && getComputedStyle(head).display !== 'none') {
+        var lead = head === text ? 0 : text.getBoundingClientRect().left - head.getBoundingClientRect().left;
+        title = lead + Math.min(text.scrollWidth, transportFourChars(text)) + (parseFloat(getComputedStyle(row).columnGap) || 0);
+      }
+      if (title + pill.getBoundingClientRect().width > row.getBoundingClientRect().width + 0.5) t.classList.add('below');
+    });
   }
 
   getCardSize() {
@@ -1550,6 +1595,7 @@ class TransportCard extends HTMLElement {
       ? `<div class="empty">${transportEsc(t.no_entity)}</div>`
       : this._compact() ? this._renderCompact(stops, t) : this._renderFull(stops, t);
     this._root.querySelector('ha-card').classList.toggle('mini', this._compact());
+    this._fitPill();
     if (focused) this._root.querySelector(`[data-focus="${CSS?.escape ? CSS.escape(focused) : focused}"]`)?.focus?.({ preventScroll: true });
   }
 
@@ -2026,26 +2072,27 @@ class TransportCard extends HTMLElement {
   .banner.night .iconbtn { color: #fff; background: rgba(255,255,255,.12); box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); }
   .iconbtn .icon { width: 16px; height: 16px; }
   .iconbtn:hover { background: rgba(255,255,255,.75); } .banner.night .iconbtn:hover { background: rgba(255,255,255,.22); }
-  .htext { right: max(calc(var(--sw) + 4px), var(--tw, 0px)); container: tp-head / inline-size; }
+  /* The text may run 16 px over the pale left edge of the skyline, so that a short title keeps its pill beside it. */
+  .htext { right: max(calc(var(--sw) - 16px), var(--tw, 0px)); container: tp-head / inline-size; }
   .banner.plain .htext { right: var(--tw, 48px); }
-  /* The status pill right after the title (the title ellipsised first, never under 5 characters), centred on it. */
+  /* The status pill right after the title with its whole label (the title ellipsised first, down to 4 characters),
+     centred on it. */
   .trow { display: flex; align-items: center; gap: 8px; min-width: 0; }
   .trow > .name, .trow > .mline { flex: 0 1 auto; min-width: 0; }
   .trow .mline .dest { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
   .hpill { flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 12px; font-size: 11px; font-weight: 500;
-           line-height: 16px; white-space: nowrap; box-sizing: border-box; max-width: calc(100% - 56px); overflow: hidden; --c: var(--si-ontime);
+           line-height: 16px; white-space: nowrap; box-sizing: border-box; max-width: none; overflow: hidden; --c: var(--si-ontime);
            background: color-mix(in srgb, var(--c) 18%, rgba(255,255,255,.78)); color: color-mix(in srgb, var(--c) 45%, #0d2a45); }
   .hpill .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   .hpill .dot { background: var(--c); }
   .banner.night .hpill { background: color-mix(in srgb, var(--c) 30%, rgba(8,18,38,.55)); color: color-mix(in srgb, var(--c) 35%, #ffffff); }
   .banner.st-late .hpill { --c: var(--si-late); } .banner.st-disrupted .hpill { --c: var(--si-disrupted); } .banner.st-none .hpill { --c: var(--si-none); }
-  /* Not enough room beside the title: the pill on its own line under the other lines; very narrow: its dot only. */
-  @container tp-head (max-width: 215px) {
-    .titles { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; }
-    .trow { display: contents; } .trow > .name, .trow > .mline { max-width: 100%; }
-    .titles > :not(.trow) { justify-self: stretch; }
-    .hpill { order: 9; max-width: 100%; margin-top: 2px; }
-  }
+  /* Not enough room beside the title for the whole pill (measured by the card, see _fitPill): the pill on its own line
+     under the other lines; very narrow: its dot only. */
+  .titles.below { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  .titles.below .trow { display: contents; } .titles.below .trow > .name, .titles.below .trow > .mline { max-width: 100%; }
+  .titles.below > :not(.trow) { justify-self: stretch; }
+  .titles.below .hpill { order: 9; max-width: 100%; margin-top: 2px; }
   @container tp-card (max-width: 200px) { .hpill { padding: 4px; } .hpill .t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
   .iconbtn.spinning .icon { animation: tp-spin 1s linear infinite; }
   .tools .chip { background: rgba(255,255,255,.75); } .banner.night .tools .chip { background: rgba(10,20,40,.5); color: color-mix(in srgb, var(--c) 45%, #fff); }
