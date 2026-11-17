@@ -203,7 +203,7 @@ test('show_scene false hides the scene, max_departures limits the rows', () => {
   const card = makeCard(TransportCard, { show_scene: false, max_departures: 1 }, states);
   const html = card._renderFull(card._stops(), TransportI18n.en);
   assert.doesNotMatch(html, /class="scene/);
-  assert.match(html, /class="banner bus plain"/);
+  assert.match(html, /class="banner bus plain st-ontime"/);
   assert.equal((html.match(/class="dep[ "]/g) || []).length, 1);
 });
 
@@ -384,4 +384,50 @@ test('the network logo replaces the header icon when every stop shares it', () =
   assert.equal(one._logo(one._stops()), logo);
   const mixed = makeCard(TransportCard, {}, { 'sensor.a': stopState({}, { logo }), 'sensor.b': stopState() });
   assert.equal(mixed._logo(mixed._stops()), '');
+});
+
+test('the header status colors the icon and the stop display: on time, delayed, disrupted, none', () => {
+  const render = (attrs, config = {}) => {
+    const states = { 'sensor.a': stopState({}, attrs) };
+    const card = makeCard(TransportCard, config, states);
+    return card._renderFull(card._stops(), TransportI18n.en);
+  };
+  assert.match(render({}), /class="banner bus st-ontime"/);
+  const late = render({ departures: [dep('C4', 6, { delay: 3 })] });
+  assert.match(late, /st-late/);
+  assert.match(late, /class="late">.*>\+3'</);
+  const grave = render({ alerts: [{ id: 'x', level: 2 }] });
+  assert.match(grave, /st-disrupted/);
+  assert.match(grave, /class="alert"/);
+  // A mere information does not disrupt; hidden alerts do not either.
+  assert.match(render({ alerts: [{ id: 'x', level: 1 }] }), /st-ontime/);
+  assert.match(render({ alerts: [{ id: 'x', level: 3 }] }, { show_alerts: false }), /st-ontime/);
+  assert.match(render({ stale: true }), /st-disrupted/);
+  const none = render({ departures: [] });
+  assert.match(none, /st-none/);
+  assert.match(none, />--</);
+  assert.match(render({ departures: [dep('C4', 1)] }), /class="bmin blink"[^>]*>▶</);
+  assert.match(render({ departures: [dep('C4', 7)] }), />7&#39;</);
+});
+
+test('the banner is 90px with a 10px road or rail strip; illustration_theme forces day or night; illustration false keeps a classic header', () => {
+  const css = TransportCard._styles();
+  assert.match(css, /height: 90px;/);
+  assert.match(css, /--g: 10px;/);
+  const night = vm.runInContext('transportIsNight', context);
+  const dark = { states: { 'sun.sun': { state: 'below_horizon' } } };
+  assert.equal(night(dark, { illustration_theme: 'day' }), false);
+  assert.equal(night({ states: {} }, { illustration_theme: 'night' }), true);
+  assert.equal(night(dark, { illustration_theme: 'auto' }), true);
+  const card = makeCard(TransportCard, { illustration_theme: 'night' });
+  assert.match(card._renderFull(card._stops(), TransportI18n.en), /class="banner bus night st-ontime"[^>]*><div class="ground g-road">/);
+  const plain = makeCard(TransportCard, { illustration: false });
+  const html = plain._renderFull(plain._stops(), TransportI18n.en);
+  assert.doesNotMatch(html, /class="scene/);
+  assert.match(html, /plain/);
+  const fields = JSON.stringify(transportEditorSchema(TransportI18n.en.editor));
+  assert.match(fields, /"illustration_theme"/);
+  for (const lang of Object.keys(TransportI18n)) {
+    for (const key of ['illustration_theme', 'theme_auto', 'theme_day', 'theme_night']) assert.ok(TransportI18n[lang].editor[key], `${lang}.${key}`);
+  }
 });

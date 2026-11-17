@@ -437,6 +437,7 @@ entities:
 title: To work
 show_title: true
 show_scene: true
+illustration_theme: auto
 show_alerts: true
 show_refresh: true
 max_departures: 5
@@ -451,14 +452,26 @@ language: en
 | `entities` | every stop | Stop sensors (`sensor.*_next_departure`) to show, in this order; line sensors (`sensor.*_line_*`) work too |
 | `title` | the stop's name | Card title (`Next departures` for stops of different names) |
 | `show_title` | `true` | Show the title on the banner (e.g. `false` under a section heading of your own) |
-| `show_scene` | `true` | Show the banner's animated scene and its street or track (`false`: the sky alone) |
+| `show_scene` | `true` | Show the banner's animated scene and its street or track (`false`: a classic header, the sky alone); `illustration: false` does the same |
+| `illustration_theme` | `auto` | Day or night picture of the banner: `auto` (night when the sun is down, else Home Assistant's dark mode), `day` or `night` |
 | `show_alerts` | `true` | Show the traffic alerts (and their count above the departures) |
 | `show_refresh` | `true` | Show the refresh button |
 | `max_departures` | `5` | Rows shown after the next departure, one per line and destination with its next times (up to the integration's *Departures kept*) |
 | `time_format` | `relative` | `relative`: countdown (`4 min`, `Now`), clock time from an hour; `absolute`: always the clock time |
 | `language` | Auto | Force language: `en`, `fr`, `de`, `es`, `sr`, `sr-Latn`, `it`, `nl`, `pt`, `pl`, `ro`, `da`, `sv`, `bg`, `ru`, `uk`, `hu`, `sk`, `cs`, `sl`, `lv` or `el` (auto-detects from HA settings) |
 
-The mini card takes the same options; `max_departures` applies to its full view, `show_scene` to both views.
+The mini card takes the same options; `max_departures` applies to its full view, `show_scene` and `illustration_theme` to both views.
+
+### Banner
+
+Both cards open on a 90px illustrated banner: the stop's name (full card) or the next departure (mini card) on the sky, a city stop at the right — buildings, the platform, the stop's display with the line and its countdown, and the bus, metro or tram in its line color — over a road or a track that runs under the whole width. The round icon and the stop's display tell the status:
+
+| Status | Icon | Scene |
+|---|---|---|
+| On time | green | the display counts down (`▶` when the vehicle is at the stop) |
+| Delayed (2 min or more, real time) | amber | an amber `+n'` tag under the display |
+| Disrupted (a disruption alert, stale or unavailable data) | red | a red warning sign under the display, the countdown in red |
+| No departure | grey | no vehicle, the display shows `--` |
 
 ## Screenshots
 
@@ -466,25 +479,25 @@ The mini card takes the same options; `max_departures` applies to its full view,
 
 Each animation of the card, in the light and dark themes (the dark theme shows the night picture, also used after sunset).
 
-**The next departure is close** (2 minutes or less): the bus, with its line color and number, drives in and stops at the shelter; waves rise from the sign while the time is real time, the countdown pulses and the vehicle reaches the end of the approach bar.
+**The next departure is close** (2 minutes or less): the bus, with its line color and number, drives in and stops at the platform, the stop's display blinks `▶`; waves ripple from the display while the time is real time, the countdown pulses and the vehicle reaches the end of the approach bar.
 
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving.gif" alt="bus arriving" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-dark.gif" alt="bus arriving dark" width="400"> |
 
-**At a metro station**, the train glides in along the rails to the covered platform.
+**At a metro station**, the train glides in along the rails to the platform.
 
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-metro.gif" alt="metro arriving" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-metro-dark.gif" alt="metro arriving dark" width="400"> |
 
-**At a tram stop**, the tram glides in under its catenary, on a grass track.
+**At a tram stop**, the tram glides in under its wire, its pantographs up.
 
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-tram.gif" alt="tram arriving" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/arriving-tram-dark.gif" alt="tram arriving dark" width="400"> |
 
-**The next departure is a few minutes away**: the bus idles before the stop, engine running.
+**The next departure is a few minutes away**: the bus idles at the stop, engine running, the display counting down.
 
 | Light | Dark |
 |---|---|
@@ -511,6 +524,12 @@ A bus stop: the banner with the stop's figures and its scene, the next departure
 | Light | Dark |
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card.png" alt="card" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-dark.png" alt="card dark" width="400"> |
+
+A delayed bus: the icon turns amber and the stop's display shows the delay.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-delayed.png" alt="delayed card" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-delayed-dark.png" alt="delayed card dark" width="400"> |
 
 Two stops (the metro station and the bus stop of the same name): the *All* tab, then one per mode; the traffic alerts unfolded: level, lines concerned, validity and a link to the network's page.
 

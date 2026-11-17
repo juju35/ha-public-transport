@@ -1,4 +1,4 @@
-var TRANSPORT_CARD_VERSION = '1.5.0';
+var TRANSPORT_CARD_VERSION = '1.6.0';
 
 // ── Header icon: tinted round icon in the integration's accent (the integration keeps its brand/icon.png) ──────
 var TRANSPORT_ACCENT = '#00897b';
@@ -47,6 +47,10 @@ var TransportI18n = {
       title: 'Title',
       show_title: 'Show the title',
       show_scene: 'Show the animated scene',
+      illustration_theme: 'Illustration theme',
+      theme_auto: 'Automatic (sun)',
+      theme_day: 'Day',
+      theme_night: 'Night',
       show_alerts: 'Show traffic alerts',
       show_refresh: 'Show the refresh button',
       max_departures: 'Departures per stop',
@@ -99,6 +103,10 @@ var TransportI18n = {
       title: 'Titre',
       show_title: 'Afficher le titre',
       show_scene: 'Afficher la scène animée',
+      illustration_theme: 'Thème de l’illustration',
+      theme_auto: 'Automatique (soleil)',
+      theme_day: 'Jour',
+      theme_night: 'Nuit',
       show_alerts: 'Afficher les alertes trafic',
       show_refresh: 'Afficher le bouton Actualiser',
       max_departures: 'Départs par arrêt',
@@ -151,6 +159,10 @@ var TransportI18n = {
       title: 'Titel',
       show_title: 'Titel anzeigen',
       show_scene: 'Animierte Szene anzeigen',
+      illustration_theme: 'Thema der Illustration',
+      theme_auto: 'Automatisch (Sonne)',
+      theme_day: 'Tag',
+      theme_night: 'Nacht',
       show_alerts: 'Verkehrsmeldungen anzeigen',
       show_refresh: 'Aktualisieren-Schaltfläche anzeigen',
       max_departures: 'Abfahrten pro Haltestelle',
@@ -203,6 +215,10 @@ var TransportI18n = {
       title: 'Título',
       show_title: 'Mostrar el título',
       show_scene: 'Mostrar la escena animada',
+      illustration_theme: 'Tema de la ilustración',
+      theme_auto: 'Automático (sol)',
+      theme_day: 'Día',
+      theme_night: 'Noche',
       show_alerts: 'Mostrar los avisos de tráfico',
       show_refresh: 'Mostrar el botón Actualizar',
       max_departures: 'Salidas por parada',
@@ -255,6 +271,10 @@ var TransportI18n = {
       title: 'Titolo',
       show_title: 'Mostra il titolo',
       show_scene: 'Mostra la scena animata',
+      illustration_theme: 'Tema dell’illustrazione',
+      theme_auto: 'Automatico (sole)',
+      theme_day: 'Giorno',
+      theme_night: 'Notte',
       show_alerts: 'Mostra gli avvisi traffico',
       show_refresh: 'Mostra il pulsante Aggiorna',
       max_departures: 'Partenze per fermata',
@@ -307,6 +327,10 @@ var TransportI18n = {
       title: 'Titel',
       show_title: 'Titel tonen',
       show_scene: 'Geanimeerde scène tonen',
+      illustration_theme: 'Thema van de illustratie',
+      theme_auto: 'Automatisch (zon)',
+      theme_day: 'Dag',
+      theme_night: 'Nacht',
       show_alerts: 'Verkeersmeldingen tonen',
       show_refresh: 'Vernieuwknop tonen',
       max_departures: 'Vertrekken per halte',
@@ -359,6 +383,10 @@ var TransportI18n = {
       title: 'Título',
       show_title: 'Mostrar o título',
       show_scene: 'Mostrar a cena animada',
+      illustration_theme: 'Tema da ilustração',
+      theme_auto: 'Automático (sol)',
+      theme_day: 'Dia',
+      theme_night: 'Noite',
       show_alerts: 'Mostrar os alertas de tráfego',
       show_refresh: 'Mostrar o botão Atualizar',
       max_departures: 'Partidas por paragem',
@@ -411,6 +439,10 @@ var TransportI18n = {
       title: 'Tytuł',
       show_title: 'Pokaż tytuł',
       show_scene: 'Pokaż animowaną scenę',
+      illustration_theme: 'Motyw ilustracji',
+      theme_auto: 'Automatycznie (słońce)',
+      theme_day: 'Dzień',
+      theme_night: 'Noc',
       show_alerts: 'Pokaż komunikaty o utrudnieniach',
       show_refresh: 'Pokaż przycisk Odśwież',
       max_departures: 'Odjazdy na przystanek',
@@ -463,6 +495,10 @@ var TransportI18n = {
       title: 'Наслов',
       show_title: 'Прикажи наслов',
       show_scene: 'Прикажи анимирану сцену',
+      illustration_theme: 'Тема илустрације',
+      theme_auto: 'Аутоматски (сунце)',
+      theme_day: 'Дан',
+      theme_night: 'Ноћ',
       show_alerts: 'Прикажи саобраћајна упозорења',
       show_refresh: 'Прикажи дугме Освежи',
       max_departures: 'Поласци по станици',
@@ -515,6 +551,10 @@ var TransportI18n = {
       title: 'Naslov',
       show_title: 'Prikaži naslov',
       show_scene: 'Prikaži animiranu scenu',
+      illustration_theme: 'Tema ilustracije',
+      theme_auto: 'Automatski (sunce)',
+      theme_day: 'Dan',
+      theme_night: 'Noć',
       show_alerts: 'Prikaži saobraćajna upozorenja',
       show_refresh: 'Prikaži dugme Osveži',
       max_departures: 'Polasci po stanici',
@@ -567,6 +607,10 @@ var TransportI18n = {
       title: 'Titlu',
       show_title: 'Afișați titlul',
       show_scene: 'Afișați scena animată',
+      illustration_theme: 'Tema ilustrației',
+      theme_auto: 'Automat (soare)',
+      theme_day: 'Zi',
+      theme_night: 'Noapte',
       show_alerts: 'Afișați alertele de trafic',
       show_refresh: 'Afișați butonul Reîmprospătare',
       max_departures: 'Plecări per stație',
@@ -619,6 +663,10 @@ var TransportI18n = {
       title: 'Titel',
       show_title: 'Vis titlen',
       show_scene: 'Vis den animerede scene',
+      illustration_theme: 'Illustrationens tema',
+      theme_auto: 'Automatisk (sol)',
+      theme_day: 'Dag',
+      theme_night: 'Nat',
       show_alerts: 'Vis trafikmeddelelser',
       show_refresh: 'Vis knappen Opdater',
       max_departures: 'Afgange pr. stoppested',
@@ -671,6 +719,10 @@ var TransportI18n = {
       title: 'Titel',
       show_title: 'Visa titeln',
       show_scene: 'Visa den animerade scenen',
+      illustration_theme: 'Illustrationens tema',
+      theme_auto: 'Automatiskt (sol)',
+      theme_day: 'Dag',
+      theme_night: 'Natt',
       show_alerts: 'Visa trafikstörningar',
       show_refresh: 'Visa knappen Uppdatera',
       max_departures: 'Avgångar per hållplats',
@@ -723,6 +775,10 @@ var TransportI18n = {
       title: 'Заглавие',
       show_title: 'Покажи заглавието',
       show_scene: 'Покажи анимираната сцена',
+      illustration_theme: 'Тема на илюстрацията',
+      theme_auto: 'Автоматично (слънце)',
+      theme_day: 'Ден',
+      theme_night: 'Нощ',
       show_alerts: 'Покажи пътните известия',
       show_refresh: 'Покажи бутона Обнови',
       max_departures: 'Тръгвания на спирка',
@@ -775,6 +831,10 @@ var TransportI18n = {
       title: 'Заголовок',
       show_title: 'Показывать заголовок',
       show_scene: 'Показывать анимированную сцену',
+      illustration_theme: 'Тема иллюстрации',
+      theme_auto: 'Автоматически (солнце)',
+      theme_day: 'День',
+      theme_night: 'Ночь',
       show_alerts: 'Показывать транспортные оповещения',
       show_refresh: 'Показывать кнопку «Обновить»',
       max_departures: 'Отправлений на остановку',
@@ -827,6 +887,10 @@ var TransportI18n = {
       title: 'Заголовок',
       show_title: 'Показувати заголовок',
       show_scene: 'Показувати анімовану сцену',
+      illustration_theme: 'Тема ілюстрації',
+      theme_auto: 'Автоматично (сонце)',
+      theme_day: 'День',
+      theme_night: 'Ніч',
       show_alerts: 'Показувати транспортні сповіщення',
       show_refresh: 'Показувати кнопку «Оновити»',
       max_departures: 'Відправлень на зупинку',
@@ -879,6 +943,10 @@ var TransportI18n = {
       title: 'Cím',
       show_title: 'Cím megjelenítése',
       show_scene: 'Animált jelenet megjelenítése',
+      illustration_theme: 'Az illusztráció témája',
+      theme_auto: 'Automatikus (nap)',
+      theme_day: 'Nappal',
+      theme_night: 'Éjszaka',
       show_alerts: 'Forgalmi riasztások megjelenítése',
       show_refresh: 'Frissítés gomb megjelenítése',
       max_departures: 'Indulások megállónként',
@@ -931,6 +999,10 @@ var TransportI18n = {
       title: 'Názov',
       show_title: 'Zobraziť názov',
       show_scene: 'Zobraziť animovanú scénu',
+      illustration_theme: 'Téma ilustrácie',
+      theme_auto: 'Automaticky (slnko)',
+      theme_day: 'Deň',
+      theme_night: 'Noc',
       show_alerts: 'Zobraziť dopravné upozornenia',
       show_refresh: 'Zobraziť tlačidlo Obnoviť',
       max_departures: 'Odchody na zastávku',
@@ -983,6 +1055,10 @@ var TransportI18n = {
       title: 'Název',
       show_title: 'Zobrazit název',
       show_scene: 'Zobrazit animovanou scénu',
+      illustration_theme: 'Motiv ilustrace',
+      theme_auto: 'Automaticky (slunce)',
+      theme_day: 'Den',
+      theme_night: 'Noc',
       show_alerts: 'Zobrazit dopravní upozornění',
       show_refresh: 'Zobrazit tlačítko Obnovit',
       max_departures: 'Odjezdy na zastávku',
@@ -1035,6 +1111,10 @@ var TransportI18n = {
       title: 'Naslov',
       show_title: 'Prikaži naslov',
       show_scene: 'Prikaži animirano sceno',
+      illustration_theme: 'Tema ilustracije',
+      theme_auto: 'Samodejno (sonce)',
+      theme_day: 'Dan',
+      theme_night: 'Noč',
       show_alerts: 'Prikaži prometna opozorila',
       show_refresh: 'Prikaži gumb Osveži',
       max_departures: 'Odhodi na postajališče',
@@ -1087,6 +1167,10 @@ var TransportI18n = {
       title: 'Virsraksts',
       show_title: 'Rādīt virsrakstu',
       show_scene: 'Rādīt animēto ainu',
+      illustration_theme: 'Ilustrācijas motīvs',
+      theme_auto: 'Automātiski (saule)',
+      theme_day: 'Diena',
+      theme_night: 'Nakts',
       show_alerts: 'Rādīt satiksmes brīdinājumus',
       show_refresh: 'Rādīt pogu Atsvaidzināt',
       max_departures: 'Atiešanas uz pieturu',
@@ -1139,6 +1223,10 @@ var TransportI18n = {
       title: 'Τίτλος',
       show_title: 'Εμφάνιση τίτλου',
       show_scene: 'Εμφάνιση κινούμενης σκηνής',
+      illustration_theme: 'Θέμα εικονογράφησης',
+      theme_auto: 'Αυτόματα (ήλιος)',
+      theme_day: 'Ημέρα',
+      theme_night: 'Νύχτα',
       show_alerts: 'Εμφάνιση ειδοποιήσεων κυκλοφορίας',
       show_refresh: 'Εμφάνιση κουμπιού Ανανέωση',
       max_departures: 'Αναχωρήσεις ανά στάση',
@@ -1157,6 +1245,7 @@ var TRANSPORT_DEFAULTS = {
   show_scene: true,
   show_alerts: true,
   show_refresh: true,
+  illustration_theme: 'auto',
   max_departures: 5,
   time_format: 'relative',
 };
@@ -1244,16 +1333,23 @@ function transportInDialog(ev) {
 }
 
 // ── The banner's illustration ─────────────────────────────────────────────────
-// A street scene at the right of the banner, drawn in a 200 × 128 box (x 70–270, the vehicle's path starts at
-// x 70): pale buildings, a tree, the stop (a shelter for buses, a covered platform for metros and trams) and the
-// vehicle of the next departure in its line color. The road or the track is not part of the picture: it is a band
-// of the banner (CSS) that runs under the text too, at the scene's height. Generic shapes, no operator livery.
+// A city stop at the right of the banner, drawn in a 200 × 80 box (bottom right aligned): pale buildings with
+// their windows, the platform, the stop's pole with its departure display (line, countdown) and the vehicle of the
+// next departure in its line color (a bus, two metro cars, or a tram under its wire). The road or the track is not
+// part of the picture: it is a 10px strip of the banner (CSS) that runs under the text too. Generic shapes, no
+// operator livery. The display and its sign tell the state: on time, delayed (+n'), or disrupted (a red sign).
 
 // Approach bar: the vehicle reaches the stop when the countdown reaches zero, from this many minutes away.
 var TRANSPORT_APPROACH = 10;
 
-// Night picture: the sun below the horizon, else Home Assistant's dark mode.
-function transportIsNight(hass) {
+// Delayed: the next departure runs this many minutes late or more (real time).
+var TRANSPORT_LATE = 2;
+
+// Night picture: forced by illustration_theme, else the sun below the horizon, else Home Assistant's dark mode.
+function transportIsNight(hass, config) {
+  var theme = config?.illustration_theme;
+  if (theme === 'day') return false;
+  if (theme === 'night') return true;
   var sun = hass?.states?.['sun.sun'];
   if (sun && sun.state !== 'unavailable' && sun.state !== 'unknown') return sun.state === 'below_horizon';
   return !!hass?.themes?.darkMode;
@@ -1263,61 +1359,55 @@ function transportMode(mode) {
   return mode === 'metro' || mode === 'tram' ? mode : 'bus';
 }
 
-// The bus, front to the right, at x 70–198 (wheels on the road at y 114).
+// The bus, front to the right (70 × 26, wheels on the platform), the line on its front display.
 function transportBusSvg(color, label) {
-  return '<g transform="translate(70 67)">' +
-    '<rect class="body" x="0" y="0" width="128" height="40" rx="7"/>' +
-    '<path class="glass" d="M112 0h9a7 7 0 0 1 7 7v14h-16z"/><rect class="glass" x="8" y="7" width="98" height="13" rx="3"/>' +
-    '<g class="pillar"><rect x="31" y="7" width="2" height="13"/><rect x="56" y="7" width="2" height="13"/><rect x="81" y="7" width="2" height="13"/></g>' +
-    `<rect x="0" y="26" width="128" height="5" fill="${color}"/>` +
-    '<rect class="door" x="40" y="21" width="14" height="17" rx="1.5"/><rect class="door" x="88" y="21" width="14" height="17" rx="1.5"/>' +
-    `<rect class="girouette" x="112.6" y="1.4" width="13" height="4.4" rx="1"/><text class="gtext" x="119.1" y="4.9" text-anchor="middle">${label}</text>` +
-    '<circle class="lamp" cx="125" cy="33" r="1.8"/>' +
-    '<g class="wheel"><circle cx="24" cy="41" r="6.5"/><circle class="hub" cx="24" cy="41" r="2.5"/></g>' +
-    '<g class="wheel"><circle cx="104" cy="41" r="6.5"/><circle class="hub" cx="104" cy="41" r="2.5"/></g>' +
-    '<g class="puff"><circle cx="-3" cy="36" r="3"/></g></g>';
+  return `<rect x="0" y="-26" width="70" height="24" rx="5" fill="${color}"/><rect x="0" y="-26" width="70" height="5" rx="3" fill="${color}" opacity=".7"/>` +
+    [6, 20, 34, 48].map((x) => `<rect class="bwin" x="${x}" y="-20" width="11" height="9" rx="1.5"/>`).join('') +
+    '<rect class="bwin" x="60" y="-20" width="8" height="15" rx="1"/><rect x="4" y="-7" width="52" height="2" fill="#fff" opacity=".6"/>' +
+    '<g class="wheel"><circle cx="14" cy="-1" r="4.4"/><circle cx="56" cy="-1" r="4.4"/></g>' +
+    `<rect x="2" y="-24" width="14" height="5" rx="1" fill="#1a1d22"/><text class="gtext" x="9" y="-20.2" text-anchor="middle">${label}</text>` +
+    '<path class="beam" d="M70 -8 L92 -12 V-2Z"/><g class="puff"><circle cx="-3" cy="-4" r="3"/></g>';
 }
 
-// Two metro cars and their cab (x 80–235), or one long tram with its pantograph; the line's disc on the front.
+// Two metro cars (46 each), or a tram with a pantograph on each car; the line's tag on the first car.
 function transportTrainSvg(mode, color, text, label) {
-  var car = (x, w) => `<rect class="body" x="${x}" y="0" width="${w}" height="34" rx="5"/>` +
-    `<rect class="glass" x="${x + 6}" y="6" width="${w - 12}" height="12" rx="3"/>` +
-    `<rect x="${x}" y="22" width="${w}" height="4" fill="${color}"/>` +
-    `<rect class="door" x="${x + w / 2 - 7}" y="19" width="14" height="14" rx="1.5"/>` +
-    `<g class="wheel"><circle cx="${x + 16}" cy="35" r="4.5"/><circle cx="${x + w - 16}" cy="35" r="4.5"/></g>`;
-  var cars = mode === 'tram' ? car(0, 141) : `${car(0, 74)}${car(77, 64)}<rect class="gangway" x="74" y="8" width="3" height="20"/>`;
-  var panto = mode === 'tram' ? '<g class="panto"><path d="M58 0 66 -9 58 -15"/><path d="M52 -15h14"/></g>' : '';
-  return `<g transform="translate(80 70)">${panto}${cars}` +
-    '<path class="body" d="M141 0h4a10 10 0 0 1 10 10v24h-14z"/><path class="glass" d="M141 4h4a7 7 0 0 1 7 7v7h-11z"/>' +
-    `<rect x="141" y="22" width="14" height="4" fill="${color}"/>` +
-    `<circle cx="148" cy="29.6" r="3.8" fill="${color}"/><text class="disc" x="148" y="31.1" text-anchor="middle" fill="${text}">${label}</text>` +
-    '<circle class="lamp" cx="153.4" cy="31.4" r="1.3"/></g>';
+  var car = (k) => `<g transform="translate(${k * 46} 0)"><path class="body" d="M0 -22 q0 -6 6 -6 h34 q6 0 6 6 v18 h-46z"/>` +
+    `<rect x="0" y="-11" width="46" height="4" fill="${color}"/>` +
+    [5, 17, 29].map((x) => `<rect class="win" x="${x}" y="-24" width="9" height="9" rx="1.5"/>`).join('') +
+    `<g class="wheel"><circle cx="10" cy="-2" r="2.8"/><circle cx="36" cy="-2" r="2.8"/></g>` +
+    (mode === 'tram' ? '<path class="pa" d="M20 -28 L26 -34 L20 -38 M15 -38 H27"/>' : '') + '</g>';
+  return (mode === 'tram' ? '<g class="panto">' : '<g>') + car(0) + car(1) + '</g>' +
+    '<circle class="lamp" cx="91" cy="-18" r="2"/>' +
+    `<rect x="2" y="-26" width="12" height="5" rx="1" fill="${color}"/><text class="disc" x="8" y="-22.2" text-anchor="middle" fill="${text}">${label}</text>`;
 }
 
-function transportSceneSvg(mode, state, color, text, line, live) {
+// mode: bus | metro | tram; state: arriving | waiting | empty; board: the display's countdown; status: ontime | late
+// | disrupted | none; delay: minutes late (shown on a tag under the display when late).
+function transportSceneSvg(mode, state, color, text, line, live, board, status, delay) {
   var label = transportEsc(String(line).slice(0, 3));
   var vehicle = mode === 'bus' ? transportBusSvg(color, label) : transportTrainSvg(mode, color, text, label);
-  var icon = `<path transform="translate(%X %Y) scale(.42)" fill="#fff" d="${TRANSPORT_ICONS[mode]}"/>`;
-  var stop = mode === 'bus'
-    ? '<g class="shelter"><rect class="roof" x="160" y="66" width="52" height="4" rx="2"/><rect class="pane" x="163" y="70" width="46" height="34"/>' +
-      '<rect class="roof" x="162" y="70" width="2" height="36"/><rect class="roof" x="208" y="70" width="2" height="36"/><rect class="roof" x="170" y="94" width="30" height="3" rx="1"/></g>' +
-      `<g class="sign"><rect class="pole" x="222" y="66" width="2.4" height="40"/><circle class="plate" cx="223.2" cy="66" r="8.5"/>${icon.replace('%X', '218.2').replace('%Y', '61')}</g>`
-    : '<g class="shelter"><rect class="roof" x="144" y="66" width="92" height="5" rx="2"/><rect class="pane" x="153" y="71" width="74" height="22"/>' +
-      '<rect class="roof" x="150" y="71" width="3" height="31"/><rect class="roof" x="227" y="71" width="3" height="31"/><rect class="platform" x="140" y="102" width="98" height="4"/></g>' +
-      `<g class="sign"><rect class="pole" x="244" y="64" width="2.4" height="42"/><rect class="plate" x="238" y="52" width="14.4" height="14.4" rx="3"/>${icon.replace('%X', '240.2').replace('%Y', '54.2')}</g>`;
-  var wire = mode === 'tram' ? '<g class="catenary"><path d="M70 55.6H270"/><rect x="128" y="54" width="2" height="52"/><rect x="262" y="54" width="2" height="52"/></g>' : '';
-  var waves = live && state !== 'empty'
-    ? `<g class="waves" transform="translate(${mode === 'bus' ? '223.2 66' : '245.2 59.2'})"><circle class="wave" r="12"/><circle class="wave d1" r="12"/><circle class="wave d2" r="12"/></g>`
+  var at = mode === 'bus' ? 'translate(92 75)' : 'translate(80 80)';
+  var windows = Array.from({ length: 26 }, (_, i) => `<rect x="${83 + (i * 17) % 116}" y="${22 + (i * 11) % 46}" width="2" height="2"/>`).join('');
+  var wire = mode === 'tram' ? '<g class="catenary"><path d="M60 42H200"/></g>' : '';
+  var tag = status === 'late' && delay > 0
+    ? `<g class="late"><rect x="1.6" y="-13" width="12" height="6" rx="1.2"/><text x="7.6" y="-8.6" text-anchor="middle">+${transportEsc(String(Math.min(delay, 99)))}'</text></g>`
     : '';
-  return '<svg class="scene" viewBox="70 0 200 128" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false">' +
-    '<g class="day"><circle class="sun" cx="150" cy="22" r="10"/><path class="cloud" d="M84 24a6 6 0 0 1 9-5 7 7 0 0 1 13 2 4 4 0 0 1 1 8H87a4 4 0 0 1-3-5z"/>' +
-    '<path class="cloud" d="M222 32a4 4 0 0 1 6-3.4 5 5 0 0 1 9 1.4 3 3 0 0 1 .6 6H224a3 3 0 0 1-2-4z"/></g>' +
-    '<g class="night"><path class="moon" d="M150 13a9 9 0 1 0 8 13.4 7.4 7.4 0 1 1-8-13.4z"/>' +
-    '<circle class="star" cx="96" cy="14" r="1"/><circle class="star tw" cx="210" cy="10" r="1.2"/><circle class="star" cx="250" cy="28" r="1"/><circle class="star tw" cx="120" cy="34" r=".9"/></g>' +
-    '<g class="far"><rect x="104" y="48" width="30" height="58" rx="2"/><rect x="200" y="46" width="34" height="60" rx="2"/><rect x="238" y="58" width="28" height="48" rx="2"/></g>' +
-    '<g class="lit"><rect x="110" y="56" width="5" height="6"/><rect x="122" y="72" width="5" height="6"/><rect x="208" y="56" width="5" height="6"/><rect x="222" y="70" width="5" height="6"/><rect x="244" y="66" width="5" height="6"/></g>' +
-    `<g class="tree"><rect class="trunk" x="94" y="88" width="3" height="18"/><circle cx="95.5" cy="82" r="11"/><circle class="leaf" cx="100" cy="78" r="6"/></g>${wire}${stop}${waves}` +
-    `<g class="veh ${state}">${vehicle}</g></svg>`;
+  var sign = status === 'disrupted'
+    ? '<g class="alert"><path d="M8 -13.6 l5.6 9.6 h-11.2z"/><text x="8" y="-5.2" text-anchor="middle">!</text></g>'
+    : '';
+  var waves = live && state !== 'empty'
+    ? '<g class="waves" transform="translate(-13 -20)"><circle class="wave" r="5"/><circle class="wave d1" r="5"/><circle class="wave d2" r="5"/></g>'
+    : '';
+  return '<svg class="scene" viewBox="0 0 200 80" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false">' +
+    '<g transform="translate(200 80) scale(1.3) translate(-200 -80)">' +
+    '<g class="stars"><circle cx="110" cy="8" r=".6"/><circle cx="150" cy="5" r=".6"/><circle class="tw" cx="186" cy="10" r=".6"/></g>' +
+    '<g class="far"><rect x="80" y="28" width="16" height="44"/><rect x="98" y="16" width="14" height="56"/><rect x="114" y="34" width="20" height="38"/>' +
+    '<rect x="136" y="22" width="14" height="50"/><rect x="152" y="30" width="18" height="42"/><rect x="172" y="18" width="14" height="54"/><rect x="188" y="34" width="14" height="38"/></g>' +
+    `<g class="lit">${windows}</g>${wire}<rect class="walk" x="76" y="74" width="124" height="6"/>` +
+    `<g transform="translate(186 74)"><rect class="pole" x="-1" y="-28" width="2" height="28"/><rect class="pole" x="-15" y="-28" width="30" height="2.4" rx="1"/>` +
+    `${waves}<rect class="board" x="-13" y="-25.6" width="26" height="11" rx="1.5"/><text class="bline" x="-11" y="-18.2" fill="${color}">${label}</text>` +
+    `<text class="bmin${state === 'arriving' ? ' blink' : ''}" x="11" y="-18.2" text-anchor="end">${transportEsc(board)}</text>${tag}${sign}</g>` +
+    `<g class="veh ${state}"><g transform="${at}">${vehicle}</g></g></g></svg>`;
 }
 
 // ── public-transport-card ─────────────────────────────────────────────────────
@@ -1567,30 +1657,57 @@ class TransportCard extends HTMLElement {
     return groups;
   }
 
-  // The banner: sky, the street or the track (a band under the whole width), the stop's scene with the vehicle of
-  // the next departure, and the text at the left: the stop and its figures (full card) or the next departure (mini).
+  // The header's status, for the icon's color and the stop's display: disrupted (a grave alert, stale or unavailable
+  // data), late (the next departure runs late), on time, or none (nothing announced).
+  _headerStatus(stops, next) {
+    var level = 0;
+    if (this._config.show_alerts) {
+      stops.forEach((s) => {
+        (s.st?.attributes?.alerts || []).forEach((al) => {
+          level = Math.max(level, al.level || 1);
+        });
+      });
+    }
+    var down = !stops.some((s) => this._usable(s));
+    if (level >= 2 || down || stops.some((s) => s.st?.attributes?.stale)) return 'disrupted';
+    if (!next) return 'none';
+    return next.realtime && (Number(next.delay) || 0) >= TRANSPORT_LATE ? 'late' : 'ontime';
+  }
+
+  // The stop's display: the vehicle at the stop (▶), the minutes (n'), the hours (nh), or -- with nothing announced.
+  _board(next, minutes) {
+    if (!next) return '--';
+    if (minutes <= TRANSPORT_SOON) return '▶';
+    return minutes < 60 ? `${minutes}'` : `${Math.floor(minutes / 60)}h`;
+  }
+
+  // The banner: sky, the street or the track (a 10px strip under the whole width), the stop's scene with the vehicle
+  // of the next departure, and the text at the left: the stop and its figures (full card) or the next departure (mini).
   _renderBanner(stops, next, t, now, mini) {
     var c = this._config;
     var first = stops.find((s) => s.st?.attributes) || stops[0];
     var mode = next ? next._mode : transportMode(first?.st?.attributes?.mode);
     var minutes = next ? transportMinutes(next.departure, now) : NaN;
     var state = !next ? 'empty' : minutes <= TRANSPORT_SOON ? 'arriving' : 'waiting';
-    var scene = c.show_scene
-      ? transportSceneSvg(mode, state, transportColor(next?.color, TRANSPORT_ACCENT), transportColor(next?.text_color, '#ffffff'), next ? next.line : '', !!next?.realtime)
+    var status = this._headerStatus(stops, next);
+    var illustrated = c.show_scene && c.illustration !== false;
+    var scene = illustrated
+      ? transportSceneSvg(mode, state, transportColor(next?.color, TRANSPORT_ACCENT), transportColor(next?.text_color, '#ffffff'), next ? next.line : '',
+        !!next?.realtime, this._board(next, minutes), status, next ? Number(next.delay) || 0 : 0)
       : '';
     var logo = this._logo(stops);
     var icon = `<div class="logo">${transportIcon(mode)}${logo ? `<span class="net"><img src="${transportEsc(logo)}" alt=""></span>` : ''}</div>`;
     var tools = '';
     if (mini) {
-      var status = this._status(stops, t);
-      if (status?.n) tools += `<span class="chip short ${status.cls} has-alerts" title="${transportEsc(status.text)}"><span class="dot"></span>${transportIcon('alert', 'cicon')}<span class="t">${status.n}</span></span>`;
+      var chip = this._status(stops, t);
+      if (chip?.n) tools += `<span class="chip short ${chip.cls} has-alerts" title="${transportEsc(chip.text)}"><span class="dot"></span>${transportIcon('alert', 'cicon')}<span class="t">${chip.n}</span></span>`;
     } else if (c.show_refresh) {
       tools += `<button class="iconbtn refresh${this._refreshing ? ' spinning' : ''}" data-action="refresh" data-focus="refresh" title="${transportEsc(t.refresh)}" aria-label="${transportEsc(t.refresh)}">${transportIcon('refresh')}</button>`;
     }
     tools += this._detailButton(t);
     var text = mini ? this._miniText(next, t, now) : this._bannerText(stops, t, now);
-    return `<div class="banner ${mode}${transportIsNight(this._hass) ? ' night' : ''}${scene ? '' : ' plain'}">` +
-      `${scene ? '<div class="ground"></div>' : ''}${scene}<div class="htext">${icon}<div class="titles">${text}</div></div>` +
+    return `<div class="banner ${mode}${transportIsNight(this._hass, c) ? ' night' : ''}${scene ? '' : ' plain'} st-${status}">` +
+      `${scene ? `<div class="ground g-${mode === 'bus' ? 'road' : 'rail'}"></div>` : ''}${scene}<div class="htext">${icon}<div class="titles">${text}</div></div>` +
       `${tools ? `<div class="tools">${tools}</div>` : ''}</div>`;
   }
 
@@ -1796,67 +1913,69 @@ class TransportCard extends HTMLElement {
   .chip.short:not(.has-alerts) { padding: 4px; } .chip.short:not(.has-alerts) .t { display: none; }
   [role="button"]:focus-visible, [role="tab"]:focus-visible, .iconbtn:focus-visible { outline: 2px solid var(--tp-accent); outline-offset: 2px; }
 
-  /* ── Banner: the sky, a band for the street or the track under the whole width, the scene at the right. ── */
-  .banner { --bh: 116px; --sh: min(var(--bh), calc(50cqw * .64)); --sw: calc(var(--sh) * 1.5625);
-            --sky1: #eef5fd; --sky2: #cfe3f7; --far: #dde8f3; --tree: #a9d494; --leaf: #8cc277; --ink-h: #10283f; --ink-s: #3d5670;
-            --walk: #dfe3e8; --road: #b9bfc7; --bal: #c9c3b8; --sleep: #9b8f80; --rail: #7d848d; --grass: #b5d39b; --pane: rgba(232,244,251,.7);
-            position: relative; height: var(--bh); overflow: hidden; color: var(--ink-h);
+  /* ── Banner (90px): the sky, a 10px strip for the street or the track under the whole width, the scene at the right. ── */
+  .banner { --g: 10px; --sw: min(calc((90px - var(--g)) * 2.5), 62%);
+            --sky1: #eef5fd; --sky2: #cfe3f7; --ink-h: #10283f; --ink-s: #3d5670;
+            --far: #b9cfe4; --lit: #e6f1fb; --lit-o: .9; --walk: #dfe3e8; --body: #f6f8fa; --win: #4a5a6e; --bwin: #dff1fb; --lamp: #fff;
+            --si-ontime: #2e8b3a; --si-late: #c77700; --si-disrupted: #d93025; --si-none: #7d8794;
+            position: relative; height: 90px; overflow: hidden; color: var(--ink-h);
             background: linear-gradient(115deg, var(--sky1), var(--sky2)); }
-  .banner.night { --sky1: #17233a; --sky2: #26385c; --far: #2b3b59; --tree: #2f5a3c; --leaf: #264b32; --ink-h: #eef3fa; --ink-s: rgba(255,255,255,.8);
-                  --walk: #4b525c; --road: #3a4048; --bal: #3e3f44; --sleep: #2b2b2f; --rail: #8d949e; --grass: #2f4a35; --pane: rgba(80,104,140,.55); }
-  .ground { position: absolute; left: 0; right: 0; bottom: 0; height: calc(var(--sh) * .1875); }
-  .banner.bus .ground { background: repeating-linear-gradient(90deg, rgba(255,255,255,.8) 0 18px, transparent 18px 50px) 0 62% / 100% 1.6px no-repeat,
-                                    linear-gradient(var(--walk) 25%, var(--road) 25%); }
-  .banner.metro .ground, .banner.tram .ground { background: linear-gradient(var(--rail), var(--rail)) 0 24% / 100% 2px no-repeat,
-                                    repeating-linear-gradient(90deg, var(--sleep) 0 4px, transparent 4px 13px) 0 20% / 100% 28% no-repeat, var(--bal); }
-  .banner.tram .ground { background-color: var(--grass); }
-  .scene { position: absolute; right: 0; bottom: 0; width: var(--sw); height: var(--sh); overflow: hidden;
-           -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%); mask-image: linear-gradient(90deg, transparent, #000 10%); }
-  .scene .day { display: inline; } .scene .night, .scene .lit { display: none; }
-  .banner.night .scene .day { display: none; } .banner.night .scene .night, .banner.night .scene .lit { display: inline; }
-  .scene .sun { fill: #ffd54f; } .scene .cloud { fill: #fff; } .scene .moon { fill: #f4ecd0; } .scene .star { fill: #fff; }
-  .scene .star.tw { animation: tp-glow 2.4s ease-in-out infinite alternate; }
-  .scene .far rect { fill: var(--far); } .scene .lit rect { fill: #f2c94c; opacity: .8; }
-  .scene .tree circle { fill: var(--tree); } .scene .tree .leaf { fill: var(--leaf); } .scene .trunk { fill: #8a6a4a; }
-  .scene .roof { fill: #5b6b7c; } .scene .pane { fill: var(--pane); stroke: #9aa6b3; stroke-width: .8; } .scene .platform { fill: var(--walk); }
-  .scene .pole { fill: #6c757d; } .scene .plate { fill: var(--tp-accent); }
-  .scene .catenary path { stroke: #6c757d; stroke-width: .8; fill: none; } .scene .catenary rect { fill: #8a939c; }
-  .scene .body { fill: #fbfbfc; stroke: #cfd5dc; } .scene .glass { fill: #25364d; } .scene .pillar rect { fill: #fbfbfc; }
-  .scene .door { fill: #dfe6ee; stroke: #cfd5dc; } .scene .gangway { fill: #9aa6b3; }
-  .scene .girouette { fill: #1b1b1b; } .scene .gtext { font: 700 3.4px Roboto, sans-serif; fill: #ffb02e; }
-  .scene .disc { font: 700 4.6px Roboto, sans-serif; text-transform: uppercase; }
-  .scene .lamp { fill: #ffd34d; }
-  .scene .wheel circle { fill: #2b2f36; } .scene .wheel .hub { fill: #9aa1ab; }
-  .scene .panto path { stroke: #4b5560; stroke-width: 1.2; fill: none; }
+  .banner.night { --sky1: #17233a; --sky2: #26385c; --ink-h: #eef3fa; --ink-s: rgba(255,255,255,.8);
+                  --far: #2b3b59; --lit: #ffcf6e; --lit-o: .7; --walk: #4b525c; --body: #d8dce2; --win: #ffe9a8; --bwin: #ffe9a8; --lamp: #ffe9a8;
+                  --si-ontime: #7fdc8a; --si-late: #f5c062; --si-disrupted: #ff8a80; --si-none: #9aa3ad; }
+  .ground { position: absolute; left: 0; right: 0; bottom: 0; height: var(--g); }
+  .g-road { background: #858c94; box-shadow: inset 0 1px 0 #6f767d; }
+  .g-road::after { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - .8px); height: 1.6px;
+                   background: repeating-linear-gradient(90deg, rgba(255,255,255,.85) 0 9px, transparent 9px 18px); }
+  .banner.night .g-road { background: #2c323b; }
+  .g-rail { background: #9aa1a9 repeating-linear-gradient(90deg, #7d6a58 0 3px, transparent 3px 10px); box-shadow: inset 0 2px 0 #6f767d, inset 0 -2px 0 #6f767d; }
+  .banner.night .g-rail { background-color: #2c323b; }
+  .scene { position: absolute; right: 0; bottom: var(--g); width: var(--sw); height: calc(100% - var(--g)); overflow: visible; }
+  .scene .stars { display: none; fill: #fff; opacity: .8; } .banner.night .scene .stars { display: inline; }
+  .scene .tw { animation: tp-glow 2.4s ease-in-out infinite alternate; }
+  .scene .far rect { fill: var(--far); opacity: .9; } .scene .lit rect { fill: var(--lit); opacity: var(--lit-o); }
+  .scene .walk { fill: var(--walk); } .scene .pole { fill: #5f6b7a; } .scene .board { fill: #101418; }
+  .scene .bline, .scene .bmin { font: 700 5.4px ui-monospace, monospace; } .scene .bmin { fill: #ffb02e; }
+  .banner.st-disrupted .scene .bmin { fill: #ff6b6b; }
+  .scene .late rect { fill: #ffb02e; } .scene .late text { font: 700 4.6px ui-monospace, monospace; fill: #1a1d22; }
+  .scene .alert path { fill: #e5484d; stroke: #fff; stroke-width: .6; stroke-linejoin: round; } .scene .alert text { font: 700 6px Roboto, sans-serif; fill: #fff; }
+  .scene .alert { animation: tp-glow .8s ease-in-out infinite alternate; }
+  .scene .catenary path { stroke: #6c757d; stroke-width: .6; fill: none; }
+  .scene .body { fill: var(--body); stroke: #9aa3ae; stroke-width: .6; } .scene .win { fill: var(--win); } .scene .bwin { fill: var(--bwin); }
+  .scene .wheel circle { fill: #22262b; } .scene .lamp { fill: var(--lamp); }
+  .scene .gtext { font: 700 4.4px ui-monospace, monospace; fill: #ffd65a; } .scene .disc { font: 700 4.4px Roboto, sans-serif; }
+  .scene .pa { stroke: #4b5560; stroke-width: .8; fill: none; }
+  .scene .beam { display: none; fill: #ffe9a8; opacity: .3; } .banner.night .scene .beam { display: inline; }
   .scene .puff circle { fill: rgba(140,150,160,.5); opacity: 0; }
-  .scene .wave { fill: none; stroke: var(--tp-ok); stroke-width: 1.2; transform-box: fill-box; transform-origin: center; animation: tp-wave 1.8s ease-out infinite; }
+  .scene .blink { animation: tp-blink 1.2s steps(2) infinite; }
+  .scene .wave { fill: none; stroke: var(--tp-ok); stroke-width: .8; transform-box: fill-box; transform-origin: center; animation: tp-wave 1.8s ease-out infinite; }
   .scene .wave.d1 { animation-delay: -.6s; } .scene .wave.d2 { animation-delay: -1.2s; }
   .scene .veh.empty { display: none; }
   /* Arriving: the vehicle drives in and stops at the stop (at rest, in stills and with reduced motion: at the stop). */
-  .scene .veh.arriving { animation: tp-arrive 3.2s cubic-bezier(.25,.7,.3,1) infinite; }
-  .scene .veh.arriving .lamp { animation: tp-glow .4s ease-in-out infinite alternate; }
-  /* Waiting: the vehicle idles before the stop, engine running. */
-  .scene .veh.waiting { transform: translateX(-58px); animation: tp-idle 1.6s ease-in-out infinite; }
+  .scene .veh.arriving { animation: tp-arrive 4s cubic-bezier(.25,.7,.3,1) infinite; }
+  /* Waiting: the vehicle idles at the stop, engine running. */
+  .scene .veh.waiting { animation: tp-idle 1.6s ease-in-out infinite; }
   .scene .veh.waiting .puff circle { animation: tp-puff 1.6s ease-out infinite; }
-  /* The text, on the sky at the left of the scene: the round icon with the network's logo, then the titles. */
-  .htext { position: absolute; left: 14px; top: 0; bottom: calc(var(--sh) * .1875); right: calc(var(--sw) + 4px);
-           display: flex; align-items: center; gap: 12px; min-width: 0; }
+  /* The text, on the sky at the left of the scene: the round icon (its color tells the status) with the network's logo. */
+  .htext { position: absolute; left: 14px; top: 0; bottom: var(--g); right: calc(var(--sw) + 4px);
+           display: flex; align-items: center; gap: 10px; min-width: 0; }
   .banner.plain .htext { bottom: 0; right: 48px; }
-  .logo { position: relative; flex: none; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center;
-          color: var(--tp-accent); background: rgba(255,255,255,.7); box-shadow: inset 0 0 0 1px rgba(0,137,123,.2); }
-  .banner.night .logo { color: #7fd6cb; background: rgba(255,255,255,.12); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
-  .logo .icon { width: 26px; height: 26px; }
+  .logo { position: relative; flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+          color: var(--si-ontime); background: rgba(255,255,255,.62); box-shadow: inset 0 0 0 1px rgba(16,40,63,.1); }
+  .banner.night .logo { background: rgba(255,255,255,.12); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
+  .banner.st-late .logo { color: var(--si-late); } .banner.st-disrupted .logo { color: var(--si-disrupted); } .banner.st-none .logo { color: var(--si-none); }
+  .logo .icon { width: 24px; height: 24px; }
   /* The network's logo on a white tile at the icon's bottom right, readable by day and by night. */
-  .net { position: absolute; right: -9px; bottom: -4px; height: 16px; min-width: 16px; max-width: 34px; padding: 2px 3px; box-sizing: border-box;
-         border-radius: 6px; background: #fff; display: grid; place-items: center; box-shadow: 0 0 0 1px rgba(13,42,69,.14), 0 1px 3px rgba(13,42,69,.18); }
+  .net { position: absolute; right: -6px; bottom: -4px; height: 16px; min-width: 16px; max-width: 30px; padding: 2px 3px; box-sizing: border-box;
+         border-radius: 5px; background: #fff; display: grid; place-items: center; box-shadow: 0 0 0 1px rgba(13,42,69,.16), 0 1px 3px rgba(13,42,69,.18); }
   .net img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-  .titles { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-  .name { font-size: 18px; font-weight: 500; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .titles { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 0; }
+  .name { font-size: 16px; font-weight: 500; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   :host([hide-title]) .banner:not(.mini) .name { display: none; }
-  .stats { display: flex; align-items: center; gap: 6px; font-size: 13px; line-height: 18px; color: var(--ink-s); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .stats { display: flex; align-items: center; gap: 6px; font-size: 13px; line-height: 17px; color: var(--ink-s); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   .stats.error { color: color-mix(in srgb, var(--tp-crit) 70%, var(--ink-h)); white-space: normal; }
-  .tools { position: absolute; top: 8px; right: 8px; display: flex; align-items: center; gap: 6px; }
-  .iconbtn { all: unset; flex: none; cursor: pointer; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; box-sizing: border-box;
+  .tools { position: absolute; top: 6px; right: 6px; display: flex; align-items: center; gap: 6px; }
+  .iconbtn { all: unset; flex: none; cursor: pointer; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; box-sizing: border-box;
              color: #10283f; background: rgba(255,255,255,.62); }
   .banner.night .iconbtn { color: #fff; background: rgba(10,20,40,.45); }
   .iconbtn .icon { width: 17px; height: 17px; }
@@ -1953,14 +2072,13 @@ class TransportCard extends HTMLElement {
   .body > :last-child.departures { padding-bottom: 8px; }
 
   /* ── Mini card: the banner tells the next departure; the approach bar under it. ── */
-  ha-card.mini .banner { --bh: 100px; --sh: min(var(--bh), calc(45cqw * .64)); }
-  ha-card.mini .logo { width: 44px; height: 44px; } ha-card.mini .logo .icon { width: 23px; height: 23px; }
-  ha-card.mini .htext { left: 12px; gap: 10px; }
+  ha-card.mini .banner { --sw: min(calc((90px - var(--g)) * 2.5), 52%); }
+  ha-card.mini .htext { left: 12px; }
   .mline { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 14px; font-weight: 500; }
   .mline .dest { color: inherit; }
   .mline .lb { height: 22px; min-width: 28px; font-size: 12px; } .mline .lb.round { min-width: 22px; width: 22px; }
   .mwhen { display: flex; align-items: center; gap: 6px; }
-  .mwhen .count { font-size: 24px; color: inherit; }
+  .mwhen .count { font-size: 20px; color: inherit; }
   .mwhen .count.soon { color: inherit; }
   .banner .rt { display: inline-flex; } .banner .rt.ok .icon { color: #2e8b3a; } .banner.night .rt.ok .icon { color: #7fdc8a; }
   .banner .delay.warn { color: #9a6200; } .banner.night .delay.warn { color: #f5c062; }
@@ -1970,10 +2088,11 @@ class TransportCard extends HTMLElement {
   .mini-notes .note { margin: 0 12px 10px; }
   /* Narrow cards: the icon gives way, then the scene. */
   @container (max-width: 360px) { .logo { display: none; } .dep { grid-template-columns: 3.4em 34px minmax(0, 1fr) auto; column-gap: 8px; } .pill .t { max-width: 7em; } }
-  @container (max-width: 250px) { .scene, .ground { display: none; } .htext { right: 44px; bottom: 0; } }
-  @keyframes tp-arrive { 0% { transform: translateX(-200px); } 68%, 100% { transform: translateX(0); } }
-  @keyframes tp-idle { 0%, 100% { transform: translate(-58px, 0); } 50% { transform: translate(-58px, -.8px); } }
-  @keyframes tp-puff { 0% { opacity: .9; transform: translate(0, 0) scale(.6); } 100% { opacity: 0; transform: translate(-8px, -6px) scale(1.6); } }
+  @container (max-width: 250px) { .scene { display: none; } .htext { right: 44px; } }
+  @keyframes tp-arrive { 0% { transform: translateX(-90px); opacity: 0; } 15% { opacity: 1; } 60%, 100% { transform: translateX(0); } }
+  @keyframes tp-idle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-.5px); } }
+  @keyframes tp-blink { 50% { opacity: .2; } }
+  @keyframes tp-puff { 0% { opacity: .9; transform: translate(0, 0) scale(.6); } 100% { opacity: 0; transform: translate(-6px, -4px) scale(1.6); } }
   @keyframes tp-wave { from { transform: scale(.55); opacity: .9; } to { transform: scale(1.35); opacity: 0; } }
   @keyframes tp-glow { from { opacity: .45; } to { opacity: 1; } }
   @keyframes tp-shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-12deg); } 75% { transform: rotate(12deg); } }
@@ -2071,6 +2190,10 @@ function transportEditorSchema(t) {
         { name: 'show_alerts', selector: { boolean: {} } },
         { name: 'show_refresh', selector: { boolean: {} } },
       ],
+    },
+    {
+      name: 'illustration_theme',
+      selector: { select: { mode: 'dropdown', options: ['auto', 'day', 'night'].map((v) => ({ value: v, label: t[`theme_${v}`] })) } },
     },
     { name: 'max_departures', selector: { number: { min: 1, max: 20, mode: 'box' } } },
     {
