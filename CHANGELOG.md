@@ -6,6 +6,7 @@
 - **Illustrated header, harmonized with the other cards**: both cards now open on a 90px banner (the mini card too) — the stop's name or the next departure on the sky at the left, a city stop at the right (buildings, the platform, the stop's display with the line and its countdown, and the bus, metro or tram in its line color), over a 10px road or rail strip running edge to edge, with day and night variants.
 - **Status at a glance**: the round icon is green when the next departure is on time, amber when it runs late (2 min or more), red when the stop is disrupted (a disruption alert, stale or unavailable data) and grey with nothing announced; the stop's display adds an amber `+n'` tag or a red warning sign, blinks `▶` when the vehicle is at the stop and shows `--` with no departure.
 - **`illustration_theme`** option (`auto`, `day`, `night`, also in the visual editor) to force the banner's day or night picture; `illustration: false` keeps a classic header, like `show_scene: false`.
+- **Status pill** on the banner's title row, after the stop's name (full card) or the line and destination (mini card), with a dot in the icon's colour: Real time or Timetable, the delay (`+n min`, then not repeated under it), Disruption / Major disruption, Offline or No departure. On a narrow card it moves under the other lines, then keeps only its dot. The header buttons (refresh, expand / collapse) are 24 px frosted rounds on one line in the top right corner, and the text keeps clear of them. New label translated into the 22 languages.
 
 ## 1.5.0 - 2026-11-16
 

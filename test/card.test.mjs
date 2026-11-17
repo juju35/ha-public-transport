@@ -309,11 +309,15 @@ test('the mini card is compact: the banner tells the next departure of all the s
   assert.match(html, /class="approach"/);
   assert.doesNotMatch(html, /class="dep[ "]/);
   assert.match(card._detailButton(TransportI18n.en), /data-action="detail"/);
-  // A late bus: its delay, the expected time and the timetable time struck through.
+  // On time: the status pill after the line and destination says real time.
+  assert.match(html, /class="trow"><div class="mline">[\s\S]*?<\/div><span class="hpill" title="Real time">/);
+  // A late bus: its delay in the amber pill (not repeated under it), the expected time and the timetable time struck through.
   const late = makeCard(TransportMiniCard, {}, { 'sensor.bus': bus });
   html = late._renderCompact(late._stops(), TransportI18n.en);
-  assert.match(html, /class="delay warn">\+2 min<\/span><span class="at">/);
-  assert.match(html, /class="was">/);
+  assert.match(html, /class="banner mini bus st-late/);
+  assert.match(html, /<span class="hpill" title="\+2 min">/);
+  assert.doesNotMatch(html, /class="delay warn"/);
+  assert.match(html, /<div class="stats"><span class="at">[^<]*<\/span><span class="was">/);
   card._zoomed = true;
   assert.equal(card._compact(), false);
   assert.match(card._detailButton(TransportI18n.en), /Back to the compact view/);

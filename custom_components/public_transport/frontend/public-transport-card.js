@@ -16,6 +16,7 @@ var TransportI18n = {
     early: '{n} min early',
     no_departures: 'No departure announced for now',
     no_departures_short: 'No departure',
+    offline: 'Offline',
     no_entity: 'No stop found. Add a stop in the Public Transport integration or set “entities”.',
     unavailable: 'Departures are unavailable. They will show after the next successful update.',
     stale: 'Network unreachable: departures of the last update',
@@ -72,6 +73,7 @@ var TransportI18n = {
     early: '{n} min d\'avance',
     no_departures: 'Aucun départ annoncé pour l\'instant',
     no_departures_short: 'Aucun départ',
+    offline: 'Hors ligne',
     no_entity: 'Aucun arrêt trouvé. Ajoutez un arrêt dans l\'intégration Public Transport ou renseignez « entities ».',
     unavailable: 'Départs indisponibles. Ils s\'afficheront après la prochaine mise à jour réussie.',
     stale: 'Réseau injoignable : départs de la dernière mise à jour',
@@ -128,6 +130,7 @@ var TransportI18n = {
     early: '{n} Min. früher',
     no_departures: 'Derzeit keine Abfahrt angekündigt',
     no_departures_short: 'Keine Abfahrt',
+    offline: 'Offline',
     no_entity: 'Keine Haltestelle gefunden. Fügen Sie in der Integration Public Transport eine Haltestelle hinzu oder setzen Sie „entities“.',
     unavailable: 'Abfahrten nicht verfügbar. Sie erscheinen nach der nächsten erfolgreichen Aktualisierung.',
     stale: 'Netz nicht erreichbar: Abfahrten der letzten Aktualisierung',
@@ -184,6 +187,7 @@ var TransportI18n = {
     early: '{n} min de adelanto',
     no_departures: 'Ninguna salida anunciada por ahora',
     no_departures_short: 'Sin salidas',
+    offline: 'Sin conexión',
     no_entity: 'No se encontró ninguna parada. Añada una parada en la integración Public Transport o indique «entities».',
     unavailable: 'Salidas no disponibles. Se mostrarán tras la próxima actualización correcta.',
     stale: 'Red inaccesible: salidas de la última actualización',
@@ -240,6 +244,7 @@ var TransportI18n = {
     early: '{n} min di anticipo',
     no_departures: 'Nessuna partenza annunciata per ora',
     no_departures_short: 'Nessuna partenza',
+    offline: 'Non in linea',
     no_entity: 'Nessuna fermata trovata. Aggiungi una fermata nell\'integrazione Public Transport o imposta «entities».',
     unavailable: 'Partenze non disponibili. Appariranno dopo il prossimo aggiornamento riuscito.',
     stale: 'Rete non raggiungibile: partenze dell\'ultimo aggiornamento',
@@ -296,6 +301,7 @@ var TransportI18n = {
     early: '{n} min te vroeg',
     no_departures: 'Momenteel geen vertrek aangekondigd',
     no_departures_short: 'Geen vertrek',
+    offline: 'Offline',
     no_entity: 'Geen halte gevonden. Voeg een halte toe in de integratie Public Transport of stel “entities” in.',
     unavailable: 'Vertrekken niet beschikbaar. Ze verschijnen na de volgende geslaagde update.',
     stale: 'Netwerk onbereikbaar: vertrekken van de laatste update',
@@ -352,6 +358,7 @@ var TransportI18n = {
     early: '{n} min adiantado',
     no_departures: 'Nenhuma partida anunciada por agora',
     no_departures_short: 'Sem partidas',
+    offline: 'Sem ligação',
     no_entity: 'Nenhuma paragem encontrada. Adicione uma paragem na integração Public Transport ou defina «entities».',
     unavailable: 'Partidas indisponíveis. Aparecerão após a próxima atualização bem-sucedida.',
     stale: 'Rede inacessível: partidas da última atualização',
@@ -408,6 +415,7 @@ var TransportI18n = {
     early: '{n} min przed czasem',
     no_departures: 'Na razie brak zapowiedzianych odjazdów',
     no_departures_short: 'Brak odjazdów',
+    offline: 'Offline',
     no_entity: 'Nie znaleziono przystanku. Dodaj przystanek w integracji Public Transport lub ustaw „entities”.',
     unavailable: 'Odjazdy niedostępne. Pojawią się po następnej udanej aktualizacji.',
     stale: 'Sieć nieosiągalna: odjazdy z ostatniej aktualizacji',
@@ -464,6 +472,7 @@ var TransportI18n = {
     early: '{n} мин раније',
     no_departures: 'Тренутно нема најављених полазака',
     no_departures_short: 'Нема полазака',
+    offline: 'Ван мреже',
     no_entity: 'Није пронађена ниједна станица. Додајте станицу у интеграцији Public Transport или подесите „entities“.',
     unavailable: 'Поласци нису доступни. Појавиће се после следећег успешног ажурирања.',
     stale: 'Мрежа није доступна: поласци са последњег ажурирања',
@@ -520,6 +529,7 @@ var TransportI18n = {
     early: '{n} min ranije',
     no_departures: 'Trenutno nema najavljenih polazaka',
     no_departures_short: 'Nema polazaka',
+    offline: 'Van mreže',
     no_entity: 'Nije pronađena nijedna stanica. Dodajte stanicu u integraciji Public Transport ili podesite „entities“.',
     unavailable: 'Polasci nisu dostupni. Pojaviće se posle sledećeg uspešnog ažuriranja.',
     stale: 'Mreža nije dostupna: polasci sa poslednjeg ažuriranja',
@@ -576,6 +586,7 @@ var TransportI18n = {
     early: '{n} min mai devreme',
     no_departures: 'Nicio plecare anunțată deocamdată',
     no_departures_short: 'Nicio plecare',
+    offline: 'Offline',
     no_entity: 'Nu s-a găsit nicio stație. Adăugați o stație în integrarea Public Transport sau setați „entities”.',
     unavailable: 'Plecări indisponibile. Vor apărea după următoarea actualizare reușită.',
     stale: 'Rețea inaccesibilă: plecările ultimei actualizări',
@@ -632,6 +643,7 @@ var TransportI18n = {
     early: '{n} min før tid',
     no_departures: 'Ingen afgang annonceret lige nu',
     no_departures_short: 'Ingen afgang',
+    offline: 'Offline',
     no_entity: 'Intet stoppested fundet. Tilføj et stoppested i integrationen Public Transport, eller angiv “entities”.',
     unavailable: 'Afgange er ikke tilgængelige. De vises efter næste vellykkede opdatering.',
     stale: 'Netværket kan ikke nås: afgange fra sidste opdatering',
@@ -688,6 +700,7 @@ var TransportI18n = {
     early: '{n} min tidig',
     no_departures: 'Ingen avgång annonserad just nu',
     no_departures_short: 'Ingen avgång',
+    offline: 'Offline',
     no_entity: 'Ingen hållplats hittades. Lägg till en hållplats i integrationen Public Transport eller ange ”entities”.',
     unavailable: 'Avgångarna är inte tillgängliga. De visas efter nästa lyckade uppdatering.',
     stale: 'Nätverket kan inte nås: avgångar från senaste uppdateringen',
@@ -744,6 +757,7 @@ var TransportI18n = {
     early: '{n} мин по-рано',
     no_departures: 'Засега няма обявени тръгвания',
     no_departures_short: 'Няма тръгвания',
+    offline: 'Офлайн',
     no_entity: 'Не е намерена спирка. Добавете спирка в интеграцията Public Transport или задайте „entities“.',
     unavailable: 'Тръгванията не са налични. Ще се покажат след следващото успешно обновяване.',
     stale: 'Мрежата е недостъпна: тръгвания от последното обновяване',
@@ -800,6 +814,7 @@ var TransportI18n = {
     early: 'на {n} мин раньше',
     no_departures: 'Пока отправлений не объявлено',
     no_departures_short: 'Нет отправлений',
+    offline: 'Нет связи',
     no_entity: 'Остановка не найдена. Добавьте остановку в интеграции Public Transport или укажите «entities».',
     unavailable: 'Отправления недоступны. Они появятся после следующего успешного обновления.',
     stale: 'Сеть недоступна: отправления последнего обновления',
@@ -856,6 +871,7 @@ var TransportI18n = {
     early: 'на {n} хв раніше',
     no_departures: 'Поки що відправлень не оголошено',
     no_departures_short: 'Немає відправлень',
+    offline: 'Немає зв’язку',
     no_entity: 'Зупинку не знайдено. Додайте зупинку в інтеграції Public Transport або вкажіть «entities».',
     unavailable: 'Відправлення недоступні. Вони з\'являться після наступного успішного оновлення.',
     stale: 'Мережа недоступна: відправлення останнього оновлення',
@@ -912,6 +928,7 @@ var TransportI18n = {
     early: '{n} perccel korábban',
     no_departures: 'Jelenleg nincs bejelentett indulás',
     no_departures_short: 'Nincs indulás',
+    offline: 'Offline',
     no_entity: 'Nem található megálló. Adjon hozzá megállót a Public Transport integrációban, vagy adja meg az „entities” opciót.',
     unavailable: 'Az indulások nem érhetők el. A következő sikeres frissítés után jelennek meg.',
     stale: 'A hálózat nem érhető el: a legutóbbi frissítés indulásai',
@@ -968,6 +985,7 @@ var TransportI18n = {
     early: 'o {n} min skôr',
     no_departures: 'Zatiaľ nie je ohlásený žiadny odchod',
     no_departures_short: 'Žiadny odchod',
+    offline: 'Offline',
     no_entity: 'Nenašla sa žiadna zastávka. Pridajte zastávku v integrácii Public Transport alebo nastavte „entities“.',
     unavailable: 'Odchody nie sú dostupné. Zobrazia sa po ďalšej úspešnej aktualizácii.',
     stale: 'Sieť je nedostupná: odchody z poslednej aktualizácie',
@@ -1024,6 +1042,7 @@ var TransportI18n = {
     early: 'o {n} min dříve',
     no_departures: 'Zatím není ohlášen žádný odjezd',
     no_departures_short: 'Žádný odjezd',
+    offline: 'Offline',
     no_entity: 'Nebyla nalezena žádná zastávka. Přidejte zastávku v integraci Public Transport nebo nastavte „entities“.',
     unavailable: 'Odjezdy nejsou dostupné. Zobrazí se po další úspěšné aktualizaci.',
     stale: 'Síť je nedostupná: odjezdy z poslední aktualizace',
@@ -1080,6 +1099,7 @@ var TransportI18n = {
     early: '{n} min prej',
     no_departures: 'Trenutno ni napovedanih odhodov',
     no_departures_short: 'Ni odhodov',
+    offline: 'Brez povezave',
     no_entity: 'Ni najdenega postajališča. Dodajte postajališče v integraciji Public Transport ali nastavite »entities«.',
     unavailable: 'Odhodi niso na voljo. Prikazali se bodo po naslednji uspešni posodobitvi.',
     stale: 'Omrežje ni dosegljivo: odhodi zadnje posodobitve',
@@ -1136,6 +1156,7 @@ var TransportI18n = {
     early: '{n} min agrāk',
     no_departures: 'Pagaidām nav paziņotu atiešanu',
     no_departures_short: 'Nav atiešanu',
+    offline: 'Bezsaistē',
     no_entity: 'Pietura nav atrasta. Pievienojiet pieturu integrācijā Public Transport vai iestatiet “entities”.',
     unavailable: 'Atiešanas laiki nav pieejami. Tie parādīsies pēc nākamās veiksmīgās atjaunināšanas.',
     stale: 'Tīkls nav sasniedzams: pēdējās atjaunināšanas atiešanas',
@@ -1192,6 +1213,7 @@ var TransportI18n = {
     early: '{n} λεπ. νωρίτερα',
     no_departures: 'Δεν έχει ανακοινωθεί αναχώρηση προς το παρόν',
     no_departures_short: 'Καμία αναχώρηση',
+    offline: 'Εκτός σύνδεσης',
     no_entity: 'Δεν βρέθηκε στάση. Προσθέστε μια στάση στην ενσωμάτωση Public Transport ή ορίστε «entities».',
     unavailable: 'Οι αναχωρήσεις δεν είναι διαθέσιμες. Θα εμφανιστούν μετά την επόμενη επιτυχή ενημέρωση.',
     stale: 'Το δίκτυο δεν είναι προσβάσιμο: αναχωρήσεις της τελευταίας ενημέρωσης',
@@ -1705,14 +1727,37 @@ class TransportCard extends HTMLElement {
       tools += `<button class="iconbtn refresh${this._refreshing ? ' spinning' : ''}" data-action="refresh" data-focus="refresh" title="${transportEsc(t.refresh)}" aria-label="${transportEsc(t.refresh)}">${transportIcon('refresh')}</button>`;
     }
     tools += this._detailButton(t);
-    var text = mini ? this._miniText(next, t, now) : this._bannerText(stops, t, now);
-    return `<div class="banner ${mode}${transportIsNight(this._hass, c) ? ' night' : ''}${scene ? '' : ' plain'} st-${status}">` +
+    // The text keeps clear of the buttons at the top right (24 px each, 4 px apart; the alert chip about 44 px).
+    var tw = (tools.match(/<button /g) || []).length * 28 + (tools.includes('class="chip') ? 48 : 0);
+    var pill = this._headerPill(stops, next, status, t);
+    var text = mini ? this._miniText(next, t, now, pill, status === 'late') : this._bannerText(stops, t, now, pill);
+    return `<div class="banner ${mode}${transportIsNight(this._hass, c) ? ' night' : ''}${scene ? '' : ' plain'} st-${status}" style="--tw:${tw + 9}px">` +
       `${scene ? `<div class="ground g-${mode === 'bus' ? 'road' : 'rail'}"></div>` : ''}${scene}<div class="htext">${icon}<div class="titles">${text}</div></div>` +
       `${tools ? `<div class="tools">${tools}</div>` : ''}</div>`;
   }
 
-  // The stop's name (or the title), then the number of departures and the share in real time.
-  _bannerText(stops, t, now) {
+  // The status pill on the banner's title row, in the colour of the header icon (see _headerStatus): the disruption,
+  // the delay of the next departure, real time or timetable only, or no departure.
+  _headerPill(stops, next, status, t) {
+    var text;
+    if (status === 'disrupted') {
+      var level = 0;
+      if (this._config.show_alerts) {
+        stops.forEach((s) => {
+          (s.st?.attributes?.alerts || []).forEach((al) => {
+            level = Math.max(level, al.level || 1);
+          });
+        });
+      }
+      text = level >= 2 ? t[`level_${Math.min(3, level)}`] : t.offline;
+    } else if (status === 'late') text = transportFill(t.late_short, { n: Number(next.delay) || 0 });
+    else if (status === 'none') text = t.no_departures_short;
+    else text = next.realtime ? t.realtime : t.timetable;
+    return `<span class="hpill" title="${transportEsc(text)}"><span class="dot"></span><span class="t">${transportEsc(text)}</span></span>`;
+  }
+
+  // The stop's name (or the title) and its status pill, then the number of departures and the share in real time.
+  _bannerText(stops, t, now, pill = '') {
     var c = this._config;
     var names = stops.map((s) => s.st?.attributes?.stop_name).filter(Boolean);
     var stopName = names.length && names.every((n) => n === names[0]) ? names[0] : '';
@@ -1720,27 +1765,28 @@ class TransportCard extends HTMLElement {
     var live = deps.filter((d) => d.realtime).length;
     var first = [deps.length ? transportFill(t.departures_count, { n: deps.length }) : t.no_departures_short, c.title ? stopName : stops.length === 1 ? stops[0].st?.attributes?.network : ''];
     var second = this._refreshError || (deps.length ? transportFill(t.realtime_share, { n: Math.round((live * 100) / deps.length) }) : '');
-    return `<div class="name">${transportEsc(c.title || stopName || t.default_title)}</div>` +
+    return `<div class="trow"><div class="name">${transportEsc(c.title || stopName || t.default_title)}</div>${pill}</div>` +
       `<div class="stats">${transportEsc(first.filter(Boolean).join(' · '))}</div>` +
       (second ? `<div class="stats${this._refreshError ? ' error' : ''}">${transportEsc(second)}</div>` : '');
   }
 
-  // Mini card: the line and its destination, the countdown with the real-time sign, then the delay and the times.
-  _miniText(next, t, now) {
-    if (!next) return `<div class="name">${transportEsc(this._config.title || t.default_title)}</div><div class="stats">${transportEsc(t.no_departures_short)}</div>`;
+  // Mini card: the line and its destination with the status pill, the countdown with the real-time sign, then the
+  // delay (unless the pill already says it) and the times.
+  _miniText(next, t, now, pill = '', delayInPill = false) {
+    if (!next) return `<div class="trow"><div class="name">${transportEsc(this._config.title || t.default_title)}</div>${pill}</div><div class="stats">${transportEsc(t.no_departures_short)}</div>`;
     var soon = transportMinutes(next.departure, now) <= TRANSPORT_SOON;
     var sign = next.realtime
       ? `<span class="rt ok live" title="${transportEsc(t.realtime)}">${transportIcon('realtime')}</span>`
       : `<span class="rt idle" title="${transportEsc(t.timetable_hint)}">${transportIcon('clock')}</span>`;
-    return `<div class="mline">${this._badge(next)}<span class="dest">${transportEsc(next.destination)}</span></div>` +
+    return `<div class="trow"><div class="mline">${this._badge(next)}<span class="dest">${transportEsc(next.destination)}</span></div>${pill}</div>` +
       `<div class="mwhen"><span class="count${soon ? ' soon' : ''}">${transportEsc(this._when(next, t, now))}</span>${sign}</div>` +
-      `<div class="stats">${this._delayTimes(next, t)}</div>`;
+      `<div class="stats">${this._delayTimes(next, t, delayInPill)}</div>`;
   }
 
   // "+2 min 08:07 08:05": the delay, the expected time, the timetable time struck through.
-  _delayTimes(d, t) {
+  _delayTimes(d, t, delayInPill = false) {
     var delay = d.realtime ? Number(d.delay) || 0 : 0;
-    var html = delay > 0 ? `<span class="delay warn">${transportEsc(transportFill(t.late_short, { n: delay }))}</span>`
+    var html = delay > 0 && delayInPill ? '' : delay > 0 ? `<span class="delay warn">${transportEsc(transportFill(t.late_short, { n: delay }))}</span>`
       : delay < 0 ? `<span class="delay active">${transportEsc(transportFill(t.early_short, { n: -delay }))}</span>` : '';
     html += `<span class="at">${transportEsc(this._clock(d.departure))}</span>`;
     if (delay && d.scheduled && !Number.isNaN(Date.parse(d.scheduled))) html += `<span class="was">${transportEsc(this._clock(d.scheduled))}</span>`;
@@ -1895,7 +1941,7 @@ class TransportCard extends HTMLElement {
   /* A preferred width without a minimum: the card keeps a width in auto-sized parents and still shrinks in a 1fr grid. */
   :host::before { content: ""; width: 340px; max-width: 100%; height: 0; }
   :host([mini])::before { width: 260px; }
-  ha-card { overflow: hidden; container-type: inline-size; position: relative; }
+  ha-card { overflow: hidden; container: tp-card / inline-size; position: relative; }
   .icon { width: 18px; height: 18px; fill: currentColor; flex: none; }
   .ok { --c: var(--tp-ok); } .warn { --c: var(--tp-warn); } .crit { --c: var(--tp-crit); } .idle { --c: var(--tp-idle); } .active { --c: var(--tp-active); }
   /* State colors stay on dots, icons and backgrounds; texts are mixed with the text color to read at 4.5:1. */
@@ -1974,12 +2020,34 @@ class TransportCard extends HTMLElement {
   :host([hide-title]) .banner:not(.mini) .name { display: none; }
   .stats { display: flex; align-items: center; gap: 6px; font-size: 13px; line-height: 17px; color: var(--ink-s); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   .stats.error { color: color-mix(in srgb, var(--tp-crit) 70%, var(--ink-h)); white-space: normal; }
-  .tools { position: absolute; top: 6px; right: 6px; display: flex; align-items: center; gap: 6px; }
-  .iconbtn { all: unset; flex: none; cursor: pointer; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; box-sizing: border-box;
-             color: #10283f; background: rgba(255,255,255,.62); }
-  .banner.night .iconbtn { color: #fff; background: rgba(10,20,40,.45); }
-  .iconbtn .icon { width: 17px; height: 17px; }
-  .iconbtn:hover { background: rgba(255,255,255,.85); } .banner.night .iconbtn:hover { background: rgba(10,20,40,.7); }
+  /* The header buttons (refresh, expand / collapse) on one line in the top right corner: 24 px frosted rounds. */
+  .tools { position: absolute; z-index: 2; top: 5px; right: 5px; display: flex; align-items: center; gap: 4px; }
+  .iconbtn { all: unset; flex: none; cursor: pointer; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; box-sizing: border-box;
+             color: #33506b; background: rgba(255,255,255,.55); box-shadow: inset 0 0 0 1px rgba(255,255,255,.7); backdrop-filter: blur(4px); }
+  .banner.night .iconbtn { color: #fff; background: rgba(255,255,255,.12); box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); }
+  .iconbtn .icon { width: 16px; height: 16px; }
+  .iconbtn:hover { background: rgba(255,255,255,.75); } .banner.night .iconbtn:hover { background: rgba(255,255,255,.22); }
+  .htext { right: max(calc(var(--sw) + 4px), var(--tw, 0px)); container: tp-head / inline-size; }
+  .banner.plain .htext { right: var(--tw, 48px); }
+  /* The status pill right after the title (the title ellipsised first, never under 5 characters), centred on it. */
+  .trow { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .trow > .name, .trow > .mline { flex: 0 1 auto; min-width: 5ch; }
+  .trow .mline .dest { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .hpill { flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 12px; font-size: 11px; font-weight: 500;
+           line-height: 16px; white-space: nowrap; box-sizing: border-box; max-width: calc(100% - 5ch - 8px); overflow: hidden; --c: var(--si-ontime);
+           background: color-mix(in srgb, var(--c) 18%, rgba(255,255,255,.78)); color: color-mix(in srgb, var(--c) 45%, #0d2a45); }
+  .hpill .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .hpill .dot { background: var(--c); }
+  .banner.night .hpill { background: color-mix(in srgb, var(--c) 30%, rgba(8,18,38,.55)); color: color-mix(in srgb, var(--c) 35%, #ffffff); }
+  .banner.st-late .hpill { --c: var(--si-late); } .banner.st-disrupted .hpill { --c: var(--si-disrupted); } .banner.st-none .hpill { --c: var(--si-none); }
+  /* Not enough room beside the title: the pill on its own line under the other lines; very narrow: its dot only. */
+  @container tp-head (max-width: 215px) {
+    .titles { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; }
+    .trow { display: contents; } .trow > .name, .trow > .mline { max-width: 100%; }
+    .titles > :not(.trow) { justify-self: stretch; }
+    .hpill { order: 9; max-width: 100%; margin-top: 2px; }
+  }
+  @container tp-card (max-width: 200px) { .hpill { padding: 4px; } .hpill .t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
   .iconbtn.spinning .icon { animation: tp-spin 1s linear infinite; }
   .tools .chip { background: rgba(255,255,255,.75); } .banner.night .tools .chip { background: rgba(10,20,40,.5); color: color-mix(in srgb, var(--c) 45%, #fff); }
 
@@ -2087,8 +2155,8 @@ class TransportCard extends HTMLElement {
   .mini-bar .approach { margin-top: 10px; }
   .mini-notes .note { margin: 0 12px 10px; }
   /* Narrow cards: the icon gives way, then the scene. */
-  @container (max-width: 360px) { .logo { display: none; } .dep { grid-template-columns: 3.4em 34px minmax(0, 1fr) auto; column-gap: 8px; } .pill .t { max-width: 7em; } }
-  @container (max-width: 250px) { .scene { display: none; } .htext { right: 44px; } }
+  @container tp-card (max-width: 360px) { .logo { display: none; } .dep { grid-template-columns: 3.4em 34px minmax(0, 1fr) auto; column-gap: 8px; } .pill .t { max-width: 7em; } }
+  @container tp-card (max-width: 250px) { .scene { display: none; } .htext { right: var(--tw, 44px); } }
   @keyframes tp-arrive { 0% { transform: translateX(-90px); opacity: 0; } 15% { opacity: 1; } 60%, 100% { transform: translateX(0); } }
   @keyframes tp-idle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-.5px); } }
   @keyframes tp-blink { 50% { opacity: .2; } }
