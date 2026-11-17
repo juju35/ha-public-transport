@@ -2033,7 +2033,7 @@ class TransportCard extends HTMLElement {
   .trow > .name, .trow > .mline { flex: 0 1 auto; min-width: 0; }
   .trow .mline .dest { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
   .hpill { flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 12px; font-size: 11px; font-weight: 500;
-           line-height: 16px; white-space: nowrap; box-sizing: border-box; max-width: calc(100% - 5ch - 8px); overflow: hidden; --c: var(--si-ontime);
+           line-height: 16px; white-space: nowrap; box-sizing: border-box; max-width: calc(100% - 56px); overflow: hidden; --c: var(--si-ontime);
            background: color-mix(in srgb, var(--c) 18%, rgba(255,255,255,.78)); color: color-mix(in srgb, var(--c) 45%, #0d2a45); }
   .hpill .t { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
   .hpill .dot { background: var(--c); }
