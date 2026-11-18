@@ -1,4 +1,4 @@
-var TRANSPORT_CARD_VERSION = '1.6.0';
+var TRANSPORT_CARD_VERSION = '1.6.1';
 
 // ── Header icon: tinted round icon in the integration's accent (the integration keeps its brand/icon.png) ──────
 var TRANSPORT_ACCENT = '#00897b';
@@ -49,7 +49,7 @@ var TransportI18n = {
       show_title: 'Show the title',
       show_scene: 'Show the animated scene',
       illustration_theme: 'Illustration theme',
-      theme_auto: 'Automatic (sun or dark theme)',
+      theme_auto: 'Automatic (follows the theme)',
       theme_day: 'Day',
       theme_night: 'Night',
       show_alerts: 'Show traffic alerts',
@@ -106,7 +106,7 @@ var TransportI18n = {
       show_title: 'Afficher le titre',
       show_scene: 'Afficher la scène animée',
       illustration_theme: 'Thème de l’illustration',
-      theme_auto: 'Automatique (soleil ou thème sombre)',
+      theme_auto: 'Automatique (suit le thème)',
       theme_day: 'Jour',
       theme_night: 'Nuit',
       show_alerts: 'Afficher les alertes trafic',
@@ -163,7 +163,7 @@ var TransportI18n = {
       show_title: 'Titel anzeigen',
       show_scene: 'Animierte Szene anzeigen',
       illustration_theme: 'Thema der Illustration',
-      theme_auto: 'Automatisch (Sonne oder dunkles Design)',
+      theme_auto: 'Automatisch (folgt dem Thema)',
       theme_day: 'Tag',
       theme_night: 'Nacht',
       show_alerts: 'Verkehrsmeldungen anzeigen',
@@ -220,7 +220,7 @@ var TransportI18n = {
       show_title: 'Mostrar el título',
       show_scene: 'Mostrar la escena animada',
       illustration_theme: 'Tema de la ilustración',
-      theme_auto: 'Automático (sol o tema oscuro)',
+      theme_auto: 'Automático (sigue el tema)',
       theme_day: 'Día',
       theme_night: 'Noche',
       show_alerts: 'Mostrar los avisos de tráfico',
@@ -277,7 +277,7 @@ var TransportI18n = {
       show_title: 'Mostra il titolo',
       show_scene: 'Mostra la scena animata',
       illustration_theme: 'Tema dell’illustrazione',
-      theme_auto: 'Automatico (sole o tema scuro)',
+      theme_auto: 'Automatico (segue il tema)',
       theme_day: 'Giorno',
       theme_night: 'Notte',
       show_alerts: 'Mostra gli avvisi traffico',
@@ -334,7 +334,7 @@ var TransportI18n = {
       show_title: 'Titel tonen',
       show_scene: 'Geanimeerde scène tonen',
       illustration_theme: 'Thema van de illustratie',
-      theme_auto: 'Automatisch (zon of donker thema)',
+      theme_auto: 'Automatisch (volgt het thema)',
       theme_day: 'Dag',
       theme_night: 'Nacht',
       show_alerts: 'Verkeersmeldingen tonen',
@@ -391,7 +391,7 @@ var TransportI18n = {
       show_title: 'Mostrar o título',
       show_scene: 'Mostrar a cena animada',
       illustration_theme: 'Tema da ilustração',
-      theme_auto: 'Automático (sol ou tema escuro)',
+      theme_auto: 'Automático (segue o tema)',
       theme_day: 'Dia',
       theme_night: 'Noite',
       show_alerts: 'Mostrar os alertas de tráfego',
@@ -448,7 +448,7 @@ var TransportI18n = {
       show_title: 'Pokaż tytuł',
       show_scene: 'Pokaż animowaną scenę',
       illustration_theme: 'Motyw ilustracji',
-      theme_auto: 'Automatycznie (słońce lub ciemny motyw)',
+      theme_auto: 'Automatycznie (według motywu)',
       theme_day: 'Dzień',
       theme_night: 'Noc',
       show_alerts: 'Pokaż komunikaty o utrudnieniach',
@@ -505,7 +505,7 @@ var TransportI18n = {
       show_title: 'Прикажи наслов',
       show_scene: 'Прикажи анимирану сцену',
       illustration_theme: 'Тема илустрације',
-      theme_auto: 'Аутоматски (сунце или тамна тема)',
+      theme_auto: 'Аутоматски (прати тему)',
       theme_day: 'Дан',
       theme_night: 'Ноћ',
       show_alerts: 'Прикажи саобраћајна упозорења',
@@ -562,7 +562,7 @@ var TransportI18n = {
       show_title: 'Prikaži naslov',
       show_scene: 'Prikaži animiranu scenu',
       illustration_theme: 'Tema ilustracije',
-      theme_auto: 'Automatski (sunce ili tamna tema)',
+      theme_auto: 'Automatski (prati temu)',
       theme_day: 'Dan',
       theme_night: 'Noć',
       show_alerts: 'Prikaži saobraćajna upozorenja',
@@ -619,7 +619,7 @@ var TransportI18n = {
       show_title: 'Afișați titlul',
       show_scene: 'Afișați scena animată',
       illustration_theme: 'Tema ilustrației',
-      theme_auto: 'Automat (soare sau temă întunecată)',
+      theme_auto: 'Automat (urmează tema)',
       theme_day: 'Zi',
       theme_night: 'Noapte',
       show_alerts: 'Afișați alertele de trafic',
@@ -676,7 +676,7 @@ var TransportI18n = {
       show_title: 'Vis titlen',
       show_scene: 'Vis den animerede scene',
       illustration_theme: 'Illustrationens tema',
-      theme_auto: 'Automatisk (sol eller mørkt tema)',
+      theme_auto: 'Automatisk (følger temaet)',
       theme_day: 'Dag',
       theme_night: 'Nat',
       show_alerts: 'Vis trafikmeddelelser',
@@ -733,7 +733,7 @@ var TransportI18n = {
       show_title: 'Visa titeln',
       show_scene: 'Visa den animerade scenen',
       illustration_theme: 'Illustrationens tema',
-      theme_auto: 'Automatiskt (sol eller mörkt tema)',
+      theme_auto: 'Automatiskt (följer temat)',
       theme_day: 'Dag',
       theme_night: 'Natt',
       show_alerts: 'Visa trafikstörningar',
@@ -790,7 +790,7 @@ var TransportI18n = {
       show_title: 'Покажи заглавието',
       show_scene: 'Покажи анимираната сцена',
       illustration_theme: 'Тема на илюстрацията',
-      theme_auto: 'Автоматично (слънце или тъмна тема)',
+      theme_auto: 'Автоматично (следва темата)',
       theme_day: 'Ден',
       theme_night: 'Нощ',
       show_alerts: 'Покажи пътните известия',
@@ -847,7 +847,7 @@ var TransportI18n = {
       show_title: 'Показывать заголовок',
       show_scene: 'Показывать анимированную сцену',
       illustration_theme: 'Тема иллюстрации',
-      theme_auto: 'Автоматически (солнце или тёмная тема)',
+      theme_auto: 'Автоматически (по теме)',
       theme_day: 'День',
       theme_night: 'Ночь',
       show_alerts: 'Показывать транспортные оповещения',
@@ -904,7 +904,7 @@ var TransportI18n = {
       show_title: 'Показувати заголовок',
       show_scene: 'Показувати анімовану сцену',
       illustration_theme: 'Тема ілюстрації',
-      theme_auto: 'Автоматично (сонце або темна тема)',
+      theme_auto: 'Автоматично (за темою)',
       theme_day: 'День',
       theme_night: 'Ніч',
       show_alerts: 'Показувати транспортні сповіщення',
@@ -961,7 +961,7 @@ var TransportI18n = {
       show_title: 'Cím megjelenítése',
       show_scene: 'Animált jelenet megjelenítése',
       illustration_theme: 'Az illusztráció témája',
-      theme_auto: 'Automatikus (nap vagy sötét téma)',
+      theme_auto: 'Automatikus (a témát követi)',
       theme_day: 'Nappal',
       theme_night: 'Éjszaka',
       show_alerts: 'Forgalmi riasztások megjelenítése',
@@ -1018,7 +1018,7 @@ var TransportI18n = {
       show_title: 'Zobraziť názov',
       show_scene: 'Zobraziť animovanú scénu',
       illustration_theme: 'Téma ilustrácie',
-      theme_auto: 'Automaticky (slnko alebo tmavá téma)',
+      theme_auto: 'Automaticky (podľa témy)',
       theme_day: 'Deň',
       theme_night: 'Noc',
       show_alerts: 'Zobraziť dopravné upozornenia',
@@ -1075,7 +1075,7 @@ var TransportI18n = {
       show_title: 'Zobrazit název',
       show_scene: 'Zobrazit animovanou scénu',
       illustration_theme: 'Motiv ilustrace',
-      theme_auto: 'Automaticky (slunce nebo tmavý motiv)',
+      theme_auto: 'Automaticky (podle motivu)',
       theme_day: 'Den',
       theme_night: 'Noc',
       show_alerts: 'Zobrazit dopravní upozornění',
@@ -1132,7 +1132,7 @@ var TransportI18n = {
       show_title: 'Prikaži naslov',
       show_scene: 'Prikaži animirano sceno',
       illustration_theme: 'Tema ilustracije',
-      theme_auto: 'Samodejno (sonce ali temna tema)',
+      theme_auto: 'Samodejno (sledi temi)',
       theme_day: 'Dan',
       theme_night: 'Noč',
       show_alerts: 'Prikaži prometna opozorila',
@@ -1189,7 +1189,7 @@ var TransportI18n = {
       show_title: 'Rādīt virsrakstu',
       show_scene: 'Rādīt animēto ainu',
       illustration_theme: 'Ilustrācijas motīvs',
-      theme_auto: 'Automātiski (saule vai tumšā tēma)',
+      theme_auto: 'Automātiski (seko tēmai)',
       theme_day: 'Diena',
       theme_night: 'Nakts',
       show_alerts: 'Rādīt satiksmes brīdinājumus',
@@ -1246,7 +1246,7 @@ var TransportI18n = {
       show_title: 'Εμφάνιση τίτλου',
       show_scene: 'Εμφάνιση κινούμενης σκηνής',
       illustration_theme: 'Θέμα εικονογράφησης',
-      theme_auto: 'Αυτόματο (ήλιος ή σκοτεινό θέμα)',
+      theme_auto: 'Αυτόματο (ακολουθεί το θέμα)',
       theme_day: 'Ημέρα',
       theme_night: 'Νύχτα',
       show_alerts: 'Εμφάνιση ειδοποιήσεων κυκλοφορίας',
@@ -1374,13 +1374,11 @@ var TRANSPORT_APPROACH = 10;
 // Delayed: the next departure runs this many minutes late or more (real time).
 var TRANSPORT_LATE = 2;
 
-// Night picture: forced by illustration_theme, else the sun below the horizon or Home Assistant's dark theme (dark mode alone without a valid sun.sun).
+// Night picture: forced by illustration_theme, else Home Assistant's dark theme alone (a light theme keeps the day picture after sunset).
 function transportIsNight(hass, config) {
   var theme = config?.illustration_theme;
   if (theme === 'day') return false;
   if (theme === 'night') return true;
-  var sun = hass?.states?.['sun.sun'];
-  if (sun && sun.state !== 'unavailable' && sun.state !== 'unknown') return sun.state === 'below_horizon' || !!hass?.themes?.darkMode;
   return !!hass?.themes?.darkMode;
 }
 
@@ -1474,8 +1472,8 @@ class TransportCard extends HTMLElement {
 
   set hass(hass) {
     this._hass = hass;
-    // Redraw only when a stop sensor or the sun (day / night picture) changed; the countdown ticks on its own timer.
-    var states = this._entityIds().map((id) => hass.states[id]).concat([hass.states['sun.sun'], !!hass.themes?.darkMode]);
+    // Redraw only when a stop sensor or the dark mode (day / night picture) changed; the countdown ticks on its own timer.
+    var states = this._entityIds().map((id) => hass.states[id]).concat([!!hass.themes?.darkMode]);
     var changed = !this._lastStates || states.length !== this._lastStates.length || states.some((s, i) => s !== this._lastStates[i]);
     if (changed) {
       this._lastStates = states;
