@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.6.3 - 2026-11-19
+
+### Fixes
+- Start: the stops of one network set up together wait for each other before their first update, whatever order Home Assistant sets them up in (the stops expected are taken when the integration starts), so the timetable is read once for all of them.
+
 ## 1.6.2 - 2026-11-19
 
 ### Performance
