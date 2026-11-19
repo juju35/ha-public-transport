@@ -44,6 +44,8 @@ _LOGGER = logging.getLogger(__name__)
 PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 CARD_PATH = Path(__file__).parent / "frontend" / CARD_FILENAME
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+# Entry ids set up during Home Assistant's start (hass.data key).
+STARTING_STOPS = f"{DOMAIN}_starting"
 REFRESH_SCHEMA = vol.Schema({vol.Optional(ATTR_CONFIG_ENTRY_ID): cv.string})
 
 
@@ -111,6 +113,11 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             )
 
     hass.services.async_register(DOMAIN, SERVICE_REFRESH, refresh, REFRESH_SCHEMA)
+    if not hass.is_running:
+        # Home Assistant's start sets up every stop together: each network fetches once all of its stops joined.
+        hass.data[STARTING_STOPS] = {
+            entry.entry_id for entry in hass.config_entries.async_entries(DOMAIN) if not entry.disabled_by
+        }
     return True
 
 
@@ -212,16 +219,15 @@ async def async_unload_entry(hass: HomeAssistant, entry: PublicTransportConfigEn
 
 
 def _starting_stops(hass: HomeAssistant, entry: PublicTransportConfigEntry, key: str) -> bool:
-    """Whether another stop of this network is being set up and has not joined its coordinator yet."""
+    """Whether, during Home Assistant's start, another stop of this network has still to join its coordinator."""
+    if hass.is_running:
+        return False
+    starting: set[str] = hass.data.get(STARTING_STOPS, set())
     joined = hass.data.get(DOMAIN, {})[key].stops
     return any(
-        other.entry_id != entry.entry_id
+        other.entry_id in starting
+        and other.entry_id != entry.entry_id
         and other.entry_id not in joined
-        and not other.disabled_by
-        and (
-            other.state is ConfigEntryState.SETUP_IN_PROGRESS
-            or (other.state is ConfigEntryState.NOT_LOADED and not hass.is_running)
-        )
         and other.data.get(CONF_PROVIDER)
         and network_key(other.data) == key
         for other in hass.config_entries.async_entries(DOMAIN)

@@ -6,8 +6,8 @@ from datetime import timedelta
 
 import pytest
 from homeassistant.config_entries import ConfigEntryState
-from homeassistant.const import CONF_API_KEY
-from homeassistant.core import HomeAssistant
+from homeassistant.const import CONF_API_KEY, EVENT_HOMEASSISTANT_STARTED
+from homeassistant.core import CoreState, HomeAssistant
 from homeassistant.exceptions import HomeAssistantError, ServiceValidationError
 from homeassistant.setup import async_setup_component
 from homeassistant.util import dt as dt_util
@@ -183,8 +183,14 @@ async def test_first_update_failure_retries_later(hass, aioclient_mock) -> None:
 async def test_stops_set_up_together_share_one_first_fetch(hass, aioclient_mock) -> None:
     """Two stops of a network starting together: one first update asks for both, the setup does not wait for it."""
     first, second = make_entry(hass), make_entry(hass, "1301", lines=("0011",))
-    await setup(hass, aioclient_mock, first)
+    hass.set_state(CoreState.not_running)  # bootstrap: every entry is set up before the start
+    data.mock_network(aioclient_mock)
+    assert await async_setup_component(hass, "http", {})
+    await hass.config_entries.async_setup(first.entry_id)
     assert second.state is ConfigEntryState.LOADED
+    hass.set_state(CoreState.running)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
+    await hass.async_block_till_done(wait_background_tasks=True)
     assert first.runtime_data is second.runtime_data
     calls = data.calls_to(aioclient_mock, data.PASSAGES_BUS)
     assert len(calls) == 1
