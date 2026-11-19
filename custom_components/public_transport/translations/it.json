@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Nessuna fermata di Public Transport è caricata."
-    },
-    "network_unavailable": {
-      "message": "Gli open data della rete non sono raggiungibili: {error}"
     }
   },
   "services": {

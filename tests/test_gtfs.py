@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from datetime import timedelta
 
 import pytest
@@ -28,8 +29,10 @@ G2 = Stop(id="G2", name="Gare", mode="bus")
 @pytest.fixture(autouse=True)
 def clear_cache():
     gtfs_module._STATIC.clear()
+    gtfs_module._LOCKS.clear()
     yield
     gtfs_module._STATIC.clear()
+    gtfs_module._LOCKS.clear()
 
 
 def mock_feeds(aioclient_mock, *, rt=None, alerts=None, rt_status=200) -> None:
@@ -222,3 +225,61 @@ async def test_invalid_timetable(provider, aioclient_mock) -> None:
     aioclient_mock.get(data.GTFS_URL, status=404)
     with pytest.raises(ProviderError):
         await provider.prepare()
+
+
+async def test_parsed_timetable_is_kept_on_disk(hass, provider, aioclient_mock, tmp_path, monkeypatch) -> None:
+    """The next start reads the parsed timetable back instead of the zip, until the zip changes."""
+    mock_feeds(aioclient_mock)
+    provider.follow([G1])
+    await provider.lines()
+    first = await provider.departures([G1])
+    assert (tmp_path / "reseau-test.cache").is_file()
+    # The followed stop's timetable came with the first reading of the zip: no second pass.
+    assert provider._static.timetable.stop_ids == frozenset({"G1"})
+
+    gtfs_module._STATIC.clear()  # a restart
+    reads = []
+    monkeypatch.setattr(gtfs_module.GtfsStatic, "read_timetable", lambda self, ids: reads.append(ids))
+    load = gtfs_module.GtfsStatic.load
+    monkeypatch.setattr(gtfs_module.GtfsStatic, "load", lambda *a: reads.append(a) or load(*a))
+    again = create_provider("gtfs", async_get_clientsession(hass), network=data.NETWORK, cache_dir=tmp_path)
+    again.follow([G1])
+    await again.lines()
+    assert await again.departures([G1]) == first
+    assert first[G1.key]
+    assert reads == []
+
+    # A new zip (another size or date) is read again.
+    gtfs_module._STATIC.clear()
+    zip_path = tmp_path / "reseau-test.zip"
+    zip_path.write_bytes(zip_path.read_bytes() + b"\0")
+    other = create_provider("gtfs", async_get_clientsession(hass), network=data.NETWORK, cache_dir=tmp_path)
+    await other.prepare()
+    assert len(reads) == 1
+
+
+async def test_damaged_cache_reads_the_zip(provider, aioclient_mock, tmp_path) -> None:
+    mock_feeds(aioclient_mock)
+    await provider.prepare()
+    (tmp_path / "reseau-test.cache").write_bytes(b"garbage")
+    gtfs_module._STATIC.clear()
+    assert await provider.search_stops("gare")
+
+
+async def test_one_reading_for_stops_loading_together(hass, provider, aioclient_mock, tmp_path, monkeypatch) -> None:
+    mock_feeds(aioclient_mock)
+    await provider.prepare()
+    gtfs_module._STATIC.clear()
+    (tmp_path / "reseau-test.cache").unlink()
+    loads = []
+    load = gtfs_module.GtfsStatic.load
+    monkeypatch.setattr(gtfs_module.GtfsStatic, "load", lambda *a: loads.append(a) or load(*a))
+    other = create_provider(
+        "gtfs",
+        async_get_clientsession(hass),
+        network=data.NETWORK,
+        cache_dir=tmp_path,
+        executor=hass.async_add_executor_job,
+    )
+    await asyncio.gather(provider.search_stops("gare"), other.search_stops("gare"))
+    assert len(loads) == 1

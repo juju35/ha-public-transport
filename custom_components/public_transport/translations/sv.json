@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Ingen hållplats i Public Transport är inläst."
-    },
-    "network_unavailable": {
-      "message": "Nätverkets öppna data kan inte nås: {error}"
     }
   },
   "services": {

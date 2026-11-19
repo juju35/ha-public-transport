@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "No hay ninguna parada de Public Transport cargada."
-    },
-    "network_unavailable": {
-      "message": "Los datos abiertos de la red no responden: {error}"
     }
   },
   "services": {

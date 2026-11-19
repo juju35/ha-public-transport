@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Keine Haltestelle von Public Transport ist geladen."
-    },
-    "network_unavailable": {
-      "message": "Die Open Data des Netzes sind nicht erreichbar: {error}"
     }
   },
   "services": {

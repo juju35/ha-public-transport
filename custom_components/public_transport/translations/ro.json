@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Nicio stație Public Transport nu este încărcată."
-    },
-    "network_unavailable": {
-      "message": "Datele deschise ale rețelei nu sunt accesibile: {error}"
     }
   },
   "services": {

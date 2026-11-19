@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Aucun arrêt de Public Transport n'est chargé."
-    },
-    "network_unavailable": {
-      "message": "L'open data du réseau est injoignable : {error}"
     }
   },
   "services": {

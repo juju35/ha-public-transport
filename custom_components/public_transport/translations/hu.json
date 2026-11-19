@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Nincs betöltött Public Transport megálló."
-    },
-    "network_unavailable": {
-      "message": "A hálózat nyílt adatai nem érhetők el: {error}"
     }
   },
   "services": {

@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Няма заредена спирка на Public Transport."
-    },
-    "network_unavailable": {
-      "message": "Отворените данни на мрежата са недостъпни: {error}"
     }
   },
   "services": {

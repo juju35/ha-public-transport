@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Nav ielādēta neviena Public Transport pietura."
-    },
-    "network_unavailable": {
-      "message": "Tīkla atvērtie dati nav sasniedzami: {error}"
     }
   },
   "services": {

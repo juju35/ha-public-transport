@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Nobeno postajališče Public Transport ni naloženo."
-    },
-    "network_unavailable": {
-      "message": "Odprti podatki omrežja niso dosegljivi: {error}"
     }
   },
   "services": {

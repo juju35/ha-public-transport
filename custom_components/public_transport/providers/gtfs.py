@@ -13,10 +13,12 @@ GTFS-RT resource: hundreds of networks, big and small (Toulouse, Bordeaux, Montp
 
 from __future__ import annotations
 
+import asyncio
 import csv
 import io
 import json
 import logging
+import pickle
 import re
 import time
 import zipfile
@@ -115,17 +117,18 @@ class GtfsStatic:
     timetable: Timetable | None = None
 
     @classmethod
-    def load(cls, path: Path) -> GtfsStatic:
-        """Read stops, routes, trips, calendars and which routes serve which stop (one pass over stop_times)."""
+    def load(cls, path: Path, stop_ids: frozenset[str] = frozenset()) -> GtfsStatic:
+        """Read stops, routes, trips, calendars, which routes serve which stop and the timetable of `stop_ids`, in
+        one pass over stop_times (the biggest file by far: millions of rows for a national network)."""
         static = cls(path=path)
         try:
             with zipfile.ZipFile(path) as archive:
-                static._read(archive)
+                static._read(archive, stop_ids)
         except (OSError, zipfile.BadZipFile, csv.Error, KeyError) as err:
             raise ProviderError(f"Invalid GTFS file: {err}") from err
         return static
 
-    def _read(self, archive: zipfile.ZipFile) -> None:
+    def _read(self, archive: zipfile.ZipFile, stop_ids: frozenset[str]) -> None:
         self.timezone = next((r.get("agency_timezone") or "" for r in _rows(archive, "agency.txt")), "") or (
             "Europe/Paris"
         )
@@ -168,11 +171,14 @@ class GtfsStatic:
                 self.exceptions.setdefault(row["service_id"], {})[day] = row.get("exception_type") == "1"
         last: dict[str, tuple[int, str]] = {}
         stop_trips: dict[str, list[str]] = {}
+        timetable = Timetable(stop_ids=stop_ids) if stop_ids else None
         for row in _rows(archive, "stop_times.txt"):
             trip = self.trips.get(row.get("trip_id", ""))
             stop_id = row.get("stop_id", "")
             if trip is None or not stop_id:
                 continue
+            if timetable is not None and stop_id in stop_ids:
+                _add_passage(timetable, row)
             self.stop_routes.setdefault(stop_id, set()).add(trip[0])
             # Keep a bounded sample of the trips calling here; their destinations are
             # resolved below, once the headsigns are readable.
@@ -202,6 +208,10 @@ class GtfsStatic:
                     heads.add(headsign)
                 if len(heads) >= 6:
                     break
+        if timetable is not None:
+            for items in timetable.passages.values():
+                items.sort()
+            self.timetable = timetable
 
     def read_timetable(self, stop_ids: frozenset[str]) -> Timetable:
         """The scheduled passages at these stops (a second pass over stop_times, kept until the stops change)."""
@@ -209,17 +219,8 @@ class GtfsStatic:
         try:
             with zipfile.ZipFile(self.path) as archive:
                 for row in _rows(archive, "stop_times.txt"):
-                    stop_id = row.get("stop_id", "")
-                    if stop_id not in stop_ids or row.get("trip_id") not in self.trips:
-                        continue
-                    # Drop-off only (pickup_type 1) is no departure for someone waiting at the stop.
-                    if row.get("pickup_type") == "1":
-                        continue
-                    seconds = _seconds(row.get("departure_time") or row.get("arrival_time") or "")
-                    if seconds is not None:
-                        timetable.passages.setdefault(stop_id, []).append(
-                            (seconds, row["trip_id"], _int(row.get("stop_sequence")))
-                        )
+                    if row.get("stop_id", "") in stop_ids and row.get("trip_id") in self.trips:
+                        _add_passage(timetable, row)
         except (OSError, zipfile.BadZipFile, csv.Error) as err:
             raise ProviderError(f"Invalid GTFS file: {err}") from err
         for items in timetable.passages.values():
@@ -236,6 +237,18 @@ class GtfsStatic:
     def mode_of(self, stop_id: str) -> str:
         modes = {self.lines[r].mode for r in self.stop_routes.get(stop_id, ()) if r in self.lines}
         return next((m for m in MODE_ORDER if m in modes), "bus")
+
+
+def _add_passage(timetable: Timetable, row: dict[str, str]) -> None:
+    """A stop_times row of a followed stop into the timetable (its trip known)."""
+    # Drop-off only (pickup_type 1) is no departure for someone waiting at the stop.
+    if row.get("pickup_type") == "1":
+        return
+    seconds = _seconds(row.get("departure_time") or row.get("arrival_time") or "")
+    if seconds is not None:
+        timetable.passages.setdefault(row["stop_id"], []).append(
+            (seconds, row["trip_id"], _int(row.get("stop_sequence")))
+        )
 
 
 WEEKDAYS = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
@@ -262,8 +275,12 @@ def _date(value: str | None) -> date | None:
         return None
 
 
-# One parsed GTFS per file, shared by the config flow and the coordinator of the network.
-_STATIC: dict[Path, tuple[float, GtfsStatic]] = {}
+# One parsed GTFS per file, shared by the config flow and the coordinator of the network, keyed by (mtime, size).
+_STATIC: dict[Path, tuple[tuple[float, int], GtfsStatic]] = {}
+# One reader per file: the stops of a network set up together wait for the same reading instead of each doing it.
+_LOCKS: dict[Path, asyncio.Lock] = {}
+# What a parsed GTFS kept on disk is: bumped whenever GtfsStatic changes shape, so an older one is read again.
+CACHE_VERSION = 1
 
 
 @dataclass(frozen=True, slots=True)
@@ -376,6 +393,7 @@ class GtfsProvider(Provider):
         self.feed = GtfsNetwork.from_dict(self.network)
         self.network_name = self.feed.name
         self._static: GtfsStatic | None = None
+        self._followed: frozenset[str] = frozenset()
 
     @property
     def key(self) -> str:
@@ -387,8 +405,20 @@ class GtfsProvider(Provider):
         slug = re.sub(r"[^A-Za-z0-9_-]", "_", self.feed.id)
         return base / f"{slug}.zip", base / f"{slug}.json"
 
+    def follow(self, stops: list[Stop]) -> None:
+        self._followed = frozenset(s.id for s in stops)
+
     async def _load_static(self, *, refresh: bool = False) -> GtfsStatic:
-        """The parsed timetable: downloaded when missing or a day old, parsed again when the file changed."""
+        """The parsed timetable: downloaded when missing or a day old, parsed again when the file changed.
+
+        Parsing a national network takes a minute, so the result is kept on disk next to the zip and read back at
+        the next start while the zip stays the same.
+        """
+        path, _ = self._paths()
+        async with _LOCKS.setdefault(path, asyncio.Lock()):
+            return await self._load_static_locked(refresh=refresh)
+
+    async def _load_static_locked(self, *, refresh: bool) -> GtfsStatic:
         path, meta_path = self._paths()
         meta = await self._executor(_read_json, meta_path)
         fetched = float(meta.get("fetched") or 0)
@@ -401,11 +431,17 @@ class GtfsProvider(Provider):
                 if not exists:
                     raise
                 _LOGGER.warning("Could not refresh the %s timetable, keeping the one on disk", self.network_name)
-        mtime = await self._executor(lambda: path.stat().st_mtime)
+        version = await self._executor(_file_version, path)
         cached = _STATIC.get(path)
-        if cached is None or cached[0] != mtime:
-            static = await self._executor(GtfsStatic.load, path)
-            _STATIC[path] = (mtime, static)
+        if cached is None or cached[0] != version:
+            static = await self._executor(_read_cache, path.with_suffix(".cache"), version)
+            if static is None:
+                wanted = self._followed | (cached[1].timetable.stop_ids if cached and cached[1].timetable else set())
+                started = time.monotonic()
+                static = await self._executor(GtfsStatic.load, path, frozenset(wanted))
+                _LOGGER.debug("%s timetable read in %.1f s", self.network_name, time.monotonic() - started)
+                await self._executor(_write_cache, path.with_suffix(".cache"), version, static)
+            _STATIC[path] = (version, static)
             cached = _STATIC[path]
         self._static = cached[1]
         return self._static
@@ -449,10 +485,16 @@ class GtfsProvider(Provider):
         )
 
     async def _timetable(self, static: GtfsStatic, stop_ids: frozenset[str]) -> Timetable:
-        if static.timetable is None or not stop_ids <= static.timetable.stop_ids:
-            # Read for the union, so that the config flow and the coordinator do not read each other's out.
-            wanted = stop_ids | (static.timetable.stop_ids if static.timetable else frozenset())
-            static.timetable = await self._executor(static.read_timetable, wanted)
+        if static.timetable is not None and stop_ids <= static.timetable.stop_ids:
+            return static.timetable
+        async with _LOCKS.setdefault(static.path, asyncio.Lock()):
+            if static.timetable is None or not stop_ids <= static.timetable.stop_ids:
+                # Read for the union, so that the config flow and the coordinator do not read each other's out.
+                wanted = stop_ids | (static.timetable.stop_ids if static.timetable else frozenset())
+                static.timetable = await self._executor(static.read_timetable, wanted)
+                cached = _STATIC.get(static.path)
+                if cached is not None and cached[1] is static:
+                    await self._executor(_write_cache, static.path.with_suffix(".cache"), cached[0], static)
         return static.timetable
 
     # ── Real time ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -528,6 +570,7 @@ class GtfsProvider(Provider):
         return dict(static.lines)
 
     async def departures(self, stops: list[Stop]) -> dict[str, list[Departure]]:
+        self._followed |= frozenset(s.id for s in stops)
         static = self._static or await self._load_static()
         result: dict[str, list[Departure]] = {stop.key: [] for stop in stops}
         timetable = await self._timetable(static, frozenset(s.id for s in stops))
@@ -718,3 +761,41 @@ def _read_json(path: Path) -> dict[str, Any]:
 def _write_json(path: Path, data: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data), encoding="utf-8")
+
+
+def _file_version(path: Path) -> tuple[float, int]:
+    """What tells a GTFS zip from the next one: its modification time and size."""
+    stat = path.stat()
+    return (stat.st_mtime, stat.st_size)
+
+
+def _read_cache(path: Path, version: tuple[float, int]) -> GtfsStatic | None:
+    """The GTFS parsed at a previous start, when it was parsed from this very zip (else None: read the zip)."""
+    try:
+        with path.open("rb") as handle:
+            # Written by _write_cache in Home Assistant's own .storage folder, never downloaded.
+            data = pickle.load(handle)  # noqa: S301
+    except FileNotFoundError:
+        return None
+    except Exception as err:  # noqa: BLE001 — a damaged or outdated cache is only read again from the zip
+        _LOGGER.debug("Ignoring the GTFS cache %s: %s", path.name, err)
+        return None
+    if not isinstance(data, dict) or data.get("format") != CACHE_VERSION or tuple(data.get("zip", ())) != version:
+        return None
+    static = data.get("static")
+    if not isinstance(static, GtfsStatic):
+        return None
+    static.path = path.with_suffix(".zip")
+    return static
+
+
+def _write_cache(path: Path, version: tuple[float, int], static: GtfsStatic) -> None:
+    """Keep the parsed GTFS for the next start (written aside, then moved, so a crash never leaves half a file)."""
+    partial = path.with_suffix(".cache.part")
+    try:
+        with partial.open("wb") as handle:
+            pickle.dump({"format": CACHE_VERSION, "zip": version, "static": static}, handle, pickle.HIGHEST_PROTOCOL)
+        partial.replace(path)
+    except OSError as err:
+        _LOGGER.warning("Could not keep the parsed timetable %s: %s", path.name, err)
+        partial.unlink(missing_ok=True)

@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Δεν έχει φορτωθεί καμία στάση του Public Transport."
-    },
-    "network_unavailable": {
-      "message": "Τα ανοιχτά δεδομένα του δικτύου δεν είναι προσβάσιμα: {error}"
     }
   },
   "services": {

@@ -35,6 +35,11 @@ class PublicTransportEntity(CoordinatorEntity[NetworkCoordinator]):
         )
 
     @property
+    def available(self) -> bool:
+        # Unavailable until the first departures of the network are fetched (in the background, after setup).
+        return super().available and self.coordinator.data is not None
+
+    @property
     def line_ids(self) -> list[str]:
         return list(self.entry.options.get(CONF_LINES, []))
 
