@@ -93,7 +93,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 <summary>Every network the GTFS-RT provider offers, by area</summary>
 
 <!-- networks:start -->
-218 networks, from the [transport.data.gouv.fr](https://transport.data.gouv.fr) catalogue (refreshed every week; the setup form always reads the current catalogue).
+216 networks, from the [transport.data.gouv.fr](https://transport.data.gouv.fr) catalogue (refreshed every week; the setup form always reads the current catalogue).
 
 | City / area | Network | Alerts |
 |---|---|---|
@@ -109,7 +109,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Arles-Crau-Camargue-Montagnette | [Réseau urbain Envia](https://transport.data.gouv.fr/datasets/donnees-statiques-et-temps-reels-reseau-envia) | — |
 | Arras | [Réseau urbain Artis](https://transport.data.gouv.fr/datasets/reseau-de-transport-artis) | — |
 | Auray Quiberon Terre Atlantique | [Réseau urbain Glazgo](https://transport.data.gouv.fr/datasets/reseau-urbain-glazgo) | Yes |
-| Auxerrois | [Réseau urbain Léo](https://transport.data.gouv.fr/datasets/reseau-de-transports-en-commun-de-la-communaute-dagglomeration-de-lauxerrois) | — |
+| Auxerrois | [Réseau urbain Léo](https://transport.data.gouv.fr/datasets/reseau-de-transports-en-commun-de-la-communaute-dagglomeration-de-lauxerrois) | Yes |
 | Bagnères-de-Bigorre, Barèges, Campan | [Navettes Bagnères-de-Bigorre - La Mongie](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-des-navettes-de-la-ligne-bagneres-la-mongie-gtfs-gtfs-rt) | — |
 | Bar-le-Duc - Sud Meuse | [Réseau urbain TUB](https://transport.data.gouv.fr/datasets/fr-200052264-t0003-0000-1) | — |
 | Bassin d'Aubenas | [Réseau urbain Tout'enbus](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel) | Yes |
@@ -141,7 +141,6 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Chinon, Vienne et Loire | [Réseau urbain CVL Mobilité](https://transport.data.gouv.fr/datasets/reseau-cvlmobilite-plan-de-transport-theorique-ligne-a-format-gtfs) | — |
 | Cholet Agglomération | [Réseau urbain Choletbus](https://transport.data.gouv.fr/datasets/horaires-theoriques-reseau-choletbus) | Yes |
 | CIVIS | [Réseau urbain Alternéo](https://transport.data.gouv.fr/datasets/donnees-du-reseau-alterneo) | Yes |
-| Clermont Auvergne Métropole | [Réseau urbain T2C](https://transport.data.gouv.fr/datasets/syndicat-mixte-des-transports-en-commun-de-lagglomeration-clermontoise-smtc-ac-reseau-t2c-gtfs-gtfs-rt) | — |
 | Clermontois | [Réseau urbain Le Bus](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-le-bus-communaute-de-communes-du-clermontois) | — |
 | Coeur de Flandre | [Réseau urbain Hop Bus](https://transport.data.gouv.fr/datasets/hop-bus-le-reseau-100-gratuit-du-coeur-de-flandre) | Yes |
 | Coeur de Loire | [Réseau urbain Papillon](https://transport.data.gouv.fr/datasets/donnees-du-reseau-de-bus-papillon-a-cosne-cours-sur-loire) | Yes |
@@ -197,7 +196,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Hérault-Méditerranée | [Réseau urbain Cap’Bus](https://transport.data.gouv.fr/datasets/gtfs-capbus) | — |
 | Huez | [Navettes hivernales de l'Alpe d'Huez](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-des-navettes-hivernales-de-lalpe-dhuez-gtfs-gtfs-rt) | — |
 | Ile de Ré | [Réseau urbain RespiRé](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-respire-ile-de-re-gtfs-gtfs-rt) | — |
-| Intercom Bernay Terres de Normandie | [Réseau urbain l'Bus](https://transport.data.gouv.fr/datasets/reseau-transport-urbain-de-bernay) | — |
+| Intercom Bernay Terres de Normandie | [Réseau urbain l'Bus](https://transport.data.gouv.fr/datasets/reseau-transport-urbain-de-bernay) | Yes |
 | Isère | [Navettes saisonnières Transaltitude - Isère](https://transport.data.gouv.fr/datasets/desserte-des-stations-de-ski-iseroises-transaltitude-38) | — |
 | Isère | [Réseau interurbain - Isère (38)](https://transport.data.gouv.fr/datasets/reseau-interurbain-cars-region-isere-38-1) | Yes |
 | La Croix-Valmer | [Réseau urbain La Croix Valmer](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-ligne-de-la-croix-valmer) | — |
@@ -217,7 +216,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Loire Forez Agglomération | [Cars Région Loire - lignes 19 et 32](https://transport.data.gouv.fr/datasets/flux-gtfs-realtime-des-lignes-cars-region-loire-l19-et-l32-fournis-par-pysae) | — |
 | Lorient Agglomération | [Réseau urbain Izilo](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-izilo-format-gtfs-de-lorient-agglomeration) | Yes |
 | Luberon Monts de Vaucluse | [Réseau urbain Cmonbus](https://transport.data.gouv.fr/datasets/gtfs-reseau-cmonbus) | Yes |
-| Lunel Agglo | [Réseau urbain Olé](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-ole-lunel-agglo-gtfs-et-gtfs-rt) | — |
+| Lunel Agglo | [Réseau urbain Olé](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-ole-lunel-agglo-gtfs-gtfs-rt-netex) | — |
 | Mayenne | [Réseau urbain May'bus](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-maybus-mayenne-gtfs-gtfs-rt) | Yes |
 | Mende | [Réseau urbain TUM](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-max-mende-mobilites-bus-gtfs-gtfs-rt) | — |
 | Métropole du Grand Nancy | [Réseau urbain Stan](https://transport.data.gouv.fr/datasets/fr-200052264-t0034-0000-1) | — |
@@ -286,7 +285,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Saint-Dié-des-Vosges | [Réseau urbain Sylvia](https://transport.data.gouv.fr/datasets/fr-200052264-t0016-0000-1) | Yes |
 | Saint-Étienne Métropole | [Réseau urbain STAS](https://transport.data.gouv.fr/datasets/horaires-du-reseau-stas) | — |
 | Saint-Louis Agglomération | [Réseau urbain Distribus](https://transport.data.gouv.fr/datasets/fr-200052264-t0017-0000-1) | — |
-| Saint-Sulpice-la-Pointe | [Réseau urbain ST SULPICE LA POINTE](https://transport.data.gouv.fr/datasets/reseau-de-transport-urbain-de-la-ville-de-st-sulpice-la-pointe) | Yes |
+| Saint-Sulpice-la-Pointe | [Réseau urbain ST SULPICE LA POINTE](https://transport.data.gouv.fr/datasets/reseau-de-transport-urbain-de-la-ville-de-st-sulpice-la-pointe) | — |
 | Saint-Tropez | [Réseau urbain Navette Saint-Tropez](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-navette-reguliere-saint-tropez) | — |
 | Saintes - Grandes Rives - L'Agglo | [Réseau urbain Buss](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-buss-saintes-gtfs-gtfs-rt) | — |
 | Sarlat-la-Canéda | [Réseau urbain Sarlat Bus](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-sarlatbus-gtfs-gtfs-rt) | — |
@@ -303,12 +302,11 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Territoires Vendômois | [Réseau urbain Move](https://transport.data.gouv.fr/datasets/gtfs-move-vendome) | Yes |
 | Thelloise | [Réseau urbain PassThelle Bus](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-pass-thelle-bus-communaute-de-communes-thelloise) | — |
 | Tignes | [Navettes saisonnières Tignes](https://transport.data.gouv.fr/datasets/navettes-tignes) | — |
-| Tours Métropole Val de Loire | [Réseau urbain et périurbain Fil Bleu](https://transport.data.gouv.fr/datasets/fil-bleu-syndicat-des-mobilites-gtfs-gtfs-rt) | — |
+| Tours Métropole Val de Loire | [Réseau urbain et périurbain Fil Bleu](https://transport.data.gouv.fr/datasets/fil-bleu-syndicat-des-mobilites-gtfs-gtfs-rt) | Yes |
 | Troyes Champagne Métropole | [Réseau urbain TCAT](https://transport.data.gouv.fr/datasets/donnees-tcat-troyes-champagne-metropole-1) | — |
-| Val-d'Isère | [Navettes saisonnières Val d'Isère](https://transport.data.gouv.fr/datasets/navettes-val-disere) | — |
 | Valence Romans Agglo | [Réseau urbain Citéa](https://transport.data.gouv.fr/datasets/ce-jeu-de-donnees-contient-la-liste-des-arrets-des-horaires-et-des-parcours-theoriques-du-reseau-de-transport-urbain-et-interurbain-de-vrm) | Yes |
 | Valenciennes Métropole, Porte du Hainaut | [Réseau urbain Transvilles](https://transport.data.gouv.fr/datasets/simouv-horaires-theoriques-format-gtfs-et-temps-reel-format-siri-transvilles-valenciennes) | — |
-| Vallée de Chamonix-Mont-Blanc | [Réseau urbain Chamonix](https://transport.data.gouv.fr/datasets/gtfs-reseau-chamonix-mobilite) | — |
+| Vallée de Chamonix-Mont-Blanc | [Réseau urbain Chamonix](https://transport.data.gouv.fr/datasets/gtfs-reseau-chamonix-mobilite) | Yes |
 | Vesoul | [Réseau urbain moova](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-moova-communaute-dagglomeration-de-vesoul-gtfs) | — |
 | Vichy Communauté | [Réseau urbain Mobivie](https://transport.data.gouv.fr/datasets/mobivie-reseau-urbain-vichy-communaute) | — |
 | Vienne Condrieu | [Réseau urbain L'va](https://transport.data.gouv.fr/datasets/reseau-lva) | Yes |
