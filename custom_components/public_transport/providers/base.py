@@ -146,6 +146,10 @@ class Provider(ABC):
     async def prepare(self) -> None:  # noqa: B027 — optional hook, nothing to do for most networks
         """Fetch what the stop search needs once (a generic provider downloads the network's timetable)."""
 
+    def follow(self, stops: list[Stop]) -> None:  # noqa: B027 — optional hook, nothing to do for most networks
+        """The stops the coordinator polls, told before each update (a generic provider indexes their timetable
+        while it reads the network's file, instead of reading it a second time)."""
+
     @abstractmethod
     async def search_stops(self, query: str) -> list[Stop]:
         """Stops whose name matches the query."""

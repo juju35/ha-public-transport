@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Er is geen halte van Public Transport geladen."
-    },
-    "network_unavailable": {
-      "message": "De open data van het netwerk zijn niet bereikbaar: {error}"
     }
   },
   "services": {

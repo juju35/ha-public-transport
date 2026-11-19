@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "No stop of Public Transport is loaded."
-    },
-    "network_unavailable": {
-      "message": "The network's open data cannot be reached: {error}"
     }
   },
   "services": {

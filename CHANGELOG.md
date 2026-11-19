@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.6.2 - 2026-11-19
+
+### Performance
+- **Faster start**: the stops no longer hold Home Assistant's start while their network's timetable is read — they are set up at once and their first departures are fetched in the background (the entities are unavailable until then; a network down at start no longer retries the setup, the polling reaches it).
+- **GTFS networks** (transport.data.gouv.fr, e.g. the national SNCF timetable): the parsed timetable is kept on disk next to the zip and read back at the next start in a fraction of a second, until a new timetable is downloaded; the followed stops' timetable is read in the same pass over `stop_times.txt` instead of a second one.
+- Several stops of one network starting together share a single reading of the timetable and a single first update.
+
 ## 1.6.1 - 2026-11-18
 
 ### Fixes

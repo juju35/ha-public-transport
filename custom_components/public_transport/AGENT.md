@@ -31,12 +31,17 @@ custom_components/public_transport/
 - One config entry per stop; unique id `<provider key>_<mode>:<stop_id>` (provider key = provider id, or `gtfs:<dataset>`).
   Entry data keeps `line_names` for sensor names, and `network` (dataset id, name, GTFS and GTFS-RT URLs) for GTFS.
 - Coordinators in hass.data[DOMAIN] are keyed by the provider key (`network_key(entry.data)`): one per GTFS network.
-- GTFS: the parsed zip is shared by every provider instance (`_STATIC`, keyed by file path and mtime); the timetable of
-  the followed stops is read in a second pass over stop_times (union of the stops asked so far).
+- GTFS: the parsed zip is shared by every provider instance (`_STATIC`, keyed by file path and (mtime, size)), read
+  under one lock per file (`_LOCKS`) and pickled next to the zip (`<slug>.cache`, `CACHE_VERSION`: bump it when
+  GtfsStatic changes shape) so a restart skips the parsing. The timetable of the followed stops (`Provider.follow`,
+  told by the coordinator) is read in the same pass over stop_times; a stop added later triggers a second pass (union).
+- Setup never waits for the network: entities are added, then `NetworkCoordinator.async_fetch_new_stops` fetches in the
+  background — once the last stop of the network starting with it has joined (`_starting_stops`), else at HA start.
+  Entities are unavailable while the coordinator has no data; updates are serialized by the coordinator's lock.
 - Field names of IDFM, TCL and CTS come from their documentation and community clients (Nov. 2026), not from captured
   answers: check them first if a network shows nothing.
 - Logos: frontend/logos/<provider key with ":" as "-">.svg, exposed as the stop sensor's `logo` attribute.
-- The coordinator has no config entry (shared): setup refreshes it when the stop is new, unload removes the stop and drops the coordinator when empty.
+- The coordinator has no config entry (shared): setup asks for its first fetch when the stop is new, unload removes the stop and drops the coordinator when empty.
 - STAR `precision`: "Temps réel" = real time, "Applicable" = timetable; a string in the bus dataset, a list in the metro one.
   Only bus passages have `departtheorique` (delay = depart − departtheorique). Alert `niveau`: list of labels
   (Mineure 1, Bloquante 2, Majeure 3) or a number 1-3. Field names checked against portal answers captured in Oct. 2026 and the dataset schemas.

@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Żaden przystanek Public Transport nie jest załadowany."
-    },
-    "network_unavailable": {
-      "message": "Otwarte dane sieci są niedostępne: {error}"
     }
   },
   "services": {

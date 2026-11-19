@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Intet stoppested fra Public Transport er indlæst."
-    },
-    "network_unavailable": {
-      "message": "Netværkets open data kan ikke nås: {error}"
     }
   },
   "services": {

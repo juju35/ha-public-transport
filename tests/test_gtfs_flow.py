@@ -47,7 +47,7 @@ async def test_gtfs_flow(hass, aioclient_mock) -> None:
     result = await hass.config_entries.flow.async_configure(result["flow_id"], {"network": "reseau-test"})
     # The timetable is downloaded behind a progress step.
     if result["type"] is FlowResultType.SHOW_PROGRESS:
-        await hass.async_block_till_done()
+        await hass.async_block_till_done(wait_background_tasks=True)
         result = await hass.config_entries.flow.async_configure(result["flow_id"])
     assert result["type"] is FlowResultType.SHOW_PROGRESS_DONE or result["step_id"] == "search"
     if result["type"] is FlowResultType.SHOW_PROGRESS_DONE:
@@ -64,7 +64,7 @@ async def test_gtfs_flow(hass, aioclient_mock) -> None:
     assert result["title"] == "Réseau Test Gare"
     assert result["data"]["network"]["gtfs_url"] == data.GTFS_URL
     assert result["result"].unique_id == "gtfs:reseau-test_tram:G1"
-    await hass.async_block_till_done()
+    await hass.async_block_till_done(wait_background_tasks=True)
 
     entry = result["result"]
     assert entry.state is ConfigEntryState.LOADED
@@ -94,7 +94,7 @@ async def test_timetable_download_fails(hass, aioclient_mock) -> None:
     result = await hass.config_entries.flow.async_configure(result["flow_id"], {"query": "test"})
     result = await hass.config_entries.flow.async_configure(result["flow_id"], {"network": "reseau-test"})
     while result["type"] in (FlowResultType.SHOW_PROGRESS, FlowResultType.SHOW_PROGRESS_DONE):
-        await hass.async_block_till_done()
+        await hass.async_block_till_done(wait_background_tasks=True)
         result = await hass.config_entries.flow.async_configure(result["flow_id"])
     assert result["type"] is FlowResultType.ABORT
     assert result["reason"] == "cannot_connect"
@@ -131,7 +131,7 @@ async def test_two_gtfs_networks_have_their_own_coordinator(hass, aioclient_mock
         entries.append(entry)
     assert await async_setup_component(hass, "http", {})
     await hass.config_entries.async_setup(entries[0].entry_id)
-    await hass.async_block_till_done()
+    await hass.async_block_till_done(wait_background_tasks=True)
     assert all(e.state is ConfigEntryState.LOADED for e in entries)
     assert set(hass.data[DOMAIN]) == {"gtfs:reseau-test", "gtfs:autre"}
     assert entries[0].runtime_data is not entries[1].runtime_data

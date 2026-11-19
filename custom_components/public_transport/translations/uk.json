@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Жодну зупинку Public Transport не завантажено."
-    },
-    "network_unavailable": {
-      "message": "Відкриті дані мережі недоступні: {error}"
     }
   },
   "services": {

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import logging
+from collections.abc import Callable, Coroutine
 from pathlib import Path
 from typing import Any
 
@@ -16,6 +17,7 @@ from homeassistant.core import Event, HomeAssistant, ServiceCall
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError, ServiceValidationError
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.start import async_at_started
 from homeassistant.helpers.typing import ConfigType
 
 from .const import (
@@ -189,18 +191,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: PublicTransportConfigEnt
 
     stop = entry_stop(entry)
     coordinator.add_stop(entry.entry_id, stop, int(entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)))
-    # The first entry of a network, or a stop the last update did not ask for: fetch now.
-    if coordinator.data is None or stop.key not in coordinator.data:
-        await coordinator.async_refresh()
-    if not coordinator.last_update_success:
-        _release(hass, entry)
-        raise ConfigEntryNotReady(
-            translation_domain=DOMAIN,
-            translation_key="network_unavailable",
-            translation_placeholders={"error": str(coordinator.last_exception)},
-        )
     entry.runtime_data = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    # The first entry of a network, or a stop the last update did not ask for: fetch it in the background, once
+    # the other stops of the network starting with it have joined (a single reading of the timetable for all).
+    if coordinator.missing_stops() and not _starting_stops(hass, entry, key):
+        coordinator.async_fetch_new_stops()
+    elif not hass.is_running:
+        # Should the stops it waits for never join, Home Assistant's start still sets the fetch off.
+        entry.async_on_unload(async_at_started(hass, _fetch_new_stops(coordinator)))
     entry.async_on_unload(entry.add_update_listener(_async_reload))
     return True
 
@@ -210,6 +209,31 @@ async def async_unload_entry(hass: HomeAssistant, entry: PublicTransportConfigEn
     if unloaded:
         _release(hass, entry)
     return unloaded
+
+
+def _starting_stops(hass: HomeAssistant, entry: PublicTransportConfigEntry, key: str) -> bool:
+    """Whether another stop of this network is being set up and has not joined its coordinator yet."""
+    joined = hass.data.get(DOMAIN, {})[key].stops
+    return any(
+        other.entry_id != entry.entry_id
+        and other.entry_id not in joined
+        and not other.disabled_by
+        and (
+            other.state is ConfigEntryState.SETUP_IN_PROGRESS
+            or (other.state is ConfigEntryState.NOT_LOADED and not hass.is_running)
+        )
+        and other.data.get(CONF_PROVIDER)
+        and network_key(other.data) == key
+        for other in hass.config_entries.async_entries(DOMAIN)
+    )
+
+
+def _fetch_new_stops(coordinator: NetworkCoordinator) -> Callable[[HomeAssistant], Coroutine[Any, Any, None]]:
+    async def fetch(_hass: HomeAssistant) -> None:
+        if coordinator.missing_stops():
+            coordinator.async_fetch_new_stops()
+
+    return fetch
 
 
 def _release(hass: HomeAssistant, entry: PublicTransportConfigEntry) -> None:

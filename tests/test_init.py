@@ -65,7 +65,8 @@ async def setup(hass, aioclient_mock, *entries, passages=None):
         # Setting up the first entry sets up the integration, and with it every entry already added.
         if entry.state is ConfigEntryState.NOT_LOADED:
             await hass.config_entries.async_setup(entry.entry_id)
-    await hass.async_block_till_done()
+    # The first departures are fetched in the background, after the setup.
+    await hass.async_block_till_done(wait_background_tasks=True)
 
 
 def _resources(hass):
@@ -160,14 +161,35 @@ async def test_stops_of_a_network_share_one_request(hass, aioclient_mock) -> Non
 
 
 async def test_first_update_failure_retries_later(hass, aioclient_mock) -> None:
+    """A network down at start does not hold the setup: the stop is unavailable until the polling reaches it."""
     entry = make_entry(hass)
     aioclient_mock.get(data.PASSAGES_BUS, status=500)
     data.mock_network(aioclient_mock)
     assert await async_setup_component(hass, "http", {})
     await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done(wait_background_tasks=True)
+    assert entry.state is ConfigEntryState.LOADED
+    assert hass.states.get("sensor.star_republique_next_departure").state == "unavailable"
+
+    aioclient_mock.clear_requests()
+    data.mock_network(aioclient_mock)
+    async_fire_time_changed(hass, dt_util.utcnow() + timedelta(seconds=61))
     await hass.async_block_till_done()
-    assert entry.state is ConfigEntryState.SETUP_RETRY
-    assert "star" not in hass.data.get(DOMAIN, {})
+    state = hass.states.get("sensor.star_republique_next_departure")
+    assert state.state != "unavailable"
+    assert len(state.attributes["departures"]) == 3
+
+
+async def test_stops_set_up_together_share_one_first_fetch(hass, aioclient_mock) -> None:
+    """Two stops of a network starting together: one first update asks for both, the setup does not wait for it."""
+    first, second = make_entry(hass), make_entry(hass, "1301", lines=("0011",))
+    await setup(hass, aioclient_mock, first)
+    assert second.state is ConfigEntryState.LOADED
+    assert first.runtime_data is second.runtime_data
+    calls = data.calls_to(aioclient_mock, data.PASSAGES_BUS)
+    assert len(calls) == 1
+    assert calls[0][1].query["where"] == 'idarret="1201" or idarret="1301"'
+    assert len(data.calls_to(aioclient_mock, data.LINES_BUS)) == 1
 
 
 async def test_a_later_failure_keeps_the_departures(hass, aioclient_mock) -> None:

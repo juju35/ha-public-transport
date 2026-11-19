@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Ниједна станица Public Transport није учитана."
-    },
-    "network_unavailable": {
-      "message": "Отворени подаци мреже нису доступни: {error}"
     }
   },
   "services": {

@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from datetime import datetime, timedelta
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.util import dt as dt_util
 
@@ -53,6 +54,9 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
         self.last_error: ProviderError | None = None
         # URL of the network's logo served with the card, when the integration ships one.
         self.logo: str | None = None
+        # One update at a time: the first fetch of new stops, the polling and the refresh action share the network.
+        self._lock = asyncio.Lock()
+        self._fill: asyncio.Task[None] | None = None
 
     def add_stop(self, entry_id: str, stop: Stop, interval: int) -> None:
         self.stops[entry_id] = stop
@@ -66,13 +70,43 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
         self._apply_interval()
         return not self.stops
 
+    def missing_stops(self) -> bool:
+        """Whether a followed stop has no departures fetched yet."""
+        return self.data is None or any(stop.key not in self.data for stop in self.stops.values())
+
+    @callback
+    def async_fetch_new_stops(self) -> None:
+        """Fetch the stops not fetched yet, in the background: a network whose timetable takes long to read (a
+        national GTFS) must not hold Home Assistant's start. The entities stay unavailable meanwhile."""
+        if self._fill is None or self._fill.done():
+            self._fill = self.hass.async_create_background_task(self._async_fill(), f"{self.name}_first_refresh")
+
+    async def _async_fill(self) -> None:
+        # Stops added while an update runs are fetched by the next one; a failure is left to the polling.
+        for _ in range(3):
+            if not self.stops or not self.missing_stops():
+                return
+            await self.async_refresh()
+            if not self.last_update_success:
+                return
+
+    async def async_shutdown(self) -> None:
+        if self._fill is not None and not self._fill.done():
+            self._fill.cancel()
+        await super().async_shutdown()
+
     def _apply_interval(self) -> None:
         # The most demanding entry sets the pace for the whole network.
         seconds = min(self._intervals.values(), default=DEFAULT_SCAN_INTERVAL)
         self.update_interval = timedelta(seconds=max(MIN_SCAN_INTERVAL, seconds))
 
     async def _async_update_data(self) -> dict[str, list[Departure]]:
+        async with self._lock:
+            return await self._async_update_locked()
+
+    async def _async_update_locked(self) -> dict[str, list[Departure]]:
         stops = list({stop.key: stop for stop in self.stops.values()}.values())
+        self.provider.follow(stops)
         try:
             await self._async_refresh_static()
             departures = await self.provider.departures(stops)

@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Ни одна остановка Public Transport не загружена."
-    },
-    "network_unavailable": {
-      "message": "Открытые данные сети недоступны: {error}"
     }
   },
   "services": {

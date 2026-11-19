@@ -107,9 +107,6 @@
     },
     "no_stop": {
       "message": "Nie je načítaná žiadna zastávka Public Transport."
-    },
-    "network_unavailable": {
-      "message": "Otvorené dáta siete nie sú dostupné: {error}"
     }
   },
   "services": {
