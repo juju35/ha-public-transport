@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.1 - 2026-11-20
+
+### Fixes
+- The list of stops starting with Home Assistant is dropped once it runs (it was kept in memory for nothing).
+
+### Maintenance
+- Tests: the card resource moved to a new version and its duplicates removed, the fallback when the resources cannot be edited, an unreachable real-time feed, and the feed decoder on damaged data.
+
 ## 1.7.0 - 2026-11-20
 
 ### Features

@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 from datetime import timedelta
 
+import aiohttp
 import pytest
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -18,7 +19,7 @@ from custom_components.public_transport.providers import (
 )
 from custom_components.public_transport.providers import gtfs as gtfs_module
 from custom_components.public_transport.providers.gtfs import CATALOG_URL, catalog_networks
-from custom_components.public_transport.providers.gtfs_rt import DecodeError, parse_feed
+from custom_components.public_transport.providers.gtfs_rt import DecodeError, fields, parse_feed
 
 from . import gtfs_data as data
 
@@ -97,6 +98,29 @@ def test_protobuf_reader() -> None:
     assert alerts[1].stop_ids == ["G1"]
     with pytest.raises(DecodeError):
         parse_feed(b"\x0a\xff")
+
+
+def test_feed_decoder_wire_types_and_damaged_feeds() -> None:
+    """The protobuf reader: fixed 64/32-bit fields, and a clear error on a truncated or unknown field."""
+    assert list(
+        fields(b"\x08\x96\x01" + b"\x11" + (5).to_bytes(8, "little") + b"\x1d" + (7).to_bytes(4, "little"))
+    ) == [
+        (1, 150),
+        (2, 5),
+        (3, 7),
+    ]
+    for damaged in (b"\x08", b"\x08" + b"\xff" * 10, b"\x0b", b"\x11\x01", b"\x1d\x01"):
+        with pytest.raises(DecodeError):
+            list(fields(damaged))
+
+
+async def test_real_time_network_error_keeps_the_timetable(provider, aioclient_mock) -> None:
+    """A real-time feed that cannot be reached at all (no answer, not an HTTP error) leaves the timetable."""
+    aioclient_mock.get(data.GTFS_URL, content=data.gtfs_zip(), headers={"ETag": '"v1"'})
+    aioclient_mock.get(data.RT_URL, exc=aiohttp.ClientError("unreachable"))
+    aioclient_mock.get(data.ALERTS_URL, exc=TimeoutError())
+    result = await provider.departures([G1])
+    assert all(not d.realtime for d in result["tram:G1"])
 
 
 async def test_search_lines_and_hints(provider, aioclient_mock) -> None:
