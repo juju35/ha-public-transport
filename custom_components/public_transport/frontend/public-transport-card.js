@@ -1,4 +1,4 @@
-var TRANSPORT_CARD_VERSION = '1.6.4';
+var TRANSPORT_CARD_VERSION = '1.7.0';
 
 // ── Header icon: tinted round icon in the integration's accent (the integration keeps its brand/icon.png) ──────
 var TRANSPORT_ACCENT = '#00897b';
@@ -43,6 +43,16 @@ var TransportI18n = {
     mode_bus: 'Bus',
     mode_metro: 'Metro',
     mode_tram: 'Tram',
+    nearby: 'Around the stop',
+    nearby_bikes: '{n} bikes',
+    nearby_spaces: '{n} spaces',
+    nearby_bike: 'Bikes',
+    nearby_closed: 'Closed',
+    nearby_docks: 'Free docks',
+    nearby_free: 'Free spaces',
+    nearby_pmr: 'Disabled',
+    nearby_ev: 'Electric',
+    nearby_carpool: 'Car-pool',
     editor: {
       entities: 'Stop sensors',
       title: 'Title',
@@ -53,6 +63,7 @@ var TransportI18n = {
       theme_day: 'Day',
       theme_night: 'Night',
       show_alerts: 'Show traffic alerts',
+      show_nearby: 'Show bike stations and park-and-rides',
       show_refresh: 'Show the refresh button',
       max_departures: 'Departures per stop',
       time_format: 'Time format',
@@ -100,6 +111,16 @@ var TransportI18n = {
     mode_bus: 'Bus',
     mode_metro: 'Métro',
     mode_tram: 'Tram',
+    nearby: 'Autour de l’arrêt',
+    nearby_bikes: '{n} vélos',
+    nearby_spaces: '{n} places',
+    nearby_bike: 'Vélos',
+    nearby_closed: 'Fermé',
+    nearby_docks: 'Places libres',
+    nearby_free: 'Places libres',
+    nearby_pmr: 'PMR',
+    nearby_ev: 'Électrique',
+    nearby_carpool: 'Covoiturage',
     editor: {
       entities: 'Capteurs d\'arrêt',
       title: 'Titre',
@@ -110,6 +131,7 @@ var TransportI18n = {
       theme_day: 'Jour',
       theme_night: 'Nuit',
       show_alerts: 'Afficher les alertes trafic',
+      show_nearby: 'Afficher les stations vélo et parcs relais',
       show_refresh: 'Afficher le bouton Actualiser',
       max_departures: 'Départs par arrêt',
       time_format: 'Format de l\'heure',
@@ -157,6 +179,16 @@ var TransportI18n = {
     mode_bus: 'Bus',
     mode_metro: 'U-Bahn',
     mode_tram: 'Tram',
+    nearby: 'Rund um die Haltestelle',
+    nearby_bikes: '{n} Räder',
+    nearby_spaces: '{n} Plätze',
+    nearby_bike: 'Räder',
+    nearby_closed: 'Geschlossen',
+    nearby_docks: 'Freie Stellplätze',
+    nearby_free: 'Freie Plätze',
+    nearby_pmr: 'Behindert',
+    nearby_ev: 'Elektro',
+    nearby_carpool: 'Fahrgemeinschaft',
     editor: {
       entities: 'Haltestellensensoren',
       title: 'Titel',
@@ -167,6 +199,7 @@ var TransportI18n = {
       theme_day: 'Tag',
       theme_night: 'Nacht',
       show_alerts: 'Verkehrsmeldungen anzeigen',
+      show_nearby: 'Fahrradstationen und P+R-Parkplätze anzeigen',
       show_refresh: 'Aktualisieren-Schaltfläche anzeigen',
       max_departures: 'Abfahrten pro Haltestelle',
       time_format: 'Zeitformat',
@@ -214,6 +247,16 @@ var TransportI18n = {
     mode_bus: 'Autobús',
     mode_metro: 'Metro',
     mode_tram: 'Tranvía',
+    nearby: 'Alrededor de la parada',
+    nearby_bikes: '{n} bicis',
+    nearby_spaces: '{n} plazas',
+    nearby_bike: 'Bicis',
+    nearby_closed: 'Cerrado',
+    nearby_docks: 'Anclajes libres',
+    nearby_free: 'Plazas libres',
+    nearby_pmr: 'PMR',
+    nearby_ev: 'Eléctrico',
+    nearby_carpool: 'Coche compartido',
     editor: {
       entities: 'Sensores de parada',
       title: 'Título',
@@ -224,6 +267,7 @@ var TransportI18n = {
       theme_day: 'Día',
       theme_night: 'Noche',
       show_alerts: 'Mostrar los avisos de tráfico',
+      show_nearby: 'Mostrar estaciones de bicis y aparcamientos disuasorios',
       show_refresh: 'Mostrar el botón Actualizar',
       max_departures: 'Salidas por parada',
       time_format: 'Formato de hora',
@@ -271,6 +315,16 @@ var TransportI18n = {
     mode_bus: 'Bus',
     mode_metro: 'Metro',
     mode_tram: 'Tram',
+    nearby: 'Intorno alla fermata',
+    nearby_bikes: '{n} bici',
+    nearby_spaces: '{n} posti',
+    nearby_bike: 'Bici',
+    nearby_closed: 'Chiuso',
+    nearby_docks: 'Stalli liberi',
+    nearby_free: 'Posti liberi',
+    nearby_pmr: 'Disabili',
+    nearby_ev: 'Elettrico',
+    nearby_carpool: 'Car pooling',
     editor: {
       entities: 'Sensori di fermata',
       title: 'Titolo',
@@ -281,6 +335,7 @@ var TransportI18n = {
       theme_day: 'Giorno',
       theme_night: 'Notte',
       show_alerts: 'Mostra gli avvisi traffico',
+      show_nearby: 'Mostra stazioni bici e parcheggi di interscambio',
       show_refresh: 'Mostra il pulsante Aggiorna',
       max_departures: 'Partenze per fermata',
       time_format: 'Formato orario',
@@ -328,6 +383,16 @@ var TransportI18n = {
     mode_bus: 'Bus',
     mode_metro: 'Metro',
     mode_tram: 'Tram',
+    nearby: 'Rond de halte',
+    nearby_bikes: '{n} fietsen',
+    nearby_spaces: '{n} plaatsen',
+    nearby_bike: 'Fietsen',
+    nearby_closed: 'Gesloten',
+    nearby_docks: 'Vrije fietsplaatsen',
+    nearby_free: 'Vrije plaatsen',
+    nearby_pmr: 'Invalide',
+    nearby_ev: 'Elektrisch',
+    nearby_carpool: 'Carpool',
     editor: {
       entities: 'Haltesensoren',
       title: 'Titel',
@@ -338,6 +403,7 @@ var TransportI18n = {
       theme_day: 'Dag',
       theme_night: 'Nacht',
       show_alerts: 'Verkeersmeldingen tonen',
+      show_nearby: 'Fietsstations en P+R-terreinen tonen',
       show_refresh: 'Vernieuwknop tonen',
       max_departures: 'Vertrekken per halte',
       time_format: 'Tijdnotatie',
@@ -385,6 +451,16 @@ var TransportI18n = {
     mode_bus: 'Autocarro',
     mode_metro: 'Metro',
     mode_tram: 'Elétrico',
+    nearby: 'À volta da paragem',
+    nearby_bikes: '{n} bicicletas',
+    nearby_spaces: '{n} lugares',
+    nearby_bike: 'Bicicletas',
+    nearby_closed: 'Fechado',
+    nearby_docks: 'Docas livres',
+    nearby_free: 'Lugares livres',
+    nearby_pmr: 'Mobilidade reduzida',
+    nearby_ev: 'Elétrico',
+    nearby_carpool: 'Partilha de carro',
     editor: {
       entities: 'Sensores de paragem',
       title: 'Título',
@@ -395,6 +471,7 @@ var TransportI18n = {
       theme_day: 'Dia',
       theme_night: 'Noite',
       show_alerts: 'Mostrar os alertas de tráfego',
+      show_nearby: 'Mostrar estações de bicicletas e parques dissuasores',
       show_refresh: 'Mostrar o botão Atualizar',
       max_departures: 'Partidas por paragem',
       time_format: 'Formato da hora',
@@ -442,6 +519,16 @@ var TransportI18n = {
     mode_bus: 'Autobus',
     mode_metro: 'Metro',
     mode_tram: 'Tramwaj',
+    nearby: 'Wokół przystanku',
+    nearby_bikes: 'Rowery: {n}',
+    nearby_spaces: 'Miejsca: {n}',
+    nearby_bike: 'Rowery',
+    nearby_closed: 'Zamknięte',
+    nearby_docks: 'Wolne stojaki',
+    nearby_free: 'Wolne miejsca',
+    nearby_pmr: 'Dla niepełnosprawnych',
+    nearby_ev: 'Elektryczne',
+    nearby_carpool: 'Carpooling',
     editor: {
       entities: 'Czujniki przystanków',
       title: 'Tytuł',
@@ -452,6 +539,7 @@ var TransportI18n = {
       theme_day: 'Dzień',
       theme_night: 'Noc',
       show_alerts: 'Pokaż komunikaty o utrudnieniach',
+      show_nearby: 'Pokaż stacje rowerowe i parkingi P+R',
       show_refresh: 'Pokaż przycisk Odśwież',
       max_departures: 'Odjazdy na przystanek',
       time_format: 'Format czasu',
@@ -499,6 +587,16 @@ var TransportI18n = {
     mode_bus: 'Аутобус',
     mode_metro: 'Метро',
     mode_tram: 'Трамвај',
+    nearby: 'Око стајалишта',
+    nearby_bikes: 'Бицикли: {n}',
+    nearby_spaces: 'Места: {n}',
+    nearby_bike: 'Бицикли',
+    nearby_closed: 'Затворено',
+    nearby_docks: 'Слободна места за бицикле',
+    nearby_free: 'Слободна места',
+    nearby_pmr: 'ОСИ',
+    nearby_ev: 'Електрична',
+    nearby_carpool: 'Заједничка вожња',
     editor: {
       entities: 'Сензори станица',
       title: 'Наслов',
@@ -509,6 +607,7 @@ var TransportI18n = {
       theme_day: 'Дан',
       theme_night: 'Ноћ',
       show_alerts: 'Прикажи саобраћајна упозорења',
+      show_nearby: 'Прикажи станице бицикала и паркинге „паркирај и вози“',
       show_refresh: 'Прикажи дугме Освежи',
       max_departures: 'Поласци по станици',
       time_format: 'Формат времена',
@@ -556,6 +655,16 @@ var TransportI18n = {
     mode_bus: 'Autobus',
     mode_metro: 'Metro',
     mode_tram: 'Tramvaj',
+    nearby: 'Oko stajališta',
+    nearby_bikes: 'Bicikli: {n}',
+    nearby_spaces: 'Mesta: {n}',
+    nearby_bike: 'Bicikli',
+    nearby_closed: 'Zatvoreno',
+    nearby_docks: 'Slobodna mesta za bicikle',
+    nearby_free: 'Slobodna mesta',
+    nearby_pmr: 'OSI',
+    nearby_ev: 'Električna',
+    nearby_carpool: 'Zajednička vožnja',
     editor: {
       entities: 'Senzori stanica',
       title: 'Naslov',
@@ -566,6 +675,7 @@ var TransportI18n = {
       theme_day: 'Dan',
       theme_night: 'Noć',
       show_alerts: 'Prikaži saobraćajna upozorenja',
+      show_nearby: 'Prikaži stanice bicikala i parkinge P+R',
       show_refresh: 'Prikaži dugme Osveži',
       max_departures: 'Polasci po stanici',
       time_format: 'Format vremena',
@@ -613,6 +723,16 @@ var TransportI18n = {
     mode_bus: 'Autobuz',
     mode_metro: 'Metrou',
     mode_tram: 'Tramvai',
+    nearby: 'În jurul stației',
+    nearby_bikes: '{n} biciclete',
+    nearby_spaces: '{n} locuri',
+    nearby_bike: 'Biciclete',
+    nearby_closed: 'Închis',
+    nearby_docks: 'Locuri libere biciclete',
+    nearby_free: 'Locuri libere',
+    nearby_pmr: 'Persoane cu dizabilități',
+    nearby_ev: 'Electric',
+    nearby_carpool: 'Carpooling',
     editor: {
       entities: 'Senzori de stație',
       title: 'Titlu',
@@ -623,6 +743,7 @@ var TransportI18n = {
       theme_day: 'Zi',
       theme_night: 'Noapte',
       show_alerts: 'Afișați alertele de trafic',
+      show_nearby: 'Afișați stațiile de biciclete și parcările de transfer',
       show_refresh: 'Afișați butonul Reîmprospătare',
       max_departures: 'Plecări per stație',
       time_format: 'Format oră',
@@ -670,6 +791,16 @@ var TransportI18n = {
     mode_bus: 'Bus',
     mode_metro: 'Metro',
     mode_tram: 'Sporvogn',
+    nearby: 'Omkring stoppestedet',
+    nearby_bikes: '{n} cykler',
+    nearby_spaces: '{n} pladser',
+    nearby_bike: 'Cykler',
+    nearby_closed: 'Lukket',
+    nearby_docks: 'Ledige stativer',
+    nearby_free: 'Ledige pladser',
+    nearby_pmr: 'Handicap',
+    nearby_ev: 'Elbil',
+    nearby_carpool: 'Samkørsel',
     editor: {
       entities: 'Stoppestedssensorer',
       title: 'Titel',
@@ -680,6 +811,7 @@ var TransportI18n = {
       theme_day: 'Dag',
       theme_night: 'Nat',
       show_alerts: 'Vis trafikmeddelelser',
+      show_nearby: 'Vis cykelstationer og P+R-pladser',
       show_refresh: 'Vis knappen Opdater',
       max_departures: 'Afgange pr. stoppested',
       time_format: 'Tidsformat',
@@ -727,6 +859,16 @@ var TransportI18n = {
     mode_bus: 'Buss',
     mode_metro: 'Tunnelbana',
     mode_tram: 'Spårvagn',
+    nearby: 'Runt hållplatsen',
+    nearby_bikes: '{n} cyklar',
+    nearby_spaces: '{n} platser',
+    nearby_bike: 'Cyklar',
+    nearby_closed: 'Stängt',
+    nearby_docks: 'Lediga cykelplatser',
+    nearby_free: 'Lediga platser',
+    nearby_pmr: 'Rörelsehindrade',
+    nearby_ev: 'Elbil',
+    nearby_carpool: 'Samåkning',
     editor: {
       entities: 'Hållplatssensorer',
       title: 'Titel',
@@ -737,6 +879,7 @@ var TransportI18n = {
       theme_day: 'Dag',
       theme_night: 'Natt',
       show_alerts: 'Visa trafikstörningar',
+      show_nearby: 'Visa cykelstationer och pendlarparkeringar',
       show_refresh: 'Visa knappen Uppdatera',
       max_departures: 'Avgångar per hållplats',
       time_format: 'Tidsformat',
@@ -784,6 +927,16 @@ var TransportI18n = {
     mode_bus: 'Автобус',
     mode_metro: 'Метро',
     mode_tram: 'Трамвай',
+    nearby: 'Около спирката',
+    nearby_bikes: '{n} велосипеда',
+    nearby_spaces: '{n} места',
+    nearby_bike: 'Велосипеди',
+    nearby_closed: 'Затворено',
+    nearby_docks: 'Свободни стойки',
+    nearby_free: 'Свободни места',
+    nearby_pmr: 'Хора с увреждания',
+    nearby_ev: 'Електрически',
+    nearby_carpool: 'Споделено пътуване',
     editor: {
       entities: 'Сензори на спирки',
       title: 'Заглавие',
@@ -794,6 +947,7 @@ var TransportI18n = {
       theme_day: 'Ден',
       theme_night: 'Нощ',
       show_alerts: 'Покажи пътните известия',
+      show_nearby: 'Показване на велостанции и буферни паркинги',
       show_refresh: 'Покажи бутона Обнови',
       max_departures: 'Тръгвания на спирка',
       time_format: 'Формат на часа',
@@ -841,6 +995,16 @@ var TransportI18n = {
     mode_bus: 'Автобус',
     mode_metro: 'Метро',
     mode_tram: 'Трамвай',
+    nearby: 'Рядом с остановкой',
+    nearby_bikes: 'Велосипеды: {n}',
+    nearby_spaces: 'Места: {n}',
+    nearby_bike: 'Велосипеды',
+    nearby_closed: 'Закрыто',
+    nearby_docks: 'Свободные стойки',
+    nearby_free: 'Свободные места',
+    nearby_pmr: 'Для инвалидов',
+    nearby_ev: 'Электро',
+    nearby_carpool: 'Совместные поездки',
     editor: {
       entities: 'Датчики остановок',
       title: 'Заголовок',
@@ -851,6 +1015,7 @@ var TransportI18n = {
       theme_day: 'День',
       theme_night: 'Ночь',
       show_alerts: 'Показывать транспортные оповещения',
+      show_nearby: 'Показывать велостанции и перехватывающие парковки',
       show_refresh: 'Показывать кнопку «Обновить»',
       max_departures: 'Отправлений на остановку',
       time_format: 'Формат времени',
@@ -898,6 +1063,16 @@ var TransportI18n = {
     mode_bus: 'Автобус',
     mode_metro: 'Метро',
     mode_tram: 'Трамвай',
+    nearby: 'Біля зупинки',
+    nearby_bikes: 'Велосипеди: {n}',
+    nearby_spaces: 'Місця: {n}',
+    nearby_bike: 'Велосипеди',
+    nearby_closed: 'Закрито',
+    nearby_docks: 'Вільні стійки',
+    nearby_free: 'Вільні місця',
+    nearby_pmr: 'Для людей з інвалідністю',
+    nearby_ev: 'Електро',
+    nearby_carpool: 'Спільні поїздки',
     editor: {
       entities: 'Датчики зупинок',
       title: 'Заголовок',
@@ -908,6 +1083,7 @@ var TransportI18n = {
       theme_day: 'День',
       theme_night: 'Ніч',
       show_alerts: 'Показувати транспортні сповіщення',
+      show_nearby: 'Показувати велостанції та перехоплювальні паркінги',
       show_refresh: 'Показувати кнопку «Оновити»',
       max_departures: 'Відправлень на зупинку',
       time_format: 'Формат часу',
@@ -955,6 +1131,16 @@ var TransportI18n = {
     mode_bus: 'Busz',
     mode_metro: 'Metró',
     mode_tram: 'Villamos',
+    nearby: 'A megálló körül',
+    nearby_bikes: '{n} kerékpár',
+    nearby_spaces: '{n} hely',
+    nearby_bike: 'Kerékpárok',
+    nearby_closed: 'Zárva',
+    nearby_docks: 'Szabad dokkolók',
+    nearby_free: 'Szabad helyek',
+    nearby_pmr: 'Mozgáskorlátozott',
+    nearby_ev: 'Elektromos',
+    nearby_carpool: 'Telekocsi',
     editor: {
       entities: 'Megálló-érzékelők',
       title: 'Cím',
@@ -965,6 +1151,7 @@ var TransportI18n = {
       theme_day: 'Nappal',
       theme_night: 'Éjszaka',
       show_alerts: 'Forgalmi riasztások megjelenítése',
+      show_nearby: 'Kerékpárállomások és P+R parkolók megjelenítése',
       show_refresh: 'Frissítés gomb megjelenítése',
       max_departures: 'Indulások megállónként',
       time_format: 'Időformátum',
@@ -1012,6 +1199,16 @@ var TransportI18n = {
     mode_bus: 'Autobus',
     mode_metro: 'Metro',
     mode_tram: 'Električka',
+    nearby: 'Okolo zastávky',
+    nearby_bikes: 'Bicykle: {n}',
+    nearby_spaces: 'Miesta: {n}',
+    nearby_bike: 'Bicykle',
+    nearby_closed: 'Zatvorené',
+    nearby_docks: 'Voľné stojany',
+    nearby_free: 'Voľné miesta',
+    nearby_pmr: 'ŤZP',
+    nearby_ev: 'Elektrické',
+    nearby_carpool: 'Spolujazda',
     editor: {
       entities: 'Snímače zastávok',
       title: 'Názov',
@@ -1022,6 +1219,7 @@ var TransportI18n = {
       theme_day: 'Deň',
       theme_night: 'Noc',
       show_alerts: 'Zobraziť dopravné upozornenia',
+      show_nearby: 'Zobraziť stanice bicyklov a parkoviská P+R',
       show_refresh: 'Zobraziť tlačidlo Obnoviť',
       max_departures: 'Odchody na zastávku',
       time_format: 'Formát času',
@@ -1069,6 +1267,16 @@ var TransportI18n = {
     mode_bus: 'Autobus',
     mode_metro: 'Metro',
     mode_tram: 'Tramvaj',
+    nearby: 'Kolem zastávky',
+    nearby_bikes: 'Kola: {n}',
+    nearby_spaces: 'Místa: {n}',
+    nearby_bike: 'Kola',
+    nearby_closed: 'Zavřeno',
+    nearby_docks: 'Volné stojany',
+    nearby_free: 'Volná místa',
+    nearby_pmr: 'ZTP',
+    nearby_ev: 'Elektrická',
+    nearby_carpool: 'Spolujízda',
     editor: {
       entities: 'Senzory zastávek',
       title: 'Název',
@@ -1079,6 +1287,7 @@ var TransportI18n = {
       theme_day: 'Den',
       theme_night: 'Noc',
       show_alerts: 'Zobrazit dopravní upozornění',
+      show_nearby: 'Zobrazit stanice kol a parkoviště P+R',
       show_refresh: 'Zobrazit tlačítko Obnovit',
       max_departures: 'Odjezdy na zastávku',
       time_format: 'Formát času',
@@ -1126,6 +1335,16 @@ var TransportI18n = {
     mode_bus: 'Avtobus',
     mode_metro: 'Metro',
     mode_tram: 'Tramvaj',
+    nearby: 'Okoli postajališča',
+    nearby_bikes: 'Kolesa: {n}',
+    nearby_spaces: 'Mesta: {n}',
+    nearby_bike: 'Kolesa',
+    nearby_closed: 'Zaprto',
+    nearby_docks: 'Prosta stojala',
+    nearby_free: 'Prosta mesta',
+    nearby_pmr: 'Invalidi',
+    nearby_ev: 'Električna',
+    nearby_carpool: 'Souporaba vozil',
     editor: {
       entities: 'Senzorji postajališč',
       title: 'Naslov',
@@ -1136,6 +1355,7 @@ var TransportI18n = {
       theme_day: 'Dan',
       theme_night: 'Noč',
       show_alerts: 'Prikaži prometna opozorila',
+      show_nearby: 'Prikaži postaje koles in parkirišča P+R',
       show_refresh: 'Prikaži gumb Osveži',
       max_departures: 'Odhodi na postajališče',
       time_format: 'Oblika časa',
@@ -1183,6 +1403,16 @@ var TransportI18n = {
     mode_bus: 'Autobuss',
     mode_metro: 'Metro',
     mode_tram: 'Tramvajs',
+    nearby: 'Ap pieturu',
+    nearby_bikes: 'Velosipēdi: {n}',
+    nearby_spaces: 'Vietas: {n}',
+    nearby_bike: 'Velosipēdi',
+    nearby_closed: 'Slēgts',
+    nearby_docks: 'Brīvās statīva vietas',
+    nearby_free: 'Brīvās vietas',
+    nearby_pmr: 'Personām ar invaliditāti',
+    nearby_ev: 'Elektriskie',
+    nearby_carpool: 'Kopbraukšana',
     editor: {
       entities: 'Pieturu sensori',
       title: 'Virsraksts',
@@ -1193,6 +1423,7 @@ var TransportI18n = {
       theme_day: 'Diena',
       theme_night: 'Nakts',
       show_alerts: 'Rādīt satiksmes brīdinājumus',
+      show_nearby: 'Rādīt velosipēdu stacijas un P+R stāvvietas',
       show_refresh: 'Rādīt pogu Atsvaidzināt',
       max_departures: 'Atiešanas uz pieturu',
       time_format: 'Laika formāts',
@@ -1240,6 +1471,16 @@ var TransportI18n = {
     mode_bus: 'Λεωφορείο',
     mode_metro: 'Μετρό',
     mode_tram: 'Τραμ',
+    nearby: 'Γύρω από τη στάση',
+    nearby_bikes: 'Ποδήλατα: {n}',
+    nearby_spaces: 'Θέσεις: {n}',
+    nearby_bike: 'Ποδήλατα',
+    nearby_closed: 'Κλειστό',
+    nearby_docks: 'Ελεύθερες βάσεις',
+    nearby_free: 'Ελεύθερες θέσεις',
+    nearby_pmr: 'ΑμεΑ',
+    nearby_ev: 'Ηλεκτρικά',
+    nearby_carpool: 'Κοινή χρήση',
     editor: {
       entities: 'Αισθητήρες στάσεων',
       title: 'Τίτλος',
@@ -1250,6 +1491,7 @@ var TransportI18n = {
       theme_day: 'Ημέρα',
       theme_night: 'Νύχτα',
       show_alerts: 'Εμφάνιση ειδοποιήσεων κυκλοφορίας',
+      show_nearby: 'Εμφάνιση σταθμών ποδηλάτων και χώρων P+R',
       show_refresh: 'Εμφάνιση κουμπιού Ανανέωση',
       max_departures: 'Αναχωρήσεις ανά στάση',
       time_format: 'Μορφή ώρας',
@@ -1266,6 +1508,8 @@ var TRANSPORT_DEFAULTS = {
   show_title: true,
   show_scene: true,
   show_alerts: true,
+  // Bike stations and park-and-rides followed with the stops (integration options): the "around the stop" strip.
+  show_nearby: true,
   show_refresh: true,
   illustration_theme: 'auto',
   max_departures: 5,
@@ -1287,6 +1531,8 @@ var TRANSPORT_ICONS = {
   chevron: 'M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z',
   expand: 'M10,21V19H6.41L10.91,14.5L9.5,13.09L5,17.59V14H3V21H10M14.5,10.91L19,6.41V10H21V3H14V5H17.59L13.09,9.5L14.5,10.91Z',
   collapse: 'M19.5,3.09L15,7.59V4H13V11H20V9H16.41L20.91,4.5L19.5,3.09M4,13V15H7.59L3.09,19.5L4.5,20.91L9,16.41V20H11V13H4Z',
+  bike: 'M5,20.5A3.5,3.5 0 0,1 1.5,17A3.5,3.5 0 0,1 5,13.5A3.5,3.5 0 0,1 8.5,17A3.5,3.5 0 0,1 5,20.5M5,12A5,5 0 0,0 0,17A5,5 0 0,0 5,22A5,5 0 0,0 10,17A5,5 0 0,0 5,12M14.8,10H19V8.2H15.8L13.86,4.93C13.57,4.43 13,4.1 12.4,4.1C11.93,4.1 11.5,4.29 11.2,4.6L7.5,8.29C7.19,8.6 7,9 7,9.5C7,10.13 7.33,10.66 7.85,10.97L11.2,13V18H13V11.5L10.75,9.85L13.07,7.5M19,20.5A3.5,3.5 0 0,1 15.5,17A3.5,3.5 0 0,1 19,13.5A3.5,3.5 0 0,1 22.5,17A3.5,3.5 0 0,1 19,20.5M19,12A5,5 0 0,0 14,17A5,5 0 0,0 19,22A5,5 0 0,0 24,17A5,5 0 0,0 19,12M16,4.8C17,4.8 17.8,4 17.8,3C17.8,2 17,1.2 16,1.2C15,1.2 14.2,2 14.2,3C14.2,4 15,4.8 16,4.8Z',
+  parking: 'M13.2,11H10V7H13.2A2,2 0 0,1 15.2,9A2,2 0 0,1 13.2,11M13,3H6V21H10V15H13A6,6 0 0,0 19,9C19,5.68 16.31,3 13,3Z',
   link: 'M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z',
   offline: 'M19.8 22.6L17.15 20H6.5Q4.2 20 2.6 18.4T1 14.5Q1 12.58 2.19 11.08 3.38 9.57 5.25 9.15 5.33 8.95 5.4 8.76 5.5 8.57 5.55 8.35L1.4 4.2L2.8 2.8L21.2 21.2M6.5 18H15.15L7.1 9.95Q7.05 10.23 7.03 10.5 7 10.73 7 11H6.5Q5.05 11 4.03 12.03 3 13.05 3 14.5 3 15.95 4.03 17 5.05 18 6.5 18M11.13 14M21.6 18.75L20.15 17.35Q20.58 17 20.79 16.54 21 16.08 21 15.5 21 14.45 20.27 13.73 19.55 13 18.5 13H17V11Q17 8.93 15.54 7.46 14.08 6 12 6 11.33 6 10.7 6.16 10.07 6.33 9.5 6.68L8.05 5.23Q8.93 4.63 9.91 4.31 10.9 4 12 4 14.93 4 16.96 6.04 19 8.07 19 11 20.73 11.2 21.86 12.5 23 13.78 23 15.5 23 16.5 22.63 17.31 22.25 18.15 21.6 18.75M14.83 12.03Z',
   night: 'M17.75,4.09L15.22,6.03L16.13,9.09L13.5,7.28L10.87,9.09L11.78,6.03L9.25,4.09L12.44,4L13.5,1L14.56,4L17.75,4.09M21.25,11L19.61,12.25L20.2,14.23L18.5,13.06L16.8,14.23L17.39,12.25L15.75,11L17.81,10.95L18.5,9L19.19,10.95L21.25,11M18.97,15.95C19.8,15.87 20.69,17.05 20.16,17.8C19.84,18.25 19.5,18.67 19.08,19.07C15.17,23 8.84,23 4.94,19.07C1.03,15.17 1.03,8.83 4.94,4.93C5.34,4.53 5.76,4.17 6.21,3.85C6.96,3.32 8.14,4.21 8.06,5.04C7.79,7.9 8.75,10.87 10.95,13.06C13.14,15.26 16.1,16.22 18.97,15.95M17.33,17.97C14.5,17.81 11.7,16.64 9.53,14.5C7.36,12.31 6.2,9.5 6.04,6.68C3.23,9.82 3.34,14.64 6.35,17.66C9.37,20.67 14.19,20.78 17.33,17.97Z',
@@ -1812,10 +2058,63 @@ class TransportCard extends HTMLElement {
     html += rest.length
       ? `<div class="departures">${this._groups(rest, Math.max(1, this._config.max_departures), 3).map((g) => this._renderRow(g, t, now)).join('')}</div>`
       : '';
+    if (this._config.show_nearby) html += this._renderNearby(sel, t);
     if (this._config.show_alerts) {
       html += sel.filter((s) => this._usable(s) && (s.st.attributes.alerts || []).length).map((s) => this._renderAlerts(s.id, s.st.attributes, t)).join('');
     }
     return html;
+  }
+
+  // The bike stations and park-and-rides followed with the shown stops: one pill each (bikes, or free spaces), and a
+  // tap shows its detail (bikes and free docks, or free spaces with those of each type) under the pills.
+  _renderNearby(stops, t) {
+    var seen = {};
+    var items = [];
+    stops.forEach((s) => {
+      (s.st?.attributes?.nearby || []).forEach((m) => {
+        if (m && m.id && !seen[m.id]) {
+          seen[m.id] = true;
+          items.push(m);
+        }
+      });
+    });
+    if (!items.length) return '';
+    var num = (v) => (v == null || v === '' || !Number.isFinite(Number(v)) ? null : Number(v));
+    var level = (m) => {
+      var n = num(m.available);
+      if (!m.open || n == null) return 'idle';
+      if (n === 0) return 'crit';
+      var cap = num(m.capacity);
+      if (m.kind === 'bike') return n < 3 ? 'warn' : 'ok';
+      return cap && n / cap < 0.1 ? 'warn' : 'ok';
+    };
+    var pills = items.map((m) => {
+      var n = num(m.available);
+      var count = !m.open ? t.nearby_closed : n == null ? '—' : transportFill(m.kind === 'bike' ? t.nearby_bikes : t.nearby_spaces, { n: n });
+      var name = m.kind === 'park' ? `P+R ${m.name}` : m.name;
+      var open = this._nearby === m.id;
+      return `<span class="npill ${level(m)}${open ? ' open' : ''}" role="button" tabindex="0" aria-expanded="${open}" data-action="nearby" data-key="${transportEsc(m.id)}" data-focus="nearby:${transportEsc(m.id)}">` +
+        `<span class="nic">${transportIcon(m.kind === 'bike' ? 'bike' : 'parking')}</span><span class="nt"><b>${transportEsc(count)}</b> · ${transportEsc(name)}</span></span>`;
+    }).join('');
+    var picked = items.find((m) => m.id === this._nearby);
+    var bar = (label, value, cap, cls) => {
+      var v = num(value);
+      var c = num(cap);
+      var cells = 6;
+      var filled = v != null && c ? Math.round((Math.min(v, c) / c) * cells) : 0;
+      var segs = Array.from({ length: cells }, (_, i) => `<i class="${i < filled ? cls : ''}"></i>`).join('');
+      return `<div class="nrow"><span class="nl">${transportEsc(label)}</span><span class="nseg">${segs}</span><span class="nv">${v == null ? '—' : v}${c ? ` / ${c}` : ''}</span></div>`;
+    };
+    var detail = '';
+    if (picked) {
+      var rows = picked.kind === 'bike'
+        ? bar(t.nearby_bike, picked.available, picked.capacity, 'bk') + bar(t.nearby_docks, picked.docks, picked.capacity, 'dk')
+        : bar(t.nearby_free, picked.available, picked.capacity, 'pk');
+      var spaces = picked.spaces || {};
+      var tags = ['pmr', 'ev', 'carpool'].filter((k) => num(spaces[k]) != null).map((k) => `<span class="tag">${transportEsc(t[`nearby_${k}`])} ${num(spaces[k])}</span>`).join('');
+      detail = `<div class="ndetail">${rows}${tags ? `<div class="ntags">${tags}</div>` : ''}</div>`;
+    }
+    return `<div class="nearby"><div class="section-title">${transportIcon('marker')}<span>${transportEsc(t.nearby)}</span></div><div class="npills">${pills}</div>${detail}</div>`;
   }
 
   // Stale data and unavailable stops, named when the card shows several.
@@ -2070,6 +2369,10 @@ class TransportCard extends HTMLElement {
     else if (action === 'tab') {
       this._tab = el.getAttribute('data-tab');
       this._render();
+    } else if (action === 'nearby') {
+      var key = el.getAttribute('data-key');
+      this._nearby = this._nearby === key ? null : key;
+      this._render();
     } else if (action === 'alerts') {
       var id = el.getAttribute('data-stop');
       this._open[id] = !this._open[id];
@@ -2304,6 +2607,24 @@ class TransportCard extends HTMLElement {
   .alert-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--secondary-text-color); }
   .alert-foot a { display: inline-flex; align-items: center; gap: 3px; color: color-mix(in srgb, var(--tp-accent) 55%, var(--primary-text-color, #212121)); text-decoration: none; }
   .alert-foot a .icon { width: 12px; height: 12px; }
+  .nearby { display: flex; flex-direction: column; gap: 8px; margin: 4px 16px 12px; padding-top: 10px; border-top: 1px solid var(--divider-color, rgba(127,127,127,.15)); }
+  .npills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .npill { --c: var(--tp-ok); cursor: pointer; user-select: none; display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; box-sizing: border-box;
+           padding: 3px 10px 3px 3px; border-radius: 999px; font-size: 12px; color: var(--primary-text-color);
+           background: var(--secondary-background-color, rgba(127,127,127,.1)); border: 1px solid transparent; }
+  .npill.warn { --c: var(--tp-warn); } .npill.crit { --c: var(--tp-crit); } .npill.idle { --c: var(--secondary-text-color); }
+  .npill.open { border-color: color-mix(in srgb, var(--c) 55%, transparent); }
+  .npill:focus-visible { outline: 2px solid var(--tp-accent); outline-offset: 2px; }
+  .nic { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--c) 18%, transparent); color: var(--c); }
+  .nic .icon { width: 15px; height: 15px; }
+  .nt { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ndetail { display: flex; flex-direction: column; gap: 6px; padding: 10px; border-radius: 12px; background: var(--secondary-background-color, rgba(127,127,127,.08)); }
+  .nrow { display: grid; grid-template-columns: minmax(70px, auto) minmax(0, 1fr) auto; align-items: center; gap: 10px; font-size: 12px; color: var(--secondary-text-color); }
+  .nseg { display: flex; gap: 3px; }
+  .nseg i { flex: 1; height: 8px; border-radius: 2px; background: color-mix(in srgb, var(--secondary-text-color) 18%, transparent); }
+  .nseg i.bk { background: #14b8a6; } .nseg i.dk { background: #60a5fa; } .nseg i.pk { background: var(--tp-ok); }
+  .nv { font-variant-numeric: tabular-nums; color: var(--primary-text-color); }
+  .ntags { display: flex; flex-wrap: wrap; gap: 4px; }
   .departures:last-child, .toolbar:last-child { border-bottom: none; }
   .body > :last-child.departures { padding-bottom: 8px; }
 
@@ -2426,6 +2747,7 @@ function transportEditorSchema(t) {
         { name: 'show_title', selector: { boolean: {} } },
         { name: 'show_scene', selector: { boolean: {} } },
         { name: 'show_alerts', selector: { boolean: {} } },
+        { name: 'show_nearby', selector: { boolean: {} } },
         { name: 'show_refresh', selector: { boolean: {} } },
       ],
     },

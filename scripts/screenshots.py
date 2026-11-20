@@ -424,6 +424,40 @@ NETWORKS = {
     },
 }
 
+# Bike stations and park-and-rides followed with a stop (the "around the stop" strip), mock figures.
+NEARBY = [
+    {
+        "id": "bike:5505",
+        "kind": "bike",
+        "name": "Sainte-Anne",
+        "available": 7,
+        "capacity": 24,
+        "docks": 17,
+        "open": True,
+    },
+    {
+        "id": "bike:5509",
+        "kind": "bike",
+        "name": "Saint-Georges",
+        "available": 2,
+        "capacity": 18,
+        "docks": 16,
+        "open": True,
+    },
+    {
+        "id": "park:HFR",
+        "kind": "park",
+        "name": "Henri Fréville",
+        "available": 196,
+        "capacity": 384,
+        "docks": None,
+        "open": True,
+        "spaces": {"pmr": 8, "ev": 12, "carpool": 15},
+    },
+]
+STATES["sensor.star_nearby_next_departure"] = stop("sensor.star_nearby_next_departure", "République", "bus", BUS[:4])
+STATES["sensor.star_nearby_next_departure"]["attributes"]["nearby"] = NEARBY
+
 for _key, _net in NETWORKS.items():
     STATES[f"sensor.{_key}_next_departure"] = stop(
         f"sensor.{_key}_next_departure",
@@ -463,6 +497,19 @@ SHOTS = [
             "entities": ["sensor.star_republique_metro_next_departure", "sensor.star_republique_next_departure"]
         },
         "open": True,
+    },
+    # Bike stations and park-and-rides around the stop, the park-and-ride's detail open.
+    {
+        "file": "card-nearby",
+        "theme": "light",
+        "config": {"entities": ["sensor.star_nearby_next_departure"], "max_departures": 3},
+        "nearby": "park:HFR",
+    },
+    {
+        "file": "card-nearby-dark",
+        "theme": "dark",
+        "config": {"entities": ["sensor.star_nearby_next_departure"], "max_departures": 3},
+        "nearby": "park:HFR",
     },
     # The mini card: the banner tells the next departure of all its stops, then its approach bar.
     {
@@ -593,7 +640,7 @@ def mount(context, shot):
     page.add_script_tag(content=HA_ELEMENTS)
     page.add_script_tag(content=CARD_JS)
     page.evaluate(
-        """({config, states, element, open, refreshing, dark}) => {
+        """({config, states, element, open, refreshing, dark, nearby}) => {
           const el = document.createElement(element);
           el.setConfig({type: `custom:${element}`, ...config});
           el.hass = {states, language: "en", locale: {language: "en"}, themes: {darkMode: dark},
@@ -601,6 +648,7 @@ def mount(context, shot):
           document.getElementById("root").appendChild(el);
           if (open) { for (const id of config.entities) el._open[id] = true; el._render(); }
           if (refreshing) { el._refreshing = true; el._render(); }
+          if (nearby) { el._nearby = nearby; el._render(); }
         }""",
         {
             "config": shot["config"],
@@ -609,6 +657,7 @@ def mount(context, shot):
             "open": shot.get("open", False),
             "refreshing": shot.get("refreshing", False),
             "dark": shot["theme"] == "dark",
+            "nearby": shot.get("nearby"),
         },
     )
     if shot.get("zoom"):

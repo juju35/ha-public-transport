@@ -73,12 +73,14 @@
           "lines": "Linie",
           "scan_interval": "Interwał aktualizacji",
           "max_departures": "Zachowane odjazdy",
-          "api_key": "Klucz API (opcjonalny)"
+          "api_key": "Klucz API (opcjonalny)",
+          "mobility": "Stacje rowerowe i parkingi P+R"
         },
         "data_description": {
           "scan_interval": "Wszystkie przystanki sieci są aktualizowane jednym zapytaniem, w najkrótszym interwale jej przystanków.",
           "max_departures": "Liczba najbliższych odjazdów w atrybutach czujnika przystanku, wyświetlanych przez kartę.",
-          "api_key": "Pozostaw puste, aby używać API otwartych danych bez klucza (wyczyszczenie pola usuwa klucz)."
+          "api_key": "Pozostaw puste, aby używać API otwartych danych bez klucza (wyczyszczenie pola usuwa klucz).",
+          "mobility": "Śledzone z przystankiem: rowery i wolne stojaki, wolne miejsca. Najbliższe najpierw; każde ma czujnik i pojawia się na karcie."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Linia {line}"
+      },
+      "bike_station": {
+        "name": "Rowery: {name}"
+      },
+      "park_ride": {
+        "name": "Wolne miejsca: {name}"
       }
     },
     "binary_sensor": {

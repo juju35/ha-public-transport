@@ -22,11 +22,14 @@ from homeassistant.helpers.selector import (
     TextSelectorConfig,
     TextSelectorType,
 )
+from homeassistant.util.location import distance as geo_distance
 
 from . import entry_stop, provider_options
 from .const import (
     CONF_LINES,
     CONF_MAX_DEPARTURES,
+    CONF_MOBILITY,
+    CONF_MOBILITY_NAMES,
     CONF_MODE,
     CONF_NETWORK,
     CONF_PROVIDER,
@@ -39,13 +42,16 @@ from .const import (
     DEFAULT_MAX_DEPARTURES,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
+    MAX_MOBILITY_CHOICES,
     MAX_SCAN_INTERVAL,
     MIN_SCAN_INTERVAL,
+    MOBILITY_RADIUS,
 )
 from .providers import (
     PROVIDERS,
     GtfsNetwork,
     Line,
+    Mobility,
     Provider,
     ProviderAuthError,
     ProviderError,
@@ -305,6 +311,8 @@ class PublicTransportOptionsFlow(OptionsFlow):
         errors: dict[str, str] = {}
         names: dict[str, str] = dict(entry.data.get(CONF_LINE_NAMES, {}))
         lines = await self._lines(entry, names, list(entry.options.get(CONF_LINES, [])))
+        followed = list(entry.options.get(CONF_MOBILITY, []))
+        stations = await self._stations(entry, followed)
         if user_input is not None:
             if not user_input.get(CONF_LINES):
                 errors[CONF_LINES] = "no_line_selected"
@@ -314,6 +322,12 @@ class PublicTransportOptionsFlow(OptionsFlow):
                     CONF_SCAN_INTERVAL: int(user_input[CONF_SCAN_INTERVAL]),
                     CONF_MAX_DEPARTURES: int(user_input[CONF_MAX_DEPARTURES]),
                 }
+                if stations or followed:
+                    picked = list(user_input.get(CONF_MOBILITY) or [])
+                    known: dict[str, str] = {**entry.options.get(CONF_MOBILITY_NAMES, {})}
+                    known.update({key: name for key, (name, _) in stations.items()})
+                    options[CONF_MOBILITY] = picked
+                    options[CONF_MOBILITY_NAMES] = {key: known.get(key, key.split(":", 1)[-1]) for key in picked}
                 # An emptied field removes the key (the entry data keeps the one typed at setup otherwise).
                 options[CONF_API_KEY] = (user_input.get(CONF_API_KEY) or "").strip()
                 # Lines discovered since the entry was made keep their names for the sensors.
@@ -346,7 +360,33 @@ class PublicTransportOptionsFlow(OptionsFlow):
                 vol.Optional(CONF_API_KEY, description={"suggested_value": api_key}): PASSWORD,
             }
         )
+        if stations:
+            schema = schema.extend(
+                {
+                    vol.Optional(CONF_MOBILITY, default=followed): SelectSelector(
+                        SelectSelectorConfig(
+                            options=[SelectOptionDict(value=key, label=label) for key, (_, label) in stations.items()],
+                            multiple=True,
+                            mode=SelectSelectorMode.LIST,
+                        )
+                    )
+                }
+            )
         return self.async_show_form(step_id="init", data_schema=schema, errors=errors)
+
+    async def _stations(self, entry: ConfigEntry, followed: list[str]) -> dict[str, tuple[str, str]]:
+        """Bike-share stations and park-and-rides to follow with the stop: (name, label) by key, nearest first within
+        `MOBILITY_RADIUS` (all of them, by name, when the stop's place is unknown), plus the followed ones."""
+        coordinator = getattr(entry, "runtime_data", None)
+        if coordinator is None or not coordinator.provider.has_mobility:
+            return {}
+        provider = coordinator.provider
+        try:
+            found = list(coordinator.mobility.values()) or await provider.mobility()
+            place = await provider.stop_location(entry_stop(entry))
+        except ProviderError:
+            return {}
+        return _station_choices(found, place, followed)
 
     async def _lines(self, entry: ConfigEntry, names: dict[str, str], selected: list[str]) -> list[Line]:
         """Lines serving the stop now (and the followed ones it no longer lists); the known ones offline."""
@@ -391,3 +431,29 @@ def _stop_label(stop: Stop, hints: tuple[list[str], list[str]] | None) -> str:
         more = "…" if len(destinations) > MAX_DESTINATIONS else ""
         parts.append("→ " + " / ".join(destinations[:MAX_DESTINATIONS]) + more)
     return " · ".join(parts)
+
+
+def _station_choices(
+    stations: list[Mobility], place: tuple[float, float] | None, followed: list[str]
+) -> dict[str, tuple[str, str]]:
+    """(name, label) by key: nearest first within `MOBILITY_RADIUS` of `place` (by name without a place), at most
+    `MAX_MOBILITY_CHOICES`, plus every followed station whatever its distance."""
+
+    def metres(station: Mobility) -> float | None:
+        if place is None or station.latitude is None or station.longitude is None:
+            return None
+        return geo_distance(place[0], place[1], float(station.latitude), float(station.longitude))
+
+    ranked = sorted(((metres(s), s) for s in stations), key=lambda x: (x[0] is None, x[0] or 0, x[1].name.lower()))
+    choices: dict[str, tuple[str, str]] = {}
+    for dist, station in ranked:
+        # With the stop's place, a station with no place of its own is offered only once followed.
+        near = place is None or (dist is not None and dist <= MOBILITY_RADIUS)
+        if station.key not in followed and (not near or len(choices) >= MAX_MOBILITY_CHOICES):
+            continue
+        name = f"P+R {station.name}" if station.kind == "park" else station.name
+        where = (
+            "" if dist is None else (f" · {dist / 1000:.1f} km" if dist >= 1000 else f" · {round(dist / 10) * 10} m")
+        )
+        choices[station.key] = (station.name, name + where)
+    return choices

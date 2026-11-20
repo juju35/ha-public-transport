@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.0 - 2026-11-20
+
+### Features
+- STAR bike stations and park-and-rides: the options of a STAR stop list the bike-share stations and park-and-rides nearest first (within 3 km, distance shown) to follow with it. Each one gets a sensor (bikes available, free spaces) with its free docks or free spaces by type (disabled, electric, car-pool), and the stop sensor lists them in a `nearby` attribute. They are fetched with the departures, only while one is followed.
+- Card: *Around the stop* strip (option `show_nearby`, also in the visual editor) with one pill per station — bikes or free spaces, green, amber when few are left, red when none — and its detail on tap.
+
 ## 1.6.4 - 2026-11-20
 
 ### Fixes

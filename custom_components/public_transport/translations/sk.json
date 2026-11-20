@@ -73,12 +73,14 @@
           "lines": "Linky",
           "scan_interval": "Interval aktualizácie",
           "max_departures": "Uchované odchody",
-          "api_key": "API kľúč (voliteľný)"
+          "api_key": "API kľúč (voliteľný)",
+          "mobility": "Stanice bicyklov a parkoviská P+R"
         },
         "data_description": {
           "scan_interval": "Všetky zastávky siete sa aktualizujú jednou požiadavkou, v najkratšom intervale jej zastávok.",
           "max_departures": "Počet najbližších odchodov v atribútoch snímača zastávky, ktoré zobrazuje karta.",
-          "api_key": "Nechajte prázdne na použitie API otvorených dát bez kľúča (vyprázdnené pole kľúč odstráni)."
+          "api_key": "Nechajte prázdne na použitie API otvorených dát bez kľúča (vyprázdnené pole kľúč odstráni).",
+          "mobility": "Sledované so zastávkou: bicykle a voľné stojany, voľné miesta. Najbližšie najprv; každé má senzor a zobrazí sa na karte."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Linka {line}"
+      },
+      "bike_station": {
+        "name": "Bicykle: {name}"
+      },
+      "park_ride": {
+        "name": "Voľné miesta: {name}"
       }
     },
     "binary_sensor": {

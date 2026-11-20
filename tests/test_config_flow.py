@@ -113,7 +113,14 @@ async def test_options_flow(hass, aioclient_mock) -> None:
         result["flow_id"], {"lines": ["0004", "0011"], "scan_interval": 90, "max_departures": 4, "api_key": "k"}
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert entry.options == {"lines": ["0004", "0011"], "scan_interval": 90, "max_departures": 4, CONF_API_KEY: "k"}
+    assert entry.options == {
+        "lines": ["0004", "0011"],
+        "scan_interval": 90,
+        "max_departures": 4,
+        CONF_API_KEY: "k",
+        "mobility": [],
+        "mobility_names": {},
+    }
     await hass.async_block_till_done()
     # Reloaded with the new line: its sensor exists.
     assert hass.states.get("sensor.star_republique_line_11") is not None
@@ -138,6 +145,7 @@ async def test_options_flow_without_network(hass, aioclient_mock) -> None:
     await hass.async_block_till_done()
     aioclient_mock.clear_requests()
     aioclient_mock.get(data.SERVED, status=500)
+    aioclient_mock.get(data.BIKES_URL, status=500)
     result = await hass.config_entries.options.async_init(entry.entry_id)
     values = [o["value"] for o in result["data_schema"].schema["lines"].config["options"]]
     assert values == ["0004", "0011", "1001"]

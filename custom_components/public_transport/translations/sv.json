@@ -73,12 +73,14 @@
           "lines": "Linjer",
           "scan_interval": "Uppdateringsintervall",
           "max_departures": "Sparade avgångar",
-          "api_key": "API-nyckel (valfri)"
+          "api_key": "API-nyckel (valfri)",
+          "mobility": "Cykelstationer och pendlarparkeringar"
         },
         "data_description": {
           "scan_interval": "Alla nätverkets hållplatser uppdateras i en enda begäran, med det kortaste intervallet bland dess hållplatser.",
           "max_departures": "Antal kommande avgångar i hållplatssensorns attribut, som visas av kortet.",
-          "api_key": "Lämna tomt för att använda API:et för öppna data utan nyckel (ett tömt fält tar bort nyckeln)."
+          "api_key": "Lämna tomt för att använda API:et för öppna data utan nyckel (ett tömt fält tar bort nyckeln).",
+          "mobility": "Följs med hållplatsen: cyklar och lediga platser, lediga parkeringsplatser. Närmaste först; var och en får en sensor och visas på kortet."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Linje {line}"
+      },
+      "bike_station": {
+        "name": "Cyklar vid {name}"
+      },
+      "park_ride": {
+        "name": "Lediga platser vid {name}"
       }
     },
     "binary_sensor": {
