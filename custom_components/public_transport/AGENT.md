@@ -40,6 +40,7 @@ custom_components/public_transport/
   Entities are unavailable while the coordinator has no data; updates are serialized by the coordinator's lock.
 - Field names of IDFM, TCL and CTS come from their documentation and community clients (Nov. 2026), not from captured
   answers: check them first if a network shows nothing.
+- Bike stations and park-and-rides (`Mobility`, kind `bike` / `park`, key `<kind>:<id>`): providers with `has_mobility` implement `mobility()` (STAR: `vls-stations-etat-tr`, `tco-parcsrelais-star-etat-tr`, fields captured Nov. 2026) and `stop_location()`. Entry options `mobility` (keys followed) and `mobility_names` (names at choice time); the options step offers them nearest first within `MOBILITY_RADIUS` (all by name when the stop's place is unknown) plus the followed ones. The coordinator fetches them at every update only while an entry follows one (`_mobility_wanted`), keeping the last ones on failure; `MobilitySensor` per followed key, `nearby` attribute on the stop sensor; card strip `show_nearby` (`_renderNearby`, detail toggled by `_nearby`).
 - Logos: frontend/logos/<provider key with ":" as "-">.svg, exposed as the stop sensor's `logo` attribute.
 - The coordinator has no config entry (shared): setup asks for its first fetch when the stop is new, unload removes the stop and drops the coordinator when empty.
 - STAR `precision`: "Temps réel" = real time, "Applicable" = timetable; a string in the bus dataset, a list in the metro one.

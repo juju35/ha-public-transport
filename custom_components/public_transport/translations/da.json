@@ -73,12 +73,14 @@
           "lines": "Linjer",
           "scan_interval": "Opdateringsinterval",
           "max_departures": "Gemte afgange",
-          "api_key": "API-nøgle (valgfri)"
+          "api_key": "API-nøgle (valgfri)",
+          "mobility": "Cykelstationer og P+R-pladser"
         },
         "data_description": {
           "scan_interval": "Alle netværkets stoppesteder opdateres i én forespørgsel med det korteste interval blandt dets stoppesteder.",
           "max_departures": "Antal kommende afgange i stoppestedssensorens attributter, vist af kortet.",
-          "api_key": "Lad stå tom for at bruge open data-API'et uden nøgle (et tømt felt fjerner nøglen)."
+          "api_key": "Lad stå tom for at bruge open data-API'et uden nøgle (et tømt felt fjerner nøglen).",
+          "mobility": "Følges med stoppestedet: cykler og ledige stativer, ledige pladser. Nærmeste først; hver får en sensor og vises på kortet."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Linje {line}"
+      },
+      "bike_station": {
+        "name": "Cykler ved {name}"
+      },
+      "park_ride": {
+        "name": "Ledige pladser ved {name}"
       }
     },
     "binary_sensor": {

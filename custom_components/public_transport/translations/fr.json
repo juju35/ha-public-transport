@@ -73,12 +73,14 @@
           "lines": "Lignes",
           "scan_interval": "Intervalle de mise à jour",
           "max_departures": "Départs conservés",
-          "api_key": "Clé d'API (facultative)"
+          "api_key": "Clé d'API (facultative)",
+          "mobility": "Stations vélo et parcs relais"
         },
         "data_description": {
           "scan_interval": "Tous les arrêts du réseau sont mis à jour en une seule requête, à l'intervalle le plus court de ses arrêts.",
           "max_departures": "Nombre de prochains départs dans les attributs du capteur de l'arrêt, affichés par la carte.",
-          "api_key": "Laissez vide pour utiliser l'API open data sans clé (vider le champ retire la clé)."
+          "api_key": "Laissez vide pour utiliser l'API open data sans clé (vider le champ retire la clé).",
+          "mobility": "Suivis avec l’arrêt : vélos et places libres, places de parking libres. Les plus proches d’abord ; chacun a un capteur et s’affiche sur la carte."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Ligne {line}"
+      },
+      "bike_station": {
+        "name": "Vélos à {name}"
+      },
+      "park_ride": {
+        "name": "Places libres à {name}"
       }
     },
     "binary_sensor": {

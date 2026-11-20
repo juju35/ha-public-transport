@@ -67,6 +67,7 @@ Home Assistant integration for the **next departures at your public transport st
 - **Traffic alert** binary sensor per stop, on while an alert concerns one of its lines
 - **Real time or timetable**, for each departure: real-time times come with their delay to the timetable; timetable-only times are marked like the `*` of the stop displays
 - **Hundreds of networks**: a generic GTFS / GTFS-RT provider searches the national catalogue by city or network name, downloads the timetable once a day and corrects it with the real-time feed
+- **Bike stations and park-and-rides** around the stop (STAR): bikes and free docks, free spaces (with the disabled, electric and car-pool ones), a sensor each and an *Around the stop* strip on the card
 - **Network logo** on the card's banner, when the integration ships one
 - **One request per network**: every stop of a network is updated at once, so following more stops costs no more of the open data quota
 - `public_transport.refresh` action to update now
@@ -371,6 +372,7 @@ Options (**Configure** button):
 | Update interval | 60 s | 30 s to 10 min. All the stops of a network are updated in one request, at the shortest interval of its stops |
 | Departures kept | 6 | Coming departures in the stop sensor's attributes, which the card shows |
 | API key | none | Required by IDFM, TCL and CTS; for STAR, it only raises the daily quota of the open data API (free account on data.explore.star.fr) |
+| Bike stations and park-and-rides | none | STAR: the bike-share stations and park-and-rides to follow with the stop, nearest first (within 3 km of the stop, distance shown); each one gets a sensor and shows on the card. They are only fetched while one is followed, with the departures |
 
 ### Entities
 
@@ -378,8 +380,10 @@ For a stop named *République*:
 
 | Entity | State | Main attributes |
 |---|---|---|
-| `sensor.star_republique_next_departure` | Next departure on the followed lines (timestamp) | `departures` (line, colors, destination, departure, scheduled, delay, realtime), `lines`, `alerts`, `stop_name`, `mode`, `network`, `stale`, `last_error` |
+| `sensor.star_republique_next_departure` | Next departure on the followed lines (timestamp) | `departures` (line, colors, destination, departure, scheduled, delay, realtime), `lines`, `alerts`, `stop_name`, `mode`, `network`, `nearby` (the followed bike stations and park-and-rides), `stale`, `last_error` |
 | `sensor.star_republique_line_c4` | Next departure of line C4 (timestamp) | `destination`, `realtime`, `delay`, `color`, `next_departures` |
+| `sensor.star_republique_bikes_at_sainte_anne` | Bikes available at a followed bike station | `docks` (free docks), `capacity`, `open`, `kind`, `name` |
+| `sensor.star_republique_free_spaces_at_henri_freville` | Free standard spaces at a followed park-and-ride | `capacity`, `open`, `spaces` (`pmr`, `ev`, `carpool` free), `kind`, `name` |
 | `binary_sensor.star_republique_traffic_alert` | `on` while an alert concerns a followed line | `level` (1 to 3), `alerts` |
 
 The timestamp states work as they are in automations and in the standard cards (`Next departure: in 4 minutes`):
@@ -437,6 +441,7 @@ show_title: true
 show_scene: true
 illustration_theme: auto
 show_alerts: true
+show_nearby: true
 show_refresh: true
 max_departures: 5
 time_format: relative
@@ -453,6 +458,7 @@ language: en
 | `show_scene` | `true` | Show the banner's animated scene and its street or track (`false`: a classic header, the sky alone); `illustration: false` does the same |
 | `illustration_theme` | `auto` | Day or night picture of the banner: `auto` (follows the Home Assistant theme: night with a dark theme, day with a light theme), `day` or `night` |
 | `show_alerts` | `true` | Show the traffic alerts (and their count above the departures) |
+| `show_nearby` | `true` | Show the *Around the stop* strip: one pill per followed bike station (bikes) and park-and-ride (free spaces), green, amber when few are left, red when none; a tap opens its detail (bikes and free docks, or free spaces and those of each type) |
 | `show_refresh` | `true` | Show the refresh button |
 | `max_departures` | `5` | Rows shown after the next departure, one per line and destination with its next times (up to the integration's *Departures kept*) |
 | `time_format` | `relative` | `relative`: countdown (`4 min`, `Now`), clock time from an hour; `absolute`: always the clock time |
@@ -535,6 +541,12 @@ Two stops (the metro station and the bus stop of the same name): the *All* tab, 
 |---|---|
 | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-alerts.png" alt="card with alerts" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-alerts-dark.png" alt="card with alerts dark" width="400"> |
 
+Bike stations and park-and-rides around the stop, the park-and-ride's detail open.
+
+| Light | Dark |
+|---|---|
+| <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-nearby.png" alt="card with bike stations and park-and-rides" width="400"> | <img src="https://raw.githubusercontent.com/juju35/ha-public-transport/main/screenshots/card-nearby-dark.png" alt="card with bike stations and park-and-rides, dark" width="400"> |
+
 The mini card: the banner tells the next departure of all its stops, with its approach bar.
 
 | Light | Dark |
@@ -584,6 +596,8 @@ The card reads the stop sensors and counts the minutes down every 15 seconds by 
 | `tco-bus-topologie-dessertes-td` | Lines serving each bus stop |
 | `tco-bus-topologie-lignes-td`, `tco-metro-topologie-lignes-td` | Line names and official colors |
 | `tco-busmetro-trafic-alertes-tr` | Traffic alerts; their level (*Mineure*, *Bloquante*, *Majeure*) gives 1 to 3 |
+| `vls-stations-etat-tr` | Bike-share stations: bikes and free docks, in service or not |
+| `tco-parcsrelais-star-etat-tr` | Park-and-rides: open or closed, free standard, disabled, electric and car-pool spaces |
 
 The portal's API works without a key; a key (free account) only raises the daily quota.
 

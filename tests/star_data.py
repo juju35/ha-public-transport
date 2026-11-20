@@ -6,7 +6,7 @@ from datetime import timedelta
 
 from homeassistant.util import dt as dt_util
 
-from custom_components.public_transport.providers.star import ALERTS, API_BASE, DATASETS, DESSERTES
+from custom_components.public_transport.providers.star import ALERTS, API_BASE, BIKES, DATASETS, DESSERTES, PARK_RIDES
 
 PASSAGES_BUS = f"{API_BASE}/{DATASETS['bus']['passages']}/records"
 PASSAGES_METRO = f"{API_BASE}/{DATASETS['metro']['passages']}/records"
@@ -16,6 +16,8 @@ LINES_BUS = f"{API_BASE}/{DATASETS['bus']['lines']}/records"
 LINES_METRO = f"{API_BASE}/{DATASETS['metro']['lines']}/records"
 SERVED = f"{API_BASE}/{DESSERTES}/records"
 ALERTS_URL = f"{API_BASE}/{ALERTS}/records"
+BIKES_URL = f"{API_BASE}/{BIKES}/records"
+PARKS_URL = f"{API_BASE}/{PARK_RIDES}/records"
 
 
 def page(results: list[dict]) -> dict:
@@ -216,6 +218,65 @@ def served() -> dict:
     )
 
 
+def bike_stations() -> dict:
+    """Shaped like the portal's answers captured in Nov. 2026."""
+    return page(
+        [
+            {
+                "idstation": "5505",
+                "nom": "Sainte-Anne",
+                "coordonnees": {"lon": -1.680534, "lat": 48.114219},
+                "etat": ["En fonctionnement"],
+                "nombreemplacementsactuels": 24,
+                "nombreemplacementsdisponibles": 17,
+                "nombrevelosdisponibles": 7,
+            },
+            {
+                "idstation": "5509",
+                "nom": "Saint-Georges Piscine",
+                "coordonnees": {"lon": -1.674417, "lat": 48.112385},
+                "etat": ["En maintenance"],
+                "nombreemplacementsactuels": 18,
+                "nombreemplacementsdisponibles": 15,
+                "nombrevelosdisponibles": 3,
+            },
+        ]
+    )
+
+
+def park_rides() -> dict:
+    return page(
+        [
+            {
+                "idparc": "HFR",
+                "nom": "Henri Fréville",
+                "coordonnees": {"lon": -1.674555, "lat": 48.087537},
+                "capaciteparking": 416,
+                "etatouverture": "OUVERT",
+                "etatremplissage": "LIBRE",
+                "capacitesoliste": 384,
+                "jrdinfosoliste": 196,
+                "capaciteve": 20,
+                "jrdinfoelectrique": 12,
+                "capacitecovoiturage": 0,
+                "jrdinfocovoiturage": 15,
+                "capacitepmr": 9,
+                "jrdinfopmr": 8,
+                "nbascenseurdispo": "NA",
+            },
+            {
+                "idparc": "CVI",
+                "nom": "Cesson-Viasilva",
+                "coordonnees": {"lon": -1.620879, "lat": 48.13259},
+                "capaciteparking": 815,
+                "etatouverture": "FERME",
+                "capacitesoliste": 757,
+                "jrdinfosoliste": "NA",
+            },
+        ]
+    )
+
+
 def mock_network(aioclient_mock, *, passages: dict | None = None) -> None:
     """Every dataset the integration reads, answered."""
     aioclient_mock.get(PASSAGES_BUS, json=passages if passages is not None else bus_passages())
@@ -226,6 +287,8 @@ def mock_network(aioclient_mock, *, passages: dict | None = None) -> None:
     aioclient_mock.get(STOPS_BUS, json=bus_stops())
     aioclient_mock.get(STOPS_METRO, json=metro_stops())
     aioclient_mock.get(SERVED, json=served())
+    aioclient_mock.get(BIKES_URL, json=bike_stations())
+    aioclient_mock.get(PARKS_URL, json=park_rides())
 
 
 def calls_to(aioclient_mock, url: str) -> list:

@@ -73,12 +73,14 @@
           "lines": "Líneas",
           "scan_interval": "Intervalo de actualización",
           "max_departures": "Salidas conservadas",
-          "api_key": "Clave de API (opcional)"
+          "api_key": "Clave de API (opcional)",
+          "mobility": "Estaciones de bicis y aparcamientos disuasorios"
         },
         "data_description": {
           "scan_interval": "Todas las paradas de la red se actualizan en una sola petición, al intervalo más corto de sus paradas.",
           "max_departures": "Número de próximas salidas en los atributos del sensor de la parada, mostradas por la tarjeta.",
-          "api_key": "Déjelo vacío para usar la API de datos abiertos sin clave (vaciar el campo elimina la clave)."
+          "api_key": "Déjelo vacío para usar la API de datos abiertos sin clave (vaciar el campo elimina la clave).",
+          "mobility": "Seguidos con la parada: bicis y anclajes libres, plazas libres. Los más cercanos primero; cada uno tiene un sensor y aparece en la tarjeta."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Línea {line}"
+      },
+      "bike_station": {
+        "name": "Bicis en {name}"
+      },
+      "park_ride": {
+        "name": "Plazas libres en {name}"
       }
     },
     "binary_sensor": {

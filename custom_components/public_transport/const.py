@@ -18,6 +18,14 @@ CONF_QUERY: Final = "query"
 CONF_STOP: Final = "stop"
 CONF_SCAN_INTERVAL: Final = "scan_interval"
 CONF_MAX_DEPARTURES: Final = "max_departures"
+# Bike-share stations and park-and-rides followed with the stop (keys "bike:<id>" / "park:<id>"), on networks that
+# publish them (Provider.has_mobility).
+CONF_MOBILITY: Final = "mobility"
+# Their names when they were chosen (sensor names, offline).
+CONF_MOBILITY_NAMES: Final = "mobility_names"
+# The options list the stations within this distance of the stop (metres), nearest first, and the followed ones.
+MOBILITY_RADIUS: Final = 3000
+MAX_MOBILITY_CHOICES: Final = 20
 
 # Real-time data changes about every 30 s: one minute is close enough for a countdown that the card ticks itself,
 # and the network coordinator asks for every stop of a network in one request.

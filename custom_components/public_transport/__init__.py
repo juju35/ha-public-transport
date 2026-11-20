@@ -23,6 +23,7 @@ from homeassistant.helpers.typing import ConfigType
 from .const import (
     ATTR_CONFIG_ENTRY_ID,
     CARD_FILENAME,
+    CONF_MOBILITY,
     CONF_MODE,
     CONF_NETWORK,
     CONF_PROVIDER,
@@ -197,7 +198,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: PublicTransportConfigEnt
         coordinator.provider.api_key = api_key
 
     stop = entry_stop(entry)
-    coordinator.add_stop(entry.entry_id, stop, int(entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)))
+    coordinator.add_stop(
+        entry.entry_id,
+        stop,
+        int(entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)),
+        list(entry.options.get(CONF_MOBILITY, [])),
+    )
     entry.runtime_data = coordinator
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     # The first entry of a network, or a stop the last update did not ask for: fetch it in the background, once

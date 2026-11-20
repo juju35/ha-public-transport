@@ -73,12 +73,14 @@
           "lines": "Lijnen",
           "scan_interval": "Update-interval",
           "max_departures": "Bewaarde vertrekken",
-          "api_key": "API-sleutel (optioneel)"
+          "api_key": "API-sleutel (optioneel)",
+          "mobility": "Fietsstations en P+R-terreinen"
         },
         "data_description": {
           "scan_interval": "Alle haltes van het netwerk worden in één verzoek bijgewerkt, met het kortste interval van de haltes.",
           "max_departures": "Aantal komende vertrekken in de attributen van de haltesensor, getoond door de kaart.",
-          "api_key": "Laat leeg om de open-data-API zonder sleutel te gebruiken (een leeggemaakt veld verwijdert de sleutel)."
+          "api_key": "Laat leeg om de open-data-API zonder sleutel te gebruiken (een leeggemaakt veld verwijdert de sleutel).",
+          "mobility": "Gevolgd met de halte: fietsen en vrije plaatsen, vrije parkeerplaatsen. Dichtstbijzijnde eerst; elk krijgt een sensor en staat op de kaart."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Lijn {line}"
+      },
+      "bike_station": {
+        "name": "Fietsen bij {name}"
+      },
+      "park_ride": {
+        "name": "Vrije plaatsen bij {name}"
       }
     },
     "binary_sensor": {

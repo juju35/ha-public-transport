@@ -73,12 +73,14 @@
           "lines": "Linky",
           "scan_interval": "Interval aktualizace",
           "max_departures": "Uchované odjezdy",
-          "api_key": "API klíč (volitelný)"
+          "api_key": "API klíč (volitelný)",
+          "mobility": "Stanice kol a parkoviště P+R"
         },
         "data_description": {
           "scan_interval": "Všechny zastávky sítě se aktualizují jedním požadavkem, v nejkratším intervalu jejích zastávek.",
           "max_departures": "Počet nejbližších odjezdů v atributech senzoru zastávky, které zobrazuje karta.",
-          "api_key": "Ponechte prázdné pro použití API otevřených dat bez klíče (vyprázdněné pole klíč odstraní)."
+          "api_key": "Ponechte prázdné pro použití API otevřených dat bez klíče (vyprázdněné pole klíč odstraní).",
+          "mobility": "Sledované se zastávkou: kola a volné stojany, volná místa. Nejbližší nejdříve; každé má senzor a zobrazí se na kartě."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Linka {line}"
+      },
+      "bike_station": {
+        "name": "Kola: {name}"
+      },
+      "park_ride": {
+        "name": "Volná místa: {name}"
       }
     },
     "binary_sensor": {

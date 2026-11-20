@@ -73,12 +73,14 @@
           "lines": "Linee",
           "scan_interval": "Intervallo di aggiornamento",
           "max_departures": "Partenze conservate",
-          "api_key": "Chiave API (facoltativa)"
+          "api_key": "Chiave API (facoltativa)",
+          "mobility": "Stazioni bici e parcheggi di interscambio"
         },
         "data_description": {
           "scan_interval": "Tutte le fermate della rete sono aggiornate con una sola richiesta, all'intervallo più breve delle sue fermate.",
           "max_departures": "Numero di prossime partenze negli attributi del sensore della fermata, mostrate dalla scheda.",
-          "api_key": "Lascia vuoto per usare l'API open data senza chiave (svuotare il campo rimuove la chiave)."
+          "api_key": "Lascia vuoto per usare l'API open data senza chiave (svuotare il campo rimuove la chiave).",
+          "mobility": "Seguiti con la fermata: bici e stalli liberi, posti liberi. I più vicini per primi; ognuno ha un sensore e compare sulla scheda."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Linea {line}"
+      },
+      "bike_station": {
+        "name": "Bici a {name}"
+      },
+      "park_ride": {
+        "name": "Posti liberi a {name}"
       }
     },
     "binary_sensor": {

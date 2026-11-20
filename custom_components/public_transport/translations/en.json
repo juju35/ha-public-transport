@@ -73,12 +73,14 @@
           "lines": "Lines",
           "scan_interval": "Update interval",
           "max_departures": "Departures kept",
-          "api_key": "API key (optional)"
+          "api_key": "API key (optional)",
+          "mobility": "Bike stations and park-and-rides"
         },
         "data_description": {
           "scan_interval": "Every stop of the network is updated in one request, at the shortest interval of its stops.",
           "max_departures": "Number of coming departures in the stop sensor's attributes, shown by the card.",
-          "api_key": "Leave empty to use the open data API without a key (an emptied field removes the key)."
+          "api_key": "Leave empty to use the open data API without a key (an emptied field removes the key).",
+          "mobility": "Followed with the stop: bikes and free docks, free spaces. Nearest first; each one gets a sensor and shows on the card."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Line {line}"
+      },
+      "bike_station": {
+        "name": "Bikes at {name}"
+      },
+      "park_ride": {
+        "name": "Free spaces at {name}"
       }
     },
     "binary_sensor": {

@@ -104,6 +104,40 @@ class Alert:
         return data
 
 
+@dataclass(frozen=True, slots=True)
+class Mobility:
+    """A bike-share station (`kind` "bike": `available` bikes, `docks` free) or a park-and-ride (`kind` "park":
+    `available` free spaces), near the stops; `spaces`: free spaces by type of a park-and-ride (pmr, ev, carpool)."""
+
+    id: str
+    kind: str
+    name: str
+    available: int | None
+    capacity: int | None = None
+    docks: int | None = None
+    open: bool = True
+    latitude: float | None = None
+    longitude: float | None = None
+    spaces: dict[str, int] = field(default_factory=dict)
+
+    @property
+    def key(self) -> str:
+        """Unique within the network: a station and a park-and-ride may share an id."""
+        return f"{self.kind}:{self.id}"
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.key,
+            "kind": self.kind,
+            "name": self.name,
+            "available": self.available,
+            "capacity": self.capacity,
+            "docks": self.docks,
+            "open": self.open,
+            **({"spaces": dict(self.spaces)} if self.spaces else {}),
+        }
+
+
 class Provider(ABC):
     """A transit network. Subclasses are registered in providers/__init__.py."""
 
@@ -115,6 +149,8 @@ class Provider(ABC):
     api_key_mode: ClassVar[str] = "optional"
     # Generic providers serve many networks: the config flow asks which one (stored in the entry as `network`).
     needs_network: ClassVar[bool] = False
+    # The network also publishes bike-share stations and park-and-rides (`mobility`): the options offer them.
+    has_mobility: ClassVar[bool] = False
 
     def __init__(
         self,
@@ -169,6 +205,14 @@ class Provider(ABC):
     async def alerts(self) -> list[Alert]:
         """Current traffic alerts; a network without an alerts feed has none."""
         return []
+
+    async def mobility(self) -> list[Mobility]:
+        """Bike-share stations and park-and-rides of the network, with what is free now (`has_mobility`)."""
+        return []
+
+    async def stop_location(self, stop: Stop) -> tuple[float, float] | None:
+        """Latitude and longitude of a stop, when the network can tell (the stations are offered nearest first)."""
+        return None
 
     async def _get_json(
         self,

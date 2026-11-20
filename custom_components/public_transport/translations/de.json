@@ -73,12 +73,14 @@
           "lines": "Linien",
           "scan_interval": "Aktualisierungsintervall",
           "max_departures": "Gespeicherte Abfahrten",
-          "api_key": "API-Schlüssel (optional)"
+          "api_key": "API-Schlüssel (optional)",
+          "mobility": "Fahrradstationen und P+R-Parkplätze"
         },
         "data_description": {
           "scan_interval": "Alle Haltestellen des Netzes werden mit einer Anfrage aktualisiert, im kürzesten Intervall seiner Haltestellen.",
           "max_departures": "Anzahl kommender Abfahrten in den Attributen des Haltestellensensors, von der Karte angezeigt.",
-          "api_key": "Leer lassen, um die Open-Data-API ohne Schlüssel zu nutzen (ein geleertes Feld entfernt den Schlüssel)."
+          "api_key": "Leer lassen, um die Open-Data-API ohne Schlüssel zu nutzen (ein geleertes Feld entfernt den Schlüssel).",
+          "mobility": "Mit der Haltestelle verfolgt: Räder und freie Stellplätze, freie Parkplätze. Die nächsten zuerst; jede erhält einen Sensor und erscheint auf der Karte."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Linie {line}"
+      },
+      "bike_station": {
+        "name": "Räder an {name}"
+      },
+      "park_ride": {
+        "name": "Freie Plätze an {name}"
       }
     },
     "binary_sensor": {

@@ -73,12 +73,14 @@
           "lines": "Linhas",
           "scan_interval": "Intervalo de atualização",
           "max_departures": "Partidas guardadas",
-          "api_key": "Chave de API (opcional)"
+          "api_key": "Chave de API (opcional)",
+          "mobility": "Estações de bicicletas e parques dissuasores"
         },
         "data_description": {
           "scan_interval": "Todas as paragens da rede são atualizadas num só pedido, no intervalo mais curto das suas paragens.",
           "max_departures": "Número de próximas partidas nos atributos do sensor da paragem, mostradas pelo cartão.",
-          "api_key": "Deixe vazio para usar a API de dados abertos sem chave (esvaziar o campo remove a chave)."
+          "api_key": "Deixe vazio para usar a API de dados abertos sem chave (esvaziar o campo remove a chave).",
+          "mobility": "Seguidos com a paragem: bicicletas e docas livres, lugares livres. Os mais próximos primeiro; cada um tem um sensor e aparece no cartão."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Linha {line}"
+      },
+      "bike_station": {
+        "name": "Bicicletas em {name}"
+      },
+      "park_ride": {
+        "name": "Lugares livres em {name}"
       }
     },
     "binary_sensor": {

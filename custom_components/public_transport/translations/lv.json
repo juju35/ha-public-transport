@@ -73,12 +73,14 @@
           "lines": "Maršruti",
           "scan_interval": "Atjaunināšanas intervāls",
           "max_departures": "Saglabātie atiešanas laiki",
-          "api_key": "API atslēga (neobligāta)"
+          "api_key": "API atslēga (neobligāta)",
+          "mobility": "Velosipēdu stacijas un P+R stāvvietas"
         },
         "data_description": {
           "scan_interval": "Visas tīkla pieturas tiek atjauninātas ar vienu pieprasījumu, ar īsāko tā pieturu intervālu.",
           "max_departures": "Tuvāko atiešanas laiku skaits pieturas sensora atribūtos, ko rāda kartīte.",
-          "api_key": "Atstājiet tukšu, lai izmantotu atvērto datu API bez atslēgas (iztukšots lauks noņem atslēgu)."
+          "api_key": "Atstājiet tukšu, lai izmantotu atvērto datu API bez atslēgas (iztukšots lauks noņem atslēgu).",
+          "mobility": "Sekotas kopā ar pieturu: velosipēdi un brīvās vietas, brīvās stāvvietas. Vistuvākās vispirms; katrai ir sensors, un tā redzama kartītē."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Maršruts {line}"
+      },
+      "bike_station": {
+        "name": "Velosipēdi: {name}"
+      },
+      "park_ride": {
+        "name": "Brīvās vietas: {name}"
       }
     },
     "binary_sensor": {

@@ -10,6 +10,11 @@ The portal is an Opendatasoft instance (Explore API v2.1). Datasets used:
 - tco-bus-topologie-lignes-td / tco-metro-topologie-lignes-td: line names and official colors;
 - tco-busmetro-trafic-alertes-tr: traffic alerts, one record per alert and line; `niveau` was documented as "1" to
   "3" and is now a list of labels ("Mineure", "Bloquante", "Majeure"): both are read.
+- vls-stations-etat-tr: bike-share stations (`idstation`, `nom`, `coordonnees`, `etat` ["En fonctionnement"] as a list,
+  `nombrevelosdisponibles`, `nombreemplacementsdisponibles`, `nombreemplacementsactuels`);
+- tco-parcsrelais-star-etat-tr: park-and-rides (`idparc`, `nom`, `coordonnees`, `etatouverture` OUVERT / FERME,
+  `capaciteparking`, `jrdinfosoliste` free standard spaces, `jrdinfopmr`, `jrdinfoelectrique`, `jrdinfocovoiturage`).
+  Field names checked against portal answers captured in Nov. 2026.
 The API works without a key; a key (free account on the portal) raises the daily quota.
 """
 
@@ -27,6 +32,7 @@ from .base import (
     Alert,
     Departure,
     Line,
+    Mobility,
     Provider,
     ProviderAuthError,
     ProviderError,
@@ -51,6 +57,8 @@ DATASETS = {
     },
 }
 DESSERTES = "tco-bus-topologie-dessertes-td"
+BIKES = "vls-stations-etat-tr"
+PARK_RIDES = "tco-parcsrelais-star-etat-tr"
 ALERTS = "tco-busmetro-trafic-alertes-tr"
 REALTIME = "temps réel"
 # Alert levels as labels, by increasing gravity (1 information, 2 disruption, 3 major disruption).
@@ -120,6 +128,7 @@ class StarProvider(Provider):
     name = "STAR"
     area = "Rennes Métropole"
     url = "https://data.explore.star.fr"
+    has_mobility = True
 
     async def _records(
         self, dataset: str, *, where: str | None = None, order_by: str | None = None, limit: int = PAGE, **extra: Any
@@ -295,6 +304,65 @@ class StarProvider(Provider):
         alerts = [Alert(**{**item, "line_ids": tuple(item["line_ids"])}) for item in merged.values()]
         return sorted(alerts, key=lambda a: (-a.level, a.start or now))
 
+    async def mobility(self) -> list[Mobility]:
+        """Bike-share stations and park-and-rides with what is free now (two small datasets: 57 and 8 records)."""
+        found: list[Mobility] = []
+        for record in await self._records(BIKES, limit=400):
+            if not record.get("idstation"):
+                continue
+            lat, lon = _coords(record.get("coordonnees"))
+            state = " ".join(_values(record.get("etat"))).lower()
+            found.append(
+                Mobility(
+                    id=str(record["idstation"]),
+                    kind="bike",
+                    name=str(record.get("nom") or record["idstation"]),
+                    available=_int(record.get("nombrevelosdisponibles")),
+                    docks=_int(record.get("nombreemplacementsdisponibles")),
+                    capacity=_int(record.get("nombreemplacementsactuels")),
+                    open=not state or "fonctionnement" in state,
+                    latitude=lat,
+                    longitude=lon,
+                )
+            )
+        for record in await self._records(PARK_RIDES, limit=100):
+            if not record.get("idparc"):
+                continue
+            lat, lon = _coords(record.get("coordonnees"))
+            spaces = {
+                key: value
+                for key, field in (
+                    ("pmr", "jrdinfopmr"),
+                    ("ev", "jrdinfoelectrique"),
+                    ("carpool", "jrdinfocovoiturage"),
+                )
+                if (value := _int(record.get(field))) is not None
+            }
+            found.append(
+                Mobility(
+                    id=str(record["idparc"]),
+                    kind="park",
+                    name=str(record.get("nom") or record["idparc"]),
+                    available=_int(record.get("jrdinfosoliste")),
+                    capacity=_int(record.get("capacitesoliste")) or _int(record.get("capaciteparking")),
+                    open=str(record.get("etatouverture") or "OUVERT").upper() != "FERME",
+                    latitude=lat,
+                    longitude=lon,
+                    spaces=spaces,
+                )
+            )
+        return found
+
+    async def stop_location(self, stop: Stop) -> tuple[float, float] | None:
+        datasets = DATASETS.get(stop.mode)
+        if datasets is None:
+            return None
+        for record in await self._records(datasets["stops"], where=f"id={_quote(stop.id)}", limit=5):
+            lat, lon = _coords(record.get("coordonnees"))
+            if lat is not None and lon is not None:
+                return float(lat), float(lon)
+        return None
+
 
 def _departure(record: dict[str, Any]) -> Departure | None:
     when = _time(record.get("depart")) or _time(record.get("arrivee"))
@@ -334,3 +402,11 @@ def _name_order(name: str) -> tuple[int, int, str]:
 
 def _line_order(line: Line) -> tuple[int, int, str]:
     return _name_order(line.short_name)
+
+
+def _int(value: Any) -> int | None:
+    """A count of the portal (an int, or a string such as "NA"): None when it is not a number."""
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None

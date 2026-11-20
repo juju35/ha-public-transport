@@ -2,7 +2,9 @@
   "entity": {
     "sensor": {
       "next_departure": { "default": "mdi:bus-clock" },
-      "line": { "default": "mdi:bus-marker" }
+      "line": { "default": "mdi:bus-marker" },
+      "bike_station": { "default": "mdi:bicycle" },
+      "park_ride": { "default": "mdi:parking" }
     },
     "binary_sensor": {
       "disruption": { "default": "mdi:alert-outline", "state": { "off": "mdi:check-circle-outline" } }

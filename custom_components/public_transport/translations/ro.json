@@ -73,12 +73,14 @@
           "lines": "Linii",
           "scan_interval": "Interval de actualizare",
           "max_departures": "Plecări păstrate",
-          "api_key": "Cheie API (opțională)"
+          "api_key": "Cheie API (opțională)",
+          "mobility": "Stații de biciclete și parcări de transfer"
         },
         "data_description": {
           "scan_interval": "Toate stațiile rețelei sunt actualizate printr-o singură cerere, la cel mai scurt interval al stațiilor sale.",
           "max_departures": "Numărul de plecări următoare din atributele senzorului stației, afișate de card.",
-          "api_key": "Lăsați gol pentru a folosi API-ul de date deschise fără cheie (golirea câmpului elimină cheia)."
+          "api_key": "Lăsați gol pentru a folosi API-ul de date deschise fără cheie (golirea câmpului elimină cheia).",
+          "mobility": "Urmărite cu stația: biciclete și locuri libere, locuri de parcare libere. Cele mai apropiate primele; fiecare are un senzor și apare pe card."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Linia {line}"
+      },
+      "bike_station": {
+        "name": "Biciclete la {name}"
+      },
+      "park_ride": {
+        "name": "Locuri libere la {name}"
       }
     },
     "binary_sensor": {

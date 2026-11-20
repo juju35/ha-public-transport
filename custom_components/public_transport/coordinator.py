@@ -20,7 +20,7 @@ from .const import (
     MAX_NETWORK_ALERTS_PER_STOP,
     MIN_SCAN_INTERVAL,
 )
-from .providers import Alert, Departure, Line, Provider, ProviderError, Stop
+from .providers import Alert, Departure, Line, Mobility, Provider, ProviderError, Stop
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -48,6 +48,9 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
         self._intervals: dict[str, int] = {}
         self.lines: dict[str, Line] = {}
         self.alerts: list[Alert] = []
+        # Bike-share stations and park-and-rides by key, fetched with the departures while an entry follows one.
+        self.mobility: dict[str, Mobility] = {}
+        self._mobility_wanted: dict[str, list[str]] = {}
         self._lines_updated: datetime | None = None
         self._alerts_updated: datetime | None = None
         # Set while the network fails and the last departures are kept (sensor attributes `stale` / `last_error`).
@@ -58,15 +61,20 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
         self._lock = asyncio.Lock()
         self._fill: asyncio.Task[None] | None = None
 
-    def add_stop(self, entry_id: str, stop: Stop, interval: int) -> None:
+    def add_stop(self, entry_id: str, stop: Stop, interval: int, mobility: list[str] | None = None) -> None:
         self.stops[entry_id] = stop
         self._intervals[entry_id] = interval
+        if mobility:
+            self._mobility_wanted[entry_id] = list(mobility)
+        else:
+            self._mobility_wanted.pop(entry_id, None)
         self._apply_interval()
 
     def remove_stop(self, entry_id: str) -> bool:
         """Forget an entry's stop; True when no stop is left (the coordinator can go)."""
         self.stops.pop(entry_id, None)
         self._intervals.pop(entry_id, None)
+        self._mobility_wanted.pop(entry_id, None)
         self._apply_interval()
         return not self.stops
 
@@ -137,6 +145,12 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
                 self._alerts_updated = now
             except ProviderError as err:
                 _LOGGER.debug("Could not refresh the %s alerts: %s", self.provider.network_name, err)
+        # Bikes and free spaces move as fast as the departures: fetched at every update, only while followed.
+        if self._mobility_wanted and self.provider.has_mobility:
+            try:
+                self.mobility = {m.key: m for m in await self.provider.mobility()}
+            except ProviderError as err:
+                _LOGGER.debug("Could not refresh the %s stations: %s", self.provider.network_name, err)
 
     @staticmethod
     def _fresh(departures: dict[str, list[Departure]]) -> dict[str, list[Departure]]:
@@ -148,6 +162,10 @@ class NetworkCoordinator(DataUpdateCoordinator[dict[str, list[Departure]]]):
         limit = dt_util.utcnow() - DEPARTED_GRACE
         items = (self.data or {}).get(stop.key, [])
         return [d for d in items if d.departure >= limit and (not line_ids or d.line_id in line_ids)]
+
+    def mobility_for(self, keys: list[str]) -> list[Mobility]:
+        """The followed stations that the network still lists, in the order chosen."""
+        return [self.mobility[key] for key in keys if key in self.mobility]
 
     def alerts_for(self, line_ids: list[str]) -> list[Alert]:
         """Alerts on these lines, plus the network-wide ones (naming no line), capped so a noisy feed that

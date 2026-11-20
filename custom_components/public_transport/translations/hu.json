@@ -73,12 +73,14 @@
           "lines": "Vonalak",
           "scan_interval": "Frissítési időköz",
           "max_departures": "Megőrzött indulások",
-          "api_key": "API-kulcs (nem kötelező)"
+          "api_key": "API-kulcs (nem kötelező)",
+          "mobility": "Kerékpárállomások és P+R parkolók"
         },
         "data_description": {
           "scan_interval": "A hálózat összes megállója egyetlen kéréssel frissül, a megállói közül a legrövidebb időközzel.",
           "max_departures": "A közelgő indulások száma a megálló érzékelőjének attribútumaiban, a kártya ezeket mutatja.",
-          "api_key": "Hagyja üresen a nyílt adatos API kulcs nélküli használatához (a kiürített mező törli a kulcsot)."
+          "api_key": "Hagyja üresen a nyílt adatos API kulcs nélküli használatához (a kiürített mező törli a kulcsot).",
+          "mobility": "A megállóval együtt követve: kerékpárok és szabad dokkolók, szabad helyek. A legközelebbiek elöl; mindegyik saját érzékelőt kap és megjelenik a kártyán."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "{line} vonal"
+      },
+      "bike_station": {
+        "name": "Kerékpárok: {name}"
+      },
+      "park_ride": {
+        "name": "Szabad helyek: {name}"
       }
     },
     "binary_sensor": {

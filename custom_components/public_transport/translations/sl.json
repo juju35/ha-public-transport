@@ -73,12 +73,14 @@
           "lines": "Linije",
           "scan_interval": "Interval posodabljanja",
           "max_departures": "Shranjeni odhodi",
-          "api_key": "API ključ (neobvezno)"
+          "api_key": "API ključ (neobvezno)",
+          "mobility": "Postaje koles in parkirišča P+R"
         },
         "data_description": {
           "scan_interval": "Vsa postajališča omrežja se posodobijo z eno zahtevo, v najkrajšem intervalu njegovih postajališč.",
           "max_departures": "Število prihodnjih odhodov v atributih senzorja postajališča, ki jih prikazuje kartica.",
-          "api_key": "Pustite prazno za uporabo API-ja odprtih podatkov brez ključa (izpraznjeno polje odstrani ključ)."
+          "api_key": "Pustite prazno za uporabo API-ja odprtih podatkov brez ključa (izpraznjeno polje odstrani ključ).",
+          "mobility": "Spremljano s postajališčem: kolesa in prosta stojala, prosta mesta. Najbližja najprej; vsako ima senzor in je prikazano na kartici."
         }
       }
     },
@@ -93,6 +95,12 @@
       },
       "line": {
         "name": "Linija {line}"
+      },
+      "bike_station": {
+        "name": "Kolesa: {name}"
+      },
+      "park_ride": {
+        "name": "Prosta mesta: {name}"
       }
     },
     "binary_sensor": {

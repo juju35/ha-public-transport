@@ -5,12 +5,12 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
-from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, SensorStateClass
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from . import entry_stop
-from .const import CONF_MAX_DEPARTURES, DEFAULT_MAX_DEPARTURES
+from .const import CONF_MAX_DEPARTURES, CONF_MOBILITY, CONF_MOBILITY_NAMES, DEFAULT_MAX_DEPARTURES
 from .coordinator import PublicTransportConfigEntry
 from .entity import PublicTransportEntity
 from .providers import Stop
@@ -22,6 +22,7 @@ async def async_setup_entry(
     stop = entry_stop(entry)
     entities: list[SensorEntity] = [StopSensor(entry, stop)]
     entities += [LineSensor(entry, stop, line_id) for line_id in entry.options.get("lines", [])]
+    entities += [MobilitySensor(entry, stop, key) for key in entry.options.get(CONF_MOBILITY, [])]
     async_add_entities(entities)
 
 
@@ -33,7 +34,7 @@ class StopSensor(PublicTransportEntity, SensorEntity):
 
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     # Lists that change at every update: kept out of the recorder.
-    _unrecorded_attributes = frozenset({"departures", "alerts", "lines"})
+    _unrecorded_attributes = frozenset({"departures", "alerts", "lines", "nearby"})
 
     def __init__(self, entry: PublicTransportConfigEntry, stop: Stop) -> None:
         super().__init__(entry, stop, "next_departure")
@@ -64,6 +65,8 @@ class StopSensor(PublicTransportEntity, SensorEntity):
             ],
             "departures": [self.departure_dict(d) for d in departures],
             "alerts": self.alert_dicts(coordinator.alerts_for(self.line_ids)),
+            # Bike-share stations and park-and-rides followed with the stop (the card's "around the stop" strip).
+            "nearby": [m.as_dict() for m in coordinator.mobility_for(list(self.entry.options.get(CONF_MOBILITY, [])))],
             # True while the last update failed and the departures are the ones of the update before.
             "stale": coordinator.last_error is not None,
             "last_error": str(coordinator.last_error) if coordinator.last_error else None,
@@ -107,3 +110,35 @@ class LineSensor(PublicTransportEntity, SensorEntity):
             "next_departures": [self.departure_dict(d) for d in departures[:3]],
             "alerts": self.alert_dicts(self.coordinator.alerts_for([self.line_id])),
         }
+
+
+class MobilitySensor(PublicTransportEntity, SensorEntity):
+    """Bikes available at a bike-share station, or free spaces at a park-and-ride, followed with the stop."""
+
+    _attr_state_class = SensorStateClass.MEASUREMENT
+
+    def __init__(self, entry: PublicTransportConfigEntry, stop: Stop, key: str) -> None:
+        kind = key.split(":", 1)[0]
+        super().__init__(entry, stop, "bike_station" if kind == "bike" else "park_ride")
+        self.key = key
+        self._attr_unique_id = f"{entry.entry_id}_mobility_{key}"
+        names: dict[str, str] = entry.options.get(CONF_MOBILITY_NAMES, {})
+        self._attr_translation_placeholders = {"name": names.get(key, key.split(":", 1)[-1])}
+
+    @property
+    def available(self) -> bool:
+        return super().available and self.key in self.coordinator.mobility
+
+    @property
+    def native_value(self) -> int | None:
+        station = self.coordinator.mobility.get(self.key)
+        return station.available if station else None
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        station = self.coordinator.mobility.get(self.key)
+        if station is None:
+            return None
+        data = station.as_dict()
+        data.pop("available", None)
+        return data
