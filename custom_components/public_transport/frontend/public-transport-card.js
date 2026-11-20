@@ -1465,6 +1465,52 @@ function transportSceneSvg(mode, state, color, text, line, live, board, status, 
 // ── public-transport-card ─────────────────────────────────────────────────────
 // A banner (sky, the street or the track, the stop's scene and its vehicle), the next departure with its approach
 // bar, tabs (all the stops, then each one) and the following departures, one row per line and destination.
+// Shadow DOM patching: a redraw updates the nodes already on the page (text, attributes, classes) instead of replacing
+// them, so that a state update never re-creates the pictures (SVG scenes, logos) nor restarts their animations, and the
+// card keeps its height (a re-created card is laid out again, which can move the dashboard under the reader's eyes).
+// An open <dialog> keeps its `open` state: it is driven by showModal() / close().
+function transportMorphAttrs(cur, next) {
+  for (var a of Array.from(cur.attributes)) {
+    if (!next.hasAttribute(a.name) && !(a.name === 'open' && cur.localName === 'dialog')) cur.removeAttribute(a.name);
+  }
+  for (var b of Array.from(next.attributes)) {
+    if (cur.getAttribute(b.name) === b.value) continue;
+    if (b.namespaceURI) cur.setAttributeNS(b.namespaceURI, b.name, b.value);
+    else cur.setAttribute(b.name, b.value);
+  }
+}
+
+function transportMorphChildren(cur, next) {
+  var old = Array.from(cur.childNodes);
+  var fresh = Array.from(next.childNodes);
+  fresh.forEach((n, i) => {
+    var o = old[i];
+    var ref = cur.childNodes[i] || null;
+    if (!o || o.nodeType !== n.nodeType || o.nodeName !== n.nodeName) {
+      cur.insertBefore(n, ref);
+      return;
+    }
+    if (o !== ref) cur.insertBefore(o, ref);
+    if (n.nodeType === 1) {
+      transportMorphAttrs(o, n);
+      transportMorphChildren(o, n);
+    } else if (o.nodeValue !== n.nodeValue) o.nodeValue = n.nodeValue;
+  });
+  while (cur.childNodes.length > fresh.length) cur.removeChild(cur.lastChild);
+}
+
+// Gives `root` (a shadow root or an element) the content of `html`, patching what is already there (a plain
+// innerHTML where there is no DOM to patch, as in the unit tests' stubs).
+function transportMorph(root, html) {
+  var tpl = root.childNodes && typeof document !== 'undefined' && document.createElement?.('template');
+  if (!tpl?.content) {
+    root.innerHTML = html;
+    return;
+  }
+  tpl.innerHTML = html;
+  transportMorphChildren(root, tpl.content);
+}
+
 class TransportCard extends HTMLElement {
   static getConfigElement() {
     return document.createElement('public-transport-card-editor');
@@ -1632,19 +1678,20 @@ class TransportCard extends HTMLElement {
     var t = this._t();
     var stops = this._stops();
     var body = this._root.querySelector('.body');
-    // The whole card is redrawn: the focused control gets the keyboard focus back, without scrolling the page.
+    // The focused control keeps the keyboard focus (or gets it back if its node was replaced), without scrolling the page.
     var focused = this._root.activeElement?.getAttribute?.('data-focus');
     var html = !stops.length
       ? `<div class="empty">${transportEsc(t.no_entity)}</div>`
       : this._compact() ? this._renderCompact(stops, t) : this._renderFull(stops, t);
     this._root.querySelector('ha-card').classList.toggle('mini', this._compact());
-    // The 15 s clock tick mostly draws the same thing: the DOM is only rewritten when the HTML changed, so that the
-    // banner's animations do not restart and the focus is not lost for nothing.
+    // The 15 s clock tick mostly draws the same thing: nothing is touched when the HTML did not change. Otherwise the
+    // nodes are patched in place (transportMorph): the banner's picture, the network logo and their animations are
+    // kept, and the card keeps its height, instead of being re-created on every sensor update.
     if (html === body._html) return;
     body._html = html;
-    body.innerHTML = html;
+    transportMorph(body, html);
     this._fitPill();
-    if (focused) this._root.querySelector(`[data-focus="${CSS?.escape ? CSS.escape(focused) : focused}"]`)?.focus?.({ preventScroll: true });
+    if (focused && this._root.activeElement?.getAttribute?.('data-focus') !== focused) this._root.querySelector(`[data-focus="${CSS?.escape ? CSS.escape(focused) : focused}"]`)?.focus?.({ preventScroll: true });
   }
 
   // The network's logo (served by the integration) when every stop of the card belongs to the same network.

@@ -6,6 +6,7 @@
 - Card: folding back on a tap elsewhere now works on iOS (Safari and the companion app): a tap on something that is not clickable sent no click to the page, so the unfolded sections and the mini card's detail view stayed open. The press and the release are caught instead; a scroll does not fold anything, and keyboard clicks still work.
 - Card: leaving the page (another dashboard view, a conditional card hidden) folds the sections and the mini card's detail view back.
 - Card: the 15-second clock tick no longer rewrites a card whose content did not change, which restarted the banner's animations.
+- Card: a state update patches the card in place instead of drawing it again — the banner's picture, the network logo and their animations keep their nodes, an unfolded section stays as it is, and the card keeps its height: a re-created card is laid out again, which can make the dashboard jump (scroll anchoring). Updates of other entities still touch nothing.
 
 ### Maintenance
 - The commit-msg hook works again (the commitlint config is an ES module, as `package.json` declares).
