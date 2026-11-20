@@ -13,7 +13,7 @@ from homeassistant.components.frontend import add_extra_js_url
 from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.const import CONF_API_KEY, EVENT_HOMEASSISTANT_STARTED, Platform
-from homeassistant.core import Event, HomeAssistant, ServiceCall
+from homeassistant.core import Event, HomeAssistant, ServiceCall, callback
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError, ServiceValidationError
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -119,6 +119,13 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         hass.data[STARTING_STOPS] = {
             entry.entry_id for entry in hass.config_entries.async_entries(DOMAIN) if not entry.disabled_by
         }
+
+        @callback
+        def _started(_event: Event) -> None:
+            # Only read during the start: drop the list once Home Assistant runs.
+            hass.data.pop(STARTING_STOPS, None)
+
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, _started)
     return True
 
 

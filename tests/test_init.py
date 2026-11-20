@@ -196,6 +196,8 @@ async def test_stops_set_up_together_share_one_first_fetch(hass, aioclient_mock)
     assert len(calls) == 1
     assert calls[0][1].query["where"] == 'idarret="1201" or idarret="1301"'
     assert len(data.calls_to(aioclient_mock, data.LINES_BUS)) == 1
+    # The start's list of stops is dropped once Home Assistant runs.
+    assert "public_transport_starting" not in hass.data
 
 
 async def test_a_later_failure_keeps_the_departures(hass, aioclient_mock) -> None:
@@ -248,6 +250,38 @@ async def test_card_is_added_to_the_dashboard_resources(hass, aioclient_mock) ->
     urls = [item["url"] for item in resources.async_items()]
     assert len(urls) == 1
     assert urls[0].startswith("/public_transport_static/public-transport-card.js?v=")
+
+
+async def test_card_resource_is_updated_and_deduplicated(hass, aioclient_mock) -> None:
+    """A resource of an older card version is moved to the new URL, duplicates are removed."""
+    assert await async_setup_component(hass, "lovelace", {})
+    resources = _resources(hass)
+    await resources.async_load()
+    resources.loaded = True
+    for version in ("old", "older"):
+        await resources.async_create_item(
+            {"res_type": "module", "url": f"/public_transport_static/public-transport-card.js?v={version}"}
+        )
+    entry = make_entry(hass)
+    await setup(hass, aioclient_mock, entry)
+    urls = [item["url"] for item in resources.async_items()]
+    assert len(urls) == 1
+    assert urls[0].startswith("/public_transport_static/public-transport-card.js?v=")
+    assert not urls[0].endswith(("=old", "=older"))
+
+
+async def test_card_resource_failure_falls_back_to_every_page(hass, aioclient_mock, stub_frontend) -> None:
+    """When the resources cannot be edited, the card is still loaded on every page."""
+    assert await async_setup_component(hass, "lovelace", {})
+    resources = _resources(hass)
+
+    async def broken(*_args, **_kwargs):
+        raise RuntimeError("storage unavailable")
+
+    resources.async_create_item = broken
+    entry = make_entry(hass)
+    await setup(hass, aioclient_mock, entry)
+    assert stub_frontend.call_args[0][1].startswith("/public_transport_static/public-transport-card.js?v=")
 
 
 async def test_card_in_yaml_mode_is_loaded_on_every_page(hass, aioclient_mock, stub_frontend) -> None:
