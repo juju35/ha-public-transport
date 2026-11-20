@@ -1,4 +1,4 @@
-var TRANSPORT_CARD_VERSION = '1.6.3';
+var TRANSPORT_CARD_VERSION = '1.6.4';
 
 // ── Header icon: tinted round icon in the integration's accent (the integration keeps its brand/icon.png) ──────
 var TRANSPORT_ACCENT = '#00897b';
@@ -1361,6 +1361,31 @@ function transportInDialog(ev) {
   return ev.composedPath().some((n) => ['ha-more-info-dialog', 'ha-dialog', 'dialog'].includes(n.localName));
 }
 
+// "A click elsewhere" is caught on the pointer, not only on the click event: on iOS (Safari and the companion app) a
+// tap on something that is not clickable (the background, an empty spot) sends no click to the page. It counts when
+// the press and the release are both outside the card (a scroll cancels the pointer); keyboard clicks (no click
+// count) still go through the click event. The handler keeps its own checks (inside the card, a dialog opened from it).
+function transportWatchOutside(card, handler) {
+  var downOutside = false;
+  var outside = (ev) => !ev.composedPath().includes(card);
+  var onDown = (ev) => { downOutside = outside(ev); };
+  var onUp = (ev) => { if (downOutside && outside(ev)) handler(ev); downOutside = false; };
+  var onClick = (ev) => { if (ev.detail === 0) handler(ev); };
+  return {
+    on() {
+      document.addEventListener('pointerdown', onDown, true);
+      document.addEventListener('pointerup', onUp, true);
+      document.addEventListener('click', onClick, true);
+    },
+    off() {
+      document.removeEventListener('pointerdown', onDown, true);
+      document.removeEventListener('pointerup', onUp, true);
+      document.removeEventListener('click', onClick, true);
+    },
+    tap(ev) { onDown(ev); onUp(ev); },
+  };
+}
+
 // ── The banner's illustration ─────────────────────────────────────────────────
 // A city stop at the right of the banner, drawn in a 200 × 80 box (bottom right aligned): pale buildings with
 // their windows, the platform, the stop's pole with its departure display (line, countdown) and the vehicle of the
@@ -1440,6 +1465,67 @@ function transportSceneSvg(mode, state, color, text, line, live, board, status, 
 // ── public-transport-card ─────────────────────────────────────────────────────
 // A banner (sky, the street or the track, the stop's scene and its vehicle), the next departure with its approach
 // bar, tabs (all the stops, then each one) and the following departures, one row per line and destination.
+// Shadow DOM patching: a redraw updates the nodes already on the page (text, attributes, classes) instead of replacing
+// them, so that a state update never re-creates the pictures (SVG scenes, logos) nor restarts their animations, and the
+// card keeps its height (a re-created card is laid out again, which can move the dashboard under the reader's eyes).
+// An open <dialog> keeps its `open` state: it is driven by showModal() / close().
+function transportMorphAttrs(cur, next) {
+  for (var a of Array.from(cur.attributes)) {
+    if (!next.hasAttribute(a.name) && !(a.name === 'open' && cur.localName === 'dialog')) cur.removeAttribute(a.name);
+  }
+  for (var b of Array.from(next.attributes)) {
+    if (cur.getAttribute(b.name) === b.value) continue;
+    if (b.namespaceURI) cur.setAttributeNS(b.namespaceURI, b.name, b.value);
+    else cur.setAttribute(b.name, b.value);
+  }
+}
+
+// A Home Assistant element given no content (<ha-icon>…) draws itself: what it adds to its own node is not ours to
+// remove. It is kept as long as the attributes the HTML gives it do not change, and replaced when they do.
+function transportMorphOwnDrawn(o, n) {
+  if (!n.localName.includes('-') || n.firstChild) return false;
+  var key = Array.from(n.attributes, (a) => `${a.name}=${a.value}`).join('\n');
+  if (o.__morphKey === undefined && Array.from(n.attributes).every((a) => o.getAttribute(a.name) === a.value)) o.__morphKey = key;
+  if (o.__morphKey !== key) {
+    n.__morphKey = key;
+    o.parentNode.replaceChild(n, o);
+  }
+  return true;
+}
+
+function transportMorphChildren(cur, next) {
+  var old = Array.from(cur.childNodes);
+  var fresh = Array.from(next.childNodes);
+  fresh.forEach((n, i) => {
+    var o = old[i];
+    var ref = cur.childNodes[i] || null;
+    if (!o || o.nodeType !== n.nodeType || o.nodeName !== n.nodeName) {
+      cur.insertBefore(n, ref);
+      return;
+    }
+    if (o !== ref) cur.insertBefore(o, ref);
+    if (n.nodeType !== 1) {
+      if (o.nodeValue !== n.nodeValue) o.nodeValue = n.nodeValue;
+    } else if (!transportMorphOwnDrawn(o, n)) {
+      transportMorphAttrs(o, n);
+      transportMorphChildren(o, n);
+    }
+  });
+  while (cur.childNodes.length > fresh.length) cur.removeChild(cur.lastChild);
+}
+
+// Gives `root` (a shadow root or an element) the content of `html`, patching what is already there (a plain
+// innerHTML where there is no DOM to patch, as in the unit tests' stubs).
+function transportMorph(root, html) {
+  var tpl = root.childNodes && typeof document !== 'undefined' && document.createElement?.('template');
+  if (!tpl?.content) {
+    root.innerHTML = html;
+    return;
+  }
+  tpl.innerHTML = html;
+  transportMorphChildren(root, tpl.content);
+}
+
 class TransportCard extends HTMLElement {
   static getConfigElement() {
     return document.createElement('public-transport-card-editor');
@@ -1489,7 +1575,9 @@ class TransportCard extends HTMLElement {
       this._open = {};
       this._render();
     });
-    document.addEventListener('click', this._onOutside, true);
+    (this._outsideWatch = this._outsideWatch || transportWatchOutside(this, (ev) => this._onOutside(ev))).on();
+    // Back on the page after leaving it: drawn again in its default state.
+    this._render();
     // The countdown follows the clock between two sensor updates.
     if (!this._timer) this._timer = setInterval(() => this._render(), 15000);
     // A new width (or the web font loaded): the status pill is fitted again, in the next frame.
@@ -1507,11 +1595,15 @@ class TransportCard extends HTMLElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener('click', this._onOutside, true);
+    this._outsideWatch?.off();
     clearInterval(this._timer);
     this._timer = null;
     this._resize?.disconnect();
+    if (this._fitFrame) cancelAnimationFrame(this._fitFrame);
     this._fitWidth = null;
+    // Left (another dashboard view, a conditional card hidden): the sections fold back, so that the card does not
+    // come back unfolded.
+    this._open = {};
   }
 
   // The banner's status pill goes right after the title only when the whole title (for the next departure's line: its
@@ -1520,6 +1612,16 @@ class TransportCard extends HTMLElement {
   // has no room for the lines above its ground strip, the pill keeps its dot only (.titles.dot-only, back beside the
   // title when the dot fits there). Measured after render, so that it holds in every language.
   _fitPill() {
+    // Home Assistant's <ha-card> (a Lit element) shows its content only from its first update, a microtask after it
+    // is connected: measured before, everything is 0 px wide and the pill lands on the wrong line. Fitted then.
+    const haCard = this._root?.querySelector?.('ha-card');
+    if (haCard && haCard.hasUpdated === false) {
+      this._pillWait ??= (haCard.updateComplete?.then ? haCard.updateComplete : new Promise((r) => requestAnimationFrame(r))).then(() => {
+        this._pillWait = null;
+        this._fitPill();
+      });
+      return;
+    }
     if (typeof getComputedStyle !== 'function') return;
     (this._root?.querySelectorAll?.('.banner .titles') || []).forEach((t) => {
       var pill = t.querySelector('.trow > .hpill');
@@ -1601,14 +1703,20 @@ class TransportCard extends HTMLElement {
     var t = this._t();
     var stops = this._stops();
     var body = this._root.querySelector('.body');
-    // The whole card is redrawn: the focused control gets the keyboard focus back, without scrolling the page.
+    // The focused control keeps the keyboard focus (or gets it back if its node was replaced), without scrolling the page.
     var focused = this._root.activeElement?.getAttribute?.('data-focus');
-    body.innerHTML = !stops.length
+    var html = !stops.length
       ? `<div class="empty">${transportEsc(t.no_entity)}</div>`
       : this._compact() ? this._renderCompact(stops, t) : this._renderFull(stops, t);
     this._root.querySelector('ha-card').classList.toggle('mini', this._compact());
+    // The 15 s clock tick mostly draws the same thing: nothing is touched when the HTML did not change. Otherwise the
+    // nodes are patched in place (transportMorph): the banner's picture, the network logo and their animations are
+    // kept, and the card keeps its height, instead of being re-created on every sensor update.
+    if (html === body._html) return;
+    body._html = html;
+    transportMorph(body, html);
     this._fitPill();
-    if (focused) this._root.querySelector(`[data-focus="${CSS?.escape ? CSS.escape(focused) : focused}"]`)?.focus?.({ preventScroll: true });
+    if (focused && this._root.activeElement?.getAttribute?.('data-focus') !== focused) this._root.querySelector(`[data-focus="${CSS?.escape ? CSS.escape(focused) : focused}"]`)?.focus?.({ preventScroll: true });
   }
 
   // The network's logo (served by the integration) when every stop of the card belongs to the same network.
@@ -2244,12 +2352,14 @@ class TransportMiniCard extends TransportCard {
 
   connectedCallback() {
     super.connectedCallback();
-    document.addEventListener('click', this._onOutsideMini, true);
+    (this._outsideMiniWatch = this._outsideMiniWatch || transportWatchOutside(this, (ev) => this._onOutsideMini(ev))).on();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    document.removeEventListener('click', this._onOutsideMini, true);
+    this._outsideMiniWatch?.off();
+    // Back to the compact view once off the page.
+    this._zoomed = false;
   }
 
   setConfig(config) {

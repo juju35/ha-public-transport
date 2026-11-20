@@ -19,7 +19,7 @@ const context = {
 };
 vm.createContext(context);
 vm.runInContext(
-  `${source}\nthis.tp = { transportEsc, transportLang, transportLocale, transportMinutes, transportColor, transportFill, transportDepartures, TransportCard, TransportMiniCard, TransportI18n, transportEditorSchema, TRANSPORT_DEFAULTS };`,
+  `${source}\nthis.tp = { transportEsc, transportLang, transportLocale, transportMinutes, transportColor, transportFill, transportDepartures, TransportCard, TransportMiniCard, TransportI18n, transportEditorSchema, TRANSPORT_DEFAULTS, transportWatchOutside };`,
   context,
 );
 const { transportEsc, transportLang, transportLocale, transportMinutes, transportColor, transportFill, transportDepartures, TransportCard, TransportMiniCard, TransportI18n, transportEditorSchema } = context.tp;
@@ -454,4 +454,197 @@ test('status pill: beside the whole title only when both fit, else under the oth
   assert.doesNotMatch(source, /transportFourChars/);
   const card = makeCard();
   assert.doesNotThrow(() => card._fitPill());
+});
+
+test('a tap elsewhere (press and release outside, as on iOS) folds the card back, and so does leaving the page', () => {
+  const card = makeCard(TransportMiniCard);
+  card._render = () => {};
+  card._setZoom = (z) => { card._zoomed = z; };
+  const w = context.tp.transportWatchOutside(card, (ev) => card._onOutsideMini(ev));
+  card._onOutsideMini = (ev) => { if (card._zoomed && !ev.composedPath().includes(card)) card._setZoom(false); };
+  card._zoomed = true;
+  w.tap({ composedPath: () => [card] });
+  assert.equal(card._zoomed, true);
+  w.tap({ composedPath: () => [] });
+  assert.equal(card._zoomed, false);
+  card._zoomed = true;
+  card._open = { s1: true };
+  card.disconnectedCallback();
+  assert.equal(card._zoomed, false);
+  assert.deepEqual({ ...card._open }, {});
+});
+
+test('the clock tick does not rewrite the card when nothing changed', () => {
+  const card = makeCard();
+  let writes = 0;
+  const body = { set innerHTML(v) { writes++; } };
+  const haCard = { classList: { toggle() {} } };
+  card._root = { querySelector: (s) => (s === '.body' ? body : haCard), querySelectorAll: () => [], activeElement: null };
+  card._renderFull = () => '<div>same</div>';
+  card._render();
+  card._render();
+  assert.equal(writes, 1);
+  card._renderFull = () => '<div>new</div>';
+  card._render();
+  assert.equal(writes, 2);
+});
+
+// ── DOM patching (layout shift): a redraw keeps the nodes on the page ───────────────────────────────────────────
+// A tiny DOM, enough for the patch helper: elements with attributes and children, and text nodes.
+class FakeNode {
+  constructor(type, name, value = null) {
+    this.nodeType = type;
+    this.nodeName = name.toUpperCase();
+    this.localName = name.toLowerCase();
+    this.nodeValue = value;
+    this.childNodes = [];
+    this.parentNode = null;
+    this.attrs = new Map();
+  }
+  get attributes() {
+    return [...this.attrs].map(([name, value]) => ({ name, value, namespaceURI: null }));
+  }
+  hasAttribute(n) {
+    return this.attrs.has(n);
+  }
+  getAttribute(n) {
+    return this.attrs.has(n) ? this.attrs.get(n) : null;
+  }
+  setAttribute(n, v) {
+    this.attrs.set(n, String(v));
+  }
+  removeAttribute(n) {
+    this.attrs.delete(n);
+  }
+  get lastChild() {
+    return this.childNodes[this.childNodes.length - 1] || null;
+  }
+  insertBefore(n, ref) {
+    if (n.parentNode) n.parentNode.removeChild(n);
+    const i = ref ? this.childNodes.indexOf(ref) : this.childNodes.length;
+    this.childNodes.splice(i, 0, n);
+    n.parentNode = this;
+    return n;
+  }
+  removeChild(n) {
+    this.childNodes.splice(this.childNodes.indexOf(n), 1);
+    n.parentNode = null;
+    return n;
+  }
+  replaceChild(n, o) {
+    this.insertBefore(n, o);
+    return this.removeChild(o);
+  }
+  get firstChild() {
+    return this.childNodes[0] || null;
+  }
+}
+const fakeEl = (name, attrs = {}, ...kids) => {
+  const e = new FakeNode(1, name);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+  for (const k of kids) e.insertBefore(typeof k === "string" ? new FakeNode(3, "#text", k) : k, null);
+  return e;
+};
+
+test("a redraw patches the card in place: pictures, images and texts keep their nodes", () => {
+  const patch = vm.runInContext("transportMorphChildren", context);
+  const img = fakeEl("img", { src: "logo.svg", alt: "" });
+  const svg = fakeEl("svg", { class: "scene" }, fakeEl("path", { d: "M0 0" }));
+  const label = fakeEl("span", { class: "t" }, "3 min");
+  const root = fakeEl("div", {}, fakeEl("div", { class: "banner st-ok", "data-wrap": "" }, svg, img), label, fakeEl("p", {}, "gone"));
+  const next = fakeEl("div", {}, fakeEl("div", { class: "banner st-late" }, fakeEl("svg", { class: "scene" }, fakeEl("path", { d: "M0 0" })), fakeEl("img", { src: "logo.svg", alt: "" })), fakeEl("span", { class: "t" }, "2 min"));
+  const banner = root.childNodes[0];
+  const text = label.childNodes[0];
+  patch(root, next);
+  // The same nodes, updated: no picture or image is re-created (they would be laid out again)
+  assert.equal(root.childNodes[0], banner);
+  assert.equal(banner.childNodes[0], svg);
+  assert.equal(banner.childNodes[1], img);
+  assert.equal(root.childNodes[1], label);
+  assert.equal(label.childNodes[0], text);
+  assert.equal(text.nodeValue, "2 min");
+  assert.equal(banner.getAttribute("class"), "banner st-late");
+  assert.equal(banner.hasAttribute("data-wrap"), false);
+  // What the new HTML no longer has is removed
+  assert.equal(root.childNodes.length, 2);
+});
+
+test("a redraw replaces only the nodes whose element changed, and keeps an open dialog open", () => {
+  const patch = vm.runInContext("transportMorphChildren", context);
+  const dlg = fakeEl("dialog", { id: "zoom", open: "" });
+  const keep = fakeEl("div", { class: "a" });
+  const root = fakeEl("div", {}, keep, fakeEl("span", {}, "x"), dlg);
+  const fresh = fakeEl("button", { class: "b" });
+  patch(root, fakeEl("div", {}, fakeEl("div", { class: "a" }), fresh, fakeEl("dialog", { id: "zoom" })));
+  assert.deepEqual(root.childNodes.map((n) => n.localName), ["div", "button", "dialog"]);
+  assert.equal(root.childNodes[0], keep);
+  assert.equal(root.childNodes[1], fresh);
+  assert.equal(root.childNodes[2], dlg);
+  // `open` belongs to showModal() / close(), not to the HTML
+  assert.equal(dlg.hasAttribute("open"), true);
+});
+
+test("a hass update that changes no stop sensor does not redraw the card; a stop sensor update does", () => {
+  const card = makeCard(TransportCard, { entity: 'sensor.central_next_departure' });
+  let renders = 0;
+  card._render = () => renders++;
+  const states = { 'sensor.central_next_departure': stopState(), 'sensor.other': { state: '1', attributes: {} } };
+  card.hass = { states, themes: { darkMode: false } };
+  assert.equal(renders, 1);
+  // Another entity changes: the card is not touched (no DOM change, nothing laid out again)
+  card.hass = { states: { ...states, 'sensor.other': { state: '2', attributes: {} } }, themes: { darkMode: false } };
+  assert.equal(renders, 1);
+  card.hass = { states: { ...states, 'sensor.central_next_departure': stopState() }, themes: { darkMode: false } };
+  assert.equal(renders, 2);
+});
+
+test("a redraw keeps what a Home Assistant element drew in itself, and replaces it when its attributes change", () => {
+  const patch = vm.runInContext("transportMorphChildren", context);
+  // <ha-icon> draws its own content (and may style its own node): the redraw leaves it alone
+  const icon = fakeEl("ha-icon", { icon: "mdi:refresh", style: "display: inline-flex" }, fakeEl("svg"));
+  const root = fakeEl("div", {}, icon);
+  patch(root, fakeEl("div", {}, fakeEl("ha-icon", { icon: "mdi:refresh" })));
+  assert.equal(root.childNodes[0], icon);
+  assert.equal(icon.childNodes.length, 1);
+  assert.equal(icon.getAttribute("style"), "display: inline-flex");
+  // Another icon: a new element, which draws the new icon
+  patch(root, fakeEl("div", {}, fakeEl("ha-icon", { icon: "mdi:check" })));
+  assert.notEqual(root.childNodes[0], icon);
+  assert.equal(root.childNodes[0].getAttribute("icon"), "mdi:check");
+  // An element we fill ourselves (<ha-card>) is patched like any other
+  const card = fakeEl("ha-card", { class: "mini" }, fakeEl("div", {}, "a"));
+  const host = fakeEl("div", {}, card);
+  patch(host, fakeEl("div", {}, fakeEl("ha-card", {}, fakeEl("div", {}, "b"))));
+  assert.equal(host.childNodes[0], card);
+  assert.equal(card.hasAttribute("class"), false);
+  assert.equal(card.childNodes[0].childNodes[0].nodeValue, "b");
+});
+
+// Home Assistant's <ha-card> is a Lit element: it lays out its content from its first update only, a microtask after it
+// is connected. Measured before, the title and the pill are 0 px wide and the pill lands on the wrong line for a frame:
+// the card waits for that update (updateComplete), then measures once.
+test("the status pill is measured only once <ha-card> has drawn its content", async () => {
+  context.getComputedStyle = () => ({});
+  const card = makeCard();
+  const asked = [];
+  let drawn;
+  const haCard = { hasUpdated: false, updateComplete: new Promise((done) => (drawn = done)) };
+  const root = {
+    querySelector: (sel) => (sel === "ha-card" ? haCard : (asked.push(sel), null)),
+    querySelectorAll: (sel) => (asked.push(sel), []),
+  };
+  card._root = root;
+  card._fitPill();
+  card._fitPill();
+  await null;
+  assert.deepEqual(asked, [], "nothing measured before <ha-card>'s first update");
+  haCard.hasUpdated = true;
+  drawn(true);
+  await haCard.updateComplete;
+  await null;
+  assert.ok(asked.length > 0, "measured once it is drawn");
+  const once = asked.length;
+  card._fitPill();
+  assert.equal(asked.length, once * 2, "then measured right away, with no wait");
+  delete context.getComputedStyle;
 });
