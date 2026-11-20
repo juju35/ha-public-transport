@@ -19,7 +19,7 @@ const context = {
 };
 vm.createContext(context);
 vm.runInContext(
-  `${source}\nthis.tp = { transportEsc, transportLang, transportLocale, transportMinutes, transportColor, transportFill, transportDepartures, TransportCard, TransportMiniCard, TransportI18n, transportEditorSchema, TRANSPORT_DEFAULTS };`,
+  `${source}\nthis.tp = { transportEsc, transportLang, transportLocale, transportMinutes, transportColor, transportFill, transportDepartures, TransportCard, TransportMiniCard, TransportI18n, transportEditorSchema, TRANSPORT_DEFAULTS, transportWatchOutside };`,
   context,
 );
 const { transportEsc, transportLang, transportLocale, transportMinutes, transportColor, transportFill, transportDepartures, TransportCard, TransportMiniCard, TransportI18n, transportEditorSchema } = context.tp;
@@ -454,4 +454,37 @@ test('status pill: beside the whole title only when both fit, else under the oth
   assert.doesNotMatch(source, /transportFourChars/);
   const card = makeCard();
   assert.doesNotThrow(() => card._fitPill());
+});
+
+test('a tap elsewhere (press and release outside, as on iOS) folds the card back, and so does leaving the page', () => {
+  const card = makeCard(TransportMiniCard);
+  card._render = () => {};
+  card._setZoom = (z) => { card._zoomed = z; };
+  const w = context.tp.transportWatchOutside(card, (ev) => card._onOutsideMini(ev));
+  card._onOutsideMini = (ev) => { if (card._zoomed && !ev.composedPath().includes(card)) card._setZoom(false); };
+  card._zoomed = true;
+  w.tap({ composedPath: () => [card] });
+  assert.equal(card._zoomed, true);
+  w.tap({ composedPath: () => [] });
+  assert.equal(card._zoomed, false);
+  card._zoomed = true;
+  card._open = { s1: true };
+  card.disconnectedCallback();
+  assert.equal(card._zoomed, false);
+  assert.deepEqual({ ...card._open }, {});
+});
+
+test('the clock tick does not rewrite the card when nothing changed', () => {
+  const card = makeCard();
+  let writes = 0;
+  const body = { set innerHTML(v) { writes++; } };
+  const haCard = { classList: { toggle() {} } };
+  card._root = { querySelector: (s) => (s === '.body' ? body : haCard), querySelectorAll: () => [], activeElement: null };
+  card._renderFull = () => '<div>same</div>';
+  card._render();
+  card._render();
+  assert.equal(writes, 1);
+  card._renderFull = () => '<div>new</div>';
+  card._render();
+  assert.equal(writes, 2);
 });

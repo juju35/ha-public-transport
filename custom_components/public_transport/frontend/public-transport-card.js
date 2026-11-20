@@ -1361,6 +1361,31 @@ function transportInDialog(ev) {
   return ev.composedPath().some((n) => ['ha-more-info-dialog', 'ha-dialog', 'dialog'].includes(n.localName));
 }
 
+// "A click elsewhere" is caught on the pointer, not only on the click event: on iOS (Safari and the companion app) a
+// tap on something that is not clickable (the background, an empty spot) sends no click to the page. It counts when
+// the press and the release are both outside the card (a scroll cancels the pointer); keyboard clicks (no click
+// count) still go through the click event. The handler keeps its own checks (inside the card, a dialog opened from it).
+function transportWatchOutside(card, handler) {
+  var downOutside = false;
+  var outside = (ev) => !ev.composedPath().includes(card);
+  var onDown = (ev) => { downOutside = outside(ev); };
+  var onUp = (ev) => { if (downOutside && outside(ev)) handler(ev); downOutside = false; };
+  var onClick = (ev) => { if (ev.detail === 0) handler(ev); };
+  return {
+    on() {
+      document.addEventListener('pointerdown', onDown, true);
+      document.addEventListener('pointerup', onUp, true);
+      document.addEventListener('click', onClick, true);
+    },
+    off() {
+      document.removeEventListener('pointerdown', onDown, true);
+      document.removeEventListener('pointerup', onUp, true);
+      document.removeEventListener('click', onClick, true);
+    },
+    tap(ev) { onDown(ev); onUp(ev); },
+  };
+}
+
 // ── The banner's illustration ─────────────────────────────────────────────────
 // A city stop at the right of the banner, drawn in a 200 × 80 box (bottom right aligned): pale buildings with
 // their windows, the platform, the stop's pole with its departure display (line, countdown) and the vehicle of the
@@ -1489,7 +1514,9 @@ class TransportCard extends HTMLElement {
       this._open = {};
       this._render();
     });
-    document.addEventListener('click', this._onOutside, true);
+    (this._outsideWatch = this._outsideWatch || transportWatchOutside(this, (ev) => this._onOutside(ev))).on();
+    // Back on the page after leaving it: drawn again in its default state.
+    this._render();
     // The countdown follows the clock between two sensor updates.
     if (!this._timer) this._timer = setInterval(() => this._render(), 15000);
     // A new width (or the web font loaded): the status pill is fitted again, in the next frame.
@@ -1507,11 +1534,15 @@ class TransportCard extends HTMLElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener('click', this._onOutside, true);
+    this._outsideWatch?.off();
     clearInterval(this._timer);
     this._timer = null;
     this._resize?.disconnect();
+    if (this._fitFrame) cancelAnimationFrame(this._fitFrame);
     this._fitWidth = null;
+    // Left (another dashboard view, a conditional card hidden): the sections fold back, so that the card does not
+    // come back unfolded.
+    this._open = {};
   }
 
   // The banner's status pill goes right after the title only when the whole title (for the next departure's line: its
@@ -1603,10 +1634,15 @@ class TransportCard extends HTMLElement {
     var body = this._root.querySelector('.body');
     // The whole card is redrawn: the focused control gets the keyboard focus back, without scrolling the page.
     var focused = this._root.activeElement?.getAttribute?.('data-focus');
-    body.innerHTML = !stops.length
+    var html = !stops.length
       ? `<div class="empty">${transportEsc(t.no_entity)}</div>`
       : this._compact() ? this._renderCompact(stops, t) : this._renderFull(stops, t);
     this._root.querySelector('ha-card').classList.toggle('mini', this._compact());
+    // The 15 s clock tick mostly draws the same thing: the DOM is only rewritten when the HTML changed, so that the
+    // banner's animations do not restart and the focus is not lost for nothing.
+    if (html === body._html) return;
+    body._html = html;
+    body.innerHTML = html;
     this._fitPill();
     if (focused) this._root.querySelector(`[data-focus="${CSS?.escape ? CSS.escape(focused) : focused}"]`)?.focus?.({ preventScroll: true });
   }
@@ -2244,12 +2280,14 @@ class TransportMiniCard extends TransportCard {
 
   connectedCallback() {
     super.connectedCallback();
-    document.addEventListener('click', this._onOutsideMini, true);
+    (this._outsideMiniWatch = this._outsideMiniWatch || transportWatchOutside(this, (ev) => this._onOutsideMini(ev))).on();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    document.removeEventListener('click', this._onOutsideMini, true);
+    this._outsideMiniWatch?.off();
+    // Back to the compact view once off the page.
+    this._zoomed = false;
   }
 
   setConfig(config) {
