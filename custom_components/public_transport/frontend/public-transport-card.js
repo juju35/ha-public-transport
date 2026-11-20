@@ -1612,6 +1612,16 @@ class TransportCard extends HTMLElement {
   // has no room for the lines above its ground strip, the pill keeps its dot only (.titles.dot-only, back beside the
   // title when the dot fits there). Measured after render, so that it holds in every language.
   _fitPill() {
+    // Home Assistant's <ha-card> (a Lit element) shows its content only from its first update, a microtask after it
+    // is connected: measured before, everything is 0 px wide and the pill lands on the wrong line. Fitted then.
+    const haCard = this._root?.querySelector?.('ha-card');
+    if (haCard && haCard.hasUpdated === false) {
+      this._pillWait ??= (haCard.updateComplete?.then ? haCard.updateComplete : new Promise((r) => requestAnimationFrame(r))).then(() => {
+        this._pillWait = null;
+        this._fitPill();
+      });
+      return;
+    }
     if (typeof getComputedStyle !== 'function') return;
     (this._root?.querySelectorAll?.('.banner .titles') || []).forEach((t) => {
       var pill = t.querySelector('.trow > .hpill');
