@@ -1,4 +1,4 @@
-var TRANSPORT_CARD_VERSION = '1.7.1';
+var TRANSPORT_CARD_VERSION = '1.7.2';
 
 // ── Header icon: tinted round icon in the integration's accent (the integration keeps its brand/icon.png) ──────
 var TRANSPORT_ACCENT = '#00897b';
@@ -2829,7 +2829,7 @@ if (!customElements.get('public-transport-card')) {
     type: 'public-transport-card',
     name: 'Public transport',
     description: 'Next departures at your stops: illustrated banner, approach bar, line colors, countdown, real time and traffic alerts.',
-    preview: true,
+    preview: false,
     documentationURL: 'https://github.com/juju35/ha-public-transport',
   });
 }
@@ -2841,7 +2841,7 @@ if (!customElements.get('public-transport-mini-card')) {
     type: 'public-transport-mini-card',
     name: 'Public transport mini',
     description: 'The next departure of your stops in an illustrated banner, with a button to show the full card.',
-    preview: true,
+    preview: false,
     documentationURL: 'https://github.com/juju35/ha-public-transport',
   });
 }
