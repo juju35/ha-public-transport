@@ -3,13 +3,14 @@
 // import lines removed, `export` keywords dropped, translation tables rebuilt as one literal). The assembled files are
 // not committed: run this before the tests, the screenshots, scripts/split-frontend.mjs and the release zip.
 // Usage: node scripts/build-frontend.mjs
-import { existsSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { bundle } from "./bundle.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const [domain] = readdirSync(`${root}custom_components`);
 const out = `${root}custom_components/${domain}/frontend`;
+mkdirSync(out, { recursive: true }); // a fresh checkout has no frontend/ folder when every file in it is assembled
 
 for (const stem of readdirSync(`${root}src`).sort()) {
   if (!existsSync(`${root}src/${stem}/index.js`)) continue;
