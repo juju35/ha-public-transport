@@ -1,13 +1,15 @@
 {
   "name": "ha-public-transport",
-  "version": "1.2.0",
+  "version": "1.7.4",
   "description": "Home Assistant integration and Lovelace cards for the next departures at your public transport stops (STAR Rennes first).",
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/split-frontend.mjs --check",
-    "split": "node scripts/split-frontend.mjs",
-    "test": "node --test test/*.test.mjs"
+    "build": "node scripts/build-frontend.mjs",
+    "pretest": "node scripts/build-frontend.mjs",
+    "test": "node --test test/*.test.mjs",
+    "split": "node scripts/build-frontend.mjs && node scripts/split-frontend.mjs",
+    "split:check": "node scripts/build-frontend.mjs && node scripts/split-frontend.mjs --check"
   },
   "license": "MIT",
   "devDependencies": {
