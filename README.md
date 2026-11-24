@@ -94,7 +94,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 <summary>Every network the GTFS-RT provider offers, by area</summary>
 
 <!-- networks:start -->
-216 networks, from the [transport.data.gouv.fr](https://transport.data.gouv.fr) catalogue (refreshed every week; the setup form always reads the current catalogue).
+217 networks, from the [transport.data.gouv.fr](https://transport.data.gouv.fr) catalogue (refreshed every week; the setup form always reads the current catalogue).
 
 | City / area | Network | Alerts |
 |---|---|---|
@@ -133,7 +133,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Caux Seine Agglo | [Réseau urbain REZO'BUS](https://transport.data.gouv.fr/datasets/reseau-urbain-caux-seine-mobilite-rezobus) | Yes |
 | Cavalaire-sur-Mer | [Réseau urbain estival Cavalaire](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-cavalaire-ete) | — |
 | Cavalaire-sur-Mer | [Réseau urbain hivernal Cavalaire](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-cavalaire-sur-mer-hiver) | — |
-| Centre de la Martinique | [Réseau urbain de la zone Centre (CACEM)](https://transport.data.gouv.fr/datasets/gtfs-urbain-de-la-zone-centre) | Yes |
+| Centre de la Martinique | [Réseau urbain de la zone Centre (CACEM)](https://transport.data.gouv.fr/datasets/gtfs-urbain-de-la-zone-centre) | — |
 | Centre Littoral | [Réseau urbain Agglobus](https://transport.data.gouv.fr/datasets/agence-agglobus) | — |
 | Centre-Val de Loire | [Réseau interurbain Rémi](https://transport.data.gouv.fr/datasets/remi-offre-theorique-mobilite-reseau-interurbain-regional) | Yes |
 | Châlons-en-Champagne | [Réseau urbain SITAC](https://transport.data.gouv.fr/datasets/fr-200052264-t0005-0000-1) | — |
@@ -141,14 +141,14 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Chinon | [Navette estivale CVL Mobilité](https://transport.data.gouv.fr/datasets/reseau-cvlmobilite-plan-de-transport-theorique-la-navette-lete-a-chinon-format-gtfs) | — |
 | Chinon, Vienne et Loire | [Réseau urbain CVL Mobilité](https://transport.data.gouv.fr/datasets/reseau-cvlmobilite-plan-de-transport-theorique-ligne-a-format-gtfs) | — |
 | Cholet Agglomération | [Réseau urbain Choletbus](https://transport.data.gouv.fr/datasets/horaires-theoriques-reseau-choletbus) | Yes |
-| CIVIS | [Réseau urbain Alternéo](https://transport.data.gouv.fr/datasets/donnees-du-reseau-alterneo) | Yes |
+| CIVIS | [Réseau urbain Alternéo](https://transport.data.gouv.fr/datasets/donnees-du-reseau-alterneo) | — |
+| Clermont Auvergne Métropole | [Réseau urbain T2C](https://transport.data.gouv.fr/datasets/syndicat-mixte-des-transports-en-commun-de-lagglomeration-clermontoise-smtc-ac-reseau-t2c-gtfs-gtfs-rt) | — |
 | Clermontois | [Réseau urbain Le Bus](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-le-bus-communaute-de-communes-du-clermontois) | — |
 | Coeur de Flandre | [Réseau urbain Hop Bus](https://transport.data.gouv.fr/datasets/hop-bus-le-reseau-100-gratuit-du-coeur-de-flandre) | Yes |
 | Coeur de Loire | [Réseau urbain Papillon](https://transport.data.gouv.fr/datasets/donnees-du-reseau-de-bus-papillon-a-cosne-cours-sur-loire) | Yes |
 | Coeur du Var | [Réseau urbain Le TACO](https://transport.data.gouv.fr/datasets/le-taco-1) | — |
 | Coeur du Var | [Réseau urbain OZ'CAR](https://transport.data.gouv.fr/datasets/ozcar-navette-intercommunale) | — |
 | Cogolin | [Réseau saisonnier ligne Cogolin](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-ligne-cogolin) | — |
-| Corse | [Réseau interurbain - Corse](https://transport.data.gouv.fr/datasets/gtfs-transport-via-strada) | — |
 | Cotentin | [Réseau urbain Cap Cotentin](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-en-temps-reel-des-bus-et-autocars-circulant-sur-le-reseau-cap-cotentin) | — |
 | Creil Sud Oise | [Réseau urbain AXO](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-axo-communaute-dagglomeration-creil-sud-oise) | — |
 | Dijon Métropole | [Réseau urbain DiviaMobilités](https://transport.data.gouv.fr/datasets/gtfs-diviamobilites) | — |
@@ -159,7 +159,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Epinal | [Réseau urbain Imagine](https://transport.data.gouv.fr/datasets/fr-200052264-t0009-0000-1) | — |
 | Espace Sud de la Martinique | [Réseau urbain de la zone Sud (CAESM)](https://transport.data.gouv.fr/datasets/gtfs-urbain-de-la-zone-sud) | Yes |
 | Estérel Côte d'Azur Agglomération | [Réseau urbain Le Bus](https://transport.data.gouv.fr/datasets/reseau-transport-urbain-le-bus) | Yes |
-| Evreux Portes de Normandie | [Réseau urbain Transurbain](https://transport.data.gouv.fr/datasets/transurbain-evreux-portes-de-normandie) | — |
+| Evreux Portes de Normandie | [Réseau urbain Transurbain](https://transport.data.gouv.fr/datasets/transurbain-evreux-portes-de-normandie) | Yes |
 | Fécamp Caux Littoral Agglomération | [Réseau urbain Ficibus](https://transport.data.gouv.fr/datasets/ficibus-fecamp-caux-littoral) | — |
 | Figeac | [Réseau urbain Figeac - Le Bus](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-figeac-le-bus-gtfs) | — |
 | Flers Agglo | [Réseau scolaire de Flers](https://transport.data.gouv.fr/datasets/reseau-nemus) | — |
@@ -305,7 +305,8 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Tignes | [Navettes saisonnières Tignes](https://transport.data.gouv.fr/datasets/navettes-tignes) | — |
 | Tours Métropole Val de Loire | [Réseau urbain et périurbain Fil Bleu](https://transport.data.gouv.fr/datasets/fil-bleu-syndicat-des-mobilites-gtfs-gtfs-rt) | Yes |
 | Troyes Champagne Métropole | [Réseau urbain TCAT](https://transport.data.gouv.fr/datasets/donnees-tcat-troyes-champagne-metropole-1) | — |
-| Valence Romans Agglo | [Réseau urbain Citéa](https://transport.data.gouv.fr/datasets/ce-jeu-de-donnees-contient-la-liste-des-arrets-des-horaires-et-des-parcours-theoriques-du-reseau-de-transport-urbain-et-interurbain-de-vrm) | Yes |
+| Val-d'Isère | [Navettes saisonnières Val d'Isère](https://transport.data.gouv.fr/datasets/navettes-val-disere) | Yes |
+| Valence Romans Agglo | [Réseau urbain Citéa](https://transport.data.gouv.fr/datasets/ce-jeu-de-donnees-contient-la-liste-des-arrets-des-horaires-et-des-parcours-theoriques-du-reseau-de-transport-urbain-et-interurbain-de-vrm) | — |
 | Valenciennes Métropole, Porte du Hainaut | [Réseau urbain Transvilles](https://transport.data.gouv.fr/datasets/simouv-horaires-theoriques-format-gtfs-et-temps-reel-format-siri-transvilles-valenciennes) | — |
 | Vallée de Chamonix-Mont-Blanc | [Réseau urbain Chamonix](https://transport.data.gouv.fr/datasets/gtfs-reseau-chamonix-mobilite) | Yes |
 | Vesoul | [Réseau urbain moova](https://transport.data.gouv.fr/datasets/horaires-theoriques-du-reseau-moova-communaute-dagglomeration-de-vesoul-gtfs) | — |
@@ -313,7 +314,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Vienne Condrieu | [Réseau urbain L'va](https://transport.data.gouv.fr/datasets/reseau-lva) | Yes |
 | Vierzon-Sologne-Berry | [Réseau urbain Le Vib'](https://transport.data.gouv.fr/datasets/reseau-urbain-le-vib) | Yes |
 | Vitré Communauté | [Réseau urbain Vitobus](https://transport.data.gouv.fr/datasets/mova-ensemble-de-loffre-de-transport-collectif) | — |
-| Yvetot Normandie | [Réseau urbain Vikibus](https://transport.data.gouv.fr/datasets/vikibus-yvetot-normandie) | — |
+| Yvetot Normandie | [Réseau urbain Vikibus](https://transport.data.gouv.fr/datasets/vikibus-yvetot-normandie) | Yes |
 <!-- networks:end -->
 
 </details>
