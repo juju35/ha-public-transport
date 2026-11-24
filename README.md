@@ -639,10 +639,13 @@ The config flow, sensors and cards then work unchanged. A provider that serves m
 
 ## Development
 
+The frontend source is split into ES modules under `src/public-transport-card/` (entry `src/public-transport-card/index.js`). `node scripts/build-frontend.mjs` (or `npm run build`) assembles them into `custom_components/public_transport/frontend/public-transport-card.js`, not committed: build before the tests, the screenshots and the release. Modules share one scope once assembled, so top-level names stay unique; a new module must be listed in its `index.js`.
+
 ```bash
+npm ci && npm run build          # assembles the frontend files the tests and screenshots read
 pip install -r requirements_test.txt && pytest
-npm install && npm test          # card tests (node --test)
-npm run build                    # checks the translation split the release makes
+npm ci && npm test               # assembles the frontend (npm run build), then the card tests (node --test)
+npm run split:check              # checks the translation split the release makes
 pip install playwright pillow && playwright install chromium
 python scripts/screenshots.py    # renders the stills and every animation GIF (needs ffmpeg) into screenshots/
 ```
@@ -651,7 +654,7 @@ Python tests live in `tests/` (pytest, every API answer mocked: no network neede
 
 ### Releasing
 
-1. Bump the version in `custom_components/public_transport/manifest.json`, `TRANSPORT_CARD_VERSION` in the card and `package.json`
+1. Bump the version in `custom_components/public_transport/manifest.json`, `TRANSPORT_CARD_VERSION` in `src/public-transport-card/card-picker.js` and `package.json`
 2. Add a `## <version>` section at the top of [CHANGELOG.md](https://github.com/juju35/ha-public-transport/blob/main/CHANGELOG.md)
 3. Push to `main`: the **Release** workflow creates the tag and the GitHub release with the changelog section as notes
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.4 - 2026-11-24
+
+### Maintenance
+- The frontend source is split into ES modules: `src/public-transport-card/` (entry `src/public-transport-card/index.js`), cut at its sections, with the translations in one file per language (`i18n/<lang>.js`). `scripts/build-frontend.mjs` assembles them, in their original order, into `custom_components/public_transport/frontend/public-transport-card.js`, no longer committed; the tests, the screenshots and the release build them first. The release zip is unchanged.
+
 ## 1.7.3 - 2026-11-22
 
 ### Performance
