@@ -2,6 +2,7 @@
   "domain": "public_transport",
   "name": "Public Transport",
   "after_dependencies": ["lovelace"],
+  "categories": ["vehicles_transport.public_transport"],
   "codeowners": ["@juju35"],
   "config_flow": true,
   "dependencies": ["frontend", "http"],
