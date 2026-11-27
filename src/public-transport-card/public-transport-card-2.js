@@ -699,7 +699,7 @@ export class TransportCard extends HTMLElement {
   static _styles() {
     return `
   :host { --tp-ok: var(--success-color, #43a047); --tp-warn: var(--warning-color, #ffa600); --tp-crit: var(--error-color, #db4437);
-          --tp-idle: var(--disabled-text-color, #9e9e9e); --tp-active: var(--info-color, #039be5); --tp-accent: ${TRANSPORT_ACCENT};
+          --tp-idle: var(--secondary-text-color, #9e9e9e); --tp-active: var(--info-color, #039be5); --tp-accent: ${TRANSPORT_ACCENT};
           display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; }
   /* A preferred width without a minimum: the card keeps a width in auto-sized parents and still shrinks in a 1fr grid. */
   :host::before { content: ""; width: 340px; max-width: 100%; height: 0; }
