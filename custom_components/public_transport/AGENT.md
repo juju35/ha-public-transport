@@ -32,7 +32,7 @@ custom_components/public_transport/
   Entry data keeps `line_names` for sensor names, and `network` (dataset id, name, GTFS and GTFS-RT URLs) for GTFS.
 - Coordinators in hass.data[DOMAIN] are keyed by the provider key (`network_key(entry.data)`): one per GTFS network.
 - GTFS: the parsed zip is shared by every provider instance (`_STATIC`, keyed by file path and (mtime, size)), read
-  under one lock per file (`_LOCKS`) and pickled next to the zip (`<slug>.cache`, `CACHE_VERSION`: bump it when
+  under one lock per file (`_LOCKS`) and kept as plain JSON next to the zip (`<slug>.cache.json`, `_static_to_json` / `_static_from_json`; never a pickle, the old `<slug>.cache` is deleted unread; `CACHE_VERSION`: bump it when
   GtfsStatic changes shape) so a restart skips the parsing. The timetable of the followed stops (`Provider.follow`,
   told by the coordinator) is read in the same pass over stop_times; a stop added later triggers a second pass (union).
 - Setup never waits for the network: entities are added, then `NetworkCoordinator.async_fetch_new_stops` fetches in the

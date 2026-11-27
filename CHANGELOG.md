@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.7.6 - 2026-11-27
+
+### Fixes
+- GTFS networks: the parsed timetable kept for the next start is plain JSON (`<network>.cache.json`) instead of a Python pickle; the old `<network>.cache` is deleted without being read. The first start after the update reads the GTFS zip once more.
+
 ## 1.7.5 - 2026-11-27
 
 ### Fixes
