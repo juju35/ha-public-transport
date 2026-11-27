@@ -66,4 +66,4 @@ export function pickerDefine(tag, Card, options) {
   return customElements.define(tag, lazy, options);
 }
 
-export var TRANSPORT_CARD_VERSION = '1.7.4';
+export var TRANSPORT_CARD_VERSION = '1.7.5';
