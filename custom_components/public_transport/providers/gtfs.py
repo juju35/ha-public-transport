@@ -18,18 +18,19 @@ import csv
 import io
 import json
 import logging
-import pickle
 import re
 import time
 import zipfile
 from collections.abc import Iterable, Iterator
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import date, datetime, timedelta, tzinfo
 from pathlib import Path
 from typing import Any
 
 import aiohttp
+from homeassistant.helpers.json import json_bytes
 from homeassistant.util import dt as dt_util
+from homeassistant.util.json import JSON_DECODE_EXCEPTIONS, json_loads
 
 from .base import Alert, Departure, Line, Provider, ProviderError, ProviderRateLimitError, Stop, by_level, fold
 from .gtfs_rt import STOP_NO_DATA, STOP_SKIPPED, TRIP_CANCELED, DecodeError, Feed, TripUpdate, parse_feed
@@ -109,7 +110,9 @@ class GtfsStatic:
     timezone: str = "Europe/Paris"
     stops: dict[str, tuple[str, float | None, float | None, str]] = field(default_factory=dict)
     lines: dict[str, Line] = field(default_factory=dict)
-    trips: dict[str, tuple[str, str, str, int | None]] = field(default_factory=dict)  # route, service, headsign, dir
+    trips: dict[str, tuple[str, str, str, int | None, str | None]] = field(
+        default_factory=dict
+    )  # route, service, headsign, dir, number
     calendar: dict[str, tuple[set[int], date, date]] = field(default_factory=dict)
     exceptions: dict[str, dict[date, bool]] = field(default_factory=dict)
     stop_routes: dict[str, set[str]] = field(default_factory=dict)
@@ -280,7 +283,9 @@ _STATIC: dict[Path, tuple[tuple[float, int], GtfsStatic]] = {}
 # One reader per file: the stops of a network set up together wait for the same reading instead of each doing it.
 _LOCKS: dict[Path, asyncio.Lock] = {}
 # What a parsed GTFS kept on disk is: bumped whenever GtfsStatic changes shape, so an older one is read again.
-CACHE_VERSION = 1
+# 2: plain JSON (`<slug>.cache.json`) instead of a pickle (`<slug>.cache`, deleted when found).
+CACHE_VERSION = 2
+CACHE_SUFFIX = ".cache.json"
 
 
 @dataclass(frozen=True, slots=True)
@@ -434,13 +439,13 @@ class GtfsProvider(Provider):
         version = await self._executor(_file_version, path)
         cached = _STATIC.get(path)
         if cached is None or cached[0] != version:
-            static = await self._executor(_read_cache, path.with_suffix(".cache"), version)
+            static = await self._executor(_read_cache, _cache_path(path), version)
             if static is None:
                 wanted = self._followed | (cached[1].timetable.stop_ids if cached and cached[1].timetable else set())
                 started = time.monotonic()
                 static = await self._executor(GtfsStatic.load, path, frozenset(wanted))
                 _LOGGER.debug("%s timetable read in %.1f s", self.network_name, time.monotonic() - started)
-                await self._executor(_write_cache, path.with_suffix(".cache"), version, static)
+                await self._executor(_write_cache, _cache_path(path), version, static)
             _STATIC[path] = (version, static)
             cached = _STATIC[path]
         self._static = cached[1]
@@ -494,7 +499,7 @@ class GtfsProvider(Provider):
                 static.timetable = await self._executor(static.read_timetable, wanted)
                 cached = _STATIC.get(static.path)
                 if cached is not None and cached[1] is static:
-                    await self._executor(_write_cache, static.path.with_suffix(".cache"), cached[0], static)
+                    await self._executor(_write_cache, _cache_path(static.path), cached[0], static)
         return static.timetable
 
     # ── Real time ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -769,33 +774,85 @@ def _file_version(path: Path) -> tuple[float, int]:
     return (stat.st_mtime, stat.st_size)
 
 
+def _cache_path(zip_path: Path) -> Path:
+    """Where the parsed GTFS of a zip is kept: next to it, `<slug>.cache.json`."""
+    return zip_path.with_name(zip_path.stem + CACHE_SUFFIX)
+
+
+def _static_to_json(static: GtfsStatic) -> dict[str, Any]:
+    """GtfsStatic as plain JSON data: tuples as lists, sets sorted, dates in ISO format."""
+    tt = static.timetable
+    return {
+        "timezone": static.timezone,
+        "stops": static.stops,
+        "lines": {k: asdict(v) for k, v in static.lines.items()},
+        "trips": static.trips,
+        "calendar": {
+            k: [sorted(days), start.isoformat(), end.isoformat()] for k, (days, start, end) in static.calendar.items()
+        },
+        "exceptions": {k: {d.isoformat(): on for d, on in v.items()} for k, v in static.exceptions.items()},
+        "stop_routes": {k: sorted(v) for k, v in static.stop_routes.items()},
+        "stop_headsigns": {k: sorted(v) for k, v in static.stop_headsigns.items()},
+        "timetable": None if tt is None else {"stop_ids": sorted(tt.stop_ids), "passages": tt.passages},
+    }
+
+
+def _static_from_json(data: dict[str, Any], zip_path: Path) -> GtfsStatic:
+    """The reverse of _static_to_json (raises KeyError, TypeError or ValueError on a malformed file)."""
+    tt = data["timetable"]
+    return GtfsStatic(
+        path=zip_path,
+        timezone=str(data["timezone"]),
+        stops={k: tuple(v) for k, v in data["stops"].items()},
+        lines={k: Line(**v) for k, v in data["lines"].items()},
+        trips={k: tuple(v) for k, v in data["trips"].items()},
+        calendar={
+            k: (set(v[0]), date.fromisoformat(v[1]), date.fromisoformat(v[2])) for k, v in data["calendar"].items()
+        },
+        exceptions={k: {date.fromisoformat(d): bool(on) for d, on in v.items()} for k, v in data["exceptions"].items()},
+        stop_routes={k: set(v) for k, v in data["stop_routes"].items()},
+        stop_headsigns={k: set(v) for k, v in data["stop_headsigns"].items()},
+        timetable=None
+        if tt is None
+        else Timetable(
+            stop_ids=frozenset(tt["stop_ids"]),
+            passages={k: [tuple(p) for p in v] for k, v in tt["passages"].items()},
+        ),
+    )
+
+
 def _read_cache(path: Path, version: tuple[float, int]) -> GtfsStatic | None:
     """The GTFS parsed at a previous start, when it was parsed from this very zip (else None: read the zip)."""
+    # The pickle of the versions before 1.7.6 is never read (a file read back must not be able to run code): dropped.
+    path.with_name(path.name.removesuffix(CACHE_SUFFIX) + ".cache").unlink(missing_ok=True)
     try:
-        with path.open("rb") as handle:
-            # Written by _write_cache in Home Assistant's own .storage folder, never downloaded.
-            data = pickle.load(handle)  # noqa: S301
+        data = json_loads(path.read_bytes())
     except FileNotFoundError:
         return None
-    except Exception as err:  # noqa: BLE001 — a damaged or outdated cache is only read again from the zip
+    except (OSError, *JSON_DECODE_EXCEPTIONS) as err:
         _LOGGER.debug("Ignoring the GTFS cache %s: %s", path.name, err)
         return None
-    if not isinstance(data, dict) or data.get("format") != CACHE_VERSION or tuple(data.get("zip", ())) != version:
+    if (
+        not isinstance(data, dict)
+        or data.get("format") != CACHE_VERSION
+        or tuple(data.get("zip") or ()) != tuple(version)
+    ):
         return None
-    static = data.get("static")
-    if not isinstance(static, GtfsStatic):
+    try:
+        return _static_from_json(data["static"], path.with_name(path.name.removesuffix(CACHE_SUFFIX) + ".zip"))
+    except (KeyError, TypeError, ValueError, IndexError, AttributeError) as err:  # damaged: read again from the zip
+        _LOGGER.debug("Ignoring the GTFS cache %s: %s", path.name, err)
         return None
-    static.path = path.with_suffix(".zip")
-    return static
 
 
 def _write_cache(path: Path, version: tuple[float, int], static: GtfsStatic) -> None:
     """Keep the parsed GTFS for the next start (written aside, then moved, so a crash never leaves half a file)."""
-    partial = path.with_suffix(".cache.part")
+    partial = path.with_name(path.name + ".part")
     try:
-        with partial.open("wb") as handle:
-            pickle.dump({"format": CACHE_VERSION, "zip": version, "static": static}, handle, pickle.HIGHEST_PROTOCOL)
+        partial.write_bytes(
+            json_bytes({"format": CACHE_VERSION, "zip": list(version), "static": _static_to_json(static)})
+        )
         partial.replace(path)
-    except OSError as err:
+    except (OSError, TypeError) as err:
         _LOGGER.warning("Could not keep the parsed timetable %s: %s", path.name, err)
         partial.unlink(missing_ok=True)

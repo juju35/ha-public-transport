@@ -28,13 +28,19 @@ START, END = "<!-- networks:start -->", "<!-- networks:end -->"
 def _catalog_networks():
     """The provider's `catalog_networks`, loaded without Home Assistant (only its pure parsing is used)."""
     pkg = ROOT / "custom_components" / "public_transport" / "providers"
-    # Home Assistant's date helpers are not needed to read the catalogue: stubbed when Home Assistant is not installed
+    # Home Assistant's date and JSON helpers are not needed to read the catalogue: stubbed when Home Assistant is not
+    # installed (the JSON ones with the standard library, for the timetable cache the script never touches).
     try:
         import homeassistant.util.dt  # noqa: F401, PLC0415
     except ImportError:
-        for name in ("homeassistant", "homeassistant.util", "homeassistant.util.dt"):
+        names = ("homeassistant", "homeassistant.util", "homeassistant.util.dt", "homeassistant.util.json")
+        for name in (*names, "homeassistant.helpers", "homeassistant.helpers.json"):
             sys.modules[name] = types.ModuleType(name)
         sys.modules["homeassistant.util"].dt = sys.modules["homeassistant.util.dt"]  # type: ignore[attr-defined]
+        util_json, helpers_json = sys.modules["homeassistant.util.json"], sys.modules["homeassistant.helpers.json"]
+        util_json.json_loads = json.loads  # type: ignore[attr-defined]
+        util_json.JSON_DECODE_EXCEPTIONS = (json.JSONDecodeError,)  # type: ignore[attr-defined]
+        helpers_json.json_bytes = lambda data: json.dumps(data).encode()  # type: ignore[attr-defined]
     parent = types.ModuleType("pt_providers")
     parent.__path__ = [str(pkg)]
     sys.modules["pt_providers"] = parent

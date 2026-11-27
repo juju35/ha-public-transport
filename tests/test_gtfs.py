@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 from datetime import timedelta
 
 import aiohttp
@@ -257,7 +258,7 @@ async def test_parsed_timetable_is_kept_on_disk(hass, provider, aioclient_mock, 
     provider.follow([G1])
     await provider.lines()
     first = await provider.departures([G1])
-    assert (tmp_path / "reseau-test.cache").is_file()
+    assert (tmp_path / "reseau-test.cache.json").is_file()
     # The followed stop's timetable came with the first reading of the zip: no second pass.
     assert provider._static.timetable.stop_ids == frozenset({"G1"})
 
@@ -285,16 +286,53 @@ async def test_parsed_timetable_is_kept_on_disk(hass, provider, aioclient_mock, 
 async def test_damaged_cache_reads_the_zip(provider, aioclient_mock, tmp_path) -> None:
     mock_feeds(aioclient_mock)
     await provider.prepare()
-    (tmp_path / "reseau-test.cache").write_bytes(b"garbage")
+    (tmp_path / "reseau-test.cache.json").write_bytes(b"garbage")
     gtfs_module._STATIC.clear()
     assert await provider.search_stops("gare")
+
+
+async def test_cache_is_plain_json_and_round_trips(provider, aioclient_mock, tmp_path) -> None:
+    """The parsed GTFS is kept as plain JSON (never a pickle) and read back to the very same data."""
+    mock_feeds(aioclient_mock)
+    provider.follow([G1])
+    await provider.departures([G1])
+    path = tmp_path / "reseau-test.cache.json"
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    assert raw["format"] == gtfs_module.CACHE_VERSION
+    static = provider._static
+    back = gtfs_module._read_cache(path, gtfs_module._file_version(tmp_path / "reseau-test.zip"))
+    assert back is not None
+    for name in (
+        "timezone",
+        "stops",
+        "lines",
+        "trips",
+        "calendar",
+        "exceptions",
+        "stop_routes",
+        "stop_headsigns",
+        "path",
+    ):
+        assert getattr(back, name) == getattr(static, name), name
+    assert back.timetable == static.timetable
+
+
+async def test_old_pickle_cache_is_deleted_unread(provider, aioclient_mock, tmp_path, monkeypatch) -> None:
+    """The pickle kept by the versions before 1.8 is removed, never loaded (a file read back must not run code)."""
+    mock_feeds(aioclient_mock)
+    await provider.prepare()
+    legacy = tmp_path / "reseau-test.cache"
+    legacy.write_bytes(b"\x80\x05not a pickle to load")
+    gtfs_module._STATIC.clear()
+    assert await provider.search_stops("gare")
+    assert not legacy.exists()
 
 
 async def test_one_reading_for_stops_loading_together(hass, provider, aioclient_mock, tmp_path, monkeypatch) -> None:
     mock_feeds(aioclient_mock)
     await provider.prepare()
     gtfs_module._STATIC.clear()
-    (tmp_path / "reseau-test.cache").unlink()
+    (tmp_path / "reseau-test.cache.json").unlink()
     loads = []
     load = gtfs_module.GtfsStatic.load
     monkeypatch.setattr(gtfs_module.GtfsStatic, "load", lambda *a: loads.append(a) or load(*a))

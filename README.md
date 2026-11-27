@@ -94,7 +94,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 <summary>Every network the GTFS-RT provider offers, by area</summary>
 
 <!-- networks:start -->
-217 networks, from the [transport.data.gouv.fr](https://transport.data.gouv.fr) catalogue (refreshed every week; the setup form always reads the current catalogue).
+218 networks, from the [transport.data.gouv.fr](https://transport.data.gouv.fr) catalogue (refreshed every week; the setup form always reads the current catalogue).
 
 | City / area | Network | Alerts |
 |---|---|---|
@@ -136,6 +136,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Centre de la Martinique | [Réseau urbain de la zone Centre (CACEM)](https://transport.data.gouv.fr/datasets/gtfs-urbain-de-la-zone-centre) | — |
 | Centre Littoral | [Réseau urbain Agglobus](https://transport.data.gouv.fr/datasets/agence-agglobus) | — |
 | Centre-Val de Loire | [Réseau interurbain Rémi](https://transport.data.gouv.fr/datasets/remi-offre-theorique-mobilite-reseau-interurbain-regional) | Yes |
+| Challans-Gois Communauté | [Réseau urbain Yolé](https://transport.data.gouv.fr/datasets/reseau-transport-urbain-yole-bus-gtfs-1) | Yes |
 | Châlons-en-Champagne | [Réseau urbain SITAC](https://transport.data.gouv.fr/datasets/fr-200052264-t0005-0000-1) | — |
 | Chartres Métropole | [Réseau Filibus](https://transport.data.gouv.fr/datasets/reseau-filibus) | — |
 | Chinon | [Navette estivale CVL Mobilité](https://transport.data.gouv.fr/datasets/reseau-cvlmobilite-plan-de-transport-theorique-la-navette-lete-a-chinon-format-gtfs) | — |
@@ -149,7 +150,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Coeur du Var | [Réseau urbain Le TACO](https://transport.data.gouv.fr/datasets/le-taco-1) | — |
 | Coeur du Var | [Réseau urbain OZ'CAR](https://transport.data.gouv.fr/datasets/ozcar-navette-intercommunale) | — |
 | Cogolin | [Réseau saisonnier ligne Cogolin](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-ligne-cogolin) | — |
-| Cotentin | [Réseau urbain Cap Cotentin](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-en-temps-reel-des-bus-et-autocars-circulant-sur-le-reseau-cap-cotentin) | — |
+| Cotentin | [Réseau urbain Cap Cotentin](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-en-temps-reel-des-bus-et-autocars-circulant-sur-le-reseau-cap-cotentin) | Yes |
 | Creil Sud Oise | [Réseau urbain AXO](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-axo-communaute-dagglomeration-creil-sud-oise) | — |
 | Dijon Métropole | [Réseau urbain DiviaMobilités](https://transport.data.gouv.fr/datasets/gtfs-diviamobilites) | — |
 | Dombes Saône Vallée | [Réseau urbain Saônibus](https://transport.data.gouv.fr/datasets/saonibus-horaires-theoriques-et-temps-reel-du-reseau-de-transport-urbain-de-la-cc-dsv) | — |
@@ -197,7 +198,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Hérault-Méditerranée | [Réseau urbain Cap’Bus](https://transport.data.gouv.fr/datasets/gtfs-capbus) | — |
 | Huez | [Navettes hivernales de l'Alpe d'Huez](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-des-navettes-hivernales-de-lalpe-dhuez-gtfs-gtfs-rt) | — |
 | Ile de Ré | [Réseau urbain RespiRé](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-respire-ile-de-re-gtfs-gtfs-rt) | — |
-| Intercom Bernay Terres de Normandie | [Réseau urbain l'Bus](https://transport.data.gouv.fr/datasets/reseau-transport-urbain-de-bernay) | Yes |
+| Intercom Bernay Terres de Normandie | [Réseau urbain l'Bus](https://transport.data.gouv.fr/datasets/reseau-transport-urbain-de-bernay) | — |
 | Isère | [Navettes saisonnières Transaltitude - Isère](https://transport.data.gouv.fr/datasets/desserte-des-stations-de-ski-iseroises-transaltitude-38) | — |
 | Isère | [Réseau interurbain - Isère (38)](https://transport.data.gouv.fr/datasets/reseau-interurbain-cars-region-isere-38-1) | Yes |
 | La Croix-Valmer | [Réseau urbain La Croix Valmer](https://transport.data.gouv.fr/datasets/golfe-de-saint-tropez-donnees-mobilite-tc-ligne-de-la-croix-valmer) | — |
@@ -219,7 +220,7 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Luberon Monts de Vaucluse | [Réseau urbain Cmonbus](https://transport.data.gouv.fr/datasets/gtfs-reseau-cmonbus) | Yes |
 | Lunel Agglo | [Réseau urbain Olé](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-ole-lunel-agglo-gtfs-gtfs-rt-netex) | — |
 | Mayenne | [Réseau urbain May'bus](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-maybus-mayenne-gtfs-gtfs-rt) | Yes |
-| Mende | [Réseau urbain TUM](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-max-mende-mobilites-bus-gtfs-gtfs-rt) | — |
+| Mende | [Réseau urbain TUM](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-max-mende-mobilites-bus-gtfs-gtfs-rt) | Yes |
 | Métropole du Grand Nancy | [Réseau urbain Stan](https://transport.data.gouv.fr/datasets/fr-200052264-t0034-0000-1) | — |
 | Métropole Européenne de Lille | [Réseau urbain ilévia](https://transport.data.gouv.fr/datasets/ilevia-localisation-des-arrets-bus-metro-et-tram-gtfs) | — |
 | Métropole Nice Côte d'Azur | [Réseau urbain Lignes d'Azur](https://transport.data.gouv.fr/datasets/donnees-statiques-et-dynamiques-du-reseau-de-transport-lignes-dazur) | — |
@@ -233,14 +234,14 @@ Through GTFS-RT: Toulouse (Tisséo), Montpellier (TaM), Bordeaux (TBM), Nantes (
 | Moselle et Madon, Pays du Sel et du Vermois, Bassin de Pompey, Métropole du Grand Nancy | [Réseau urbain SUB - Nancy](https://transport.data.gouv.fr/datasets/fr-200052264-t0039-0000-1) | — |
 | Moulins Communauté | [Réseau urbain Aléo](https://transport.data.gouv.fr/datasets/donnees-du-reseau-de-transport-aleo) | — |
 | Mulhouse Alsace Agglomération | [Réseau urbain Solea](https://transport.data.gouv.fr/datasets/fr-200052264-t0014-0000-1) | Yes |
-| Nantes Métropole | [Réseau urbain Naolib](https://transport.data.gouv.fr/datasets/reseau-de-transports-collectifs-naolib) | Yes |
+| Nantes Métropole | [Réseau urbain Naolib](https://transport.data.gouv.fr/datasets/reseau-de-transports-collectifs-naolib) | — |
 | Nîmes Métropole | [Réseau urbain Tango](https://transport.data.gouv.fr/datasets/offre-de-transport-du-reseau-tango-de-nimes-metropole-gtfs-gtfs-rt) | — |
 | Nogent-le-Rotrou | [Réseau urbain Nosbus](https://transport.data.gouv.fr/datasets/reseau-urbain-nosbus) | Yes |
 | Normandie | [Agrégat des réseaux urbains et interurbains de Normandie](https://transport.data.gouv.fr/datasets/base-de-donnees-multimodale-des-reseaux-de-transport-public-normands) | — |
 | Occitanie | [Réseau interurbain liO Occitanie](https://transport.data.gouv.fr/datasets/reseau-lio-occitanie) | — |
 | Oloron-Sainte-Marie | [Réseau urbain La Navette Oloron Sainte-Marie](https://transport.data.gouv.fr/datasets/horaires-theoriques-et-temps-reel-du-reseau-oloron-sainte-marie-la-navette-gtfs-gtfs-rt) | Yes |
 | Orléans Métropole | [Réseau urbain TAO](https://transport.data.gouv.fr/datasets/gtfs-netex-et-gtfs-rt-reseau-tao-orleans-metropole) | — |
-| Pays Basque, Ondres, Saint-Martin-de-Seignanx, Tarnos | [Réseau interurbain TXIK TXAK](https://transport.data.gouv.fr/datasets/offre-transport-du-reseau-txik-txak) | Yes |
+| Pays Basque, Ondres, Saint-Martin-de-Seignanx, Tarnos | [Réseau interurbain TXIK TXAK](https://transport.data.gouv.fr/datasets/offre-transport-du-reseau-txik-txak) | — |
 | Pays d'Evian Vallée d'Abondance | [Réseau urbain EVA'D](https://transport.data.gouv.fr/datasets/donnees-du-reseau-evad-1) | — |
 | Pays d'Oise et d'Halatte | [Réseau urbain TOHM](https://transport.data.gouv.fr/datasets/donnees-theoriques-et-temps-reel-du-reseau-tohm-communaute-de-communes-des-pays-doise-et-dhalatte) | — |
 | Pays d'Orange en Provence | [Réseau urbain TCVO](https://transport.data.gouv.fr/datasets/transport-en-commun-de-la-ville-dorange-ccpop-1) | — |
